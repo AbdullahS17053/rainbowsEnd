@@ -1,0 +1,21 @@
+{
+  "name": "RainbowsEnd.EditModeTests",
+  "rootNamespace": "RainbowsEnd.Tests.EditMode",
+  "references": [
+    "RainbowsEnd.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
