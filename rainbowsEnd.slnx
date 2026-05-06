@@ -7,6 +7,7 @@
   <Project Path="Unity.Mathematics.csproj" />
   <Project Path="Unity.Multiplayer.Center.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Editor.csproj" />
+  <Project Path="RainbowsEnd.Runtime.csproj" />
   <Project Path="Unity.Collections.csproj" />
   <Project Path="UnityEngine.UI.csproj" />
   <Project Path="UnityEditor.TestRunner.csproj" />
@@ -36,7 +37,6 @@
   <Project Path="Unity.InputSystem.TestFramework.csproj" />
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Unity.Rendering.LightTransport.Editor.csproj" />
-  <Project Path="RainbowsEnd.Runtime.csproj" />
   <Project Path="RainbowsEnd.Editor.csproj" />
   <Project Path="RainbowsEnd.EditModeTests.csproj" />
   <Project Path="Unity.Collections.Editor.csproj" />

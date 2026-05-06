@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 0 - Project Bootstrap
-- Current focus: finish the Unity-editor-generated pieces of Phase 0 after package restore
-- Recommended next executable task: open the project in Unity, let packages import, then run Rainbows End/Setup/Run Phase 0 Bootstrap
+- Current phase: Phase 1 - Core Architecture Skeleton
+- Current focus: generate default config assets in Unity, then continue Phase 1 with service wiring and scene authoring support
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 1 Core Setup, then continue with the next architecture or arena slice
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -31,7 +31,8 @@ A phase should be marked complete only when all three are true:
 - A recap has been written covering outcome, approach, code review notes, verification, and progress
 
 ## What remains
-- Phase 0 still needs the generated Boot scene, MainArena scene shell, build settings entries, input actions asset, and URP renderer asset created inside Unity
+- Phase 0 still needs URP renderer assets and any related pipeline assignment if URP is to be fully finalized in-project
+- Phase 1 still needs the remaining composition and service wiring before it can be considered complete
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking remains out of scope until explicitly confirmed
@@ -57,6 +58,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-06: Added Input System, URP, and test framework package declarations to Packages/manifest.json
 - 2026-05-06: Created the initial Assets/_Project folder structure and assembly definitions
 - 2026-05-06: Added GameBootstrap, scene constants, an EditMode test, and the Phase0ProjectSetup Unity editor automation script
+- 2026-05-06: Confirmed Boot and MainArena scenes, build settings entries, and the IA_Gameplay input asset exist in the project
+- 2026-05-06: Implemented the first Phase 1 foundation slice with damage contracts, health state and component, countdown timer, config ScriptableObjects, pooling surface, and deterministic EditMode tests
+- 2026-05-06: Added the Phase1CoreSetup Unity editor automation script to generate default config assets
 
 ## Next recap template
 Use this after each completed implementation step:

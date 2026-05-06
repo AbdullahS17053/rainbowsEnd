@@ -15,14 +15,32 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - No third-party gameplay framework is present in the repository
 - Packages started at the Unity baseline modules only
 
+## Current repository state after bootstrap work
+- Assets/_Project/Scenes contains Boot.unity and MainArena.unity
+- ProjectSettings/EditorBuildSettings.asset includes Boot and MainArena in build settings
+- Assets/_Project/Input contains IA_Gameplay.inputactions
+- ProjectSettings/ProjectSettings.asset is configured for the new Input System
+- Assets/_Project/Settings is still empty, so URP renderer assets and assignment still need to be finalized if URP is kept as the renderer direction
+
 ## Implemented bootstrap files
 - Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs: persistent bootstrap MonoBehaviour that loads MainArena from Boot
 - Assets/_Project/Runtime/Core/SceneManagement/SceneNames.cs: shared scene name constants
 - Assets/_Project/Editor/Phase0ProjectSetup.cs: editor menu command that generates scenes, build settings entries, and the input actions asset
+- Assets/_Project/Editor/Phase1CoreSetup.cs: editor menu command that generates default config assets for the first gameplay systems
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
 - Assets/_Project/Editor/RainbowsEnd.Editor.asmdef: editor assembly definition
+
+## Implemented Phase 1 foundation files
+- Assets/_Project/Runtime/Core/Common/FactionId.cs: faction identifiers shared across gameplay systems
+- Assets/_Project/Runtime/Core/Common/DamageInfo.cs and DamageResult.cs: core damage payload and result types
+- Assets/_Project/Runtime/Core/Common/IDamageable.cs and ITeamAffiliation.cs: reusable gameplay contracts
+- Assets/_Project/Runtime/Core/Common/HealthState.cs and Health.cs: pure health state plus MonoBehaviour wrapper
+- Assets/_Project/Runtime/Core/Utilities/CountdownTimer.cs: deterministic cooldown and timer primitive
+- Assets/_Project/Runtime/Core/Config/*.cs: first-pass ScriptableObject config types for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring
+- Assets/_Project/Runtime/Systems/Pooling/IPoolable.cs and PrefabPool.cs: first-pass pooling contract and prefab pool component
+- Assets/_Project/Tests/EditMode/HealthStateTests.cs and CountdownTimerTests.cs: deterministic EditMode coverage for the first core runtime primitives
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch

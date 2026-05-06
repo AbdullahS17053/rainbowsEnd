@@ -93,6 +93,11 @@ Recap to provide after implementation:
 ## Phase 1: Core Architecture Skeleton
 Goal: create the minimum reusable architecture for data-driven gameplay.
 
+Implemented Phase 1 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase1CoreSetup.cs.
+- After opening the project in Unity, run the menu command Rainbows End/Setup/Run Phase 1 Core Setup.
+- That setup pass generates default config assets for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring.
+
 Unity editor steps:
 1. Under Assets/_Project/Runtime/Core, create folders for Bootstrap, Config, Common, State, Utilities.
 2. Under Assets/_Project/Runtime/Systems, create Pooling and Time related folders as needed.
@@ -102,6 +107,7 @@ Unity editor steps:
 
 Scripts and assets to create in this phase:
 - Core contracts such as IDamageable, ITeamAffiliation, IPoolable, IInteractable, IPortalTraveller
+- Phase1CoreSetup editor automation
 - Runtime timer or cooldown utilities
 - Health component and damage event plumbing
 - Team or faction identifiers
