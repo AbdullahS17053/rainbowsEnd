@@ -1,0 +1,208 @@
+Rainbow’s End — Prototype GDD (Condensed)
+1. Game Overview
+Genre: Top-down dual-stick tactical shooter
+Scope: Single-screen prototype
+Core Fantasy: Turn rainbow magic into gold while surviving escalating enemy waves
+Prototype Goal:
+Deliver a fully playable core loop:
+Move pots ? harvest gold via unicorn trails
+Defend against escalating enemies
+Spend gold on basic upgrades
+
+2. Core Gameplay Loop (Prototype)
+Player moves pot into unicorn rainbow trail
+Pot generates gold over time
+Enemies spawn and attempt to disrupt/steal
+Player defends using basic combat
+Gold is collected and spent in a simple shop
+Loop repeats with increasing difficulty
+
+3. Arena Setup (Procedural but Simple)
+Single-screen arena contains:
+1 Player (Leprechaun)
+1 Unicorn (random roaming)
+3 Pots (movable)
+1 Fae Tree (bank point)
+Basic environment:
+Rocks/logs (cover + LoS blocking)
+Bushes (concealment)
+Prototype Simplification:
+Fixed map with light procedural placement
+No complex biome variation
+
+4. Player Controller
+Isometric/top-down movement
+Dual-stick (or mouse aim)
+Smooth movement with facing direction
+Can:
+Move
+Push pots
+Shoot (auto-fire cone)
+
+5. Pot & Gold System (Core Mechanic)
+Unicorn leaves rainbow trail over time
+When pot touches trail:
+Starts generating gold
+Trail breaks and restarts
+Rules:
+Max 3 active pots
+Moving pot cancels generation
+Gold scales with active pots:
+1 pot ? 1x
+2 pots ? ~2.5x
+3 pots ? ~5x
+
+6. Unicorn System
+Moves randomly across map
+Leaves continuous rainbow trail
+Interaction:
+Pot + trail = gold generation
+Unicorn can destroy pots on collision
+Prototype Scope:
+Basic movement (no advanced behavior)
+Rainbow trail with simple timestamp logic
+
+7. Combat System (Simplified)
+Base Weapon: Bow
+Infinite ammo
+Narrow cone
+Auto-fire
+Optional Drops (if time allows):
+Pistol (limited ammo)
+Shotgun (wide cone)
+Core Mechanics:
+Cone-based shooting
+Moving increases spread
+Standing still improves accuracy
+
+8. Enemy System (Escalation Core)
+Enemy Types (Prototype)
+Civilians (Travellers)
+Move toward pots
+Drain gold
+Run away
+Police
+Basic ranged attackers
+Slightly smarter movement
+Military (Optional if time allows)
+Higher HP
+More aggressive
+
+Spawn Logic
+Enemies spawn around edges
+Escalation based on:
+Player progress / kills
+Simple wave progression:
+Civilians ? Police ? Military
+
+9. Portal System (Key Feature)
+Player can place 2 portals
+Oldest portal removed when placing third
+Entities that can use portals:
+Player
+Unicorn
+Pots
+Purpose:
+Mobility
+Strategic repositioning
+
+10. Gold Economy + Shop
+Gold Sources:
+Pots
+Enemy drops
+Shop (Simple UI):
+Weapon upgrades (damage / spread)
+Basic traps or helpers (optional)
+Prototype Goal:
+Minimal but functional upgrade loop
+
+11. UI (Minimal for Prototype)
+Gold counter
+Weapon indicator
+Basic feedback:
+Hit effects
+Gold gain/loss
+Optional:
+Toggle firing cone
+
+12. Visual Direction (Simplified)
+Single-screen diorama feel
+Clear readability over detail
+Strong contrast:
+Rainbow trails
+Gold effects
+Enemy feedback
+
+13. Technical Scope
+Engine: Unity
+Systems:
+Data-driven variables (basic ScriptableObjects or configs)
+Deliverable:
+Playable prototype build
+Clean, extendable codebase
+
+14. Out of Scope (For Prototype)
+Full spell system (Rainbow Orb variants, etc.)
+Advanced AI tactics (flanking, suppression depth)
+Multiple traps
+Meta progression / roguelite layers
+Advanced UI polish
+Deep balancing
+
+15. Milestone Breakdown
+Week 1
+Movement + shooting
+Unicorn + trail
+Pot interaction
+Week 2
+Enemy spawning + escalation
+Combat loop functional
+Week 3
+Portal system
+Gold economy + shop
+Week 4 (Polish)
+UI
+Balancing
+Juice / feedback
+
+Prototype Outcome
+A tight, replayable loop demonstrating:
+Unique pot + rainbow mechanic
+Chaos escalation
+Tactical positioning via portals
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Additional Client Information:
+This is 'close encounters of the mini kind', and although I imagine it is graphically out of scope, its what I have in mind for tilt-shift single screen map. 
+
+https://drive.google.com/file/d/1ZZwwqyQYiOtrLzoQzgYwxqkA4b9yMCQy/view?usp=drive_link
+
+the first attachment is the video game rift wizard. the second is vampire surviors. Both AI rendered for tilt shift. 
+
+ 
+
+ 
+
+
+

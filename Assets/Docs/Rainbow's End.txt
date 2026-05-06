@@ -1,0 +1,136 @@
+Game Synopsis / Summary
+Rainbow’s End is a single-screen, dual stick tactical shooter set in a magical diorama
+world.​
+You play as a leprechaun tasked with turning rainbow magic into gold by pushing
+enchanted pots into the unicorn’s rainbow trails, then defending them from waves of
+clever adversaries.​
+Enemies become tougher and smarter as you score, while you use a mix of
+weapons, fae spells, whimsical traps, and quick thinking to survive the chaos.​
+The game fuses the crisp combat and line-of-sight tactics of top-down shooters
+(Bullet Echo) with whimsical, readable art, emergent escalation, and a strong focus
+on tactical cover, resource management, and player skill.
+
+Technical & Development Details
+●​ Engine: Unity
+1.​ Top Down Engine
+2.​ Top Down - Fantasy Forest
+●​ All gameplay values data-driven/configurable (HP, damage, timers, VFX
+scales, spawn rates)
+●​ Milestones:
+1.​ Greybox with proper sizes, basic VFX, and core game loop (unicorn
+leaving rainbow trail, leprechaun moving pot, rainbow filling pot.
+2.​ Weapon drops, enemy escalation, spawn logic
+3.​ Content, UI polish, upgradable orb/shop, endless loop, balancing
+●​ Deliverables: Source, all asset packs (with licensing), documented/annotated
+code
+
+Visual/Technical Foundations
+●​ Screen: Single, locked “tilt-shift diorama” (Rift Wizard scale), always shows
+the entire battle arena.
+●​ Art Style: Hades but with Lush environment, chunky sprites; readable outlines;
+sharp center, blurred edges with tilt-shift.
+
+●​ Sprite Sizes to screen ratio:
+●​ Player: 3–4% of screen height (35–48px at 1080p)
+●​ Unicorn: 5% of screen height
+●​ Travellers, police, military: 6%,8%, 10% respectively of screen height
+●​ Pots/Traps/Objects: 5% of screen height
+●​ VFX/SFX: Punchy, magical, high-contrast; clear feedback for flinch (visual cue
+& cone increase, color status, and gold siphoning.
+
+Core Gameplay Loop
+Map & Procedural Setup
+●​ Arena contains:
+●​ 1 Fae Tree (where the pots are banked)
+●​ 3 empty pots
+●​ 1 unicorn
+●​ 1 player (leprechaun)
+●​ Environment:
+●​ Cover: Rocks/logs (blocks LoS/movement; used by AI/Player)
+●​ Concealment: Bushes & tall grass (hide vision only, can walk through;
+player is transparent to signal invisibility) firing within concealment
+shows player for .75s.
+
+Pot, Rainbow Snake & Siphon System
+●​ Unicorn leaves a timestamped rainbow floating trail.
+●​ Placing a pot on the rainbow breaks the unicorn’s trail:
+●​ The pot begins harvesting gold based on rainbow’s timestamp
+●​ Shortly after a new rainbow trail starts behind the Unicorn
+●​ Rainbow trail (Sky-rainbow VFX) rises from pot into the air and stays
+while pot is unmoved
+●​ Up to 3 simultaneous pots/sky-rainbows harvesting at once
+●​ exponential gold harvest: 1 Pot: 1x gold | 2 Pots: 2.5x gold | 3 Pots: 5x gold.
+●​ moving a harvesting pot dissipates the sky-rainbow and player forfeits
+remaining harvest gold.
+
+Weapons & Combat
+Weapons (Bullet Echo-inspired)
+●​ Bow & Arrow (infinite ammo, refills via exiting bushes, fast RoF/narrow cone)
+●​ Pistol (Police drop, 12 shots, standard-sized Cone, quick pickup)
+●​ Shotgun (Police/Military drop, 8 shots, short & wide cone, Slow RoF)
+●​ Assault Rifle (Military drop, 30 shots, rapid RoF, medium pickup)
+●​ Player’s movement increase cone of fire, player must be still to aim (reduce
+cone narrowness)
+●​ Tracer projectiles, dynamic VFX/SFX, auto-revert to bow when out of ammo
+
+Hybrid HP and Staged Feedback
+(applies to player and enemies)
+●​ All mobs and player have HP
+●​ +67%: no effect/visual flinch
+●​ ≤67%: Green flash/flinch/cone of fire increase
+●​ ≤33%: Yellow flash/flinch/knockback
+●​ ≤ 10%: Red flash/“Downed” KO animation/VFX
+●​ Each hit = instant VFX pop/splash of blood
+●​ Mob downed state = 2–3s dramatic KO before fadeout.
+●​ Leprechaun can not be killed, at 0hp is down for 3s
+
+5. Spells & Traps
+Spells (Active, Magic Stance only, Cooldown)
+Default spell (wether holding pot of gold or not), player can create two portals. After 2nd
+portal, oldest portal removed for new portal created. Only Unicorn, player, pot of gold can go
+through the portal.
+
+●​ Spriggan’s Gust: AoE wind, knockback
+●​ Lucky Clover Ring: lures unicorn
+●​ Rainbow Orb: Color unlocks over time:​
+Red: Burn, Orange: Confuse, Yellow: Gold drain/magnet, Green: Root, Blue:
+Freeze, Indigo: Blind, Violet: Sleep
+
+Traps
+●​ Briar Patch: Roots mobs
+●​ Pot o’ Bang: Explodes, AoE stun
+●​ Ninja Bush: Fae ninja leap/slices (2 HP to all in area, instant-kill fodder)
+
+AI, Escalation, & Cover Tactics
+●​ Travellers seek out pots of gold to steal gold, reducing player’s gold.
+●​ Scoops from pot of gold, fills up a sack, and walks off the map/screen
+●​ When killed gold drops for player to pick up
+●​ Can pick up dropped weapons.
+●​ Add a clear VFX/SFX to show Traveller is draining the pot! (-X amount
+of gold!”) so players FEEL the loss.​
+●​ Police patrol the map/screen.
+●​ Uses cover
+●​ killing may spawn Military and weapon (pistol/shotgun), or ammo
+●​ Military: Uses cover, they seek out and hide behind logs/rocks, flank,
+suppress.
+●​ If 2 or more military on the map, will seek out pot of gold to take off
+screen.
+●​ Killing may spawn weapon (pistol/shotgun, AR), or ammo
+●​ Bushes/tall grass provide concealment for player and bots
+●​ Unicorn is never blocked. Unicorn rainbow trail reveals concealed, and
+unicorn hops over rocks and logs,
+●​ Mob Spawn Logic: One at opposite side of the player, one at opposite side of
+the mob. Enemy type depends on last killed.
+●​ Goal: Mobs escalate with player aggression, not just time
+
+Pot & Unicorn Relationship
+●​ On collision, unicron destroys pot (animated rainbow & gold explosion).
+●​ Unicorn moves weighted randomly
+
+UI/UX
+●​ Togglable firing cone (on/off)
+●​ Clean, minimal UI (weapons, spell cooldowns, tooltips)
+●​ Status color/aura and brief VFX for HP stages, downed state clarity
+●​ Dynamic end-of-run screen: pots banked, high score/stars.
+
+
