@@ -96,7 +96,7 @@ Goal: create the minimum reusable architecture for data-driven gameplay.
 Implemented Phase 1 helper:
 - The project now includes an editor automation entry point at Assets/_Project/Editor/Phase1CoreSetup.cs.
 - After opening the project in Unity, run the menu command Rainbows End/Setup/Run Phase 1 Core Setup.
-- That setup pass generates default config assets for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring.
+- That setup pass generates default config assets for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring, plus a ProjectConfigRegistry asset in Resources for bootstrap-time loading.
 
 Unity editor steps:
 1. Under Assets/_Project/Runtime/Core, create folders for Bootstrap, Config, Common, State, Utilities.
@@ -114,6 +114,13 @@ Scripts and assets to create in this phase:
 - Object pool manager and pooled object component
 - Service registration or bootstrap composition layer
 - ScriptableObject config classes for player, unicorn, pot, enemy, weapon, portal, wave, and economy
+
+Implemented composition layer files:
+- Assets/_Project/Runtime/Core/Bootstrap/IReadOnlyServiceRegistry.cs
+- Assets/_Project/Runtime/Core/Bootstrap/ServiceRegistry.cs
+- Assets/_Project/Runtime/Core/Bootstrap/ProjectContext.cs
+- Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs
+- Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs
 
 Implementation notes:
 - Avoid giant manager classes. Prefer a few focused services with narrow responsibilities.

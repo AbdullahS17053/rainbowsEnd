@@ -4,8 +4,8 @@
 - Planning status: complete enough to start implementation
 - Implementation status: started
 - Current phase: Phase 1 - Core Architecture Skeleton
-- Current focus: generate default config assets in Unity, then continue Phase 1 with service wiring and scene authoring support
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 1 Core Setup, then continue with the next architecture or arena slice
+- Current focus: generate the resource-backed ProjectConfigRegistry asset in Unity, then either finish remaining Phase 1 contracts or move into Phase 2 arena authoring
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 1 Core Setup, verify ProjectConfigRegistry is created under Settings/Resources, then continue with the arena slice
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -61,6 +61,8 @@ A phase should be marked complete only when all three are true:
 - 2026-05-06: Confirmed Boot and MainArena scenes, build settings entries, and the IA_Gameplay input asset exist in the project
 - 2026-05-06: Implemented the first Phase 1 foundation slice with damage contracts, health state and component, countdown timer, config ScriptableObjects, pooling surface, and deterministic EditMode tests
 - 2026-05-06: Added the Phase1CoreSetup Unity editor automation script to generate default config assets
+- 2026-05-07: Implemented Phase 1 composition wiring with a typed service registry, persistent ProjectContext bootstrap, ProjectConfigRegistry asset type, and new deterministic EditMode tests
+- 2026-05-07: Added ArenaSceneContext and updated the Phase0 scene generator so MainArena has a scene-local composition root
 
 ## Next recap template
 Use this after each completed implementation step:

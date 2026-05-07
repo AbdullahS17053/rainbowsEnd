@@ -24,7 +24,10 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 
 ## Implemented bootstrap files
 - Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs: persistent bootstrap MonoBehaviour that loads MainArena from Boot
+- Assets/_Project/Runtime/Core/Bootstrap/ProjectContext.cs: persistent composition root that loads and registers shared services and core config
+- Assets/_Project/Runtime/Core/Bootstrap/IReadOnlyServiceRegistry.cs and ServiceRegistry.cs: typed service access and registration layer for project-level dependencies
 - Assets/_Project/Runtime/Core/SceneManagement/SceneNames.cs: shared scene name constants
+- Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs: scene-local composition root for MainArena references and scene service registration
 - Assets/_Project/Editor/Phase0ProjectSetup.cs: editor menu command that generates scenes, build settings entries, and the input actions asset
 - Assets/_Project/Editor/Phase1CoreSetup.cs: editor menu command that generates default config assets for the first gameplay systems
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
@@ -39,8 +42,10 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Core/Common/HealthState.cs and Health.cs: pure health state plus MonoBehaviour wrapper
 - Assets/_Project/Runtime/Core/Utilities/CountdownTimer.cs: deterministic cooldown and timer primitive
 - Assets/_Project/Runtime/Core/Config/*.cs: first-pass ScriptableObject config types for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring
+- Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs: bootstrap-loadable config registry asset for shared gameplay authoring data
 - Assets/_Project/Runtime/Systems/Pooling/IPoolable.cs and PrefabPool.cs: first-pass pooling contract and prefab pool component
 - Assets/_Project/Tests/EditMode/HealthStateTests.cs and CountdownTimerTests.cs: deterministic EditMode coverage for the first core runtime primitives
+- Assets/_Project/Tests/EditMode/ServiceRegistryTests.cs and ProjectConfigRegistryTests.cs: deterministic EditMode coverage for the new composition wiring
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch

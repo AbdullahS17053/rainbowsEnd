@@ -9,20 +9,36 @@ namespace RainbowsEnd.Editor
     {
         private const string ConfigRootPath = "Assets/_Project/ScriptableObjects";
         private const string DefaultsFolderName = "Defaults";
+        private const string SettingsRootPath = "Assets/_Project/Settings";
+        private const string ResourcesFolderName = "Resources";
+        private const string ProjectConfigRegistryAssetName = "ProjectConfigRegistry.asset";
 
         [MenuItem("Rainbows End/Setup/Run Phase 1 Core Setup")]
         public static void Run()
         {
             string defaultsPath = EnsureFolder(ConfigRootPath, DefaultsFolderName);
+            string resourcesPath = EnsureFolder(SettingsRootPath, ResourcesFolderName);
 
-            CreateIfMissing<PlayerConfig>(defaultsPath, "SO_Player_Default.asset");
-            CreateIfMissing<EnemyConfig>(defaultsPath, "SO_Enemy_Traveller_Default.asset");
-            CreateIfMissing<UnicornConfig>(defaultsPath, "SO_Unicorn_Default.asset");
-            CreateIfMissing<PotConfig>(defaultsPath, "SO_Pot_Default.asset");
-            CreateIfMissing<WeaponConfig>(defaultsPath, "SO_Weapon_Bow_Default.asset");
-            CreateIfMissing<PortalConfig>(defaultsPath, "SO_Portal_Default.asset");
-            CreateIfMissing<EconomyConfig>(defaultsPath, "SO_Economy_Default.asset");
-            CreateIfMissing<WaveConfig>(defaultsPath, "SO_Wave_Default.asset");
+            PlayerConfig playerConfig = CreateIfMissing<PlayerConfig>(defaultsPath, "SO_Player_Default.asset");
+            EnemyConfig travellerConfig = CreateIfMissing<EnemyConfig>(defaultsPath, "SO_Enemy_Traveller_Default.asset");
+            UnicornConfig unicornConfig = CreateIfMissing<UnicornConfig>(defaultsPath, "SO_Unicorn_Default.asset");
+            PotConfig potConfig = CreateIfMissing<PotConfig>(defaultsPath, "SO_Pot_Default.asset");
+            WeaponConfig weaponConfig = CreateIfMissing<WeaponConfig>(defaultsPath, "SO_Weapon_Bow_Default.asset");
+            PortalConfig portalConfig = CreateIfMissing<PortalConfig>(defaultsPath, "SO_Portal_Default.asset");
+            EconomyConfig economyConfig = CreateIfMissing<EconomyConfig>(defaultsPath, "SO_Economy_Default.asset");
+            WaveConfig waveConfig = CreateIfMissing<WaveConfig>(defaultsPath, "SO_Wave_Default.asset");
+
+            ProjectConfigRegistry projectConfigRegistry = CreateIfMissing<ProjectConfigRegistry>(resourcesPath, ProjectConfigRegistryAssetName);
+            projectConfigRegistry.Configure(
+                playerConfig,
+                travellerConfig,
+                unicornConfig,
+                potConfig,
+                weaponConfig,
+                portalConfig,
+                economyConfig,
+                waveConfig);
+            EditorUtility.SetDirty(projectConfigRegistry);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -30,16 +46,18 @@ namespace RainbowsEnd.Editor
             Debug.Log("Rainbow's End Phase 1 core assets generated.");
         }
 
-        private static void CreateIfMissing<T>(string folderPath, string fileName) where T : ScriptableObject
+        private static T CreateIfMissing<T>(string folderPath, string fileName) where T : ScriptableObject
         {
             string assetPath = Path.Combine(folderPath, fileName).Replace("\\", "/");
-            if (AssetDatabase.LoadAssetAtPath<T>(assetPath) != null)
+            T existingAsset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+            if (existingAsset != null)
             {
-                return;
+                return existingAsset;
             }
 
             T asset = ScriptableObject.CreateInstance<T>();
             AssetDatabase.CreateAsset(asset, assetPath);
+            return asset;
         }
 
         private static string EnsureFolder(string parentPath, string folderName)

@@ -22,6 +22,7 @@ namespace RainbowsEnd.Core.Bootstrap
 
             s_isBootstrapped = true;
             DontDestroyOnLoad(gameObject);
+            ProjectContext.EnsureOn(gameObject);
 
             if (!loadMainArenaOnAwake)
             {

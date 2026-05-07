@@ -51,8 +51,8 @@ namespace RainbowsEnd.Editor
             Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             scene.name = SceneNames.MainArena;
 
-            CreateRoot("SceneContext");
-            CreateRoot("World");
+            GameObject sceneContextRoot = CreateRoot("SceneContext");
+            GameObject world = CreateRoot("World");
 
             GameObject environment = CreateRoot("Environment");
             CreateChild(environment.transform, "Ground");
@@ -60,9 +60,9 @@ namespace RainbowsEnd.Editor
             CreateChild(environment.transform, "Concealment");
             CreateChild(environment.transform, "Props");
 
-            CreateRoot("GameplayRoot");
-            CreateRoot("SpawnPoints");
-            CreateRoot("UI");
+            GameObject gameplayRoot = CreateRoot("GameplayRoot");
+            GameObject spawnPoints = CreateRoot("SpawnPoints");
+            GameObject ui = CreateRoot("UI");
 
             GameObject cameraRoot = CreateRoot("CameraRoot");
             Camera cameraComponent = cameraRoot.AddComponent<Camera>();
@@ -71,6 +71,9 @@ namespace RainbowsEnd.Editor
             cameraComponent.clearFlags = CameraClearFlags.SolidColor;
             cameraComponent.backgroundColor = new Color(0.11f, 0.13f, 0.15f, 1f);
             cameraRoot.transform.position = new Vector3(0f, 0f, -10f);
+
+            ArenaSceneContext arenaSceneContext = sceneContextRoot.AddComponent<ArenaSceneContext>();
+            arenaSceneContext.Configure(world.transform, environment.transform, gameplayRoot.transform, spawnPoints.transform, ui.transform, cameraComponent);
 
             EditorSceneManager.SaveScene(scene, MainArenaScenePath);
         }

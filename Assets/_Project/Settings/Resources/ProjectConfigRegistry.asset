@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0a05b8d1dd7944482ce9c4b0241130, type: 3}
+  m_Name: ProjectConfigRegistry
+  m_EditorClassIdentifier: 
+  playerConfig: {fileID: 11400000, guid: 23b9e25fd4cce9c4882280fcc3b8a685, type: 2}
+  travellerConfig: {fileID: 11400000, guid: be8eeaf63c9609b4ca8599f465c1d162, type: 2}
+  unicornConfig: {fileID: 11400000, guid: 05d068cbc7461674bbb37e64c98a473b, type: 2}
+  potConfig: {fileID: 11400000, guid: f77b39dc59e0b5f4d8e959f06f319ed1, type: 2}
+  defaultWeaponConfig: {fileID: 11400000, guid: e61205a5b78075a46a675ad8b4fa5661, type: 2}
+  portalConfig: {fileID: 11400000, guid: 18444458adb098a47bc7bf43756fbf4a, type: 2}
+  economyConfig: {fileID: 11400000, guid: 562d08c23e4422e478e1751752641047, type: 2}
+  waveConfig: {fileID: 11400000, guid: b0028590e7fa76c4fad91866670c9d3b, type: 2}
