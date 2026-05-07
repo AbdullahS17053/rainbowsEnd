@@ -10,6 +10,15 @@ This document is the execution playbook for building the MVP from a blank Unity 
 - Ship a thin playable slice first, then expand to the full MVP.
 - Treat portals as the first spell, not as a one-off mechanic.
 - Keep placeholder art simple and replaceable: primitive sprites, flat colors, minimal animation dependencies.
+- Keep gameplay state deterministic and data-driven; use DOTween only for presentation and feedback.
+- Use Cinemachine as a camera rig and feedback tool when it adds value, but do not tie core simulation logic to it.
+
+## Client clarifications
+- The game is level-based, with more levels to be added later.
+- The game is intended to run in landscape orientation.
+- If the player's HP reaches zero, the player is downed for 3 seconds rather than ending the run immediately.
+- Game over should eventually occur when the player's pots are all destroyed by the unicorn or taken off-screen by military mobs.
+- End-of-run stars should be based on how many pots were banked in the home tree.
 
 ## Recommended root structure
 Create these folders first under Assets:
@@ -157,10 +166,13 @@ Unity editor steps:
 8. Create empty objects around the arena edges for enemy spawn markers.
 9. Create empty objects for initial pot spawn positions.
 10. Add a CameraRoot and Main Camera if not already present.
-11. Set camera framing so the whole arena is visible at once.
+11. Set camera framing so the whole arena is visible at once in a landscape layout.
 12. If using URP, add but disable or keep minimal any post-processing volume hooks.
 13. Create a Canvas under UI for HUD elements.
 14. Add a simple gold counter text placeholder.
+
+Camera note:
+- Cinemachine is available in the project, but this slice can stay on a fixed orthographic camera until the gameplay loop needs camera rig features or feedback layers.
 
 Scripts and components to attach:
 - ArenaBoundsAuthoring or equivalent on SceneContext or World
@@ -186,6 +198,10 @@ Exit criteria:
 ## Phase 3: Player Input and Movement
 Goal: make the player fully controllable before broader gameplay.
 
+Implemented Phase 3 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase3PlayerSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 3 Player Setup to generate PF_Player and place or update a Player instance in MainArena at the player spawn marker.
+
 Unity editor steps:
 1. Create a PF_Player prefab under Assets/_Project/Prefabs.
 2. Use a placeholder sprite or primitive to represent the leprechaun.
@@ -204,10 +220,21 @@ Scripts and components expected:
 - PlayerConfig reference holder
 - Debug cone toggle if this is implemented here
 
+Implemented Phase 3 files:
+- Assets/_Project/Runtime/Gameplay/Player/PlayerInputActionNames.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerInputReader.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerMovementUtility.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerMovementController.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs
+- Assets/_Project/Editor/Phase3PlayerSetup.cs
+
 Implementation notes:
 - Keep input reading separate from movement logic.
 - Controller aim and mouse aim should both flow into the same aim abstraction.
 - Do not mix combat and movement logic in one class.
+- The player config now carries downed duration so later HP-state work can implement the confirmed 3-second downed rule without moving that timing into scene logic.
 
 Exit criteria:
 - Player moves with keyboard and controller.
@@ -435,8 +462,8 @@ Exit criteria:
 - Upgrades apply immediately.
 - UI clearly shows affordability and result.
 
-## Phase 12: Escalation and Run Orchestration
-Goal: make the arena replayable with rising pressure.
+## Phase 12: Level Orchestration and Run Outcome
+Goal: make the arena replayable with rising pressure and support the confirmed level-based run structure.
 
 Unity editor steps:
 1. Create wave or spawn definition assets.
@@ -453,6 +480,7 @@ Implementation notes:
 - Keep the escalation logic deterministic enough to tune.
 - Do not build advanced flank or suppression AI yet.
 - This phase should orchestrate existing systems, not replace them.
+- This phase should also own the confirmed run-end rules, including banked-pot star scoring and non-death game-over conditions based on pot loss.
 
 Exit criteria:
 - Enemy pressure ramps up predictably.

@@ -8,7 +8,9 @@ This roadmap is the high-level implementation sequence for the MVP. It is intent
 - Keep balanceable values in ScriptableObjects.
 - Use object pooling for frequently spawned runtime objects.
 - Support keyboard and mouse plus controller from the start.
+- Keep the MVP landscape-oriented and level-based rather than endless.
 - Keep the future full game in mind, especially spells, enemy growth, and presentation polish.
+- Use Cinemachine and DOTween as supporting tools for presentation and camera work, not for core simulation rules.
 
 ## Phase roadmap
 1. Phase 0 - Project Bootstrap
@@ -45,10 +47,10 @@ Add Police ranged pressure, weapon drops, ammo-limited secondary weapons, and he
 Implement portals using a reusable spell/cooldown framework so the full spell system can grow from the same structure later.
 
 12. Phase 11 - Shop and Upgrade Loop
-Add a minimal in-run shop with upgrades that modify runtime stats instead of editing config assets directly.
+Add a minimal in-run shop with upgrades that modify runtime stats instead of editing config assets directly, and keep fae tree banking in mind as a required run-outcome mechanic.
 
-13. Phase 12 - Escalation and Run Orchestration
-Add the wave or run director system to scale pressure over time and coordinate enemy progression.
+13. Phase 12 - Level Orchestration and Run Outcome
+Add the level or encounter director system to scale pressure over time, coordinate enemy progression, handle level completion, and support the confirmed game-over and star-rating outcome rules.
 
 14. Phase 13 - MVP Polish and Stability
 Focus on usability, readability, feedback, smoke testing, balancing, and a possible non-blocking tilt-shift spike if the gameplay is already stable.
@@ -57,10 +59,14 @@ Focus on usability, readability, feedback, smoke testing, balancing, and a possi
 Military, more spells, status effects, traps, richer weapons, deeper AI, and stronger presentation polish.
 
 ## Architecture constraints
+- Treat the game loop as level-based, with room for more levels to be added later.
 - Treat portals as spells from day one.
 - Keep Military outside the MVP critical path.
 - Delay tilt-shift polish until gameplay is stable.
-- Keep fae tree banking out of MVP implementation unless explicitly confirmed.
+- Fae tree banking is confirmed and should be treated as a required later MVP mechanic.
+- Player downed time is a gameplay rule and should stay data-driven.
+- Use Cinemachine for fixed framing, future camera shake, and transitions when needed.
+- Use DOTween for presentation, UI, and feedback tweens only, not for authoritative gameplay state.
 
 ## Delivery rule
 After each completed implementation step, write a recap covering:

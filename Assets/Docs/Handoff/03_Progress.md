@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 2 - Arena Scene Baseline
-- Current focus: run the arena scene upgrader in Unity and verify the typed scene references and markers in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 2 Arena Setup, verify SceneContext and arena markers, then continue into the player movement slice
+- Current phase: Phase 3 - Player Input and Movement
+- Current focus: run the Phase 3 player setup in Unity and verify the prefab, input binding, movement, and aim behavior in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 3 Player Setup, verify PF_Player and the Player scene instance, then test movement and aim with keyboard, mouse, and controller
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -34,9 +34,10 @@ A phase should be marked complete only when all three are true:
 - Phase 0 still needs URP renderer assets and any related pipeline assignment if URP is to be fully finalized in-project
 - Phase 1 still needs the remaining composition and service wiring before it can be considered complete
 - Phase 2 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
+- Phase 3 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
-- Fae tree banking remains out of scope until explicitly confirmed
+- Fae tree banking is confirmed and should be treated as a required future MVP mechanic
 
 ## Testing queue
 - EditMode tests for deterministic logic such as timers, health transitions, and economy scaling
@@ -49,6 +50,10 @@ A phase should be marked complete only when all three are true:
 - Platform target: PC with keyboard and mouse plus controller
 - Implementation style: fully custom code, no dependency on Top Down Engine
 - Portals and police remain in MVP scope but not in the first thin slice
+- Game structure: level-based rather than endless
+- Orientation: landscape
+- Cinemachine is available and should be used where camera rig value exists, not by default everywhere
+- DOTween is available and should be used for feedback and presentation, not for authoritative gameplay state
 
 ## Progress log
 - 2026-05-06: Reviewed project docs and Unity baseline
@@ -67,6 +72,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-07: Implemented the first Phase 2 arena authoring slice with arena bounds, cover and concealment markers, fae tree anchor, spawn markers, and the Phase2ArenaSetup Unity editor automation script
 - 2026-05-07: Fixed a Phase2ArenaSetup missing-reference issue by reacquiring the UI root transform after adding Canvas to the UI root object
 - 2026-05-07: Switched Phase2ArenaSetup placeholder generation from quad meshes to SpriteRenderers backed by a generated placeholder sprite asset
+- 2026-05-07: Recorded client clarifications that the game is landscape and level-based, with player downed state, pot-loss game-over rules, and star ratings based on banked pots
+- 2026-05-07: Confirmed Cinemachine package availability and DOTween plugin availability for future camera and presentation work
+- 2026-05-07: Implemented the first Phase 3 player slice with player runtime components, Phase3PlayerSetup, and deterministic EditMode tests for aim and movement utilities
 
 ## Next recap template
 Use this after each completed implementation step:

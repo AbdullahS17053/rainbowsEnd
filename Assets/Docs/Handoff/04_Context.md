@@ -21,6 +21,8 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Input contains IA_Gameplay.inputactions
 - ProjectSettings/ProjectSettings.asset is configured for the new Input System
 - Assets/_Project/Settings is still empty, so URP renderer assets and assignment still need to be finalized if URP is kept as the renderer direction
+- Packages/manifest.json now includes Cinemachine
+- DOTween is present as an imported plugin under Assets/Plugins/Demigiant/DOTween
 
 ## Implemented bootstrap files
 - Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs: persistent bootstrap MonoBehaviour that loads MainArena from Boot
@@ -31,6 +33,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase0ProjectSetup.cs: editor menu command that generates scenes, build settings entries, and the input actions asset
 - Assets/_Project/Editor/Phase1CoreSetup.cs: editor menu command that generates default config assets for the first gameplay systems
 - Assets/_Project/Editor/Phase2ArenaSetup.cs: editor menu command that upgrades MainArena with typed arena authoring objects and placeholder layout
+- Assets/_Project/Editor/Phase3PlayerSetup.cs: editor menu command that generates PF_Player and places or updates the Player scene instance
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -57,6 +60,16 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Art/Placeholder/SPR_SquarePlaceholder.png: generated placeholder sprite used by Phase2ArenaSetup for 2D SpriteRenderer visuals
 - Assets/_Project/Tests/EditMode/Scene/ArenaBoundsAuthoringTests.cs: deterministic EditMode coverage for bounds clamping and containment
 
+## Implemented Phase 3 player files
+- Assets/_Project/Runtime/Gameplay/Player/PlayerInputActionNames.cs: shared input action map and action names for the player slice
+- Assets/_Project/Runtime/Gameplay/Player/PlayerInputReader.cs: Input System bridge for gameplay actions without requiring generated wrapper code
+- Assets/_Project/Runtime/Gameplay/Player/PlayerMovementUtility.cs: deterministic top-down velocity step helper
+- Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs: deterministic aim resolution for mouse and controller input
+- Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs: player composition root and config bridge
+- Assets/_Project/Runtime/Gameplay/Player/PlayerMovementController.cs: Rigidbody2D-driven top-down movement controller
+- Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs: visual facing and aim controller for mouse and controller aiming
+- Assets/_Project/Tests/EditMode/Player/PlayerMovementUtilityTests.cs and PlayerAimResolverTests.cs: deterministic EditMode coverage for the Phase 3 utility layer
+
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch
 - Use the Unity Input System
@@ -68,9 +81,20 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Use ScriptableObjects for gameplay tuning and content configuration
 - Use object pooling for repeated runtime objects
 - Treat portals as the first spell so the later spell system can reuse the same architecture
+- Treat the game as level-based rather than endless
+- Keep the game in landscape orientation
+- Treat fae tree banking as a required later MVP mechanic
+- Use Cinemachine where camera rigging or feedback value exists
+- Use DOTween for presentation, UI, and feel work rather than authoritative simulation logic
+
+## Client clarifications
+- The game is level-based, with room for more levels to be added later
+- The player is downed for 3 seconds when HP reaches zero
+- Game over should be driven by pot-loss conditions rather than immediate player death
+- Star ratings should be driven by how many pots are banked in the home tree
+- The game should present in landscape
 
 ## Known ambiguities
-- Fae tree banking is present in the docs, but it is not yet confirmed as a mandatory MVP mechanic
 - The exact MVP depth for military enemies remains intentionally deferred
 - Tilt-shift is a visual target, not an early production blocker
 

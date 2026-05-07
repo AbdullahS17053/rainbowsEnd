@@ -10,5 +10,7 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float InteractionRadius { get; private set; } = 1.25f;
 
         [field: SerializeField] [field: Min(0f)] public float AimTurnSpeed { get; private set; } = 540f;
+
+        [field: SerializeField] [field: Min(0f)] public float DownedDurationSeconds { get; private set; } = 3f;
     }
 }
