@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 1 - Core Architecture Skeleton
-- Current focus: generate the resource-backed ProjectConfigRegistry asset in Unity, then either finish remaining Phase 1 contracts or move into Phase 2 arena authoring
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 1 Core Setup, verify ProjectConfigRegistry is created under Settings/Resources, then continue with the arena slice
+- Current phase: Phase 2 - Arena Scene Baseline
+- Current focus: run the arena scene upgrader in Unity and verify the typed scene references and markers in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 2 Arena Setup, verify SceneContext and arena markers, then continue into the player movement slice
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -33,6 +33,7 @@ A phase should be marked complete only when all three are true:
 ## What remains
 - Phase 0 still needs URP renderer assets and any related pipeline assignment if URP is to be fully finalized in-project
 - Phase 1 still needs the remaining composition and service wiring before it can be considered complete
+- Phase 2 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking remains out of scope until explicitly confirmed
@@ -63,6 +64,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-06: Added the Phase1CoreSetup Unity editor automation script to generate default config assets
 - 2026-05-07: Implemented Phase 1 composition wiring with a typed service registry, persistent ProjectContext bootstrap, ProjectConfigRegistry asset type, and new deterministic EditMode tests
 - 2026-05-07: Added ArenaSceneContext and updated the Phase0 scene generator so MainArena has a scene-local composition root
+- 2026-05-07: Implemented the first Phase 2 arena authoring slice with arena bounds, cover and concealment markers, fae tree anchor, spawn markers, and the Phase2ArenaSetup Unity editor automation script
+- 2026-05-07: Fixed a Phase2ArenaSetup missing-reference issue by reacquiring the UI root transform after adding Canvas to the UI root object
+- 2026-05-07: Switched Phase2ArenaSetup placeholder generation from quad meshes to SpriteRenderers backed by a generated placeholder sprite asset
 
 ## Next recap template
 Use this after each completed implementation step:

@@ -1,4 +1,5 @@
 using RainbowsEnd.Core.Bootstrap;
+using RainbowsEnd.Gameplay.World;
 using UnityEngine;
 
 namespace RainbowsEnd.Core.SceneManagement
@@ -11,6 +12,8 @@ namespace RainbowsEnd.Core.SceneManagement
         [SerializeField] private Transform spawnPointsRoot;
         [SerializeField] private Transform uiRoot;
         [SerializeField] private Camera mainCamera;
+        [SerializeField] private ArenaBoundsAuthoring arenaBounds;
+        [SerializeField] private FaeTreeAnchor faeTreeAnchor;
 
         public Transform WorldRoot => worldRoot;
 
@@ -24,13 +27,18 @@ namespace RainbowsEnd.Core.SceneManagement
 
         public Camera MainCamera => mainCamera;
 
+        public ArenaBoundsAuthoring ArenaBounds => arenaBounds;
+
+        public FaeTreeAnchor FaeTreeAnchor => faeTreeAnchor;
+
         public bool IsConfigured =>
             worldRoot != null &&
             environmentRoot != null &&
             gameplayRoot != null &&
             spawnPointsRoot != null &&
             uiRoot != null &&
-            mainCamera != null;
+            mainCamera != null &&
+            arenaBounds != null;
 
         private void Awake()
         {
@@ -59,6 +67,12 @@ namespace RainbowsEnd.Core.SceneManagement
             spawnPointsRoot = spawnPoints;
             uiRoot = ui;
             mainCamera = sceneCamera;
+        }
+
+        public void ConfigureWorld(ArenaBoundsAuthoring bounds, FaeTreeAnchor faeTree)
+        {
+            arenaBounds = bounds;
+            faeTreeAnchor = faeTree;
         }
     }
 }

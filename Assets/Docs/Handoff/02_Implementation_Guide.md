@@ -135,6 +135,11 @@ Exit criteria:
 ## Phase 2: Arena Scene Baseline
 Goal: create the first playable stage shell using primitives only.
 
+Implemented Phase 2 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase2ArenaSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 2 Arena Setup to upgrade MainArena with typed scene markers and placeholder world geometry without replacing the whole scene.
+- That setup pass adds or updates arena bounds, cover blockers, concealment zones, fae tree anchor, spawn markers, a minimal HUD shell, and sprite-backed placeholder visuals generated from a local placeholder sprite asset.
+
 Unity editor steps:
 1. Open MainArena.
 2. Create a top-level hierarchy:
@@ -145,7 +150,7 @@ Unity editor steps:
 - SpawnPoints
 - UI
 3. Under Environment, create child objects for Ground, Cover, Concealment, Props.
-4. Create the play area using a simple sprite or quad for ground.
+4. Create the play area using simple SpriteRenderer-based placeholder visuals for ground and world markers.
 5. Create primitive placeholder objects for rocks and logs and place them as cover blockers.
 6. Create placeholder concealment zones using trigger colliders for bushes or grass.
 7. Create a FaeTree placeholder object at a readable anchor point.
@@ -163,6 +168,15 @@ Scripts and components to attach:
 - ConcealmentZone on bush trigger objects
 - CoverBlocker or collision-only authoring on rock and log objects
 - EconomyHudView or equivalent on the HUD root later when economy exists
+
+Implemented Phase 2 files:
+- Assets/_Project/Runtime/Gameplay/World/ArenaBoundsAuthoring.cs
+- Assets/_Project/Runtime/Gameplay/World/SpawnPointKind.cs
+- Assets/_Project/Runtime/Gameplay/World/SpawnPointMarker.cs
+- Assets/_Project/Runtime/Gameplay/World/CoverBlocker.cs
+- Assets/_Project/Runtime/Gameplay/World/ConcealmentZone.cs
+- Assets/_Project/Runtime/Gameplay/World/FaeTreeAnchor.cs
+- Assets/_Project/Editor/Phase2ArenaSetup.cs
 
 Exit criteria:
 - Arena loads with a stable camera and clean hierarchy.

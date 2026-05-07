@@ -30,6 +30,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs: scene-local composition root for MainArena references and scene service registration
 - Assets/_Project/Editor/Phase0ProjectSetup.cs: editor menu command that generates scenes, build settings entries, and the input actions asset
 - Assets/_Project/Editor/Phase1CoreSetup.cs: editor menu command that generates default config assets for the first gameplay systems
+- Assets/_Project/Editor/Phase2ArenaSetup.cs: editor menu command that upgrades MainArena with typed arena authoring objects and placeholder layout
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -46,6 +47,15 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Systems/Pooling/IPoolable.cs and PrefabPool.cs: first-pass pooling contract and prefab pool component
 - Assets/_Project/Tests/EditMode/HealthStateTests.cs and CountdownTimerTests.cs: deterministic EditMode coverage for the first core runtime primitives
 - Assets/_Project/Tests/EditMode/ServiceRegistryTests.cs and ProjectConfigRegistryTests.cs: deterministic EditMode coverage for the new composition wiring
+
+## Implemented Phase 2 arena files
+- Assets/_Project/Runtime/Gameplay/World/ArenaBoundsAuthoring.cs: typed arena bounds authoring with clamp and containment helpers
+- Assets/_Project/Runtime/Gameplay/World/SpawnPointKind.cs and SpawnPointMarker.cs: typed spawn marker authoring for player, unicorn, pots, enemy edges, and fae tree references
+- Assets/_Project/Runtime/Gameplay/World/CoverBlocker.cs: placeholder cover authoring with blocking collider semantics
+- Assets/_Project/Runtime/Gameplay/World/ConcealmentZone.cs: placeholder concealment authoring with trigger collider semantics
+- Assets/_Project/Runtime/Gameplay/World/FaeTreeAnchor.cs: fae tree world anchor marker
+- Assets/_Project/Art/Placeholder/SPR_SquarePlaceholder.png: generated placeholder sprite used by Phase2ArenaSetup for 2D SpriteRenderer visuals
+- Assets/_Project/Tests/EditMode/Scene/ArenaBoundsAuthoringTests.cs: deterministic EditMode coverage for bounds clamping and containment
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch
