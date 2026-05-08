@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SO_Unicorn_Default
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 10
-  <MoveSpeed>k__BackingField: 5
+  <MoveSpeed>k__BackingField: 2.5
   <RetargetIntervalSeconds>k__BackingField: 5
   <MinRoamDistance>k__BackingField: 18
   <MaxRoamDistance>k__BackingField: 10
   <TargetArrivalDistance>k__BackingField: 0.2
+  <BoundaryCornerPadding>k__BackingField: 1
   <TrailSpawnIntervalSeconds>k__BackingField: 0.1
   <TrailLifetimeSeconds>k__BackingField: 10

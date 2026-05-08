@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 5 - Unicorn Roaming and Rainbow Trail
-- Current focus: run the Phase 5 unicorn setup in Unity and verify unicorn roaming, visible rainbow trail emission, pooled trail cleanup, and arena-bounded movement in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 5 Unicorn Setup, then verify the Unicorn roams inside the arena and continuously emits pooled trail segments that fade and despawn cleanly
+- Current phase: Phase 6 - Pot Interaction and First Gold Loop
+- Current focus: run the Phase 6 pot setup in Unity and verify pushing, trail capture, gold generation, and HUD updates in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 6 Pot Setup, then verify the Pot can be pushed into a rainbow trail, begins harvesting, and increments the gold HUD while stationary
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -37,6 +37,7 @@ A phase should be marked complete only when all three are true:
 - Phase 3 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
 - Phase 4 now has the first combat runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 5 now has the first unicorn and trail runtime slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 6 now has the first pot and economy runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -82,6 +83,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-08: Converted the Phase 4 bow from hitscan to pooled projectile arrows, added projectile hit filtering utilities and tests, and updated Phase4CombatSetup to generate arrow pooling and migrate old prefab state
 - 2026-05-08: Implemented the first Phase 5 unicorn slice with arena-bounded roaming, pooled timestamped rainbow trail segments, Phase5UnicornSetup, and deterministic EditMode tests for roaming utility behavior
 - 2026-05-08: Fixed rainbow trail segment alpha reuse after pooling and updated unicorn roaming to choose successive targets on different arena boundary sides for less repetitive edge movement
+- 2026-05-08: Implemented the first Phase 6 pot slice with trail-overlap harvesting, continuous contact-based state transitions, EconomyState, HUD gold presentation, Phase6PotSetup, and deterministic EditMode tests for pot harvesting and economy multipliers
+- 2026-05-08: Fixed the Phase 6 pot so it only harvests while actually overlapping live rainbow trail segments and resumes more reliably after movement by querying current overlaps directly instead of relying on one-shot trigger capture
+- 2026-05-08: Switched the first HUD economy binding from legacy UI.Text to TextMesh Pro and updated Phase6PotSetup to import TMP essentials automatically when missing
 
 ## Next recap template
 Use this after each completed implementation step:

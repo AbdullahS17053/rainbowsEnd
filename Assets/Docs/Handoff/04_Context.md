@@ -36,6 +36,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase3PlayerSetup.cs: editor menu command that generates PF_Player and places or updates the Player scene instance
 - Assets/_Project/Editor/Phase4CombatSetup.cs: editor menu command that adds the first combat slice to PF_Player, creates pooled bow impact visuals, and adds combat validation objects to MainArena
 - Assets/_Project/Editor/Phase5UnicornSetup.cs: editor menu command that generates the unicorn and rainbow trail prefabs, wires the trail pool, and places or updates the Unicorn in MainArena
+- Assets/_Project/Editor/Phase6PotSetup.cs: editor menu command that generates the pot prefab, upgrades trail segments for capture, wires scene economy HUD state, and places or updates a Pot in MainArena
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -89,6 +90,13 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs: pooled timestamped trail segment with lifetime-driven fadeout and despawn behavior
 - Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs: deterministic EditMode coverage for the unicorn roaming utility layer
 
+## Implemented Phase 6 pot and economy files
+- Assets/_Project/Runtime/Gameplay/Pots/PotHarvestStatus.cs, PotHarvestUtility.cs, and PotHarvestState.cs: explicit pot harvest state and deterministic gold-rate logic based on the oldest currently overlapping trail segment timestamp
+- Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs and PotController.cs: pushable pot authoring, current trail overlap detection, harvest lifecycle, and visual state changes
+- Assets/_Project/Runtime/Systems/Economy/EconomyState.cs: scene-usable economy state with active harvester counting and gold accumulation
+- Assets/_Project/Runtime/UI/EconomyHudPresenter.cs: HUD binding for the gold counter placeholder
+- Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs and Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs: deterministic EditMode coverage for the first pot and economy slice
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
@@ -97,6 +105,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs now uses UnityEngine.Pool.ObjectPool internally instead of a custom queue while keeping the project's existing pool API stable
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs now consumes PlayerConfig.AimTurnSpeed for smoothed aim-facing behavior
 - Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs now exposes an optional EffectsRoot so combat visuals can resolve shared scene-local pools without scene references baked into prefabs
+- TextMesh Pro should be treated as the standard for current and future HUD and UI text instead of legacy UI.Text
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch

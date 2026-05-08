@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SO_Pot_Default
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 5
-  <PushResistance>k__BackingField: 1
-  <CaptureRadius>k__BackingField: 0.65
+  <PushResistance>k__BackingField: 2
+  <CaptureRadius>k__BackingField: 0.5
+  <BaseHarvestGoldPerSecond>k__BackingField: 1
+  <TrailAgeGoldMultiplier>k__BackingField: 0.35
+  <MovementCancelSpeedThreshold>k__BackingField: 0.5
   <HarvestCancelDelaySeconds>k__BackingField: 0

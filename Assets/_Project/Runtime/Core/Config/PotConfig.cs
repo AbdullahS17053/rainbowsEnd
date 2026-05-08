@@ -11,6 +11,12 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float CaptureRadius { get; private set; } = 0.65f;
 
+        [field: SerializeField] [field: Min(0f)] public float BaseHarvestGoldPerSecond { get; private set; } = 1f;
+
+        [field: SerializeField] [field: Min(0f)] public float TrailAgeGoldMultiplier { get; private set; } = 0.35f;
+
+        [field: SerializeField] [field: Min(0f)] public float MovementCancelSpeedThreshold { get; private set; } = 0.1f;
+
         [field: SerializeField] [field: Min(0f)] public float HarvestCancelDelaySeconds { get; private set; } = 0f;
     }
 }

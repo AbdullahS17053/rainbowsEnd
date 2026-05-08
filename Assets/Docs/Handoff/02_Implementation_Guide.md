@@ -6,6 +6,7 @@ This document is the execution playbook for building the MVP from a blank Unity 
 - Build fully custom gameplay code from scratch.
 - Use composition-first MonoBehaviour architecture.
 - Keep all balanceable values in ScriptableObjects.
+- Use TextMesh Pro for current and future HUD and UI text rather than legacy UI.Text.
 - Pool any object spawned repeatedly at runtime: rainbow trail segments, projectiles, impact VFX, floating feedback, portal visuals, and pickup visuals.
 - Ship a thin playable slice first, then expand to the full MVP.
 - Treat portals as the first spell, not as a one-off mechanic.
@@ -337,6 +338,10 @@ Exit criteria:
 ## Phase 6: Pot Interaction and First Gold Loop
 Goal: make one pot capture the rainbow trail and generate gold.
 
+Implemented Phase 6 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase6PotSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 6 Pot Setup to generate PF_Pot, upgrade PF_RainbowTrailSegment for trail capture triggers, place or update a Pot instance in MainArena, and bind the HUD gold label to a scene EconomyState.
+
 Unity editor steps:
 1. Create PF_Pot with placeholder art.
 2. Add Rigidbody2D and Collider2D.
@@ -352,14 +357,28 @@ Scripts and components expected:
 - GoldEconomyService or EconomyState
 - HUD gold presenter
 
+Implemented Phase 6 files:
+- Assets/_Project/Runtime/Gameplay/Pots/PotHarvestStatus.cs
+- Assets/_Project/Runtime/Gameplay/Pots/PotHarvestUtility.cs
+- Assets/_Project/Runtime/Gameplay/Pots/PotHarvestState.cs
+- Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs
+- Assets/_Project/Runtime/Gameplay/Pots/PotController.cs
+- Assets/_Project/Runtime/Systems/Economy/EconomyState.cs
+- Assets/_Project/Runtime/UI/EconomyHudPresenter.cs
+- Assets/_Project/Editor/Phase6PotSetup.cs
+- Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs
+- Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs
+
 Implementation notes:
 - The pot should have explicit states such as Idle, Harvesting, Interrupted, Destroyed.
 - Moving the pot must cancel harvesting cleanly.
 - Keep harvest calculation configurable so the three-pot multiplier can slot in later.
+- The current slice harvests only while the pot is overlapping active rainbow trail segments, uses the oldest overlapping segment timestamp to calculate harvest rate, and routes generated gold through EconomyState so later multi-pot scaling can extend the same service.
+- The HUD gold label now uses TextMesh Pro and Phase6PotSetup imports TMP essentials automatically when they are missing from the project.
 
 Exit criteria:
 - Player can push the pot.
-- Pot can capture a rainbow trail.
+- Pot only harvests while it remains in the rainbow trail.
 - Gold increases while harvesting.
 - Moving the pot stops harvest and preserves clean state.
 
