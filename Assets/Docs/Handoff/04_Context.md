@@ -70,6 +70,10 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs: visual facing and aim controller for mouse and controller aiming
 - Assets/_Project/Tests/EditMode/Player/PlayerMovementUtilityTests.cs and PlayerAimResolverTests.cs: deterministic EditMode coverage for the Phase 3 utility layer
 
+## Follow-up architecture refinements
+- Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs now uses UnityEngine.Pool.ObjectPool internally instead of a custom queue while keeping the project's existing pool API stable
+- Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs now consumes PlayerConfig.AimTurnSpeed for smoothed aim-facing behavior
+
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch
 - Use the Unity Input System

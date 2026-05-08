@@ -69,7 +69,16 @@ namespace RainbowsEnd.Gameplay.Player
             }
 
             float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
-            target.rotation = Quaternion.Euler(0f, 0f, angle);
+            Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
+            float turnSpeed = playerRoot.Config != null ? playerRoot.Config.AimTurnSpeed : 0f;
+
+            if (turnSpeed <= 0f)
+            {
+                target.rotation = targetRotation;
+                return;
+            }
+
+            target.rotation = Quaternion.RotateTowards(target.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
 
         private void CacheReferences()

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RainbowsEnd.Systems.Pooling
 {
@@ -8,8 +8,10 @@ namespace RainbowsEnd.Systems.Pooling
         [SerializeField] private GameObject prefab;
         [SerializeField] [Min(0)] private int prewarmCount;
         [SerializeField] private Transform containerRoot;
+        [SerializeField] [Min(1)] private int maxPoolSize = 64;
+        [SerializeField] private bool collectionChecks = true;
 
-        private readonly Queue<GameObject> _availableInstances = new Queue<GameObject>();
+        private IObjectPool<GameObject> _pool;
         private bool _isInitialized;
 
         private void Awake()
@@ -18,15 +20,21 @@ namespace RainbowsEnd.Systems.Pooling
             Prewarm();
         }
 
+        public void Configure(GameObject pooledPrefab, int initialPrewarm = 0, Transform poolContainer = null)
+        {
+            prefab = pooledPrefab;
+            prewarmCount = Mathf.Max(0, initialPrewarm);
+            containerRoot = poolContainer;
+            _pool = null;
+            _isInitialized = false;
+        }
+
         public GameObject Rent(Vector3 position, Quaternion rotation)
         {
             EnsureInitialized();
 
-            GameObject instance = _availableInstances.Count > 0 ? _availableInstances.Dequeue() : CreateInstance();
+            GameObject instance = _pool.Get();
             instance.transform.SetPositionAndRotation(position, rotation);
-            instance.transform.SetParent(null, true);
-            instance.SetActive(true);
-            Notify(instance, true);
             return instance;
         }
 
@@ -44,11 +52,7 @@ namespace RainbowsEnd.Systems.Pooling
             }
 
             EnsureInitialized();
-
-            Notify(instance, false);
-            instance.SetActive(false);
-            instance.transform.SetParent(containerRoot, false);
-            _availableInstances.Enqueue(instance);
+            _pool.Release(instance);
         }
 
         private void EnsureInitialized()
@@ -65,6 +69,15 @@ namespace RainbowsEnd.Systems.Pooling
                 containerRoot = container.transform;
             }
 
+            _pool = new ObjectPool<GameObject>(
+                CreateInstance,
+                OnTakeFromPool,
+                OnReturnedToPool,
+                OnDestroyPooledObject,
+                collectionChecks,
+                prewarmCount,
+                Mathf.Max(1, maxPoolSize));
+
             _isInitialized = true;
         }
 
@@ -75,11 +88,15 @@ namespace RainbowsEnd.Systems.Pooling
                 return;
             }
 
-            while (_availableInstances.Count < prewarmCount)
+            GameObject[] prewarmedInstances = new GameObject[prewarmCount];
+            for (int index = 0; index < prewarmCount; index++)
             {
-                GameObject instance = CreateInstance();
-                instance.SetActive(false);
-                _availableInstances.Enqueue(instance);
+                prewarmedInstances[index] = _pool.Get();
+            }
+
+            for (int index = 0; index < prewarmedInstances.Length; index++)
+            {
+                _pool.Release(prewarmedInstances[index]);
             }
         }
 
@@ -93,6 +110,28 @@ namespace RainbowsEnd.Systems.Pooling
             GameObject instance = Instantiate(prefab, containerRoot);
             instance.SetActive(false);
             return instance;
+        }
+
+        private void OnTakeFromPool(GameObject instance)
+        {
+            instance.transform.SetParent(null, true);
+            instance.SetActive(true);
+            Notify(instance, true);
+        }
+
+        private void OnReturnedToPool(GameObject instance)
+        {
+            Notify(instance, false);
+            instance.SetActive(false);
+            instance.transform.SetParent(containerRoot, false);
+        }
+
+        private void OnDestroyPooledObject(GameObject instance)
+        {
+            if (instance != null)
+            {
+                Destroy(instance);
+            }
         }
 
         private static void Notify(GameObject instance, bool isSpawned)

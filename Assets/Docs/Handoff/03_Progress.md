@@ -75,6 +75,7 @@ A phase should be marked complete only when all three are true:
 - 2026-05-07: Recorded client clarifications that the game is landscape and level-based, with player downed state, pot-loss game-over rules, and star ratings based on banked pots
 - 2026-05-07: Confirmed Cinemachine package availability and DOTween plugin availability for future camera and presentation work
 - 2026-05-07: Implemented the first Phase 3 player slice with player runtime components, Phase3PlayerSetup, and deterministic EditMode tests for aim and movement utilities
+- 2026-05-08: Wired PlayerConfig.AimTurnSpeed into PlayerAimController for smoothed facing and migrated PrefabPool internals to Unity's built-in ObjectPool while preserving the existing pool API and callbacks
 
 ## Next recap template
 Use this after each completed implementation step:

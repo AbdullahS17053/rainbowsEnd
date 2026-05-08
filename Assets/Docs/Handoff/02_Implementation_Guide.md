@@ -135,6 +135,7 @@ Implementation notes:
 - Avoid giant manager classes. Prefer a few focused services with narrow responsibilities.
 - Keep config data separate from runtime mutable state.
 - If a runtime stat can change due to upgrades, use a runtime state or modifier layer instead of editing ScriptableObjects at runtime.
+- The current PrefabPool implementation now wraps Unity's built-in ObjectPool while preserving the project's existing Rent and Return API and IPoolable lifecycle hooks.
 
 Exit criteria:
 - Config assets can be created from the Unity Create menu.
@@ -235,6 +236,7 @@ Implementation notes:
 - Controller aim and mouse aim should both flow into the same aim abstraction.
 - Do not mix combat and movement logic in one class.
 - The player config now carries downed duration so later HP-state work can implement the confirmed 3-second downed rule without moving that timing into scene logic.
+- AimTurnSpeed is now used by PlayerAimController to smooth rotation toward the resolved aim direction rather than snapping instantly.
 
 Exit criteria:
 - Player moves with keyboard and controller.

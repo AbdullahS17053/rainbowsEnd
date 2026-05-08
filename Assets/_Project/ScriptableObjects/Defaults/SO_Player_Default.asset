@@ -17,3 +17,4 @@ MonoBehaviour:
   <Acceleration>k__BackingField: 25
   <InteractionRadius>k__BackingField: 1.25
   <AimTurnSpeed>k__BackingField: 540
+  <DownedDurationSeconds>k__BackingField: 3
