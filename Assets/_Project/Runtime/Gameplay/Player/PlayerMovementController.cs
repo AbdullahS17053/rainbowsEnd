@@ -13,6 +13,11 @@ namespace RainbowsEnd.Gameplay.Player
 
         public Vector2 CurrentVelocity => body != null ? body.linearVelocity : Vector2.zero;
 
+        public float SpeedNormalized =>
+            playerRoot?.Config == null || playerRoot.Config.MoveSpeed <= 0f
+                ? 0f
+                : Mathf.Clamp01(CurrentVelocity.magnitude / playerRoot.Config.MoveSpeed);
+
         public void Configure(PlayerRoot root, PlayerInputReader reader, Rigidbody2D rigidbody2D)
         {
             playerRoot = root;

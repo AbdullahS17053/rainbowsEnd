@@ -34,6 +34,8 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase1CoreSetup.cs: editor menu command that generates default config assets for the first gameplay systems
 - Assets/_Project/Editor/Phase2ArenaSetup.cs: editor menu command that upgrades MainArena with typed arena authoring objects and placeholder layout
 - Assets/_Project/Editor/Phase3PlayerSetup.cs: editor menu command that generates PF_Player and places or updates the Player scene instance
+- Assets/_Project/Editor/Phase4CombatSetup.cs: editor menu command that adds the first combat slice to PF_Player, creates pooled bow impact visuals, and adds combat validation objects to MainArena
+- Assets/_Project/Editor/Phase5UnicornSetup.cs: editor menu command that generates the unicorn and rainbow trail prefabs, wires the trail pool, and places or updates the Unicorn in MainArena
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -70,9 +72,31 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs: visual facing and aim controller for mouse and controller aiming
 - Assets/_Project/Tests/EditMode/Player/PlayerMovementUtilityTests.cs and PlayerAimResolverTests.cs: deterministic EditMode coverage for the Phase 3 utility layer
 
+## Implemented Phase 4 combat files
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs: held-fire combat controller that samples player aim and movement state, applies spread, and launches the bow arrow
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponRuntimeState.cs: reusable cooldown state wrapper for weapon cadence
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponSpreadUtility.cs: deterministic spread math for standing and moving accuracy
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponHitResult.cs: reusable hit payload for projectile collision resolution and feedback
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponHitUtility.cs: shared projectile hit filtering and damage application helper for faction-aware combat hits
+- Assets/_Project/Runtime/Gameplay/Combat/ProjectileWeaponLauncher.cs and ArrowProjectile.cs: pooled projectile launch and travel path for the bow slice
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponImpactFeedbackSpawner.cs and CombatImpactEffect.cs: pooled impact feedback path for the bow slice
+- Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs, WeaponSpreadUtilityTests.cs, and WeaponHitUtilityTests.cs: deterministic EditMode coverage for the Phase 4 combat utility layer
+
+## Implemented Phase 5 unicorn files
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornRoamingUtility.cs: deterministic movement helpers for bounded roaming target selection and position stepping
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs: arena-bounded roaming controller and unicorn runtime anchor
+- Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailEmitter.cs: pooled trail emission component driven by the unicorn's movement state
+- Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs: pooled timestamped trail segment with lifetime-driven fadeout and despawn behavior
+- Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs: deterministic EditMode coverage for the unicorn roaming utility layer
+
+## Phase 5 follow-up refinements
+- RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
+- UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
+
 ## Follow-up architecture refinements
 - Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs now uses UnityEngine.Pool.ObjectPool internally instead of a custom queue while keeping the project's existing pool API stable
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs now consumes PlayerConfig.AimTurnSpeed for smoothed aim-facing behavior
+- Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs now exposes an optional EffectsRoot so combat visuals can resolve shared scene-local pools without scene references baked into prefabs
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch

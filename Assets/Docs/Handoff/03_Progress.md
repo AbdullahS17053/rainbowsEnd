@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 3 - Player Input and Movement
-- Current focus: run the Phase 3 player setup in Unity and verify the prefab, input binding, movement, and aim behavior in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 3 Player Setup, verify PF_Player and the Player scene instance, then test movement and aim with keyboard, mouse, and controller
+- Current phase: Phase 5 - Unicorn Roaming and Rainbow Trail
+- Current focus: run the Phase 5 unicorn setup in Unity and verify unicorn roaming, visible rainbow trail emission, pooled trail cleanup, and arena-bounded movement in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 5 Unicorn Setup, then verify the Unicorn roams inside the arena and continuously emits pooled trail segments that fade and despawn cleanly
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -35,6 +35,8 @@ A phase should be marked complete only when all three are true:
 - Phase 1 still needs the remaining composition and service wiring before it can be considered complete
 - Phase 2 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
 - Phase 3 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
+- Phase 4 now has the first combat runtime slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 5 now has the first unicorn and trail runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -76,6 +78,10 @@ A phase should be marked complete only when all three are true:
 - 2026-05-07: Confirmed Cinemachine package availability and DOTween plugin availability for future camera and presentation work
 - 2026-05-07: Implemented the first Phase 3 player slice with player runtime components, Phase3PlayerSetup, and deterministic EditMode tests for aim and movement utilities
 - 2026-05-08: Wired PlayerConfig.AimTurnSpeed into PlayerAimController for smoothed facing and migrated PrefabPool internals to Unity's built-in ObjectPool while preserving the existing pool API and callbacks
+- 2026-05-08: Implemented the first Phase 4 combat slice with a held-fire bow hitscan pipeline, movement-based spread, pooled impact feedback, Phase4CombatSetup, and deterministic EditMode tests for weapon runtime state and spread math
+- 2026-05-08: Converted the Phase 4 bow from hitscan to pooled projectile arrows, added projectile hit filtering utilities and tests, and updated Phase4CombatSetup to generate arrow pooling and migrate old prefab state
+- 2026-05-08: Implemented the first Phase 5 unicorn slice with arena-bounded roaming, pooled timestamped rainbow trail segments, Phase5UnicornSetup, and deterministic EditMode tests for roaming utility behavior
+- 2026-05-08: Fixed rainbow trail segment alpha reuse after pooling and updated unicorn roaming to choose successive targets on different arena boundary sides for less repetitive edge movement
 
 ## Next recap template
 Use this after each completed implementation step:

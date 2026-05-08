@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: SO_Weapon_Bow_Default
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 1
-  <CooldownSeconds>k__BackingField: 0.2
+  <CooldownSeconds>k__BackingField: 0.5
   <Range>k__BackingField: 8
+  <ProjectileSpeed>k__BackingField: 9
+  <MuzzleOffset>k__BackingField: 0.6
   <MinSpreadDegrees>k__BackingField: 2
   <MaxSpreadDegrees>k__BackingField: 18
+  <ImpactEffectLifetimeSeconds>k__BackingField: 0.12
+  <ImpactEffectScale>k__BackingField: 0.35

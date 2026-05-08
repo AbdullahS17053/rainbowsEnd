@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 10
   <MoveSpeed>k__BackingField: 5
-  <RetargetIntervalSeconds>k__BackingField: 1.5
-  <MinRoamDistance>k__BackingField: 1
-  <MaxRoamDistance>k__BackingField: 4
+  <RetargetIntervalSeconds>k__BackingField: 5
+  <MinRoamDistance>k__BackingField: 18
+  <MaxRoamDistance>k__BackingField: 10
+  <TargetArrivalDistance>k__BackingField: 0.2
   <TrailSpawnIntervalSeconds>k__BackingField: 0.1
+  <TrailLifetimeSeconds>k__BackingField: 10

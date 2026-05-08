@@ -247,9 +247,13 @@ Exit criteria:
 ## Phase 4: Combat Foundation
 Goal: build a reusable weapon pipeline with the bow first.
 
+Implemented Phase 4 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase4CombatSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 4 Combat Setup to extend PF_Player with the first combat components, create pooled bow arrow and impact prefabs, add arrow and impact pools to MainArena, and place a placeholder TargetDummy for damage verification.
+
 Unity editor steps:
 1. Create a SO_Weapon_Bow config asset.
-2. Create pooled projectile or hitscan feedback prefabs as placeholders depending on the final bow implementation.
+2. Create pooled projectile arrow and impact feedback prefabs as placeholders.
 3. Add combat components to PF_Player.
 4. Create an Effects root in the scene for pooled runtime visuals if needed.
 
@@ -258,14 +262,30 @@ Scripts and components expected:
 - WeaponRuntimeState
 - WeaponConfig
 - FireCooldown component or shared timer utility usage
-- Projectile or hitscan resolver
+- Projectile launcher and projectile movement/damage resolver
 - Impact feedback spawner
 - Accuracy or cone spread calculator
+
+Implemented Phase 4 files:
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponRuntimeState.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponSpreadUtility.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponHitResult.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponHitUtility.cs
+- Assets/_Project/Runtime/Gameplay/Combat/ProjectileWeaponLauncher.cs
+- Assets/_Project/Runtime/Gameplay/Combat/ArrowProjectile.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponImpactFeedbackSpawner.cs
+- Assets/_Project/Runtime/Gameplay/Combat/CombatImpactEffect.cs
+- Assets/_Project/Editor/Phase4CombatSetup.cs
+- Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs
+- Assets/_Project/Tests/EditMode/Combat/WeaponSpreadUtilityTests.cs
+- Assets/_Project/Tests/EditMode/Combat/WeaponHitUtilityTests.cs
 
 Implementation notes:
 - Make spread rules data-driven.
 - Movement penalties should sample the player movement state, not duplicate it.
-- If using hitscan for the bow initially, still keep the feedback path decoupled so projectile weapons later can reuse the same interfaces.
+- The current bow slice uses held-fire pooled arrow projectiles, movement-based spread from WeaponConfig, and pooled impact feedback.
+- Projectile travel and hit filtering are isolated from the fire cadence logic so later weapons can swap projectile behavior without rewriting the player firing loop.
 
 Exit criteria:
 - Bow auto-fire or held-fire behavior works according to design.
@@ -274,6 +294,10 @@ Exit criteria:
 
 ## Phase 5: Unicorn Roaming and Rainbow Trail
 Goal: implement the unicorn and the trail system that powers the economy.
+
+Implemented Phase 5 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase5UnicornSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 5 Unicorn Setup to generate PF_Unicorn and PF_RainbowTrailSegment, add a TrailRoot and RainbowTrailPool to MainArena, and place or update the Unicorn scene instance at the unicorn spawn marker.
 
 Unity editor steps:
 1. Create PF_Unicorn with a placeholder sprite or primitive.
@@ -290,10 +314,20 @@ Scripts and components expected:
 - RainbowTrailSegment with timestamp data
 - TrailPool setup through the shared pool manager
 
+Implemented Phase 5 files:
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornRoamingUtility.cs
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs
+- Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailEmitter.cs
+- Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs
+- Assets/_Project/Editor/Phase5UnicornSetup.cs
+- Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs
+
 Implementation notes:
 - Keep trail data separate from visuals if possible.
 - Timestamp the trail so harvesting can later use capture duration or freshness without re-authoring the system.
 - Keep unicorn movement bounded by the arena.
+- The current slice uses pooled trail segments with spawn timestamps and lifetime-driven fadeout so pot harvesting can later read the same segments without replacing the trail representation.
+- The current roaming pass now selects successive target points on arena boundary sides without repeating the same side, which produces better cross-arena movement and reduces edge pacing.
 
 Exit criteria:
 - Unicorn roams within the arena.

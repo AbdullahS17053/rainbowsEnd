@@ -10,6 +10,7 @@ namespace RainbowsEnd.Core.SceneManagement
         [SerializeField] private Transform environmentRoot;
         [SerializeField] private Transform gameplayRoot;
         [SerializeField] private Transform spawnPointsRoot;
+        [SerializeField] private Transform effectsRoot;
         [SerializeField] private Transform uiRoot;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private ArenaBoundsAuthoring arenaBounds;
@@ -22,6 +23,8 @@ namespace RainbowsEnd.Core.SceneManagement
         public Transform GameplayRoot => gameplayRoot;
 
         public Transform SpawnPointsRoot => spawnPointsRoot;
+
+        public Transform EffectsRoot => effectsRoot;
 
         public Transform UiRoot => uiRoot;
 
@@ -73,6 +76,11 @@ namespace RainbowsEnd.Core.SceneManagement
         {
             arenaBounds = bounds;
             faeTreeAnchor = faeTree;
+        }
+
+        public void ConfigureEffects(Transform effects)
+        {
+            effectsRoot = effects;
         }
     }
 }

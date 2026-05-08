@@ -1,6 +1,7 @@
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
+using RainbowsEnd.Gameplay.Combat;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,7 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAimController aimController;
+        [SerializeField] private WeaponController weaponController;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -40,6 +42,8 @@ namespace RainbowsEnd.Gameplay.Player
         public PlayerMovementController MovementController => movementController;
 
         public PlayerAimController AimController => aimController;
+
+        public WeaponController WeaponController => weaponController;
 
         public void Configure(
             PlayerConfig playerConfig,
@@ -68,6 +72,11 @@ namespace RainbowsEnd.Gameplay.Player
             {
                 inputReader.SetInputActions(inputActionsAsset);
             }
+        }
+
+        public void ConfigureCombat(WeaponController playerWeaponController)
+        {
+            weaponController = playerWeaponController;
         }
 
         private void Reset()
@@ -104,6 +113,7 @@ namespace RainbowsEnd.Gameplay.Player
             inputReader ??= GetComponent<PlayerInputReader>();
             movementController ??= GetComponent<PlayerMovementController>();
             aimController ??= GetComponent<PlayerAimController>();
+            weaponController ??= GetComponent<WeaponController>();
 
             if (visualRoot == null)
             {
