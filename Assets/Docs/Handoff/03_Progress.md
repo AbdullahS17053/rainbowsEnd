@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 9 - Police and Combat Expansion
-- Current focus: run the Phase 9 police combat setup in Unity and verify police ranged pressure, projectile pooling, temporary weapon pickup behavior, and player or police health-stage feedback in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 9 Police Combat Setup, then verify police spawn from enemy edges, fire pooled police projectiles, drop a temporary shotgun pickup on death, the player reverts to the bow after pickup ammo is spent, and health-stage colors step through healthy, wounded, and critical states cleanly
+- Current phase: Phase 10 - Portal System as First Spell
+- Current focus: run the Phase 10 portal setup in Unity and verify two-way portal placement, oldest-portal replacement, and teleport traversal for the player, unicorn, and pots in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 10 Portal Setup, then verify the player can cast two portals with CastPortal, casting a third replaces the oldest portal, only the player, unicorn, and pots teleport through paired portals, and the teleport lockout prevents instant ping-pong loops
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -41,6 +41,7 @@ A phase should be marked complete only when all three are true:
 - Phase 7 now has the first traveller pressure slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 8 now has the first multi-pot and world-rules slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 9 now has the first police and combat-expansion slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 10 now has the first portal-system slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -55,7 +56,7 @@ A phase should be marked complete only when all three are true:
 - Input: Unity Input System
 - Platform target: PC with keyboard and mouse plus controller
 - Implementation style: fully custom code, no dependency on Top Down Engine
-- Portals remain in MVP scope but are not yet implemented
+- Portals remain in MVP scope and now have a first runtime slice implemented, but still need manual Unity verification
 - Game structure: level-based rather than endless
 - Orientation: landscape
 - Cinemachine is available and should be used where camera rig value exists, not by default everywhere
@@ -94,6 +95,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-11: Corrected the Phase 7 traveller behavior so pot drain depends only on direct pot contact rather than unicorn-trail harvesting state, and restored strict EngagementRange selection by removing the out-of-range fallback
 - 2026-05-11: Implemented the first Phase 8 world-rules slice with PotRegistry, three-pot scene placement, dedicated pot drain alerts, unicorn-driven pot destruction, Phase8WorldRulesSetup, and deterministic EditMode tests for active-pot counting and unicorn pot destruction behavior
 - 2026-05-11: Implemented the first Phase 9 police combat slice with pooled police projectiles, a dedicated PoliceSpawner, temporary ammo-limited weapon pickups, player weapon fallback logic, health-stage feedback, Phase9PoliceCombatSetup, and focused EditMode tests for inventory and cooldown preservation
+- 2026-05-11: Applied late Phase 9 follow-up fixes so travellers retarget away from depleted gold sources, the shotgun uses configurable multishot volley behavior, and the player now enters the configured downed state before recovering
+- 2026-05-11: Implemented the first Phase 10 portal slice with PlayerPortalController, PortalRegistry, paired PortalInstance teleportation, Phase10PortalSetup, and focused EditMode coverage for oldest-portal replacement and pairing rules
+- 2026-05-11: Attempted focused Unity batch validation for the new portal registry tests, but the run was blocked because another Unity instance already had the project open
 
 ## Next recap template
 Use this after each completed implementation step:

@@ -123,6 +123,13 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase9PoliceCombatSetup.cs: Unity menu automation for police config assets, police and pickup prefabs, scene pools, player feedback wiring, and the PoliceSpawner scene object
 - Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs plus Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs: deterministic coverage for temporary weapon equip or fallback behavior and cooldown preservation across config swaps
 
+## Implemented Phase 10 portal files
+- Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs: dedicated player spell controller that listens to CastPortal input, enforces portal cooldown, and places portals relative to the current aim direction
+- Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs and PortalInstance.cs: active portal ownership, oldest-portal replacement, paired portal state, allowed-entity filtering, and teleport lockout handling for player, unicorn, and pots
+- Assets/_Project/Runtime/Core/Config/PortalConfig.cs: portal tuning now includes placement distance in addition to cooldown, max active portals, exit offset, and reentry lockout
+- Assets/_Project/Editor/Phase10PortalSetup.cs: Unity menu automation for PF_Portal, portal pool setup, the scene PortalRegistry object, and player spell-controller wiring
+- Assets/_Project/Tests/EditMode/Spells/PortalRegistryTests.cs: deterministic coverage for portal pairing and oldest-portal replacement behavior
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
@@ -132,6 +139,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs now consumes PlayerConfig.AimTurnSpeed for smoothed aim-facing behavior
 - Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs now exposes an optional EffectsRoot so combat visuals can resolve shared scene-local pools without scene references baked into prefabs
 - TextMesh Pro should be treated as the standard for current and future HUD and UI text instead of legacy UI.Text
+- Late Phase 9 follow-up: travellers now refresh targets when a current pot stops actively harvesting, weapon configs now support configurable projectile volleys for shotgun-style weapons, and PlayerRoot now owns the configured temporary downed state before recovery
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch

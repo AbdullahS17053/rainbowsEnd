@@ -516,12 +516,21 @@ Implementation notes:
 - Allow only player, unicorn, and pots to use portals for MVP.
 - Oldest portal replacement should be an explicit tested rule.
 - Add a short teleport lockout or exit offset to prevent instant re-entry loops.
+- The current slice uses PlayerPortalController for casting, PortalRegistry for active-portal ownership and oldest replacement, PortalInstance for paired teleport logic, and a rerunnable Phase 10 setup pass to create PF_Portal, the portal pool, and the scene registry.
 
 Exit criteria:
 - Player can place two portals.
 - Placing a third replaces the oldest.
 - Player, unicorn, and pots can traverse them.
 - Disallowed entities do not use them.
+
+Implemented Phase 10 files:
+- Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs
+- Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs
+- Assets/_Project/Runtime/Gameplay/Spells/PortalInstance.cs
+- Assets/_Project/Editor/Phase10PortalSetup.cs
+- Assets/_Project/Tests/EditMode/Spells/PortalRegistryTests.cs
+- Assets/_Project/Runtime/Core/Config/PortalConfig.cs
 
 ## Phase 11: Shop and Upgrade Loop
 Goal: let the player spend gold on a minimal set of useful upgrades.

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4280196646807836605}
   - component: {fileID: 3469047445718284109}
   - component: {fileID: 7855642112765434434}
+  - component: {fileID: 5527903470910614141}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Untagged
@@ -273,6 +274,24 @@ MonoBehaviour:
   depletedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   woundedThreshold: 0.65
   criticalThreshold: 0.3
+--- !u!114 &5527903470910614141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3587465415943883816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c642b94fd8b70fd44ba97d64a62bd6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoot: {fileID: 1006157507693192654}
+  inputReader: {fileID: 7124656586306233674}
+  aimController: {fileID: 5018818153126188303}
+  portalConfig: {fileID: 0}
+  portalRegistry: {fileID: 0}
+  fallbackPlacementDistance: 1.5
 --- !u!1 &6093844470412639986
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ Current first slice: police now use a shared ranged projectile path, can drop te
 
 11. Phase 10 - Portal System as First Spell
 Implement portals using a reusable spell/cooldown framework so the full spell system can grow from the same structure later.
+Current first slice: the player can now cast pooled portal instances through a dedicated spell controller, active portals are tracked through a registry that replaces the oldest portal on the third cast, and only the player, unicorn, and pots are eligible to traverse paired portals.
 
 12. Phase 11 - Shop and Upgrade Loop
 Add a minimal in-run shop with upgrades that modify runtime stats instead of editing config assets directly, and keep fae tree banking in mind as a required run-outcome mechanic.

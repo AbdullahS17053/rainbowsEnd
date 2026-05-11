@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a4c0d30cfd8414e8147dcc0a14d516, type: 3}
   m_Name: SO_Portal_Default
   m_EditorClassIdentifier: 
-  <CooldownSeconds>k__BackingField: 3
+  <CooldownSeconds>k__BackingField: 0.5
   <MaxActivePortals>k__BackingField: 2
-  <ExitOffsetDistance>k__BackingField: 0.75
-  <ReentryLockoutSeconds>k__BackingField: 0.2
+  <PlacementDistance>k__BackingField: 1.5
+  <ExitOffsetDistance>k__BackingField: 0.85
+  <ReentryLockoutSeconds>k__BackingField: 0.25
