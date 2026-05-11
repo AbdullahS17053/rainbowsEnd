@@ -30,5 +30,25 @@ namespace RainbowsEnd.Tests.EditMode.Economy
             Object.DestroyImmediate(config);
             Object.DestroyImmediate(host);
         }
+
+        [Test]
+        public void RemoveGold_ClampsAtZeroAndReturnsActualAmountRemoved()
+        {
+            GameObject host = new GameObject("EconomyStateHost");
+            EconomyState economyState = host.AddComponent<EconomyState>();
+            EconomyConfig config = ScriptableObject.CreateInstance<EconomyConfig>();
+
+            economyState.Configure(config);
+
+            float removedOne = economyState.RemoveGold(3f);
+            float removedTwo = economyState.RemoveGold(100f);
+
+            Assert.That(removedOne, Is.EqualTo(3f));
+            Assert.That(removedTwo, Is.EqualTo(18f));
+            Assert.That(economyState.CurrentGold, Is.EqualTo(0));
+
+            Object.DestroyImmediate(config);
+            Object.DestroyImmediate(host);
+        }
     }
 }

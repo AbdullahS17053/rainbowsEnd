@@ -404,6 +404,9 @@ Implementation notes:
 - Keep Traveller AI intentionally simple.
 - Pot drain feedback should be easy to notice even with placeholder visuals.
 - Enemy spawner should already be data-driven enough to accept future police definitions.
+- The current slice prefers harvesting pots within EngagementRange, only targets pots inside that configured range, drains gold through EconomyState whenever the traveller is physically overlapping a non-destroyed pot, and drops pooled gold pickups on traveller death.
+- Projectile hits now query trigger colliders but ignore non-damageable trigger volumes, which lets arrows damage traveller bodies without colliding with rainbow trail or pot sensor triggers.
+- WaveConfig now includes an initial wave delay so the first traveller burst can be tuned separately from the steady-state spawn interval.
 
 Exit criteria:
 - Travellers spawn at edges.
@@ -411,6 +414,15 @@ Exit criteria:
 - They drain gold if uninterrupted.
 - They can be damaged and killed.
 - Gold drops can be collected.
+
+Implemented Phase 7 files:
+- Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemySpawner.cs
+- Assets/_Project/Editor/Phase7EnemySetup.cs
+- Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs
 
 ## Phase 8: Multi-Pot Economy and World Rules
 Goal: expand the economy from one pot to the MVP ruleset.

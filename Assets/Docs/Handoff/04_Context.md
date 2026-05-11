@@ -97,6 +97,16 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/UI/EconomyHudPresenter.cs: HUD binding for the gold counter placeholder
 - Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs and Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs: deterministic EditMode coverage for the first pot and economy slice
 
+## Implemented Phase 7 enemy files
+- Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs: deterministic target preference for harvesting pots inside EngagementRange with no out-of-range fallback
+- Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs and TravellerController.cs: simple traveller movement, direct-contact pot pressure, economy drain, death handling, and visual state changes
+- Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs and EnemySpawner.cs: pooled enemy drops, player pickup collection, and edge-based traveller spawning
+- Assets/_Project/Editor/Phase7EnemySetup.cs: Unity menu automation for PF_Traveller, PF_GoldPickup, traveller and pickup pools, and EnemySpawner scene wiring
+- Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs plus EconomyStateTests.cs: deterministic coverage for target preference and gold drain support
+- Phase 7 follow-up fix: arrows now include trigger colliders in projectile queries but WeaponHitUtility ignores non-damageable trigger volumes, so traveller trigger bodies can be hit without rainbow trail or pot sensor false-positives
+- Phase 7 follow-up fix: traveller drain feedback uses a distinct red-orange state color instead of the pot's harvest-yellow, and WaveConfig now exposes InitialWaveDelaySeconds for first-burst pacing
+- Phase 7 behavior correction: traveller drain now depends on direct pot overlap regardless of whether the pot is currently harvesting, and target selection is again strict about EngagementRange with no out-of-range fallback
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal

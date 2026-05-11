@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51bef45694725cf42b0f0d9749da693b, type: 3}
   m_Name: SO_Wave_Default
   m_EditorClassIdentifier: 
-  <SpawnIntervalSeconds>k__BackingField: 2
+  <InitialWaveDelaySeconds>k__BackingField: 10
+  <SpawnIntervalSeconds>k__BackingField: 5
   <MaxConcurrentEnemies>k__BackingField: 6
   <InitialTravellerCount>k__BackingField: 1
   <PoliceUnlockWave>k__BackingField: 3

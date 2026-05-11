@@ -38,6 +38,20 @@ namespace RainbowsEnd.Tests.EditMode.Combat
             Object.DestroyImmediate(target);
         }
 
+        [Test]
+        public void TryResolveHit_IgnoresNonDamageableTriggerVolumes()
+        {
+            GameObject target = new GameObject("TriggerVolume");
+            BoxCollider2D collider = target.AddComponent<BoxCollider2D>();
+            collider.isTrigger = true;
+
+            bool didResolve = WeaponHitUtility.TryResolveHit(collider, null, FactionId.Player, 2f, Vector2.zero, Vector2.up, null, out WeaponHitResult _);
+
+            Assert.That(didResolve, Is.False);
+
+            Object.DestroyImmediate(target);
+        }
+
         private sealed class FriendlyTarget : MonoBehaviour, ITeamAffiliation
         {
             public FactionId FactionId => FactionId.Player;

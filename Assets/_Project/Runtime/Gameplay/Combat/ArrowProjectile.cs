@@ -8,7 +8,6 @@ namespace RainbowsEnd.Gameplay.Combat
     public sealed class ArrowProjectile : MonoBehaviour, IPoolable
     {
         [SerializeField] private LayerMask hitMask = Physics2D.DefaultRaycastLayers;
-        [SerializeField] private bool includeTriggers;
         [SerializeField] [Min(0.01f)] private float fallbackSpeed = 18f;
         [SerializeField] [Min(0f)] private float castRadius = 0.05f;
 
@@ -82,7 +81,7 @@ namespace RainbowsEnd.Gameplay.Combat
             {
                 useLayerMask = true,
                 layerMask = hitMask,
-                useTriggers = includeTriggers
+                useTriggers = true
             };
 
             int hitCount = Physics2D.CircleCast(currentPosition, castRadius, _direction, contactFilter, _hits, stepDistance);

@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 6 - Pot Interaction and First Gold Loop
-- Current focus: run the Phase 6 pot setup in Unity and verify pushing, trail capture, gold generation, and HUD updates in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 6 Pot Setup, then verify the Pot can be pushed into a rainbow trail, begins harvesting, and increments the gold HUD while stationary
+- Current phase: Phase 7 - First Enemy Pressure Loop
+- Current focus: run the Phase 7 enemy setup in Unity and verify the first traveller pressure loop against an active pot in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 7 Enemy Setup, then verify travellers spawn from edge markers, converge on the active pot, drain gold while overlapping it, die to arrows, and drop collectible gold pickups
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -38,6 +38,7 @@ A phase should be marked complete only when all three are true:
 - Phase 4 now has the first combat runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 5 now has the first unicorn and trail runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 6 now has the first pot and economy runtime slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 7 now has the first traveller pressure slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -86,6 +87,9 @@ A phase should be marked complete only when all three are true:
 - 2026-05-08: Implemented the first Phase 6 pot slice with trail-overlap harvesting, continuous contact-based state transitions, EconomyState, HUD gold presentation, Phase6PotSetup, and deterministic EditMode tests for pot harvesting and economy multipliers
 - 2026-05-08: Fixed the Phase 6 pot so it only harvests while actually overlapping live rainbow trail segments and resumes more reliably after movement by querying current overlaps directly instead of relying on one-shot trigger capture
 - 2026-05-08: Switched the first HUD economy binding from legacy UI.Text to TextMesh Pro and updated Phase6PotSetup to import TMP essentials automatically when missing
+- 2026-05-11: Implemented the first Phase 7 enemy pressure slice with pooled travellers, active-pot target selection, gold drain through EconomyState, pooled gold pickups, Phase7EnemySetup, and deterministic EditMode tests for traveller target selection and economy drain
+- 2026-05-11: Fixed the first Phase 7 follow-up issues by letting arrows damage trigger-collider travellers while ignoring non-damageable trigger volumes, making traveller targeting fall back beyond engagement range, separating enemy drain feedback from the pot harvest color, and adding WaveConfig.InitialWaveDelaySeconds to the spawner
+- 2026-05-11: Corrected the Phase 7 traveller behavior so pot drain depends only on direct pot contact rather than unicorn-trail harvesting state, and restored strict EngagementRange selection by removing the out-of-range fallback
 
 ## Next recap template
 Use this after each completed implementation step:

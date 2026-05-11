@@ -49,6 +49,25 @@ namespace RainbowsEnd.Systems.Economy
             }
         }
 
+        public float RemoveGold(float amount)
+        {
+            Initialize();
+            if (amount <= 0f)
+            {
+                return 0f;
+            }
+
+            int previousGold = CurrentGold;
+            float removedAmount = Mathf.Min(_currentGoldValue, amount);
+            _currentGoldValue -= removedAmount;
+            if (CurrentGold != previousGold)
+            {
+                GoldChanged?.Invoke(CurrentGold);
+            }
+
+            return removedAmount;
+        }
+
         public void SetHarvesterActive(UnityEngine.Object owner, bool isActive)
         {
             if (owner == null)

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e741687b14b91542ad7b46f46a7a23f, type: 3}
   m_Name: SO_Enemy_Traveller_Default
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 10
-  <MoveSpeed>k__BackingField: 5
+  <MaxHealth>k__BackingField: 5
+  <MoveSpeed>k__BackingField: 2.5
   <ContactDamage>k__BackingField: 1
   <TargetRefreshSeconds>k__BackingField: 0.25
   <EngagementRange>k__BackingField: 10

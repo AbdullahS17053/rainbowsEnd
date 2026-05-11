@@ -36,6 +36,12 @@ namespace RainbowsEnd.Gameplay.Combat
                 return true;
             }
 
+            if (collider.isTrigger)
+            {
+                hitResult = default;
+                return false;
+            }
+
             hitResult = WeaponHitResult.Surface(collider, point, normal);
             return true;
         }
