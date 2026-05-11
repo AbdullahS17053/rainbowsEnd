@@ -223,7 +223,12 @@ namespace RainbowsEnd.Gameplay.Enemies
         private void RefreshTargetIfNeeded()
         {
             _targetRefreshTimerSeconds -= Time.deltaTime;
-            if (_currentTarget != null && _currentTarget.HarvestStatus != PotHarvestStatus.Destroyed && _targetRefreshTimerSeconds > 0f)
+
+            bool hasCurrentTarget = _currentTarget != null;
+            bool currentTargetDestroyed = hasCurrentTarget && _currentTarget.IsDestroyed;
+            bool currentTargetHarvesting = hasCurrentTarget && _currentTarget.HarvestStatus == PotHarvestStatus.Harvesting;
+
+            if (hasCurrentTarget && !currentTargetDestroyed && currentTargetHarvesting && _targetRefreshTimerSeconds > 0f)
             {
                 return;
             }

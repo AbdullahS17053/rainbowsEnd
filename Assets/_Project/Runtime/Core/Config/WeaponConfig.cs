@@ -7,6 +7,8 @@ namespace RainbowsEnd.Core.Config
     {
         [field: SerializeField] [field: Min(0f)] public float Damage { get; private set; } = 1f;
 
+        [field: SerializeField] [field: Min(1)] public int ProjectileCount { get; private set; } = 1;
+
         [field: SerializeField] [field: Min(0.01f)] public float CooldownSeconds { get; private set; } = 0.2f;
 
         [field: SerializeField] [field: Min(0f)] public float Range { get; private set; } = 8f;
@@ -18,6 +20,8 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float MinSpreadDegrees { get; private set; } = 2f;
 
         [field: SerializeField] [field: Min(0f)] public float MaxSpreadDegrees { get; private set; } = 18f;
+
+        [field: SerializeField] [field: Min(0f)] public float VolleySpreadDegrees { get; private set; } = 0f;
 
         [field: SerializeField] [field: Min(0.01f)] public float ImpactEffectLifetimeSeconds { get; private set; } = 0.12f;
 

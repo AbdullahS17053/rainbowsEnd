@@ -23,5 +23,28 @@ namespace RainbowsEnd.Tests.EditMode.Combat
 
             Object.DestroyImmediate(config);
         }
+
+        [Test]
+        public void AssignConfig_WithoutReset_PreservesCurrentCooldown()
+        {
+            WeaponConfig bowConfig = ScriptableObject.CreateInstance<WeaponConfig>();
+            WeaponConfig temporaryConfig = ScriptableObject.CreateInstance<WeaponConfig>();
+            WeaponRuntimeState runtimeState = new WeaponRuntimeState();
+            runtimeState.Configure(bowConfig);
+
+            Assert.That(runtimeState.TryConsumeShot(), Is.True);
+
+            runtimeState.Tick(bowConfig.CooldownSeconds * 0.5f);
+            runtimeState.AssignConfig(temporaryConfig, false);
+
+            Assert.That(runtimeState.TryConsumeShot(), Is.False);
+
+            runtimeState.Tick(bowConfig.CooldownSeconds * 0.5f);
+
+            Assert.That(runtimeState.TryConsumeShot(), Is.True);
+
+            Object.DestroyImmediate(bowConfig);
+            Object.DestroyImmediate(temporaryConfig);
+        }
     }
 }

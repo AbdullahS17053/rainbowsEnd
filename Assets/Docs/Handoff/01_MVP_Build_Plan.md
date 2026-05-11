@@ -42,6 +42,7 @@ Expand to the full three-pot MVP rule set, add multiplier scaling, pot destructi
 
 10. Phase 9 - Police and Combat Expansion
 Add Police ranged pressure, weapon drops, ammo-limited secondary weapons, and health-stage feedback.
+Current first slice: police now use a shared ranged projectile path, can drop temporary ammo-limited weapons for the player, and expose health-stage readability feedback through a rerunnable Phase 9 setup pass.
 
 11. Phase 10 - Portal System as First Spell
 Implement portals using a reusable spell/cooldown framework so the full spell system can grow from the same structure later.

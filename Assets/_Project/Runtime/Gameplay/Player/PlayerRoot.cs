@@ -19,7 +19,11 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAimController aimController;
+        [SerializeField] private PlayerWeaponInventory weaponInventory;
         [SerializeField] private WeaponController weaponController;
+
+        private bool _isDowned;
+        private float _downedTimerSeconds;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -43,7 +47,11 @@ namespace RainbowsEnd.Gameplay.Player
 
         public PlayerAimController AimController => aimController;
 
+        public PlayerWeaponInventory WeaponInventory => weaponInventory;
+
         public WeaponController WeaponController => weaponController;
+
+        public bool IsDowned => _isDowned;
 
         public void Configure(
             PlayerConfig playerConfig,
@@ -103,6 +111,48 @@ namespace RainbowsEnd.Gameplay.Player
             {
                 health.Initialize(config.MaxHealth);
             }
+
+            ApplyPlayerEnabledState(true);
+        }
+
+        private void OnEnable()
+        {
+            if (health != null)
+            {
+                health.Depleted -= HandleHealthDepleted;
+                health.Depleted += HandleHealthDepleted;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (health != null)
+            {
+                health.Depleted -= HandleHealthDepleted;
+            }
+
+            if (_isDowned)
+            {
+                ApplyPlayerEnabledState(true);
+                _isDowned = false;
+                _downedTimerSeconds = 0f;
+            }
+        }
+
+        private void Update()
+        {
+            if (!_isDowned)
+            {
+                return;
+            }
+
+            _downedTimerSeconds -= Time.deltaTime;
+            if (_downedTimerSeconds > 0f)
+            {
+                return;
+            }
+
+            RecoverFromDownedState();
         }
 
         private void CacheReferences()
@@ -113,6 +163,7 @@ namespace RainbowsEnd.Gameplay.Player
             inputReader ??= GetComponent<PlayerInputReader>();
             movementController ??= GetComponent<PlayerMovementController>();
             aimController ??= GetComponent<PlayerAimController>();
+            weaponInventory ??= GetComponent<PlayerWeaponInventory>();
             weaponController ??= GetComponent<WeaponController>();
 
             if (visualRoot == null)
@@ -132,6 +183,66 @@ namespace RainbowsEnd.Gameplay.Player
             if (config == null && ProjectContext.Instance?.ConfigRegistry != null)
             {
                 config = ProjectContext.Instance.ConfigRegistry.PlayerConfig;
+            }
+        }
+
+        private void HandleHealthDepleted()
+        {
+            if (_isDowned)
+            {
+                return;
+            }
+
+            _isDowned = true;
+            _downedTimerSeconds = config != null ? Mathf.Max(0f, config.DownedDurationSeconds) : 0f;
+            ApplyPlayerEnabledState(false);
+
+            if (_downedTimerSeconds <= 0f)
+            {
+                RecoverFromDownedState();
+            }
+        }
+
+        private void RecoverFromDownedState()
+        {
+            if (!_isDowned)
+            {
+                return;
+            }
+
+            health?.ResetToFull();
+            _isDowned = false;
+            _downedTimerSeconds = 0f;
+            ApplyPlayerEnabledState(true);
+        }
+
+        private void ApplyPlayerEnabledState(bool isEnabled)
+        {
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+                body.angularVelocity = 0f;
+                body.simulated = isEnabled;
+            }
+
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = isEnabled;
+            }
+
+            if (movementController != null)
+            {
+                movementController.enabled = isEnabled;
+            }
+
+            if (aimController != null)
+            {
+                aimController.enabled = isEnabled;
+            }
+
+            if (weaponController != null)
+            {
+                weaponController.enabled = isEnabled;
             }
         }
     }

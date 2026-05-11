@@ -16,8 +16,17 @@ namespace RainbowsEnd.Gameplay.Combat
 
         public void Configure(WeaponConfig config)
         {
+            AssignConfig(config, true);
+        }
+
+        public void AssignConfig(WeaponConfig config, bool resetCooldown)
+        {
             _config = config;
-            _cooldownTimer.Reset();
+
+            if (resetCooldown)
+            {
+                _cooldownTimer.Reset();
+            }
         }
 
         public void Tick(float deltaTime)

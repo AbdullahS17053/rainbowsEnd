@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 8 - Multi-Pot Economy and World Rules
-- Current focus: run the Phase 8 world rules setup in Unity and verify the three-pot economy, unicorn destruction, and drain-alert feedback in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 8 World Rules Setup, then verify all three pot spawn markers are populated, harvest scaling follows 1x/2.5x/5x as more pots harvest, unicorn contact destroys pots, and drain alerts appear on pots under enemy pressure
+- Current phase: Phase 9 - Police and Combat Expansion
+- Current focus: run the Phase 9 police combat setup in Unity and verify police ranged pressure, projectile pooling, temporary weapon pickup behavior, and player or police health-stage feedback in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 9 Police Combat Setup, then verify police spawn from enemy edges, fire pooled police projectiles, drop a temporary shotgun pickup on death, the player reverts to the bow after pickup ammo is spent, and health-stage colors step through healthy, wounded, and critical states cleanly
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -40,6 +40,7 @@ A phase should be marked complete only when all three are true:
 - Phase 6 now has the first pot and economy runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 7 now has the first traveller pressure slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 8 now has the first multi-pot and world-rules slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 9 now has the first police and combat-expansion slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -54,7 +55,7 @@ A phase should be marked complete only when all three are true:
 - Input: Unity Input System
 - Platform target: PC with keyboard and mouse plus controller
 - Implementation style: fully custom code, no dependency on Top Down Engine
-- Portals and police remain in MVP scope but not in the first thin slice
+- Portals remain in MVP scope but are not yet implemented
 - Game structure: level-based rather than endless
 - Orientation: landscape
 - Cinemachine is available and should be used where camera rig value exists, not by default everywhere
@@ -92,6 +93,7 @@ A phase should be marked complete only when all three are true:
 - 2026-05-11: Fixed the first Phase 7 follow-up issues by letting arrows damage trigger-collider travellers while ignoring non-damageable trigger volumes, making traveller targeting fall back beyond engagement range, separating enemy drain feedback from the pot harvest color, and adding WaveConfig.InitialWaveDelaySeconds to the spawner
 - 2026-05-11: Corrected the Phase 7 traveller behavior so pot drain depends only on direct pot contact rather than unicorn-trail harvesting state, and restored strict EngagementRange selection by removing the out-of-range fallback
 - 2026-05-11: Implemented the first Phase 8 world-rules slice with PotRegistry, three-pot scene placement, dedicated pot drain alerts, unicorn-driven pot destruction, Phase8WorldRulesSetup, and deterministic EditMode tests for active-pot counting and unicorn pot destruction behavior
+- 2026-05-11: Implemented the first Phase 9 police combat slice with pooled police projectiles, a dedicated PoliceSpawner, temporary ammo-limited weapon pickups, player weapon fallback logic, health-stage feedback, Phase9PoliceCombatSetup, and focused EditMode tests for inventory and cooldown preservation
 
 ## Next recap template
 Use this after each completed implementation step:

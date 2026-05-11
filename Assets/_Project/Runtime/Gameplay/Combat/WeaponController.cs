@@ -13,6 +13,7 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerAimController aimController;
         [SerializeField] private PlayerMovementController movementController;
+        [SerializeField] private PlayerWeaponInventory weaponInventory;
         [SerializeField] private ProjectileWeaponLauncher projectileLauncher;
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private WeaponConfig weaponConfig;
@@ -37,9 +38,11 @@ namespace RainbowsEnd.Gameplay.Combat
             inputReader = reader;
             aimController = playerAimController;
             movementController = playerMovementController;
+            weaponInventory = root != null ? root.WeaponInventory : null;
             projectileLauncher = weaponLauncher;
             impactFeedbackSpawner = feedbackSpawner;
             weaponConfig = config;
+            weaponInventory?.ConfigureDefaultWeapon(weaponConfig);
             _runtimeState.Configure(weaponConfig);
         }
 
@@ -58,12 +61,14 @@ namespace RainbowsEnd.Gameplay.Combat
         {
             CacheReferences();
             ResolveDefaults();
+            weaponInventory?.ConfigureDefaultWeapon(weaponConfig);
             _runtimeState.Configure(weaponConfig);
         }
 
         private void Update()
         {
             _runtimeState.Tick(Time.deltaTime);
+            SyncActiveWeaponConfig();
 
             if (inputReader == null || !inputReader.FireHeld || weaponConfig == null || projectileLauncher == null)
             {
@@ -76,6 +81,11 @@ namespace RainbowsEnd.Gameplay.Combat
             }
 
             FireShot();
+
+            if (weaponInventory != null && weaponInventory.ConsumeTemporaryShot())
+            {
+                SyncActiveWeaponConfig(false);
+            }
         }
 
         private void FireShot()
@@ -94,7 +104,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
             Vector2 fireDirection = WeaponSpreadUtility.ApplySpread(baseAimDirection, CurrentSpreadOffsetDegrees);
             Vector2 origin = (Vector2)transform.position + fireDirection * ResolveMuzzleOffset();
-            projectileLauncher.Launch(
+            projectileLauncher.LaunchVolley(
                 origin,
                 fireDirection,
                 weaponConfig,
@@ -112,6 +122,7 @@ namespace RainbowsEnd.Gameplay.Combat
             inputReader ??= GetComponent<PlayerInputReader>();
             aimController ??= GetComponent<PlayerAimController>();
             movementController ??= GetComponent<PlayerMovementController>();
+            weaponInventory ??= GetComponent<PlayerWeaponInventory>();
             projectileLauncher ??= GetComponent<ProjectileWeaponLauncher>();
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
         }
@@ -122,6 +133,20 @@ namespace RainbowsEnd.Gameplay.Combat
             {
                 weaponConfig = ProjectContext.Instance.ConfigRegistry.DefaultWeaponConfig;
             }
+        }
+
+        private void SyncActiveWeaponConfig(bool preserveCooldownByDefault = true)
+        {
+            WeaponConfig desiredConfig = weaponInventory != null ? weaponInventory.ActiveWeaponConfig : weaponConfig;
+            bool resetCooldown = weaponInventory?.ConsumePendingCooldownReset() ?? false;
+
+            if (desiredConfig == weaponConfig && !resetCooldown)
+            {
+                return;
+            }
+
+            weaponConfig = desiredConfig;
+            _runtimeState.AssignConfig(weaponConfig, resetCooldown || !preserveCooldownByDefault);
         }
 
         private float ResolveMuzzleOffset()

@@ -114,6 +114,15 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs: unicorn-to-pot collision path now destroys pots directly on contact
 - Assets/_Project/Editor/Phase8WorldRulesSetup.cs and Assets/_Project/Tests/EditMode/Pots/PotRegistryTests.cs: Unity automation for three-pot scene placement and deterministic coverage for active-pot counting and unicorn destruction behavior
 
+## Implemented Phase 9 combat-expansion files
+- Assets/_Project/Runtime/Gameplay/Combat/RangedAttackController.cs: shared projectile firing cadence and spread logic for non-player ranged attackers built on the existing projectile launcher
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponPickup.cs plus Assets/_Project/Runtime/Gameplay/Player/PlayerWeaponInventory.cs: pooled temporary weapon drops, ammo-limited pickup state, and automatic fallback to the player's default bow
+- Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs and PoliceSpawner.cs: pooled police spawning from enemy-edge markers, ranged pressure against the player, and shotgun-style pickup drops on death
+- Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs: lightweight health readability presenter for sprite-color staging across healthy, wounded, critical, and depleted states
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs and WeaponRuntimeState.cs: player weapon flow now syncs against inventory overrides and preserves cooldown when reverting after temporary ammo is exhausted
+- Assets/_Project/Editor/Phase9PoliceCombatSetup.cs: Unity menu automation for police config assets, police and pickup prefabs, scene pools, player feedback wiring, and the PoliceSpawner scene object
+- Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs plus Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs: deterministic coverage for temporary weapon equip or fallback behavior and cooldown preservation across config swaps
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal

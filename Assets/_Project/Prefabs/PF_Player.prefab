@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 7775055784596175077}
   - component: {fileID: 7355131472775218047}
   - component: {fileID: 4280196646807836605}
+  - component: {fileID: 3469047445718284109}
+  - component: {fileID: 7855642112765434434}
   m_Layer: 0
   m_Name: PF_Player
   m_TagString: Untagged
@@ -186,6 +188,7 @@ MonoBehaviour:
   inputReader: {fileID: 7124656586306233674}
   movementController: {fileID: 2799621349743447618}
   aimController: {fileID: 5018818153126188303}
+  weaponInventory: {fileID: 3469047445718284109}
   weaponController: {fileID: 7355131472775218047}
 --- !u!114 &7775055784596175077
 MonoBehaviour:
@@ -217,6 +220,7 @@ MonoBehaviour:
   inputReader: {fileID: 7124656586306233674}
   aimController: {fileID: 5018818153126188303}
   movementController: {fileID: 2799621349743447618}
+  weaponInventory: {fileID: 3469047445718284109}
   projectileLauncher: {fileID: 4280196646807836605}
   impactFeedbackSpawner: {fileID: 7775055784596175077}
   weaponConfig: {fileID: 11400000, guid: e61205a5b78075a46a675ad8b4fa5661, type: 2}
@@ -235,6 +239,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolObjectName: ArrowProjectilePool
   projectilePool: {fileID: 0}
+--- !u!114 &3469047445718284109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3587465415943883816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abeb2d45803bdd4eaf5fd220781b3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultWeaponConfig: {fileID: 11400000, guid: e61205a5b78075a46a675ad8b4fa5661, type: 2}
+--- !u!114 &7855642112765434434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3587465415943883816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c51d0451cc952479716e9df18381c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 8485841131075023200}
+  targetRenderer: {fileID: 3757911956099541659}
+  useCurrentColorAsHealthy: 1
+  healthyColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  woundedColor: {r: 1, g: 0.85, b: 0.35, a: 1}
+  criticalColor: {r: 1, g: 0.45, b: 0.35, a: 1}
+  depletedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  woundedThreshold: 0.65
+  criticalThreshold: 0.3
 --- !u!1 &6093844470412639986
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +350,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: d33c9be8d09855a47b16826ad11c92ed, type: 3}
-  m_Color: {r: 0.2, g: 0.85, b: 0.3, a: 1}
+  m_Color: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

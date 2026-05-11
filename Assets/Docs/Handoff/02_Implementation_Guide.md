@@ -477,11 +477,23 @@ Implementation notes:
 - Keep player weapon switching decoupled from pickup logic.
 - Reuse the same weapon foundation instead of special-casing enemy weapons.
 - The HP stage feedback system should work for player and enemies, even if visuals are minimal now.
+- The current slice keeps the player bow as the default weapon, adds a temporary ammo-limited pickup weapon override, reuses projectile combat through a shared RangedAttackController for police, and drives police spawning through a dedicated scene spawner plus rerunnable setup.
 
 Exit criteria:
 - Police spawn and apply ranged pressure.
 - Weapon drops and ammo behavior work.
 - HP-stage feedback is visible.
+
+Implemented Phase 9 files:
+- Assets/_Project/Runtime/Gameplay/Combat/RangedAttackController.cs
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponPickup.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerWeaponInventory.cs
+- Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/PoliceSpawner.cs
+- Assets/_Project/Editor/Phase9PoliceCombatSetup.cs
+- Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs
+- Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs
 
 ## Phase 10: Portal System as First Spell
 Goal: build the MVP portal feature in a way that supports the future spell roster.

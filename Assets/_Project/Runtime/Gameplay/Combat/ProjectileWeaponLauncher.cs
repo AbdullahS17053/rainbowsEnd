@@ -17,6 +17,39 @@ namespace RainbowsEnd.Gameplay.Combat
             projectilePool = pool;
         }
 
+        public int LaunchVolley(
+            Vector2 origin,
+            Vector2 baseDirection,
+            WeaponConfig weaponConfig,
+            FactionId sourceFaction,
+            Collider2D ignoredCollider,
+            Object instigator,
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+        {
+            if (weaponConfig == null || !ResolvePool())
+            {
+                return 0;
+            }
+
+            int projectileCount = Mathf.Max(1, weaponConfig.ProjectileCount);
+            int launchedCount = 0;
+            for (int index = 0; index < projectileCount; index++)
+            {
+                Vector2 projectileDirection = WeaponVolleyUtility.CalculateProjectileDirection(
+                    baseDirection,
+                    index,
+                    projectileCount,
+                    weaponConfig.VolleySpreadDegrees);
+
+                if (LaunchResolved(origin, projectileDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner))
+                {
+                    launchedCount++;
+                }
+            }
+
+            return launchedCount;
+        }
+
         public bool Launch(
             Vector2 origin,
             Vector2 direction,
@@ -27,6 +60,23 @@ namespace RainbowsEnd.Gameplay.Combat
             WeaponImpactFeedbackSpawner impactFeedbackSpawner)
         {
             if (weaponConfig == null || !ResolvePool())
+            {
+                return false;
+            }
+
+            return LaunchResolved(origin, direction, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner);
+        }
+
+        private bool LaunchResolved(
+            Vector2 origin,
+            Vector2 direction,
+            WeaponConfig weaponConfig,
+            FactionId sourceFaction,
+            Collider2D ignoredCollider,
+            Object instigator,
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+        {
+            if (weaponConfig == null || projectilePool == null)
             {
                 return false;
             }

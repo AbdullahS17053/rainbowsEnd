@@ -616,6 +616,55 @@ MonoBehaviour:
   travellerPool: {fileID: 1713683975}
   goldPickupPool: {fileID: 825719999}
   spawnPointsRoot: {fileID: 1076139137}
+--- !u!1 &244987615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 244987617}
+  - component: {fileID: 244987616}
+  m_Layer: 0
+  m_Name: PolicePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &244987616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244987615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8702e1456d96aee4c9d410cec0b33043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1258443244820175397, guid: c122a5fa522390b4ca34530dedc61e35, type: 3}
+  prewarmCount: 2
+  containerRoot: {fileID: 244987617}
+  maxPoolSize: 64
+  collectionChecks: 1
+--- !u!4 &244987617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244987615}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 690968812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &251468409
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +907,55 @@ MonoBehaviour:
   kind: 2
   markerId: pot-01
   order: 1
+--- !u!1 &348838800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 348838801}
+  - component: {fileID: 348838802}
+  m_Layer: 0
+  m_Name: PoliceProjectilePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &348838801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348838800}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2110079809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &348838802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348838800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8702e1456d96aee4c9d410cec0b33043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 424346856201945117, guid: 601770c91ffa5d34bbf321a3f5621ad3, type: 3}
+  prewarmCount: 16
+  containerRoot: {fileID: 348838801}
+  maxPoolSize: 64
+  collectionChecks: 1
 --- !u!1001 &364511669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1016,6 +1114,55 @@ MonoBehaviour:
   containerRoot: {fileID: 441992248}
   maxPoolSize: 64
   collectionChecks: 1
+--- !u!1 &474770143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 474770145}
+  - component: {fileID: 474770144}
+  m_Layer: 0
+  m_Name: WeaponPickupPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &474770144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474770143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8702e1456d96aee4c9d410cec0b33043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1513727188477173191, guid: 901d71a479c316d478be8abc499766b7, type: 3}
+  prewarmCount: 4
+  containerRoot: {fileID: 474770145}
+  maxPoolSize: 64
+  collectionChecks: 1
+--- !u!4 &474770145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474770143}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 690968812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525421288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,6 +1207,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b4b43642ceecb449b51fb1c85f8211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &645312754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645312755}
+  - component: {fileID: 645312756}
+  m_Layer: 0
+  m_Name: PoliceSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &645312755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645312754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 690968812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &645312756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645312754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622193aab35f01b4fb1132c5da702724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  policeConfig: {fileID: 11400000, guid: 44f2d6b1cba87e34f9f9245c33c06112, type: 2}
+  policeWeaponConfig: {fileID: 11400000, guid: 8ceb9dab0ead367459bdec5f1133a0e0, type: 2}
+  dropWeaponConfig: {fileID: 11400000, guid: 3eaf0e7883e1a044c9c20de87c6df133, type: 2}
+  dropAmmoCount: 6
+  initialPoliceCount: 1
+  maxConcurrentPolice: 1
+  initialSpawnDelaySeconds: 15
+  spawnIntervalSeconds: 12
+  spawnPointsRoot: {fileID: 1076139137}
+  policePool: {fileID: 244987616}
+  projectilePool: {fileID: 348838802}
+  impactPool: {fileID: 441992249}
+  weaponPickupPool: {fileID: 474770144}
 --- !u!1 &650591849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,6 +1411,9 @@ Transform:
   - {fileID: 1713683976}
   - {fileID: 825720000}
   - {fileID: 242175663}
+  - {fileID: 244987617}
+  - {fileID: 474770145}
+  - {fileID: 645312755}
   m_Father: {fileID: 2125188128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &695988579
@@ -1937,6 +2144,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3757911956099541659, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757911956099541659, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6942358
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757911956099541659, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5018818153126188303, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
       propertyPath: worldCamera
       value: 
@@ -1993,6 +2212,18 @@ PrefabInstance:
       propertyPath: impactPool
       value: 
       objectReference: {fileID: 441992249}
+    - target: {fileID: 7855642112765434434, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: healthyColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855642112765434434, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: healthyColor.g
+      value: 0.6942358
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855642112765434434, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: healthyColor.r
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3010,6 +3241,7 @@ Transform:
   - {fileID: 939330686}
   - {fileID: 1041823340}
   - {fileID: 1548693934}
+  - {fileID: 348838801}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2125188127
