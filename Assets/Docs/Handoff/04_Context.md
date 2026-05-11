@@ -107,6 +107,13 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Phase 7 follow-up fix: traveller drain feedback uses a distinct red-orange state color instead of the pot's harvest-yellow, and WaveConfig now exposes InitialWaveDelaySeconds for first-burst pacing
 - Phase 7 behavior correction: traveller drain now depends on direct pot overlap regardless of whether the pot is currently harvesting, and target selection is again strict about EngagementRange with no out-of-range fallback
 
+## Implemented Phase 8 world-rules files
+- Assets/_Project/Runtime/Gameplay/Pots/PotRegistry.cs: small scene service that tracks registered pots and exposes active-pot counts for multi-pot rules
+- Assets/_Project/Runtime/Gameplay/Pots/PotDrainFeedbackPresenter.cs plus PotController.cs: dedicated drain-alert feedback separated from harvest coloring, pot registration, and explicit unicorn destruction support
+- Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs and PotDrain.cs: traveller pot queries now prefer the PotRegistry when available and set pot drain-alert state as they pressure targets
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs: unicorn-to-pot collision path now destroys pots directly on contact
+- Assets/_Project/Editor/Phase8WorldRulesSetup.cs and Assets/_Project/Tests/EditMode/Pots/PotRegistryTests.cs: Unity automation for three-pot scene placement and deterministic coverage for active-pot counting and unicorn destruction behavior
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal

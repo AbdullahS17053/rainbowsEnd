@@ -31,6 +31,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         private PrefabPool _owningPool;
         private PrefabPool _goldPickupPool;
         private EconomyState _economyState;
+        private PotRegistry _potRegistry;
         private PotController _currentTarget;
         private Color _baseColor = Color.white;
         private bool _hasBaseColor;
@@ -230,11 +231,16 @@ namespace RainbowsEnd.Gameplay.Enemies
             _candidatePots.Clear();
             _candidateTargets.Clear();
 
-            PotController[] pots = FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-            for (int index = 0; index < pots.Length; index++)
+            ResolvePotRegistry();
+
+            IReadOnlyList<PotController> pots = _potRegistry != null
+                ? _potRegistry.RegisteredPots
+                : FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+            for (int index = 0; index < pots.Count; index++)
             {
                 PotController pot = pots[index];
-                if (pot == null || pot.HarvestStatus == PotHarvestStatus.Destroyed)
+                if (pot == null || pot.IsDestroyed)
                 {
                     continue;
                 }
@@ -365,6 +371,22 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             _economyState = FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
+        }
+
+        private void ResolvePotRegistry()
+        {
+            if (_potRegistry != null)
+            {
+                return;
+            }
+
+            if (ProjectContext.Instance?.Services.TryGet(out PotRegistry potRegistry) == true)
+            {
+                _potRegistry = potRegistry;
+                return;
+            }
+
+            _potRegistry = FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
         }
     }
 }

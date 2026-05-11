@@ -2,6 +2,7 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Core.SceneManagement;
+using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.Gameplay.World;
 using UnityEngine;
 
@@ -98,6 +99,16 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            TryDestroyPot(other);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            TryDestroyPot(collision.collider);
+        }
+
         private void CacheReferences()
         {
             body ??= GetComponent<Rigidbody2D>();
@@ -184,6 +195,17 @@ namespace RainbowsEnd.Gameplay.Unicorn
             {
                 _arenaBounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
             }
+        }
+
+        private void TryDestroyPot(Collider2D candidate)
+        {
+            if (candidate == null)
+            {
+                return;
+            }
+
+            PotController pot = candidate.GetComponentInParent<PotController>();
+            pot?.DestroyByUnicorn(this);
         }
     }
 }

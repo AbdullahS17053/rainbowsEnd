@@ -443,12 +443,19 @@ Implementation notes:
 - Keep scaling rules in economy config assets, not hard-coded.
 - Pot destruction and pot interruption are different events and should stay separate.
 - If the fae tree remains only a landmark for now, do not over-engineer banking logic.
+- The current slice adds a small PotRegistry service, expands scene placement to all configured pot spawn markers, destroys pots on unicorn contact, and uses a dedicated drain-alert presenter so enemy pressure does not hijack the pot harvest color state.
 
 Exit criteria:
 - Up to three pots can be active.
 - Harvest scaling follows the planned progression.
 - Unicorn collision destroys pots correctly.
 - Traveller drain feedback is visible and understandable.
+
+Implemented Phase 8 files:
+- Assets/_Project/Runtime/Gameplay/Pots/PotRegistry.cs
+- Assets/_Project/Runtime/Gameplay/Pots/PotDrainFeedbackPresenter.cs
+- Assets/_Project/Editor/Phase8WorldRulesSetup.cs
+- Assets/_Project/Tests/EditMode/Pots/PotRegistryTests.cs
 
 ## Phase 9: Police and Combat Expansion
 Goal: deepen combat without jumping to full advanced AI.

@@ -14,6 +14,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private readonly List<PotController> _overlappingPots = new List<PotController>();
         private EconomyState _economyState;
+        private PotController _lastResolvedPot;
 
         public PotController CurrentPot { get; private set; }
 
@@ -34,6 +35,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         {
             ResolveEconomyState();
             CurrentPot = ResolveBestOverlappingPot();
+            UpdateCurrentPot(CurrentPot);
             if (CurrentPot == null || _economyState == null || drainGoldPerSecond <= 0f)
             {
                 IsDraining = false;
@@ -55,6 +57,13 @@ namespace RainbowsEnd.Gameplay.Enemies
         {
             travellerController ??= GetComponent<TravellerController>();
             sensorCollider ??= GetComponent<CircleCollider2D>();
+        }
+
+        private void OnDisable()
+        {
+            UpdateCurrentPot(null);
+            CurrentPot = null;
+            IsDraining = false;
         }
 
         private PotController ResolveBestOverlappingPot()
@@ -82,6 +91,18 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             return bestPot;
+        }
+
+        private void UpdateCurrentPot(PotController newPot)
+        {
+            if (_lastResolvedPot == newPot)
+            {
+                return;
+            }
+
+            _lastResolvedPot?.SetDrainerActive(this, false);
+            _lastResolvedPot = newPot;
+            _lastResolvedPot?.SetDrainerActive(this, true);
         }
 
         private void RefreshOverlappingPots()

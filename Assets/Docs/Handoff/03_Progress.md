@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 7 - First Enemy Pressure Loop
-- Current focus: run the Phase 7 enemy setup in Unity and verify the first traveller pressure loop against an active pot in MainArena
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 7 Enemy Setup, then verify travellers spawn from edge markers, converge on the active pot, drain gold while overlapping it, die to arrows, and drop collectible gold pickups
+- Current phase: Phase 8 - Multi-Pot Economy and World Rules
+- Current focus: run the Phase 8 world rules setup in Unity and verify the three-pot economy, unicorn destruction, and drain-alert feedback in MainArena
+- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 8 World Rules Setup, then verify all three pot spawn markers are populated, harvest scaling follows 1x/2.5x/5x as more pots harvest, unicorn contact destroys pots, and drain alerts appear on pots under enemy pressure
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -39,6 +39,7 @@ A phase should be marked complete only when all three are true:
 - Phase 5 now has the first unicorn and trail runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 6 now has the first pot and economy runtime slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 7 now has the first traveller pressure slice implemented but still needs manual Unity verification and setup execution in-scene
+- Phase 8 now has the first multi-pot and world-rules slice implemented but still needs manual Unity verification and setup execution in-scene
 - All later implementation phases remain in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
@@ -90,6 +91,7 @@ A phase should be marked complete only when all three are true:
 - 2026-05-11: Implemented the first Phase 7 enemy pressure slice with pooled travellers, active-pot target selection, gold drain through EconomyState, pooled gold pickups, Phase7EnemySetup, and deterministic EditMode tests for traveller target selection and economy drain
 - 2026-05-11: Fixed the first Phase 7 follow-up issues by letting arrows damage trigger-collider travellers while ignoring non-damageable trigger volumes, making traveller targeting fall back beyond engagement range, separating enemy drain feedback from the pot harvest color, and adding WaveConfig.InitialWaveDelaySeconds to the spawner
 - 2026-05-11: Corrected the Phase 7 traveller behavior so pot drain depends only on direct pot contact rather than unicorn-trail harvesting state, and restored strict EngagementRange selection by removing the out-of-range fallback
+- 2026-05-11: Implemented the first Phase 8 world-rules slice with PotRegistry, three-pot scene placement, dedicated pot drain alerts, unicorn-driven pot destruction, Phase8WorldRulesSetup, and deterministic EditMode tests for active-pot counting and unicorn pot destruction behavior
 
 ## Next recap template
 Use this after each completed implementation step:
