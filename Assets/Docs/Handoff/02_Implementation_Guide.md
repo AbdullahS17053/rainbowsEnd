@@ -221,6 +221,7 @@ Scripts and components expected:
 - PushInteractor or PotPushController
 - PlayerConfig reference holder
 - Debug cone toggle if this is implemented here
+- Player pot carry or interaction controller for toggle-based pickup or drop
 
 Implemented Phase 3 files:
 - Assets/_Project/Runtime/Gameplay/Player/PlayerInputActionNames.cs
@@ -230,6 +231,7 @@ Implemented Phase 3 files:
 - Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs
 - Assets/_Project/Runtime/Gameplay/Player/PlayerMovementController.cs
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerPotCarryController.cs
 - Assets/_Project/Editor/Phase3PlayerSetup.cs
 
 Implementation notes:
@@ -238,6 +240,7 @@ Implementation notes:
 - Do not mix combat and movement logic in one class.
 - The player config now carries downed duration so later HP-state work can implement the confirmed 3-second downed rule without moving that timing into scene logic.
 - AimTurnSpeed is now used by PlayerAimController to smooth rotation toward the resolved aim direction rather than snapping instantly.
+- Player pot interaction now uses the Interact action as a toggle-based pickup or drop baseline rather than physics pushing, and carrying a pot disables bow fire while leaving room for later magic-only carry behavior.
 
 Exit criteria:
 - Player moves with keyboard and controller.
@@ -345,7 +348,7 @@ Implemented Phase 6 helper:
 Unity editor steps:
 1. Create PF_Pot with placeholder art.
 2. Add Rigidbody2D and Collider2D.
-3. Add pushable or movable components.
+3. Add carryable or movable components.
 4. Create a pot config asset.
 5. Add one pot spawn point to MainArena and place PF_Pot there.
 6. Connect the HUD gold text to the economy system once it exists.
@@ -375,9 +378,10 @@ Implementation notes:
 - Keep harvest calculation configurable so the three-pot multiplier can slot in later.
 - The current slice harvests only while the pot is overlapping active rainbow trail segments, uses the oldest overlapping segment timestamp to calculate harvest rate, and routes generated gold through EconomyState so later multi-pot scaling can extend the same service.
 - The HUD gold label now uses TextMesh Pro and Phase6PotSetup imports TMP essentials automatically when they are missing from the project.
+- Pots now use a no-physics interaction baseline for the player: they are kinematic in the world, can be toggled into a carried state with Interact, stop harvesting while carried, and only resume depositing gold after being dropped and while not destroyed.
 
 Exit criteria:
-- Player can push the pot.
+- Player can pick up and drop the pot with Interact.
 - Pot only harvests while it remains in the rainbow trail.
 - Gold increases while harvesting.
 - Moving the pot stops harvest and preserves clean state.

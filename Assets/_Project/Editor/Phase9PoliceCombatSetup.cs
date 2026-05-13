@@ -213,6 +213,7 @@ namespace RainbowsEnd.Editor
                 PlayerInputReader inputReader = GetOrAddComponent<PlayerInputReader>(prefabRoot);
                 PlayerMovementController movementController = GetOrAddComponent<PlayerMovementController>(prefabRoot);
                 PlayerAimController aimController = GetOrAddComponent<PlayerAimController>(prefabRoot);
+                PlayerPotCarryController potCarryController = GetOrAddComponent<PlayerPotCarryController>(prefabRoot);
                 PlayerWeaponInventory weaponInventory = GetOrAddComponent<PlayerWeaponInventory>(prefabRoot);
                 ProjectileWeaponLauncher projectileLauncher = GetOrAddComponent<ProjectileWeaponLauncher>(prefabRoot);
                 WeaponImpactFeedbackSpawner impactSpawner = GetOrAddComponent<WeaponImpactFeedbackSpawner>(prefabRoot);
@@ -225,6 +226,7 @@ namespace RainbowsEnd.Editor
 
                 weaponInventory.ConfigureDefaultWeapon(defaultWeaponConfig);
                 weaponController.Configure(playerRoot, inputReader, aimController, movementController, projectileLauncher, impactSpawner, defaultWeaponConfig);
+                potCarryController.Configure(playerRoot, inputReader, aimController);
                 playerRoot.ConfigureCombat(weaponController);
                 healthFeedback.Configure(health, visualRenderer);
 
@@ -291,6 +293,7 @@ namespace RainbowsEnd.Editor
             PlayerInputReader inputReader = GetOrAddComponent<PlayerInputReader>(playerRoot.gameObject);
             PlayerMovementController movementController = GetOrAddComponent<PlayerMovementController>(playerRoot.gameObject);
             PlayerAimController aimController = GetOrAddComponent<PlayerAimController>(playerRoot.gameObject);
+            PlayerPotCarryController potCarryController = GetOrAddComponent<PlayerPotCarryController>(playerRoot.gameObject);
             PlayerWeaponInventory weaponInventory = GetOrAddComponent<PlayerWeaponInventory>(playerRoot.gameObject);
             ProjectileWeaponLauncher projectileLauncher = GetOrAddComponent<ProjectileWeaponLauncher>(playerRoot.gameObject);
             WeaponImpactFeedbackSpawner impactSpawner = GetOrAddComponent<WeaponImpactFeedbackSpawner>(playerRoot.gameObject);
@@ -301,6 +304,7 @@ namespace RainbowsEnd.Editor
             impactSpawner.Configure(impactPool);
             weaponInventory.ConfigureDefaultWeapon(defaultWeaponConfig);
             weaponController.Configure(playerRoot, inputReader, aimController, movementController, projectileLauncher, impactSpawner, defaultWeaponConfig);
+            potCarryController.Configure(playerRoot, inputReader, aimController);
             playerRoot.ConfigureCombat(weaponController);
             healthFeedback.Configure(playerRoot.Health, playerRoot.VisualRenderer);
         }

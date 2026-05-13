@@ -19,6 +19,7 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAimController aimController;
+        [SerializeField] private PlayerPotCarryController potCarryController;
         [SerializeField] private PlayerWeaponInventory weaponInventory;
         [SerializeField] private WeaponController weaponController;
 
@@ -47,11 +48,15 @@ namespace RainbowsEnd.Gameplay.Player
 
         public PlayerAimController AimController => aimController;
 
+        public PlayerPotCarryController PotCarryController => potCarryController;
+
         public PlayerWeaponInventory WeaponInventory => weaponInventory;
 
         public WeaponController WeaponController => weaponController;
 
         public bool IsDowned => _isDowned;
+
+        public bool IsCarryingPot => potCarryController != null && potCarryController.IsCarryingPot;
 
         public void Configure(
             PlayerConfig playerConfig,
@@ -75,11 +80,14 @@ namespace RainbowsEnd.Gameplay.Player
             inputReader = playerInputReader;
             movementController = playerMovementController;
             aimController = playerAimController;
+            potCarryController ??= GetComponent<PlayerPotCarryController>();
 
             if (inputReader != null && inputActionsAsset != null)
             {
                 inputReader.SetInputActions(inputActionsAsset);
             }
+
+            potCarryController?.Configure(this, inputReader, aimController);
         }
 
         public void ConfigureCombat(WeaponController playerWeaponController)
@@ -106,6 +114,8 @@ namespace RainbowsEnd.Gameplay.Player
             {
                 inputReader.SetInputActions(inputActionsAsset);
             }
+
+            potCarryController?.Configure(this, inputReader, aimController);
 
             if (health != null && config != null)
             {
@@ -163,6 +173,7 @@ namespace RainbowsEnd.Gameplay.Player
             inputReader ??= GetComponent<PlayerInputReader>();
             movementController ??= GetComponent<PlayerMovementController>();
             aimController ??= GetComponent<PlayerAimController>();
+            potCarryController ??= GetComponent<PlayerPotCarryController>();
             weaponInventory ??= GetComponent<PlayerWeaponInventory>();
             weaponController ??= GetComponent<WeaponController>();
 
@@ -238,6 +249,11 @@ namespace RainbowsEnd.Gameplay.Player
             if (aimController != null)
             {
                 aimController.enabled = isEnabled;
+            }
+
+            if (potCarryController != null)
+            {
+                potCarryController.enabled = isEnabled;
             }
 
             if (weaponController != null)

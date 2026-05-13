@@ -293,6 +293,11 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private bool ShouldAttemptFire()
         {
+            if (playerRoot != null && playerRoot.IsCarryingPot)
+            {
+                return false;
+            }
+
             return fireControlMode switch
             {
                 FireControlMode.PureAutoFire => true,
@@ -302,7 +307,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private void UpdateRuntimeConeVisualization(Vector2 forward)
         {
-            if (!Application.isPlaying || !showAutoFireCone)
+            if (!Application.isPlaying || !showAutoFireCone || (playerRoot != null && playerRoot.IsCarryingPot))
             {
                 SetRuntimeConeVisible(false);
                 return;

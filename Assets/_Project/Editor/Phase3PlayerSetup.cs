@@ -67,6 +67,7 @@ namespace RainbowsEnd.Editor
                 PlayerInputReader inputReader = GetOrAddComponent<PlayerInputReader>(prefabRoot);
                 PlayerMovementController movementController = GetOrAddComponent<PlayerMovementController>(prefabRoot);
                 PlayerAimController aimController = GetOrAddComponent<PlayerAimController>(prefabRoot);
+                PlayerPotCarryController potCarryController = GetOrAddComponent<PlayerPotCarryController>(prefabRoot);
                 PlayerRoot playerRoot = GetOrAddComponent<PlayerRoot>(prefabRoot);
 
                 GameObject visualRoot = GetOrCreateChild(prefabRoot.transform, "VisualRoot");
@@ -80,6 +81,7 @@ namespace RainbowsEnd.Editor
                 playerRoot.Configure(playerConfig, inputActionsAsset, visualRoot.transform, visualRenderer, body, bodyCollider, health, inputReader, movementController, aimController);
                 movementController.Configure(playerRoot, inputReader, body);
                 aimController.Configure(playerRoot, inputReader, visualRoot.transform, null);
+                potCarryController.Configure(playerRoot, inputReader, aimController);
 
                 if (prefabExists)
                 {

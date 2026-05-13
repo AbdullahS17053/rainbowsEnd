@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7124656586306233674}
   - component: {fileID: 2799621349743447618}
   - component: {fileID: 5018818153126188303}
+  - component: {fileID: 6124613496100323737}
   - component: {fileID: 1006157507693192654}
   - component: {fileID: 7775055784596175077}
   - component: {fileID: 7355131472775218047}
@@ -167,6 +168,23 @@ MonoBehaviour:
   aimTransform: {fileID: 7355717419963551836}
   worldCamera: {fileID: 0}
   controllerDeadzone: 0.2
+--- !u!114 &6124613496100323737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3587465415943883816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f2f5fcc5fb493f990f93280ad3bfa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoot: {fileID: 1006157507693192654}
+  inputReader: {fileID: 7124656586306233674}
+  aimController: {fileID: 5018818153126188303}
+  carryDistance: 0.9
+  dropDistance: 1.05
 --- !u!114 &1006157507693192654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +207,7 @@ MonoBehaviour:
   inputReader: {fileID: 7124656586306233674}
   movementController: {fileID: 2799621349743447618}
   aimController: {fileID: 5018818153126188303}
+  potCarryController: {fileID: 6124613496100323737}
   weaponInventory: {fileID: 3469047445718284109}
   weaponController: {fileID: 7355131472775218047}
 --- !u!114 &7775055784596175077

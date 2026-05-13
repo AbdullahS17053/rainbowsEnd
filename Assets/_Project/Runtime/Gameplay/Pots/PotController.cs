@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Unicorn;
 using RainbowsEnd.Systems.Economy;
 using UnityEngine;
@@ -26,6 +27,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private readonly HashSet<int> _activeDrainerIds = new HashSet<int>();
         private EconomyState _economyState;
         private PotRegistry _potRegistry;
+        private PlayerRoot _carrier;
         private Color _idleColor = Color.white;
         private bool _hasIdleColor;
         private bool _isRegisteredWithPotRegistry;
@@ -38,7 +40,11 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public bool IsDestroyed => _harvestState.Status == PotHarvestStatus.Destroyed || (health != null && health.IsDepleted);
 
+        public bool IsCarried => _carrier != null;
+
         public bool IsBeingDrained => _activeDrainerIds.Count > 0;
+
+        public bool CanBePickedUp => !IsDestroyed && !IsCarried;
 
         public void Configure(
             PotConfig potConfig,
@@ -59,6 +65,7 @@ namespace RainbowsEnd.Gameplay.Pots
             ConfigureBody();
             ConfigureCaptureSensor();
             InitializeHealth();
+            ApplyWorldInteractionState();
             CacheIdleColor(forceRefresh: true);
             ApplyVisualState();
         }
@@ -68,6 +75,7 @@ namespace RainbowsEnd.Gameplay.Pots
             CacheReferences();
             ConfigureBody();
             ConfigureCaptureSensor();
+            ApplyWorldInteractionState();
             CacheIdleColor(forceRefresh: true);
         }
 
@@ -76,6 +84,7 @@ namespace RainbowsEnd.Gameplay.Pots
             CacheReferences();
             ConfigureBody();
             ConfigureCaptureSensor();
+            ApplyWorldInteractionState();
             CacheIdleColor(forceRefresh: true);
             ApplyVisualState();
         }
@@ -88,6 +97,7 @@ namespace RainbowsEnd.Gameplay.Pots
             ConfigureCaptureSensor();
             InitializeHealth();
             TryRegisterWithPotRegistry();
+            ApplyWorldInteractionState();
             CacheIdleColor(forceRefresh: true);
             ApplyVisualState();
         }
@@ -95,6 +105,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private void OnEnable()
         {
             TryRegisterWithPotRegistry();
+            ApplyWorldInteractionState();
             ApplyVisualState();
         }
 
@@ -105,6 +116,17 @@ namespace RainbowsEnd.Gameplay.Pots
                 TryRegisterWithPotRegistry();
             }
 
+            if (IsCarried)
+            {
+                _harvestState.ReleaseTrail();
+                ResolveEconomyState();
+                _economyState?.SetHarvesterActive(this, false);
+                _activeDrainerIds.Clear();
+                drainFeedbackPresenter?.SetVisible(false);
+                ApplyVisualState();
+                return;
+            }
+
             if (_harvestState.Status == PotHarvestStatus.Destroyed)
             {
                 drainFeedbackPresenter?.SetVisible(false);
@@ -113,14 +135,12 @@ namespace RainbowsEnd.Gameplay.Pots
 
             if (health != null && health.IsDepleted)
             {
+                _carrier = null;
                 _harvestState.MarkDestroyed();
                 ResolveEconomyState();
                 _economyState?.SetHarvesterActive(this, false);
-                if (body != null)
-                {
-                    body.simulated = false;
-                }
-
+                _activeDrainerIds.Clear();
+                ApplyWorldInteractionState();
                 ApplyVisualState();
                 return;
             }
@@ -200,6 +220,7 @@ namespace RainbowsEnd.Gameplay.Pots
             }
 
             body.gravityScale = 0f;
+            body.bodyType = RigidbodyType2D.Kinematic;
             body.freezeRotation = true;
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -251,6 +272,41 @@ namespace RainbowsEnd.Gameplay.Pots
                 _activeDrainerIds.Remove(source.GetInstanceID());
             }
 
+            ApplyVisualState();
+        }
+
+        public bool TryPickUp(PlayerRoot carrier)
+        {
+            if (carrier == null || !CanBePickedUp)
+            {
+                return false;
+            }
+
+            _carrier = carrier;
+            _activeDrainerIds.Clear();
+            _harvestState.ReleaseTrail();
+            ResolveEconomyState();
+            _economyState?.SetHarvesterActive(this, false);
+            ApplyWorldInteractionState();
+            ApplyVisualState();
+            return true;
+        }
+
+        public void SetCarriedWorldPosition(Vector2 worldPosition)
+        {
+            if (!IsCarried)
+            {
+                return;
+            }
+
+            SetWorldPosition(worldPosition);
+        }
+
+        public void Drop(Vector2 worldPosition)
+        {
+            _carrier = null;
+            SetWorldPosition(worldPosition);
+            ApplyWorldInteractionState();
             ApplyVisualState();
         }
 
@@ -312,6 +368,44 @@ namespace RainbowsEnd.Gameplay.Pots
         private float ResolveMovementCancelSpeedThreshold()
         {
             return config != null ? Mathf.Max(0f, config.MovementCancelSpeedThreshold) : 0.1f;
+        }
+
+        private void ApplyWorldInteractionState()
+        {
+            bool isInteractiveInWorld = !IsCarried && !IsDestroyed;
+
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+                body.angularVelocity = 0f;
+                body.simulated = isInteractiveInWorld;
+            }
+
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = isInteractiveInWorld;
+            }
+
+            if (trailCaptureSensor != null)
+            {
+                trailCaptureSensor.enabled = isInteractiveInWorld;
+            }
+
+            if (!isInteractiveInWorld)
+            {
+                drainFeedbackPresenter?.SetVisible(false);
+            }
+        }
+
+        private void SetWorldPosition(Vector2 worldPosition)
+        {
+            transform.position = worldPosition;
+            if (body != null)
+            {
+                body.position = worldPosition;
+                body.linearVelocity = Vector2.zero;
+                body.angularVelocity = 0f;
+            }
         }
 
         private void CacheIdleColor(bool forceRefresh = false)

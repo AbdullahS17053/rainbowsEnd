@@ -68,7 +68,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Gameplay/Player/PlayerInputReader.cs: Input System bridge for gameplay actions without requiring generated wrapper code
 - Assets/_Project/Runtime/Gameplay/Player/PlayerMovementUtility.cs: deterministic top-down velocity step helper
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs: deterministic aim resolution for mouse and controller input
-- Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs: player composition root and config bridge
+- Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs and PlayerPotCarryController.cs: player composition root, input bridge, and toggle-based pot carry baseline that disables bow usage while carrying
 - Assets/_Project/Runtime/Gameplay/Player/PlayerMovementController.cs: Rigidbody2D-driven top-down movement controller
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs: visual facing and aim controller for mouse and controller aiming
 - Assets/_Project/Tests/EditMode/Player/PlayerMovementUtilityTests.cs and PlayerAimResolverTests.cs: deterministic EditMode coverage for the Phase 3 utility layer
@@ -92,10 +92,10 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 
 ## Implemented Phase 6 pot and economy files
 - Assets/_Project/Runtime/Gameplay/Pots/PotHarvestStatus.cs, PotHarvestUtility.cs, and PotHarvestState.cs: explicit pot harvest state and deterministic gold-rate logic based on the oldest currently overlapping trail segment timestamp
-- Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs and PotController.cs: pushable pot authoring, current trail overlap detection, harvest lifecycle, and visual state changes
+- Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs and PotController.cs: carryable kinematic pot authoring, current trail overlap detection, harvest lifecycle, and visual state changes that suspend harvesting while a player is carrying the pot
 - Assets/_Project/Runtime/Systems/Economy/EconomyState.cs: scene-usable economy state with active harvester counting and gold accumulation
 - Assets/_Project/Runtime/UI/EconomyHudPresenter.cs: HUD binding for the gold counter placeholder
-- Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs and Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs: deterministic EditMode coverage for the first pot and economy slice
+- Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs, PotControllerCarryTests.cs, and Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs: deterministic EditMode coverage for the first pot and economy slice plus the carry-state transition baseline
 
 ## Implemented Phase 7 enemy files
 - Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs: deterministic target preference for harvesting pots inside EngagementRange with no out-of-range fallback
