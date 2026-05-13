@@ -3,7 +3,6 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Pots;
-using RainbowsEnd.Systems.Economy;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
@@ -30,11 +29,11 @@ namespace RainbowsEnd.Gameplay.Enemies
         private EnemySpawner _owningSpawner;
         private PrefabPool _owningPool;
         private PrefabPool _goldPickupPool;
-        private EconomyState _economyState;
         private PotRegistry _potRegistry;
         private PotController _currentTarget;
         private Color _baseColor = Color.white;
         private bool _hasBaseColor;
+        private int _goldDropAmount;
         private float _targetRefreshTimerSeconds;
         private bool _deathHandled;
 
@@ -71,14 +70,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             ApplyVisualState(isDraining: false);
         }
 
-        public void Activate(EnemySpawner owningSpawner, PrefabPool owningPool, PrefabPool goldPickupPool, EnemyConfig enemyConfig)
+        public void Activate(EnemySpawner owningSpawner, PrefabPool owningPool, PrefabPool goldPickupPool, EnemyConfig enemyConfig, int goldDropAmount)
         {
             _owningSpawner = owningSpawner;
             _owningPool = owningPool;
             _goldPickupPool = goldPickupPool;
             config = enemyConfig;
-            _economyState = null;
             _currentTarget = null;
+            _goldDropAmount = Mathf.Max(0, goldDropAmount);
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
 
@@ -100,6 +99,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             ConfigureBody();
             CacheBaseColor(forceRefresh: true);
             _currentTarget = null;
+            _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
             ApplyVisualState(isDraining: false);
@@ -116,8 +116,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             _owningSpawner = null;
             _owningPool = null;
             _goldPickupPool = null;
-            _economyState = null;
             _currentTarget = null;
+            _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
             ApplyVisualState(isDraining: false);
@@ -343,16 +343,12 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void SpawnGoldPickup()
         {
-            ResolveEconomyState();
-            EconomyConfig economyConfig = _economyState != null ? _economyState.Config : null;
-            if (_goldPickupPool == null || economyConfig == null)
+            if (_goldPickupPool == null)
             {
                 return;
             }
 
-            int minGold = Mathf.Max(0, economyConfig.EnemyDropGoldMin);
-            int maxGold = Mathf.Max(minGold, economyConfig.EnemyDropGoldMax);
-            int goldAmount = Random.Range(minGold, maxGold + 1);
+            int goldAmount = Mathf.Max(0, _goldDropAmount);
             if (goldAmount <= 0)
             {
                 return;
@@ -360,22 +356,6 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             GoldPickup goldPickup = _goldPickupPool.Rent<GoldPickup>(transform.position, Quaternion.identity);
             goldPickup.Activate(_goldPickupPool, goldAmount);
-        }
-
-        private void ResolveEconomyState()
-        {
-            if (_economyState != null)
-            {
-                return;
-            }
-
-            if (ProjectContext.Instance?.Services.TryGet(out EconomyState economyState) == true)
-            {
-                _economyState = economyState;
-                return;
-            }
-
-            _economyState = FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
         }
 
         private void ResolvePotRegistry()

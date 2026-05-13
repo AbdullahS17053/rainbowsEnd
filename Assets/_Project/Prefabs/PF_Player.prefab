@@ -225,6 +225,10 @@ MonoBehaviour:
   projectileLauncher: {fileID: 4280196646807836605}
   impactFeedbackSpawner: {fileID: 7775055784596175077}
   weaponConfig: {fileID: 11400000, guid: e61205a5b78075a46a675ad8b4fa5661, type: 2}
+  fireControlMode: 0
+  legacyAutoFireConeDegrees: 45
+  showAutoFireCone: 0
+  autoFireConeColor: {r: 1, g: 0.82, b: 0.24, a: 0.9}
   fallbackMuzzleOffset: 0.55
 --- !u!114 &4280196646807836605
 MonoBehaviour:

@@ -4,6 +4,7 @@ using RainbowsEnd.Gameplay.Combat;
 using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RainbowsEnd.Gameplay.Enemies
 {
@@ -11,8 +12,11 @@ namespace RainbowsEnd.Gameplay.Enemies
     {
         [SerializeField] private EnemyConfig policeConfig;
         [SerializeField] private WeaponConfig policeWeaponConfig;
-        [SerializeField] private WeaponConfig dropWeaponConfig;
-        [SerializeField] [Min(0)] private int dropAmmoCount = 6;
+        [SerializeField] private List<WeaponDropOption> weaponDropOptions = new List<WeaponDropOption>();
+        [FormerlySerializedAs("dropWeaponConfig")]
+        [SerializeField] [HideInInspector] private WeaponConfig legacyDropWeaponConfig;
+        [FormerlySerializedAs("dropAmmoCount")]
+        [SerializeField] [HideInInspector] [Min(0)] private int legacyDropAmmoCount = 6;
         [SerializeField] [Min(0)] private int initialPoliceCount = 1;
         [SerializeField] [Min(1)] private int maxConcurrentPolice = 1;
         [SerializeField] [Min(0f)] private float initialSpawnDelaySeconds = 10f;
@@ -34,23 +38,28 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void Configure(
             EnemyConfig enemyConfig,
             WeaponConfig sidearmConfig,
-            WeaponConfig pickupWeaponConfig,
-            int pickupAmmoCount,
             Transform spawnRoot,
             PrefabPool enemyPool,
             PrefabPool projectilePrefabPool,
             PrefabPool impactPrefabPool,
-            PrefabPool pickupPool)
+            PrefabPool pickupPool,
+            params WeaponDropOption[] configuredWeaponDropOptions)
         {
             policeConfig = enemyConfig;
             policeWeaponConfig = sidearmConfig;
-            dropWeaponConfig = pickupWeaponConfig;
-            dropAmmoCount = Mathf.Max(0, pickupAmmoCount);
             spawnPointsRoot = spawnRoot;
             policePool = enemyPool;
             projectilePool = projectilePrefabPool;
             impactPool = impactPrefabPool;
             weaponPickupPool = pickupPool;
+            weaponDropOptions.Clear();
+            if (configuredWeaponDropOptions != null)
+            {
+                weaponDropOptions.AddRange(configuredWeaponDropOptions);
+            }
+
+            legacyDropWeaponConfig = null;
+            legacyDropAmmoCount = 0;
             CacheSpawnPoints();
             ResetTimers();
         }
@@ -147,8 +156,20 @@ namespace RainbowsEnd.Gameplay.Enemies
             weaponLauncher?.Configure(projectilePool);
             feedbackSpawner?.Configure(impactPool);
 
+            ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount);
             policeController.Activate(this, policePool, weaponPickupPool, policeConfig, policeWeaponConfig, dropWeaponConfig, dropAmmoCount);
             NotifyPoliceSpawned(policeController);
+        }
+
+        private void ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount)
+        {
+            if (EnemyDropSelectionUtility.TrySelectWeaponDrop(weaponDropOptions, Random.value, out dropWeaponConfig, out dropAmmoCount))
+            {
+                return;
+            }
+
+            dropWeaponConfig = legacyDropWeaponConfig;
+            dropAmmoCount = dropWeaponConfig != null ? Mathf.Max(0, legacyDropAmmoCount) : 0;
         }
 
         private void CacheSpawnPoints()

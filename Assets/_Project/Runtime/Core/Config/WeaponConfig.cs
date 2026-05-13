@@ -13,6 +13,8 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float Range { get; private set; } = 8f;
 
+        [field: SerializeField] [field: Min(0f)] public float AutoFireConeDegrees { get; private set; } = 45f;
+
         [field: SerializeField] [field: Min(0.01f)] public float ProjectileSpeed { get; private set; } = 18f;
 
         [field: SerializeField] [field: Min(0f)] public float MuzzleOffset { get; private set; } = 0.6f;

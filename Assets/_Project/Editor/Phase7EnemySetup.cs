@@ -164,7 +164,7 @@ namespace RainbowsEnd.Editor
 
             GameObject enemySpawnerObject = GetOrCreateChild(enemySystemsRoot.transform, "EnemySpawner");
             EnemySpawner enemySpawner = GetOrAddComponent<EnemySpawner>(enemySpawnerObject);
-            enemySpawner.Configure(travellerConfig, waveConfig, travellerPool, goldPickupPool, spawnPointsRoot.transform);
+            enemySpawner.Configure(travellerConfig, waveConfig, economyConfig, travellerPool, goldPickupPool, spawnPointsRoot.transform, CreateDefaultGoldDropOptions(economyConfig));
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -247,6 +247,24 @@ namespace RainbowsEnd.Editor
         {
             string projectRootPath = Path.GetDirectoryName(Application.dataPath) ?? string.Empty;
             return Path.Combine(projectRootPath, assetPath).Replace("/", Path.DirectorySeparatorChar.ToString());
+        }
+
+        private static GoldDropOption[] CreateDefaultGoldDropOptions(EconomyConfig economyConfig)
+        {
+            if (economyConfig == null)
+            {
+                return new GoldDropOption[0];
+            }
+
+            int minGold = Mathf.Max(0, economyConfig.EnemyDropGoldMin);
+            int maxGold = Mathf.Max(minGold, economyConfig.EnemyDropGoldMax);
+            GoldDropOption[] options = new GoldDropOption[maxGold - minGold + 1];
+            for (int amount = minGold; amount <= maxGold; amount++)
+            {
+                options[amount - minGold] = new GoldDropOption(amount);
+            }
+
+            return options;
         }
     }
 }

@@ -98,6 +98,7 @@ A phase should be marked complete only when all three are true:
 - 2026-05-11: Applied late Phase 9 follow-up fixes so travellers retarget away from depleted gold sources, the shotgun uses configurable multishot volley behavior, and the player now enters the configured downed state before recovering
 - 2026-05-11: Implemented the first Phase 10 portal slice with PlayerPortalController, PortalRegistry, paired PortalInstance teleportation, Phase10PortalSetup, and focused EditMode coverage for oldest-portal replacement and pairing rules
 - 2026-05-11: Attempted focused Unity batch validation for the new portal registry tests, but the run was blocked because another Unity instance already had the project open
+- 2026-05-13: Replaced fixed traveller gold and police weapon drops with configurable random drop-option lists, added shared EnemyDropOptions selection helpers plus EditMode coverage, and updated Phase7EnemySetup and Phase9PoliceCombatSetup to seed default drop entries on rerun
 
 ## Next recap template
 Use this after each completed implementation step:

@@ -5,6 +5,26 @@ namespace RainbowsEnd.Gameplay.Combat
 {
     public static class WeaponHitUtility
     {
+        public static bool IsValidDamageableTarget(
+            Collider2D collider,
+            Collider2D ignoredCollider,
+            FactionId sourceFaction)
+        {
+            if (collider == null || IsIgnoredCollider(collider, ignoredCollider))
+            {
+                return false;
+            }
+
+            ITeamAffiliation teamAffiliation = ResolveInterfaceInParents<ITeamAffiliation>(collider);
+            if (teamAffiliation != null && teamAffiliation.FactionId == sourceFaction)
+            {
+                return false;
+            }
+
+            IDamageable damageable = ResolveInterfaceInParents<IDamageable>(collider);
+            return damageable != null && !damageable.IsDepleted;
+        }
+
         public static bool TryResolveHit(
             Collider2D collider,
             Collider2D ignoredCollider,
@@ -21,16 +41,9 @@ namespace RainbowsEnd.Gameplay.Combat
                 return false;
             }
 
-            ITeamAffiliation teamAffiliation = ResolveInterfaceInParents<ITeamAffiliation>(collider);
-            if (teamAffiliation != null && teamAffiliation.FactionId == sourceFaction)
+            if (IsValidDamageableTarget(collider, ignoredCollider, sourceFaction))
             {
-                hitResult = default;
-                return false;
-            }
-
-            IDamageable damageable = ResolveInterfaceInParents<IDamageable>(collider);
-            if (damageable != null)
-            {
+                IDamageable damageable = ResolveInterfaceInParents<IDamageable>(collider);
                 DamageResult damageResult = damageable.ApplyDamage(new DamageInfo(damage, sourceFaction, point, instigator));
                 hitResult = WeaponHitResult.Damageable(collider, point, normal, damageResult);
                 return true;

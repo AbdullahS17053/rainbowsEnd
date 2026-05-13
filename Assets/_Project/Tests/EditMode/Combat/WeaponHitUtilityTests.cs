@@ -39,6 +39,34 @@ namespace RainbowsEnd.Tests.EditMode.Combat
         }
 
         [Test]
+        public void IsValidDamageableTarget_ReturnsFalseForFriendlyTarget()
+        {
+            GameObject target = new GameObject("FriendlyTarget");
+            BoxCollider2D collider = target.AddComponent<BoxCollider2D>();
+            target.AddComponent<FriendlyTarget>();
+
+            bool isValidTarget = WeaponHitUtility.IsValidDamageableTarget(collider, null, FactionId.Player);
+
+            Assert.That(isValidTarget, Is.False);
+
+            Object.DestroyImmediate(target);
+        }
+
+        [Test]
+        public void IsValidDamageableTarget_ReturnsTrueForHostileDamageable()
+        {
+            GameObject target = new GameObject("PoliceTarget");
+            BoxCollider2D collider = target.AddComponent<BoxCollider2D>();
+            target.AddComponent<TestDamageable>();
+
+            bool isValidTarget = WeaponHitUtility.IsValidDamageableTarget(collider, null, FactionId.Player);
+
+            Assert.That(isValidTarget, Is.True);
+
+            Object.DestroyImmediate(target);
+        }
+
+        [Test]
         public void TryResolveHit_IgnoresNonDamageableTriggerVolumes()
         {
             GameObject target = new GameObject("TriggerVolume");

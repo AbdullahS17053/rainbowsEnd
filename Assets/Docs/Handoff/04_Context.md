@@ -100,12 +100,13 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 ## Implemented Phase 7 enemy files
 - Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs: deterministic target preference for harvesting pots inside EngagementRange with no out-of-range fallback
 - Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs and TravellerController.cs: simple traveller movement, direct-contact pot pressure, economy drain, death handling, and visual state changes
-- Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs and EnemySpawner.cs: pooled enemy drops, player pickup collection, and edge-based traveller spawning
+- Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs, EnemySpawner.cs, and EnemyDropOptions.cs: pooled enemy drops, configurable traveller gold drop selection, player pickup collection, and edge-based traveller spawning
 - Assets/_Project/Editor/Phase7EnemySetup.cs: Unity menu automation for PF_Traveller, PF_GoldPickup, traveller and pickup pools, and EnemySpawner scene wiring
-- Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs plus EconomyStateTests.cs: deterministic coverage for target preference and gold drain support
+- Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs, EnemyDropSelectionUtilityTests.cs, plus EconomyStateTests.cs: deterministic coverage for target preference, random drop selection, and gold drain support
 - Phase 7 follow-up fix: arrows now include trigger colliders in projectile queries but WeaponHitUtility ignores non-damageable trigger volumes, so traveller trigger bodies can be hit without rainbow trail or pot sensor false-positives
 - Phase 7 follow-up fix: traveller drain feedback uses a distinct red-orange state color instead of the pot's harvest-yellow, and WaveConfig now exposes InitialWaveDelaySeconds for first-burst pacing
 - Phase 7 behavior correction: traveller drain now depends on direct pot overlap regardless of whether the pot is currently harvesting, and target selection is again strict about EngagementRange with no out-of-range fallback
+- Phase 7 drop refinement: EnemySpawner now supports a serialized gold-drop option list, resolves one gold amount per spawned traveller, and falls back to EconomyConfig min or max values only when no explicit list entries are configured
 
 ## Implemented Phase 8 world-rules files
 - Assets/_Project/Runtime/Gameplay/Pots/PotRegistry.cs: small scene service that tracks registered pots and exposes active-pot counts for multi-pot rules
@@ -117,11 +118,11 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 ## Implemented Phase 9 combat-expansion files
 - Assets/_Project/Runtime/Gameplay/Combat/RangedAttackController.cs: shared projectile firing cadence and spread logic for non-player ranged attackers built on the existing projectile launcher
 - Assets/_Project/Runtime/Gameplay/Combat/WeaponPickup.cs plus Assets/_Project/Runtime/Gameplay/Player/PlayerWeaponInventory.cs: pooled temporary weapon drops, ammo-limited pickup state, and automatic fallback to the player's default bow
-- Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs and PoliceSpawner.cs: pooled police spawning from enemy-edge markers, ranged pressure against the player, and shotgun-style pickup drops on death
+- Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs, PoliceSpawner.cs, and EnemyDropOptions.cs: pooled police spawning from enemy-edge markers, ranged pressure against the player, and configurable random weapon or ammo pickup drops on death
 - Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs: lightweight health readability presenter for sprite-color staging across healthy, wounded, critical, and depleted states
 - Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs and WeaponRuntimeState.cs: player weapon flow now syncs against inventory overrides and preserves cooldown when reverting after temporary ammo is exhausted
 - Assets/_Project/Editor/Phase9PoliceCombatSetup.cs: Unity menu automation for police config assets, police and pickup prefabs, scene pools, player feedback wiring, and the PoliceSpawner scene object
-- Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs plus Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs: deterministic coverage for temporary weapon equip or fallback behavior and cooldown preservation across config swaps
+- Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs, Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs, plus Assets/_Project/Tests/EditMode/Enemies/EnemyDropSelectionUtilityTests.cs: deterministic coverage for temporary weapon equip or fallback behavior, configurable drop selection, and cooldown preservation across config swaps
 
 ## Implemented Phase 10 portal files
 - Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs: dedicated player spell controller that listens to CastPortal input, enforces portal cooldown, and places portals relative to the current aim direction

@@ -16,6 +16,7 @@ MonoBehaviour:
   <ProjectileCount>k__BackingField: 1
   <CooldownSeconds>k__BackingField: 0.75
   <Range>k__BackingField: 10
+  <AutoFireConeDegrees>k__BackingField: 28
   <ProjectileSpeed>k__BackingField: 18
   <MuzzleOffset>k__BackingField: 0.55
   <MinSpreadDegrees>k__BackingField: 0.5

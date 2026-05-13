@@ -273,7 +273,7 @@ namespace RainbowsEnd.Editor
 
             GameObject policeSpawnerObject = GetOrCreateChild(enemySystemsRoot.transform, "PoliceSpawner");
             PoliceSpawner policeSpawner = GetOrAddComponent<PoliceSpawner>(policeSpawnerObject);
-            policeSpawner.Configure(policeConfig, pistolConfig, shotgunConfig, 6, spawnPointsRoot.transform, policePool, policeProjectilePool, impactPool, weaponPickupPool);
+            policeSpawner.Configure(policeConfig, pistolConfig, spawnPointsRoot.transform, policePool, policeProjectilePool, impactPool, weaponPickupPool, CreateDefaultWeaponDropOptions(pistolConfig, shotgunConfig));
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -346,6 +346,7 @@ namespace RainbowsEnd.Editor
             SetInt(serializedObject, "<ProjectileCount>k__BackingField", 1);
             SetFloat(serializedObject, "<CooldownSeconds>k__BackingField", 0.75f);
             SetFloat(serializedObject, "<Range>k__BackingField", 10f);
+            SetFloat(serializedObject, "<AutoFireConeDegrees>k__BackingField", 28f);
             SetFloat(serializedObject, "<ProjectileSpeed>k__BackingField", 22f);
             SetFloat(serializedObject, "<MuzzleOffset>k__BackingField", 0.55f);
             SetFloat(serializedObject, "<MinSpreadDegrees>k__BackingField", 0.5f);
@@ -364,6 +365,7 @@ namespace RainbowsEnd.Editor
             SetInt(serializedObject, "<ProjectileCount>k__BackingField", 6);
             SetFloat(serializedObject, "<CooldownSeconds>k__BackingField", 0.45f);
             SetFloat(serializedObject, "<Range>k__BackingField", 7.5f);
+            SetFloat(serializedObject, "<AutoFireConeDegrees>k__BackingField", 70f);
             SetFloat(serializedObject, "<ProjectileSpeed>k__BackingField", 20f);
             SetFloat(serializedObject, "<MuzzleOffset>k__BackingField", 0.55f);
             SetFloat(serializedObject, "<MinSpreadDegrees>k__BackingField", 8f);
@@ -391,6 +393,30 @@ namespace RainbowsEnd.Editor
             {
                 property.floatValue = value;
             }
+        }
+
+        private static WeaponDropOption[] CreateDefaultWeaponDropOptions(WeaponConfig pistolConfig, WeaponConfig shotgunConfig)
+        {
+            if (pistolConfig != null && shotgunConfig != null)
+            {
+                return new[]
+                {
+                    new WeaponDropOption(pistolConfig, 10),
+                    new WeaponDropOption(shotgunConfig, 6)
+                };
+            }
+
+            if (pistolConfig != null)
+            {
+                return new[] { new WeaponDropOption(pistolConfig, 10) };
+            }
+
+            if (shotgunConfig != null)
+            {
+                return new[] { new WeaponDropOption(shotgunConfig, 6) };
+            }
+
+            return new WeaponDropOption[0];
         }
 
         private static GameObject FindRoot(Scene scene, string name)

@@ -11,6 +11,8 @@ namespace RainbowsEnd.Gameplay.Enemies
     {
         [SerializeField] private EnemyConfig travellerConfig;
         [SerializeField] private WaveConfig waveConfig;
+        [SerializeField] private EconomyConfig economyConfig;
+        [SerializeField] private List<GoldDropOption> goldDropOptions = new List<GoldDropOption>();
         [SerializeField] private PrefabPool travellerPool;
         [SerializeField] private PrefabPool goldPickupPool;
         [SerializeField] private Transform spawnPointsRoot;
@@ -25,15 +27,24 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void Configure(
             EnemyConfig enemyConfig,
             WaveConfig waves,
+            EconomyConfig economy,
             PrefabPool travellerPrefabPool,
             PrefabPool pickupPool,
-            Transform sceneSpawnPointsRoot)
+            Transform sceneSpawnPointsRoot,
+            params GoldDropOption[] configuredGoldDropOptions)
         {
             travellerConfig = enemyConfig;
             waveConfig = waves;
+            economyConfig = economy;
             travellerPool = travellerPrefabPool;
             goldPickupPool = pickupPool;
             spawnPointsRoot = sceneSpawnPointsRoot;
+            goldDropOptions.Clear();
+            if (configuredGoldDropOptions != null)
+            {
+                goldDropOptions.AddRange(configuredGoldDropOptions);
+            }
+
             CacheSpawnPoints();
             ResetRuntimeState();
         }
@@ -116,6 +127,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             travellerConfig ??= ProjectContext.Instance.ConfigRegistry.TravellerConfig;
             waveConfig ??= ProjectContext.Instance.ConfigRegistry.WaveConfig;
+            economyConfig ??= ProjectContext.Instance.ConfigRegistry.EconomyConfig;
         }
 
         private void CacheSpawnPoints()
@@ -175,7 +187,25 @@ namespace RainbowsEnd.Gameplay.Enemies
             _nextSpawnPointIndex++;
 
             TravellerController traveller = travellerPool.Rent<TravellerController>(spawnPoint.transform.position, Quaternion.identity);
-            traveller.Activate(this, travellerPool, goldPickupPool, travellerConfig);
+            traveller.Activate(this, travellerPool, goldPickupPool, travellerConfig, ResolveGoldDropAmount());
+        }
+
+        private int ResolveGoldDropAmount()
+        {
+            int configuredGoldAmount = EnemyDropSelectionUtility.SelectGoldAmount(goldDropOptions, Random.value);
+            if (configuredGoldAmount > 0)
+            {
+                return configuredGoldAmount;
+            }
+
+            if (economyConfig == null)
+            {
+                return 0;
+            }
+
+            int minGold = Mathf.Max(0, economyConfig.EnemyDropGoldMin);
+            int maxGold = Mathf.Max(minGold, economyConfig.EnemyDropGoldMax);
+            return Random.Range(minGold, maxGold + 1);
         }
 
         private float ResolveInitialWaveDelaySeconds()

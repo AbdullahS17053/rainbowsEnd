@@ -405,6 +405,7 @@ Implementation notes:
 - Pot drain feedback should be easy to notice even with placeholder visuals.
 - Enemy spawner should already be data-driven enough to accept future police definitions.
 - The current slice prefers harvesting pots within EngagementRange, only targets pots inside that configured range, drains gold through EconomyState whenever the traveller is physically overlapping a non-destroyed pot, and drops pooled gold pickups on traveller death.
+- Traveller drops are now configured through a gold-drop option list on EnemySpawner, so each spawned traveller can carry one resolved gold payload chosen from referenced amounts; if the list is left empty, the spawner falls back to EconomyConfig enemy gold min or max values.
 - Projectile hits now query trigger colliders but ignore non-damageable trigger volumes, which lets arrows damage traveller bodies without colliding with rainbow trail or pot sensor triggers.
 - WaveConfig now includes an initial wave delay so the first traveller burst can be tuned separately from the steady-state spawn interval.
 
@@ -419,10 +420,12 @@ Implemented Phase 7 files:
 - Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemyDropOptions.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/EnemySpawner.cs
 - Assets/_Project/Editor/Phase7EnemySetup.cs
 - Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs
+- Assets/_Project/Tests/EditMode/Enemies/EnemyDropSelectionUtilityTests.cs
 
 ## Phase 8: Multi-Pot Economy and World Rules
 Goal: expand the economy from one pot to the MVP ruleset.
@@ -478,6 +481,7 @@ Implementation notes:
 - Reuse the same weapon foundation instead of special-casing enemy weapons.
 - The HP stage feedback system should work for player and enemies, even if visuals are minimal now.
 - The current slice keeps the player bow as the default weapon, adds a temporary ammo-limited pickup weapon override, reuses projectile combat through a shared RangedAttackController for police, and drives police spawning through a dedicated scene spawner plus rerunnable setup.
+- Police drops are now configured through a weapon-drop option list on PoliceSpawner, so each spawned police instance resolves one referenced weapon and ammo payload at spawn time instead of always dropping a single hard-coded pickup.
 
 Exit criteria:
 - Police spawn and apply ranged pressure.
@@ -488,12 +492,14 @@ Implemented Phase 9 files:
 - Assets/_Project/Runtime/Gameplay/Combat/RangedAttackController.cs
 - Assets/_Project/Runtime/Gameplay/Combat/WeaponPickup.cs
 - Assets/_Project/Runtime/Gameplay/Player/PlayerWeaponInventory.cs
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemyDropOptions.cs
 - Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs
 - Assets/_Project/Runtime/Gameplay/Enemies/PoliceSpawner.cs
 - Assets/_Project/Editor/Phase9PoliceCombatSetup.cs
 - Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs
 - Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs
+- Assets/_Project/Tests/EditMode/Enemies/EnemyDropSelectionUtilityTests.cs
 
 ## Phase 10: Portal System as First Spell
 Goal: build the MVP portal feature in a way that supports the future spell roster.
