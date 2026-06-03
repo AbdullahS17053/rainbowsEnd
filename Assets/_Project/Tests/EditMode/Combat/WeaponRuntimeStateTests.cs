@@ -46,5 +46,23 @@ namespace RainbowsEnd.Tests.EditMode.Combat
             Object.DestroyImmediate(bowConfig);
             Object.DestroyImmediate(temporaryConfig);
         }
+
+        [Test]
+        public void TryConsumeShot_UsesProvidedCooldownOverride()
+        {
+            WeaponConfig config = ScriptableObject.CreateInstance<WeaponConfig>();
+            WeaponRuntimeState runtimeState = new WeaponRuntimeState();
+            runtimeState.Configure(config);
+
+            float cooldownOverrideSeconds = config.CooldownSeconds * 0.25f;
+
+            Assert.That(runtimeState.TryConsumeShot(cooldownOverrideSeconds), Is.True);
+
+            runtimeState.Tick(cooldownOverrideSeconds * 1.1f);
+
+            Assert.That(runtimeState.TryConsumeShot(), Is.True);
+
+            Object.DestroyImmediate(config);
+        }
     }
 }

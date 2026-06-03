@@ -24,7 +24,8 @@ namespace RainbowsEnd.Gameplay.Combat
             FactionId sourceFaction,
             Collider2D ignoredCollider,
             Object instigator,
-            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner,
+            float damageOverride = -1f)
         {
             if (weaponConfig == null || !ResolvePool())
             {
@@ -41,7 +42,7 @@ namespace RainbowsEnd.Gameplay.Combat
                     projectileCount,
                     weaponConfig.VolleySpreadDegrees);
 
-                if (LaunchResolved(origin, projectileDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner))
+                if (LaunchResolved(origin, projectileDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride))
                 {
                     launchedCount++;
                 }
@@ -57,14 +58,15 @@ namespace RainbowsEnd.Gameplay.Combat
             FactionId sourceFaction,
             Collider2D ignoredCollider,
             Object instigator,
-            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner,
+            float damageOverride = -1f)
         {
             if (weaponConfig == null || !ResolvePool())
             {
                 return false;
             }
 
-            return LaunchResolved(origin, direction, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner);
+            return LaunchResolved(origin, direction, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride);
         }
 
         private bool LaunchResolved(
@@ -74,7 +76,8 @@ namespace RainbowsEnd.Gameplay.Combat
             FactionId sourceFaction,
             Collider2D ignoredCollider,
             Object instigator,
-            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner,
+            float damageOverride)
         {
             if (weaponConfig == null || projectilePool == null)
             {
@@ -91,7 +94,7 @@ namespace RainbowsEnd.Gameplay.Combat
                 return false;
             }
 
-            projectile.Launch(projectilePool, normalizedDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner);
+            projectile.Launch(projectilePool, normalizedDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride);
             return true;
         }
 

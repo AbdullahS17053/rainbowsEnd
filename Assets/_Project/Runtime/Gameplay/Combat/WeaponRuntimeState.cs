@@ -1,5 +1,6 @@
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Core.Utilities;
+using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Combat
 {
@@ -34,14 +35,15 @@ namespace RainbowsEnd.Gameplay.Combat
             _cooldownTimer.Tick(deltaTime);
         }
 
-        public bool TryConsumeShot()
+        public bool TryConsumeShot(float cooldownSeconds = -1f)
         {
             if (_config == null || _cooldownTimer.IsRunning)
             {
                 return false;
             }
 
-            _cooldownTimer.Start(_config.CooldownSeconds);
+            float resolvedCooldownSeconds = cooldownSeconds > 0f ? cooldownSeconds : _config.CooldownSeconds;
+            _cooldownTimer.Start(Mathf.Max(0.01f, resolvedCooldownSeconds));
             return true;
         }
 

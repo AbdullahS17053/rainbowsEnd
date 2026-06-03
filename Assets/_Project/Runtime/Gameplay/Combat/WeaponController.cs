@@ -25,6 +25,7 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] private PlayerAimController aimController;
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerWeaponInventory weaponInventory;
+        [SerializeField] private PlayerUpgradeRuntime upgradeRuntime;
         [SerializeField] private ProjectileWeaponLauncher projectileLauncher;
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private WeaponConfig weaponConfig;
@@ -60,6 +61,7 @@ namespace RainbowsEnd.Gameplay.Combat
             aimController = playerAimController;
             movementController = playerMovementController;
             weaponInventory = root != null ? root.WeaponInventory : null;
+            upgradeRuntime = root != null ? root.GetComponent<PlayerUpgradeRuntime>() : null;
             projectileLauncher = weaponLauncher;
             impactFeedbackSpawner = feedbackSpawner;
             weaponConfig = config;
@@ -123,7 +125,7 @@ namespace RainbowsEnd.Gameplay.Combat
                 return;
             }
 
-            if (!_runtimeState.TryConsumeShot())
+            if (!_runtimeState.TryConsumeShot(ResolveCooldownSeconds()))
             {
                 return;
             }
@@ -166,8 +168,8 @@ namespace RainbowsEnd.Gameplay.Combat
 
             CurrentSpreadOffsetDegrees = WeaponSpreadUtility.CalculateSpreadOffsetDegrees(
                 movementController != null ? movementController.SpeedNormalized : 0f,
-                weaponConfig.MinSpreadDegrees,
-                weaponConfig.MaxSpreadDegrees,
+                ResolveMinimumSpreadDegrees(),
+                ResolveMaximumSpreadDegrees(),
                 Random.value);
 
             Vector2 fireDirection = WeaponSpreadUtility.ApplySpread(baseAimDirection, CurrentSpreadOffsetDegrees);
@@ -179,7 +181,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 playerRoot != null ? playerRoot.FactionId : FactionId.Player,
                 playerRoot != null ? playerRoot.BodyCollider : null,
                 this,
-                impactFeedbackSpawner);
+                impactFeedbackSpawner,
+                ResolveDamage());
 
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
         }
@@ -191,6 +194,7 @@ namespace RainbowsEnd.Gameplay.Combat
             aimController ??= GetComponent<PlayerAimController>();
             movementController ??= GetComponent<PlayerMovementController>();
             weaponInventory ??= GetComponent<PlayerWeaponInventory>();
+            upgradeRuntime ??= GetComponent<PlayerUpgradeRuntime>();
             projectileLauncher ??= GetComponent<ProjectileWeaponLauncher>();
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
         }
@@ -279,6 +283,56 @@ namespace RainbowsEnd.Gameplay.Combat
         private float ResolveTargetingRange()
         {
             return weaponConfig != null ? Mathf.Max(0f, weaponConfig.Range) : 0f;
+        }
+
+        private float ResolveDamage()
+        {
+            if (weaponConfig == null)
+            {
+                return 0f;
+            }
+
+            return upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponDamage(weaponConfig.Damage)
+                : weaponConfig.Damage;
+        }
+
+        private float ResolveCooldownSeconds()
+        {
+            if (weaponConfig == null)
+            {
+                return 0.01f;
+            }
+
+            return upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponCooldownSeconds(weaponConfig.CooldownSeconds)
+                : weaponConfig.CooldownSeconds;
+        }
+
+        private float ResolveMinimumSpreadDegrees()
+        {
+            if (weaponConfig == null)
+            {
+                return 0f;
+            }
+
+            return upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponSpreadDegrees(weaponConfig.MinSpreadDegrees)
+                : weaponConfig.MinSpreadDegrees;
+        }
+
+        private float ResolveMaximumSpreadDegrees()
+        {
+            if (weaponConfig == null)
+            {
+                return 0f;
+            }
+
+            float resolvedMinimumSpread = ResolveMinimumSpreadDegrees();
+            float resolvedMaximumSpread = upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponSpreadDegrees(weaponConfig.MaxSpreadDegrees)
+                : weaponConfig.MaxSpreadDegrees;
+            return Mathf.Max(resolvedMinimumSpread, resolvedMaximumSpread);
         }
 
         private float ResolveAutoFireConeDegrees()

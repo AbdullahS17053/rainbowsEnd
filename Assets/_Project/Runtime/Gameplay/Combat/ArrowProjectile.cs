@@ -20,6 +20,7 @@ namespace RainbowsEnd.Gameplay.Combat
         private Vector2 _direction = Vector2.up;
         private FactionId _sourceFaction;
         private Object _instigator;
+        private float _damage;
         private float _distanceTravelled;
         private bool _isLaunched;
 
@@ -30,7 +31,8 @@ namespace RainbowsEnd.Gameplay.Combat
             FactionId sourceFaction,
             Collider2D ignoredCollider,
             Object instigator,
-            WeaponImpactFeedbackSpawner impactFeedbackSpawner)
+            WeaponImpactFeedbackSpawner impactFeedbackSpawner,
+            float damageOverride = -1f)
         {
             _owningPool = owningPool;
             _direction = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.up;
@@ -39,6 +41,7 @@ namespace RainbowsEnd.Gameplay.Combat
             _ignoredCollider = ignoredCollider;
             _instigator = instigator;
             _impactFeedbackSpawner = impactFeedbackSpawner;
+            _damage = damageOverride >= 0f ? damageOverride : (weaponConfig != null ? weaponConfig.Damage : 0f);
             _distanceTravelled = 0f;
             _isLaunched = true;
 
@@ -88,7 +91,7 @@ namespace RainbowsEnd.Gameplay.Combat
             for (int index = 0; index < hitCount; index++)
             {
                 RaycastHit2D hit = _hits[index];
-                if (!WeaponHitUtility.TryResolveHit(hit.collider, _ignoredCollider, _sourceFaction, _weaponConfig.Damage, hit.point, hit.normal, _instigator, out WeaponHitResult hitResult))
+                if (!WeaponHitUtility.TryResolveHit(hit.collider, _ignoredCollider, _sourceFaction, _damage, hit.point, hit.normal, _instigator, out WeaponHitResult hitResult))
                 {
                     continue;
                 }
@@ -141,6 +144,7 @@ namespace RainbowsEnd.Gameplay.Combat
             _direction = Vector2.up;
             _sourceFaction = FactionId.Neutral;
             _instigator = null;
+            _damage = 0f;
             _distanceTravelled = 0f;
             _isLaunched = false;
         }

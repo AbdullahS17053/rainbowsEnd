@@ -545,6 +545,10 @@ Implemented Phase 10 files:
 ## Phase 11: Shop and Upgrade Loop
 Goal: let the player spend gold on a minimal set of useful upgrades.
 
+Implemented Phase 11 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase11ShopSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 11 Shop Setup to create or update SO_ShopConfig, add PlayerUpgradeRuntime to PF_Player and the active scene player, create the fae-tree shop controller under GameplayRoot, and seed the first shop prompt and panel under the existing UI shell.
+
 Unity editor steps:
 1. Create a simple shop UI panel in the Canvas.
 2. Add placeholder buttons for upgrades such as Damage Up, Accuracy Up, Fire Rate Up.
@@ -557,10 +561,22 @@ Scripts and components expected:
 - Runtime stat modifier layer
 - UI presenter for purchase availability and current gold
 
+Implemented Phase 11 files:
+- Assets/_Project/Runtime/Core/Config/ShopConfig.cs
+- Assets/_Project/Runtime/Gameplay/Player/PlayerUpgradeRuntime.cs
+- Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs
+- Assets/_Project/Runtime/UI/ShopPanelPresenter.cs
+- Assets/_Project/Runtime/UI/ShopUpgradeButtonView.cs
+- Assets/_Project/Editor/Phase11ShopSetup.cs
+- Assets/_Project/Tests/EditMode/Shop/PlayerUpgradeRuntimeTests.cs
+- Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs
+
 Implementation notes:
 - Upgrades should modify runtime stats, not source config assets.
 - Keep the shop deliberately minimal for MVP.
 - Favor transparent upgrade rules over content volume.
+- The current slice opens or closes the shop with Interact near the existing FaeTreeAnchor, pauses arena action while the panel is open, and supports both number-key shortcuts and button clicks for the default three upgrades.
+- Weapon damage, fire-rate, and accuracy upgrades flow through PlayerUpgradeRuntime and local combat hook points, so upgrades affect the current active weapon immediately without mutating WeaponConfig assets or breaking temporary weapon pickups.
 
 Exit criteria:
 - Gold can be spent.

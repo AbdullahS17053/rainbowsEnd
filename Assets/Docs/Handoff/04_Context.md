@@ -131,6 +131,14 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase10PortalSetup.cs: Unity menu automation for PF_Portal, portal pool setup, the scene PortalRegistry object, and player spell-controller wiring
 - Assets/_Project/Tests/EditMode/Spells/PortalRegistryTests.cs: deterministic coverage for portal pairing and oldest-portal replacement behavior
 
+## Implemented Phase 11 shop files
+- Assets/_Project/Runtime/Core/Config/ShopConfig.cs: data-driven shop title, interaction radius, and default upgrade definition list for the fae-tree shop slice
+- Assets/_Project/Runtime/Gameplay/Player/PlayerUpgradeRuntime.cs: player-owned runtime upgrade state that accumulates purchases and resolves modified weapon damage, cooldown, and spread without mutating source configs
+- Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs plus Assets/_Project/Runtime/UI/ShopPanelPresenter.cs and ShopUpgradeButtonView.cs: Interact-driven fae-tree shop flow, gameplay lock while the shop is open, affordability or level UI state, and number-key or button purchase support
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs, WeaponRuntimeState.cs, ProjectileWeaponLauncher.cs, and ArrowProjectile.cs: player combat path now accepts runtime damage, cooldown, and spread modifiers so shop purchases affect current weapon behavior immediately
+- Assets/_Project/Editor/Phase11ShopSetup.cs: Unity menu automation for SO_ShopConfig creation, PF_Player upgrade-runtime wiring, the MainArena shop controller object, EventSystem creation, and the first shop prompt or panel UI
+- Assets/_Project/Tests/EditMode/Shop/PlayerUpgradeRuntimeTests.cs plus Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs: deterministic coverage for purchase cap behavior, upgrade modifier math, and cooldown override support used by fire-rate upgrades
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal

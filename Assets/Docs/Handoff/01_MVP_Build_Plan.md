@@ -50,6 +50,7 @@ Current first slice: the player can now cast pooled portal instances through a d
 
 12. Phase 11 - Shop and Upgrade Loop
 Add a minimal in-run shop with upgrades that modify runtime stats instead of editing config assets directly, and keep fae tree banking in mind as a required run-outcome mechanic.
+Current first slice: a fae-tree anchored shop now seeds a minimal UI panel, spends EconomyState gold on three data-driven weapon upgrades, and applies those upgrades through a player runtime modifier layer instead of mutating the source weapon configs.
 
 13. Phase 12 - Level Orchestration and Run Outcome
 Add the level or encounter director system to scale pressure over time, coordinate enemy progression, handle level completion, and support the confirmed game-over and star-rating outcome rules.
