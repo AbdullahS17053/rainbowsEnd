@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: started
-- Current phase: Phase 11 - Shop and Upgrade Loop
-- Current focus: run the Phase 11 shop setup in Unity and verify Interact opens the fae-tree shop near the anchor, gold purchases succeed through the shop UI or number keys, and damage, fire-rate, and accuracy upgrades immediately affect the player's current weapon behavior
-- Recommended next executable task: open the project in Unity, run Rainbows End/Setup/Run Phase 11 Shop Setup, then verify the player can open the shop near the fae tree with Interact, buy the default upgrades with gold, see affordability and level state update in the panel, and confirm the upgraded bow fires faster, hits harder, and tightens spread without changing the source weapon assets
+- Current phase: Phase 12 - Level Orchestration and Run Outcome
+- Current focus: run the Phase 12 setup in Unity and manually verify that MainArena uses SO-authored waves, stops endless spawning, shows win or lose outcomes, and restarts cleanly
+- Recommended next executable task: in the already-open Unity editor, run Rainbows End/Setup/Run Phase 12 Level Orchestration Setup, then play MainArena and verify all five waves, pot-loss defeat, final-wave victory, and the restart button
 
 ## Phase tracker
 - [ ] Phase 0 - Project Bootstrap
@@ -43,13 +43,14 @@ A phase should be marked complete only when all three are true:
 - Phase 9 now has the first police and combat-expansion slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 10 now has the first portal-system slice implemented but still needs manual Unity verification and setup execution in-scene
 - Phase 11 now has the first shop-and-upgrade slice implemented but still needs manual Unity verification and setup execution in-scene
-- All later implementation phases remain in progress or not started
+- Phase 12 now has the first level-orchestration and run-outcome slice implemented but still needs manual Unity setup execution and in-scene verification
+- Phase 13 and later work remains in progress or not started
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
 
 ## Testing queue
-- EditMode tests for deterministic logic such as timers, health transitions, and economy scaling
-- PlayMode or manual tests for movement, aiming, harvesting, enemy drain, portals, shop upgrades, and reset flow
+- EditMode tests for deterministic logic such as timers, health transitions, economy scaling, and wave sequencing
+- PlayMode or manual tests for movement, aiming, harvesting, enemy drain, portals, shop upgrades, wave progression, outcomes, and reset flow
 - Smoke and soak testing before MVP signoff
 
 ## Open decisions and assumptions
@@ -102,6 +103,8 @@ A phase should be marked complete only when all three are true:
 - 2026-05-13: Replaced fixed traveller gold and police weapon drops with configurable random drop-option lists, added shared EnemyDropOptions selection helpers plus EditMode coverage, and updated Phase7EnemySetup and Phase9PoliceCombatSetup to seed default drop entries on rerun
 - 2026-05-13: Replaced physics-based player pot pushing with a toggle-based carry baseline, added PlayerPotCarryController plus focused PotController carry tests, disabled bow fire while carrying, and updated PF_Player plus the Phase 3 and Phase 9 setup passes to include the new interaction flow
 - 2026-05-13: Implemented the first Phase 11 shop slice with ShopConfig, PlayerUpgradeRuntime, a fae-tree anchored ShopController, shop UI presenters, runtime weapon upgrade hooks, the rerunnable Phase11ShopSetup pass, and focused EditMode coverage for upgrade math and cooldown overrides
+- 2026-06-04: Implemented the first Phase 12 level-orchestration slice with SO-authored exact-count waves, director-controlled traveller and police spawning, pot-loss lose condition, final-wave-clear win condition, restartable outcome UI, a rerunnable Phase12LevelOrchestrationSetup pass, and focused EditMode coverage for wave sequencing rules
+- 2026-06-04: Attempted Unity batch EditMode tests for Phase 12, but the run was blocked because another Unity instance already had the project open; verified refreshed Runtime, Editor, and EditMode test assemblies compile with dotnet build
 
 ## Next recap template
 Use this after each completed implementation step:

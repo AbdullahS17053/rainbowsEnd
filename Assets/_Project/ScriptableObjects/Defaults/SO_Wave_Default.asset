@@ -12,8 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51bef45694725cf42b0f0d9749da693b, type: 3}
   m_Name: SO_Wave_Default
   m_EditorClassIdentifier: 
-  <InitialWaveDelaySeconds>k__BackingField: 10
-  <SpawnIntervalSeconds>k__BackingField: 5
-  <MaxConcurrentEnemies>k__BackingField: 6
-  <InitialTravellerCount>k__BackingField: 1
-  <PoliceUnlockWave>k__BackingField: 3
+  waves:
+  - waveName: Wave 1
+    startDelaySeconds: 3
+    spawnIntervalSeconds: 1.8
+    maxConcurrentEnemies: 3
+    travellerCount: 3
+    policeCount: 0
+  - waveName: Wave 2
+    startDelaySeconds: 0.75
+    spawnIntervalSeconds: 1.6
+    maxConcurrentEnemies: 4
+    travellerCount: 5
+    policeCount: 0
+  - waveName: Wave 3
+    startDelaySeconds: 0.75
+    spawnIntervalSeconds: 1.5
+    maxConcurrentEnemies: 5
+    travellerCount: 4
+    policeCount: 1
+  - waveName: Wave 4
+    startDelaySeconds: 0.75
+    spawnIntervalSeconds: 1.3
+    maxConcurrentEnemies: 6
+    travellerCount: 5
+    policeCount: 2
+  - waveName: Wave 5
+    startDelaySeconds: 0.75
+    spawnIntervalSeconds: 1.2
+    maxConcurrentEnemies: 7
+    travellerCount: 6
+    policeCount: 3

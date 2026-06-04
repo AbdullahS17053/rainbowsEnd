@@ -17,10 +17,6 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] [HideInInspector] private WeaponConfig legacyDropWeaponConfig;
         [FormerlySerializedAs("dropAmmoCount")]
         [SerializeField] [HideInInspector] [Min(0)] private int legacyDropAmmoCount = 6;
-        [SerializeField] [Min(0)] private int initialPoliceCount = 1;
-        [SerializeField] [Min(1)] private int maxConcurrentPolice = 1;
-        [SerializeField] [Min(0f)] private float initialSpawnDelaySeconds = 10f;
-        [SerializeField] [Min(0.1f)] private float spawnIntervalSeconds = 12f;
         [SerializeField] private Transform spawnPointsRoot;
         [SerializeField] private PrefabPool policePool;
         [SerializeField] private PrefabPool projectilePool;
@@ -30,10 +26,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private readonly List<SpawnPointMarker> _enemySpawnPoints = new List<SpawnPointMarker>();
         private readonly HashSet<int> _activePoliceIds = new HashSet<int>();
 
-        private float _spawnDelayRemaining;
-        private float _spawnIntervalRemaining;
-        private bool _initialWaveSpawned;
         private int _nextSpawnPointIndex;
+
+        public int ActivePoliceCount => _activePoliceIds.Count;
 
         public void Configure(
             EnemyConfig enemyConfig,
@@ -61,7 +56,19 @@ namespace RainbowsEnd.Gameplay.Enemies
             legacyDropWeaponConfig = null;
             legacyDropAmmoCount = 0;
             CacheSpawnPoints();
-            ResetTimers();
+            ResetRuntimeState();
+        }
+
+        public bool TrySpawnPolice()
+        {
+            int spawnIndex = _nextSpawnPointIndex;
+            if (!SpawnPolice(spawnIndex))
+            {
+                return false;
+            }
+
+            _nextSpawnPointIndex++;
+            return true;
         }
 
         public void NotifyPoliceSpawned(PoliceController policeController)
@@ -83,7 +90,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         private void Awake()
         {
             CacheSpawnPoints();
-            ResetTimers();
+            ResetRuntimeState();
         }
 
         private void OnValidate()
@@ -91,53 +98,11 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheSpawnPoints();
         }
 
-        private void Update()
-        {
-            if (!CanSpawnMorePolice() && !_initialWaveSpawned)
-            {
-                _initialWaveSpawned = true;
-            }
-
-            if (!_initialWaveSpawned)
-            {
-                _spawnDelayRemaining -= Time.deltaTime;
-                if (_spawnDelayRemaining > 0f)
-                {
-                    return;
-                }
-
-                _initialWaveSpawned = true;
-                for (int index = 0; index < initialPoliceCount && CanSpawnMorePolice(); index++)
-                {
-                    SpawnPolice(_nextSpawnPointIndex);
-                    _nextSpawnPointIndex++;
-                }
-
-                _spawnIntervalRemaining = spawnIntervalSeconds;
-                return;
-            }
-
-            if (!CanSpawnMorePolice())
-            {
-                return;
-            }
-
-            _spawnIntervalRemaining -= Time.deltaTime;
-            if (_spawnIntervalRemaining > 0f)
-            {
-                return;
-            }
-
-            _spawnIntervalRemaining = spawnIntervalSeconds;
-            SpawnPolice(_nextSpawnPointIndex);
-            _nextSpawnPointIndex++;
-        }
-
-        private void SpawnPolice(int spawnIndex)
+        private bool SpawnPolice(int spawnIndex)
         {
             if (!CanSpawnMorePolice())
             {
-                return;
+                return false;
             }
 
             SpawnPointMarker spawnPoint = _enemySpawnPoints[spawnIndex % _enemySpawnPoints.Count];
@@ -148,7 +113,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (policeController == null)
             {
                 policePool.Return(policeInstance);
-                return;
+                return false;
             }
 
             ProjectileWeaponLauncher weaponLauncher = policeInstance.GetComponent<ProjectileWeaponLauncher>();
@@ -159,6 +124,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount);
             policeController.Activate(this, policePool, weaponPickupPool, policeConfig, policeWeaponConfig, dropWeaponConfig, dropAmmoCount);
             NotifyPoliceSpawned(policeController);
+            return true;
         }
 
         private void ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount)
@@ -197,16 +163,12 @@ namespace RainbowsEnd.Gameplay.Enemies
             return policeConfig != null
                 && policeWeaponConfig != null
                 && policePool != null
-                && _enemySpawnPoints.Count > 0
-                && _activePoliceIds.Count < Mathf.Max(1, maxConcurrentPolice);
+                && _enemySpawnPoints.Count > 0;
         }
 
-        private void ResetTimers()
+        private void ResetRuntimeState()
         {
             _activePoliceIds.Clear();
-            _initialWaveSpawned = false;
-            _spawnDelayRemaining = initialSpawnDelaySeconds;
-            _spawnIntervalRemaining = spawnIntervalSeconds;
             _nextSpawnPointIndex = 0;
         }
     }

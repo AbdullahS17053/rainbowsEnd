@@ -20,9 +20,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private readonly List<SpawnPointMarker> _enemySpawnPoints = new List<SpawnPointMarker>();
         private readonly HashSet<int> _activeTravellerIds = new HashSet<int>();
 
-        private bool _initialBurstSpawned;
-        private float _spawnTimerSeconds;
         private int _nextSpawnPointIndex;
+
+        public int ActiveTravellerCount => _activeTravellerIds.Count;
 
         public void Configure(
             EnemyConfig enemyConfig,
@@ -47,6 +47,11 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             CacheSpawnPoints();
             ResetRuntimeState();
+        }
+
+        public bool TrySpawnTraveller()
+        {
+            return SpawnTraveller();
         }
 
         public void NotifyTravellerSpawned(TravellerController traveller)
@@ -80,42 +85,6 @@ namespace RainbowsEnd.Gameplay.Enemies
         private void OnValidate()
         {
             CacheSpawnPoints();
-        }
-
-        private void Update()
-        {
-            if (!Application.isPlaying)
-            {
-                return;
-            }
-
-            if (!_initialBurstSpawned)
-            {
-                _spawnTimerSeconds -= Time.deltaTime;
-                if (_spawnTimerSeconds > 0f)
-                {
-                    return;
-                }
-
-                SpawnInitialTravellers();
-                _initialBurstSpawned = true;
-                _spawnTimerSeconds = ResolveSpawnIntervalSeconds();
-                return;
-            }
-
-            if (!CanSpawnMoreTravellers())
-            {
-                return;
-            }
-
-            _spawnTimerSeconds -= Time.deltaTime;
-            if (_spawnTimerSeconds > 0f)
-            {
-                return;
-            }
-
-            SpawnTraveller();
-            _spawnTimerSeconds = ResolveSpawnIntervalSeconds();
         }
 
         private void ResolveDefaults()
@@ -153,41 +122,34 @@ namespace RainbowsEnd.Gameplay.Enemies
         private void ResetRuntimeState()
         {
             _activeTravellerIds.Clear();
-            _spawnTimerSeconds = ResolveInitialWaveDelaySeconds();
             _nextSpawnPointIndex = 0;
-            _initialBurstSpawned = false;
-        }
-
-        private void SpawnInitialTravellers()
-        {
-            int initialCount = waveConfig != null ? Mathf.Max(1, waveConfig.InitialTravellerCount) : 1;
-            for (int index = 0; index < initialCount && CanSpawnMoreTravellers(); index++)
-            {
-                SpawnTraveller();
-            }
         }
 
         private bool CanSpawnMoreTravellers()
         {
             return travellerConfig != null
-                && waveConfig != null
                 && travellerPool != null
-                && _enemySpawnPoints.Count > 0
-                && _activeTravellerIds.Count < Mathf.Max(1, waveConfig.MaxConcurrentEnemies);
+                && _enemySpawnPoints.Count > 0;
         }
 
-        private void SpawnTraveller()
+        private bool SpawnTraveller()
         {
             if (!CanSpawnMoreTravellers())
             {
-                return;
+                return false;
             }
 
             SpawnPointMarker spawnPoint = _enemySpawnPoints[_nextSpawnPointIndex % _enemySpawnPoints.Count];
             _nextSpawnPointIndex++;
 
             TravellerController traveller = travellerPool.Rent<TravellerController>(spawnPoint.transform.position, Quaternion.identity);
+            if (traveller == null)
+            {
+                return false;
+            }
+
             traveller.Activate(this, travellerPool, goldPickupPool, travellerConfig, ResolveGoldDropAmount());
+            return true;
         }
 
         private int ResolveGoldDropAmount()
@@ -206,16 +168,6 @@ namespace RainbowsEnd.Gameplay.Enemies
             int minGold = Mathf.Max(0, economyConfig.EnemyDropGoldMin);
             int maxGold = Mathf.Max(minGold, economyConfig.EnemyDropGoldMax);
             return Random.Range(minGold, maxGold + 1);
-        }
-
-        private float ResolveInitialWaveDelaySeconds()
-        {
-            return waveConfig != null ? Mathf.Max(0f, waveConfig.InitialWaveDelaySeconds) : 0f;
-        }
-
-        private float ResolveSpawnIntervalSeconds()
-        {
-            return waveConfig != null ? Mathf.Max(0.1f, waveConfig.SpawnIntervalSeconds) : 2f;
         }
     }
 }

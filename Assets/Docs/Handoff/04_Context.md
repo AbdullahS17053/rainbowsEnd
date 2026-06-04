@@ -37,6 +37,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase4CombatSetup.cs: editor menu command that adds the first combat slice to PF_Player, creates pooled bow impact visuals, and adds combat validation objects to MainArena
 - Assets/_Project/Editor/Phase5UnicornSetup.cs: editor menu command that generates the unicorn and rainbow trail prefabs, wires the trail pool, and places or updates the Unicorn in MainArena
 - Assets/_Project/Editor/Phase6PotSetup.cs: editor menu command that generates the pot prefab, upgrades trail segments for capture, wires scene economy HUD state, and places or updates a Pot in MainArena
+- Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs: editor menu command that seeds the five-wave MVP level config, wires the run director, and creates the restartable win/lose outcome panel
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -139,6 +140,14 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase11ShopSetup.cs: Unity menu automation for SO_ShopConfig creation, PF_Player upgrade-runtime wiring, the MainArena shop controller object, EventSystem creation, and the first shop prompt or panel UI
 - Assets/_Project/Tests/EditMode/Shop/PlayerUpgradeRuntimeTests.cs plus Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs: deterministic coverage for purchase cap behavior, upgrade modifier math, and cooldown override support used by fire-rate upgrades
 
+## Implemented Phase 12 orchestration files
+- Assets/_Project/Runtime/Core/Config/WaveConfig.cs: level-wave ScriptableObject with exact-count wave definitions for start delay, spawn interval, max concurrent enemies, traveller count, and police count
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunOutcome.cs, RunWaveController.cs, and RunDirector.cs: deterministic wave sequencing, director-controlled spawning, pot-loss defeat, final-wave victory, and outcome reporting
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemySpawner.cs and PoliceSpawner.cs: existing spawners now act as spawn factories with active counts and explicit TrySpawn methods instead of endless autonomous timers
+- Assets/_Project/Runtime/UI/RunOutcomePresenter.cs: simple TextMesh Pro outcome panel presenter with restart that restores Time.timeScale and reloads MainArena
+- Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs: rerunnable Unity automation for wiring MainArena orchestration and outcome UI
+- Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs: deterministic coverage for exact counts, traveller-first alternation, max concurrency stalls, clear-to-advance, win, and pot-loss precedence
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
@@ -222,11 +231,11 @@ Expected additions under Assets/_Project:
 - Combat system: weapon config, fire cadence, spread rules, damage resolution, pickups
 - Unicorn trail system: roaming movement plus timestamped trail data
 - Pot harvesting system: pot states, trail capture, gold generation, interruption rules
-- Enemy system: spawner, traveller logic first, police second, escalation hooks
+- Enemy system: director-controlled wave spawning, traveller logic first, police second, escalation hooks
 - Economy system: current gold, scaling multipliers, pickups, shop purchases
 - Spell system: portal spell first, reusable for future spells
 - Pooling system: shared pooled lifecycle for repeated runtime objects
-- UI system: HUD, shop, pause, feedback prompts
+- UI system: HUD, shop, outcome screen, pause, feedback prompts
 
 ## Handoff usage order
 1. Read this context file first.

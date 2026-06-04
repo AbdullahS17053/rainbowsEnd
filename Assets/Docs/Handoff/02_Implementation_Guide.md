@@ -106,7 +106,7 @@ Goal: create the minimum reusable architecture for data-driven gameplay.
 Implemented Phase 1 helper:
 - The project now includes an editor automation entry point at Assets/_Project/Editor/Phase1CoreSetup.cs.
 - After opening the project in Unity, run the menu command Rainbows End/Setup/Run Phase 1 Core Setup.
-- That setup pass generates default config assets for player, enemy, unicorn, pot, weapon, portal, economy, and wave authoring, plus a ProjectConfigRegistry asset in Resources for bootstrap-time loading.
+- That setup pass generates default config assets for player, enemy, unicorn, pot, weapon, portal, economy, and exact-count level wave authoring, plus a ProjectConfigRegistry asset in Resources for bootstrap-time loading.
 
 Unity editor steps:
 1. Under Assets/_Project/Runtime/Core, create folders for Bootstrap, Config, Common, State, Utilities.
@@ -411,7 +411,7 @@ Implementation notes:
 - The current slice prefers harvesting pots within EngagementRange, only targets pots inside that configured range, drains gold through EconomyState whenever the traveller is physically overlapping a non-destroyed pot, and drops pooled gold pickups on traveller death.
 - Traveller drops are now configured through a gold-drop option list on EnemySpawner, so each spawned traveller can carry one resolved gold payload chosen from referenced amounts; if the list is left empty, the spawner falls back to EconomyConfig enemy gold min or max values.
 - Projectile hits now query trigger colliders but ignore non-damageable trigger volumes, which lets arrows damage traveller bodies without colliding with rainbow trail or pot sensor triggers.
-- WaveConfig now includes an initial wave delay so the first traveller burst can be tuned separately from the steady-state spawn interval.
+- WaveConfig now owns the full level wave list for Phase 12; traveller spawning is director-controlled rather than endless.
 
 Exit criteria:
 - Travellers spawn at edges.
@@ -586,6 +586,10 @@ Exit criteria:
 ## Phase 12: Level Orchestration and Run Outcome
 Goal: make the arena replayable with rising pressure and support the confirmed level-based run structure.
 
+Implemented Phase 12 helper:
+- The project now includes an editor automation entry point at Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs.
+- Run the menu command Rainbows End/Setup/Run Phase 12 Level Orchestration Setup to seed SO_Wave_Default with five MVP waves, add RunDirector under GameplayRoot, wire existing spawner factories and PotRegistry, and create a hidden TMP outcome panel with restart.
+
 Unity editor steps:
 1. Create wave or spawn definition assets.
 2. Add a run director object under GameplayRoot or SceneContext.
@@ -597,11 +601,23 @@ Scripts and components expected:
 - Difficulty progression rules
 - State reset handling for new runs
 
+Implemented Phase 12 files:
+- Assets/_Project/Runtime/Core/Config/WaveConfig.cs
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunOutcome.cs
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunWaveController.cs
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunDirector.cs
+- Assets/_Project/Runtime/UI/RunOutcomePresenter.cs
+- Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs
+- Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs
+
 Implementation notes:
 - Keep the escalation logic deterministic enough to tune.
 - Do not build advanced flank or suppression AI yet.
 - This phase should orchestrate existing systems, not replace them.
-- This phase should also own the confirmed run-end rules, including banked-pot star scoring and non-death game-over conditions based on pot loss.
+- The current slice converts EnemySpawner and PoliceSpawner into director-controlled spawn factories while preserving their existing pool, drop, config, and spawn-point wiring.
+- The current wave sequence uses exact authored traveller and police counts, alternates mixed waves traveller-first, waits for active enemies to clear before advancing, and caps active enemies by the current wave.
+- The current run outcome rules are intentionally simple: surviving the final cleared wave wins, losing all active pots loses, and restart reloads MainArena after restoring Time.timeScale.
+- Fae tree banking and star scoring remain deferred to the next MVP step.
 
 Exit criteria:
 - Enemy pressure ramps up predictably.

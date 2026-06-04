@@ -54,6 +54,7 @@ Current first slice: a fae-tree anchored shop now seeds a minimal UI panel, spen
 
 13. Phase 12 - Level Orchestration and Run Outcome
 Add the level or encounter director system to scale pressure over time, coordinate enemy progression, handle level completion, and support the confirmed game-over and star-rating outcome rules.
+Current first slice: endless traveller and police spawning has been replaced by a director-controlled exact-count wave sequence, win occurs after the final wave is spawned and cleared, lose occurs when all active pots are destroyed, and star-rating/banked-pot rules remain deferred to the next step.
 
 14. Phase 13 - MVP Polish and Stability
 Focus on usability, readability, feedback, smoke testing, balancing, and a possible non-blocking tilt-shift spike if the gameplay is already stable.

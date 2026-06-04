@@ -1,18 +1,78 @@
+using System;
 using UnityEngine;
 
 namespace RainbowsEnd.Core.Config
 {
+    [Serializable]
+    public struct WaveDefinition
+    {
+        [SerializeField] private string waveName;
+        [SerializeField] [Min(0f)] private float startDelaySeconds;
+        [SerializeField] [Min(0.1f)] private float spawnIntervalSeconds;
+        [SerializeField] [Min(1)] private int maxConcurrentEnemies;
+        [SerializeField] [Min(0)] private int travellerCount;
+        [SerializeField] [Min(0)] private int policeCount;
+
+        public WaveDefinition(
+            string waveName,
+            float startDelaySeconds,
+            float spawnIntervalSeconds,
+            int maxConcurrentEnemies,
+            int travellerCount,
+            int policeCount)
+        {
+            this.waveName = waveName;
+            this.startDelaySeconds = Mathf.Max(0f, startDelaySeconds);
+            this.spawnIntervalSeconds = Mathf.Max(0.1f, spawnIntervalSeconds);
+            this.maxConcurrentEnemies = Mathf.Max(1, maxConcurrentEnemies);
+            this.travellerCount = Mathf.Max(0, travellerCount);
+            this.policeCount = Mathf.Max(0, policeCount);
+        }
+
+        public string WaveName => string.IsNullOrWhiteSpace(waveName) ? "Wave" : waveName;
+
+        public float StartDelaySeconds => Mathf.Max(0f, startDelaySeconds);
+
+        public float SpawnIntervalSeconds => Mathf.Max(0.1f, spawnIntervalSeconds);
+
+        public int MaxConcurrentEnemies => Mathf.Max(1, maxConcurrentEnemies);
+
+        public int TravellerCount => Mathf.Max(0, travellerCount);
+
+        public int PoliceCount => Mathf.Max(0, policeCount);
+
+        public int TotalEnemyCount => TravellerCount + PoliceCount;
+    }
+
     [CreateAssetMenu(fileName = "SO_WaveConfig", menuName = "Rainbows End/Config/Wave")]
     public sealed class WaveConfig : ScriptableObject
     {
-        [field: SerializeField] [field: Min(0f)] public float InitialWaveDelaySeconds { get; private set; } = 0.75f;
+        [SerializeField] private WaveDefinition[] waves =
+        {
+            new WaveDefinition("Wave 1", 0.75f, 1.8f, 3, 3, 0),
+            new WaveDefinition("Wave 2", 0.75f, 1.6f, 4, 5, 0),
+            new WaveDefinition("Wave 3", 0.75f, 1.5f, 5, 4, 1),
+            new WaveDefinition("Wave 4", 0.75f, 1.3f, 6, 5, 2),
+            new WaveDefinition("Wave 5", 0.75f, 1.2f, 7, 6, 3)
+        };
 
-        [field: SerializeField] [field: Min(0f)] public float SpawnIntervalSeconds { get; private set; } = 2f;
+        public WaveDefinition[] Waves => waves ?? Array.Empty<WaveDefinition>();
 
-        [field: SerializeField] [field: Min(1)] public int MaxConcurrentEnemies { get; private set; } = 6;
+        public int WaveCount => Waves.Length;
 
-        [field: SerializeField] [field: Min(1)] public int InitialTravellerCount { get; private set; } = 1;
+        public int MaxConcurrentEnemies
+        {
+            get
+            {
+                int maxConcurrentEnemies = 1;
+                WaveDefinition[] authoredWaves = Waves;
+                for (int index = 0; index < authoredWaves.Length; index++)
+                {
+                    maxConcurrentEnemies = Mathf.Max(maxConcurrentEnemies, authoredWaves[index].MaxConcurrentEnemies);
+                }
 
-        [field: SerializeField] [field: Min(1)] public int PoliceUnlockWave { get; private set; } = 3;
+                return maxConcurrentEnemies;
+            }
+        }
     }
 }
