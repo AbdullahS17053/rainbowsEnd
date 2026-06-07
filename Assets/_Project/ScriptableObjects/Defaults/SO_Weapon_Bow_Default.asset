@@ -15,12 +15,12 @@ MonoBehaviour:
   <Damage>k__BackingField: 1
   <ProjectileCount>k__BackingField: 1
   <CooldownSeconds>k__BackingField: 0.5
-  <Range>k__BackingField: 6
-  <AutoFireConeDegrees>k__BackingField: 45
+  <Range>k__BackingField: 12
+  <AutoFireConeDegrees>k__BackingField: 15
   <ProjectileSpeed>k__BackingField: 9
   <MuzzleOffset>k__BackingField: 0.6
-  <MinSpreadDegrees>k__BackingField: 2
-  <MaxSpreadDegrees>k__BackingField: 18
+  <MinSpreadDegrees>k__BackingField: 1
+  <MaxSpreadDegrees>k__BackingField: 6
   <VolleySpreadDegrees>k__BackingField: 0
   <ImpactEffectLifetimeSeconds>k__BackingField: 0.12
   <ImpactEffectScale>k__BackingField: 0.35
