@@ -218,7 +218,7 @@ namespace RainbowsEnd.Gameplay.Shop
                 && upgradeRuntime != null
                 && economyState != null
                 && shopConfig.Upgrades.Length > 0
-                && !playerRoot.IsDowned
+                && !playerRoot.IsDisabled
                 && !playerRoot.IsCarryingPot
                 && IsPlayerWithinInteractionRadius();
         }

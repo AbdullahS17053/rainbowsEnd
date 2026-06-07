@@ -1,7 +1,9 @@
+using DG.Tweening;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
+using RainbowsEnd.Gameplay.World;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +27,9 @@ namespace RainbowsEnd.Gameplay.Player
 
         private bool _isDowned;
         private float _downedTimerSeconds;
+        private bool _isDazed;
+        private float _dazedTimerSeconds;
+        private Tween _knockbackTween;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -55,6 +60,10 @@ namespace RainbowsEnd.Gameplay.Player
         public WeaponController WeaponController => weaponController;
 
         public bool IsDowned => _isDowned;
+
+        public bool IsDazed => _isDazed;
+
+        public bool IsDisabled => _isDowned || _isDazed;
 
         public bool IsCarryingPot => potCarryController != null && potCarryController.IsCarryingPot;
 
@@ -147,10 +156,30 @@ namespace RainbowsEnd.Gameplay.Player
                 _isDowned = false;
                 _downedTimerSeconds = 0f;
             }
+
+            if (_isDazed)
+            {
+                _knockbackTween?.Kill();
+                _knockbackTween = null;
+                ApplyDazeEnabledState(true);
+                _isDazed = false;
+                _dazedTimerSeconds = 0f;
+            }
         }
 
         private void Update()
         {
+            if (_isDazed)
+            {
+                _dazedTimerSeconds -= Time.deltaTime;
+                if (_dazedTimerSeconds <= 0f)
+                {
+                    RecoverFromDazedState();
+                }
+
+                return;
+            }
+
             if (!_isDowned)
             {
                 return;
@@ -225,6 +254,100 @@ namespace RainbowsEnd.Gameplay.Player
             _isDowned = false;
             _downedTimerSeconds = 0f;
             ApplyPlayerEnabledState(true);
+        }
+
+        private void RecoverFromDazedState()
+        {
+            if (!_isDazed)
+            {
+                return;
+            }
+
+            _knockbackTween?.Kill();
+            _knockbackTween = null;
+            _isDazed = false;
+            _dazedTimerSeconds = 0f;
+            ApplyDazeEnabledState(true);
+        }
+
+        public void ApplyKnockbackAndDaze(Vector2 knockbackDirection, float knockbackDistance, float dazeDurationSeconds)
+        {
+            if (_isDowned || _isDazed)
+            {
+                return;
+            }
+
+            if (dazeDurationSeconds <= 0f)
+            {
+                return;
+            }
+
+            Vector2 direction = knockbackDirection.sqrMagnitude > 0.0001f
+                ? knockbackDirection.normalized
+                : Vector2.up;
+
+            _isDazed = true;
+            _dazedTimerSeconds = dazeDurationSeconds;
+            ApplyDazeEnabledState(false);
+
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+                body.angularVelocity = 0f;
+
+                if (knockbackDistance > 0f)
+                {
+                    Vector2 targetPosition = body.position + direction * knockbackDistance;
+                    ArenaBoundsAuthoring arenaBounds = ResolveArenaBounds();
+                    if (arenaBounds != null)
+                    {
+                        targetPosition = arenaBounds.Clamp(targetPosition);
+                    }
+
+                    _knockbackTween?.Kill();
+                    _knockbackTween = transform.DOMove(targetPosition, 0.15f)
+                        .SetEase(Ease.OutQuad);
+                }
+            }
+        }
+
+        private void ApplyDazeEnabledState(bool isEnabled)
+        {
+            if (movementController != null)
+            {
+                movementController.enabled = isEnabled;
+            }
+
+            if (aimController != null)
+            {
+                aimController.enabled = isEnabled;
+            }
+
+            if (potCarryController != null)
+            {
+                potCarryController.enabled = isEnabled;
+            }
+
+            if (weaponController != null)
+            {
+                weaponController.enabled = isEnabled;
+            }
+        }
+
+        private ArenaBoundsAuthoring ResolveArenaBounds()
+        {
+            ArenaBoundsAuthoring bounds = null;
+            if (ProjectContext.Instance?.Services.TryGet(out Core.SceneManagement.ArenaSceneContext arenaCtx) == true)
+            {
+                bounds = arenaCtx.ArenaBounds;
+            }
+
+            if (bounds == null)
+            {
+                bounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
+            }
+
+            return bounds;
         }
 
         private void ApplyPlayerEnabledState(bool isEnabled)

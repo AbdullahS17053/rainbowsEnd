@@ -2,6 +2,7 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Core.SceneManagement;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.Gameplay.World;
 using UnityEngine;
@@ -102,11 +103,13 @@ namespace RainbowsEnd.Gameplay.Unicorn
         private void OnTriggerEnter2D(Collider2D other)
         {
             TryDestroyPot(other);
+            TryKnockbackPlayer(other);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             TryDestroyPot(collision.collider);
+            TryKnockbackPlayer(collision.collider);
         }
 
         private void CacheReferences()
@@ -206,6 +209,26 @@ namespace RainbowsEnd.Gameplay.Unicorn
 
             PotController pot = candidate.GetComponentInParent<PotController>();
             pot?.DestroyByUnicorn(this);
+        }
+
+        private void TryKnockbackPlayer(Collider2D candidate)
+        {
+            if (candidate == null || config == null)
+            {
+                return;
+            }
+
+            PlayerRoot player = candidate.GetComponentInParent<PlayerRoot>();
+            if (player == null)
+            {
+                return;
+            }
+
+            Vector2 unicornPosition = body != null ? body.position : (Vector2)transform.position;
+            Vector2 playerPosition = player.Body != null ? player.Body.position : (Vector2)player.transform.position;
+            Vector2 knockbackDirection = playerPosition - unicornPosition;
+
+            player.ApplyKnockbackAndDaze(knockbackDirection, config.PlayerKnockbackDistance, config.PlayerDazeDurationSeconds);
         }
     }
 }

@@ -18,5 +18,9 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float TrailSpawnIntervalSeconds { get; private set; } = 0.1f;
 
         [field: SerializeField] [field: Min(0.01f)] public float TrailLifetimeSeconds { get; private set; } = 5f;
+
+        [field: SerializeField] [field: Min(0f)] public float PlayerKnockbackDistance { get; private set; } = 2f;
+
+        [field: SerializeField] [field: Min(0f)] public float PlayerDazeDurationSeconds { get; private set; } = 0.75f;
     }
 }

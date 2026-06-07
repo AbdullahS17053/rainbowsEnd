@@ -21,3 +21,5 @@ MonoBehaviour:
   <BoundaryCornerPadding>k__BackingField: 1
   <TrailSpawnIntervalSeconds>k__BackingField: 0.1
   <TrailLifetimeSeconds>k__BackingField: 10
+  <PlayerKnockbackDistance>k__BackingField: 1
+  <PlayerDazeDurationSeconds>k__BackingField: 1.5

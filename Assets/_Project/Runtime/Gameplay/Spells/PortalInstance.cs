@@ -133,7 +133,7 @@ namespace RainbowsEnd.Gameplay.Spells
             }
 
             PlayerRoot playerRoot = other.GetComponentInParent<PlayerRoot>();
-            if (playerRoot != null && !playerRoot.IsDowned)
+            if (playerRoot != null && !playerRoot.IsDisabled)
             {
                 targetRoot = playerRoot;
                 targetBody = playerRoot.Body;
