@@ -10,5 +10,9 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float TargetRefreshSeconds { get; private set; } = 0.25f;
 
         [field: SerializeField] [field: Min(0f)] public float EngagementRange { get; private set; } = 10f;
+
+        [field: SerializeField] [field: Min(0f)] public float SeparationRadius { get; private set; } = 0.6f;
+
+        [field: SerializeField] [field: Min(0f)] public float SeparationStrength { get; private set; } = 2f;
     }
 }

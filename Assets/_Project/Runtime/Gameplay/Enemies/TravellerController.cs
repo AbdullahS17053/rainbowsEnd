@@ -270,9 +270,16 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
+            float moveSpeed = config != null ? Mathf.Max(0f, config.MoveSpeed) : 0f;
+            Vector2 separation = EnemySeparationUtility.CalculateSeparation(
+                body.position,
+                bodyCollider,
+                config != null ? config.SeparationRadius : 0.6f,
+                config != null ? config.SeparationStrength : 2f);
+
             if (_currentTarget == null)
             {
-                body.linearVelocity = Vector2.zero;
+                body.linearVelocity = separation;
                 return;
             }
 
@@ -280,12 +287,18 @@ namespace RainbowsEnd.Gameplay.Enemies
             float stopDistance = ResolveStopDistance();
             if (toTarget.sqrMagnitude <= stopDistance * stopDistance)
             {
-                body.linearVelocity = Vector2.zero;
+                body.linearVelocity = separation;
                 return;
             }
 
-            float moveSpeed = config != null ? Mathf.Max(0f, config.MoveSpeed) : 0f;
-            body.linearVelocity = toTarget.normalized * moveSpeed;
+            Vector2 targetVelocity = toTarget.normalized * moveSpeed;
+            Vector2 combinedVelocity = targetVelocity + separation;
+            if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
+            {
+                combinedVelocity = combinedVelocity.normalized * moveSpeed;
+            }
+
+            body.linearVelocity = combinedVelocity;
         }
 
         private float ResolveStopDistance()

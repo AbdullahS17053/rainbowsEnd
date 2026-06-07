@@ -17,3 +17,5 @@ MonoBehaviour:
   <ContactDamage>k__BackingField: 1
   <TargetRefreshSeconds>k__BackingField: 0.25
   <EngagementRange>k__BackingField: 10
+  <SeparationRadius>k__BackingField: 2
+  <SeparationStrength>k__BackingField: 1

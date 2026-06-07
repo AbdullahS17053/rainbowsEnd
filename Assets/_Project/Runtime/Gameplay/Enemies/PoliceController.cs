@@ -151,9 +151,16 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             ResolveTargetPlayer();
+
+            Vector2 separation = EnemySeparationUtility.CalculateSeparation(
+                transform.position,
+                bodyCollider,
+                config != null ? config.SeparationRadius : 0.6f,
+                config != null ? config.SeparationStrength : 2f);
+
             if (_targetPlayer == null || config == null || weaponConfig == null)
             {
-                body.linearVelocity = Vector2.zero;
+                body.linearVelocity = separation;
                 return;
             }
 
@@ -162,13 +169,21 @@ namespace RainbowsEnd.Gameplay.Enemies
             float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
             if (distanceToTarget > engagementRange)
             {
-                body.linearVelocity = Vector2.zero;
+                body.linearVelocity = separation;
                 return;
             }
 
             float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
             Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : Vector2.zero;
-            body.linearVelocity = distanceToTarget > preferredRange ? direction * config.MoveSpeed : Vector2.zero;
+
+            Vector2 targetVelocity = distanceToTarget > preferredRange ? direction * config.MoveSpeed : Vector2.zero;
+            Vector2 combinedVelocity = targetVelocity + separation;
+            if (combinedVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
+            {
+                combinedVelocity = combinedVelocity.normalized * config.MoveSpeed;
+            }
+
+            body.linearVelocity = combinedVelocity;
 
             if (visualRoot != null && direction.sqrMagnitude > 0f)
             {
