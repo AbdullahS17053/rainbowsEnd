@@ -645,19 +645,63 @@ Implementation notes:
 - Pooling stability matters more than cosmetic polish.
 - This phase should also clean naming, scene organization, and null-reference risk.
 
+Implemented Phase 13 files:
+- UnicornConfig.cs (extended): added PlayerKnockbackDistance and PlayerDazeDurationSeconds fields
+- PlayerRoot.cs (extended): added daze state with DOTween .DOMove() for smooth knockback, IsDisabled property
+- UnicornController.cs (extended): collision handlers trigger player knockback/daze
+- Shop/Portal controllers (updated): IsDowned checks replaced with IsDisabled checks
+- EnemyConfig.cs (extended): added SeparationRadius, SeparationStrength, StealRate, StealCapacity, FleeSpeedMultiplier
+- EnemySeparationUtility.cs: boids-style anti-stacking with Physics2D.OverlapCircle (ContactFilter2D)
+- TravellerController.cs (extended): Seeking→Draining→Fleeing 3-state machine, death drops pocket change + stolen gold
+- PotDrain.cs (extended): stolen gold tracking, ResetStolenGold()
+- ArenaBoundsAuthoring.cs (extended): GetNearestEdgePoint() for traveller flee direction
+- PoliceController.cs (updated): separation applied alongside existing movement
+- WeaponHitUtility.cs (extended): added IsPotCollider() helper, early-return false in IsValidDamageableTarget for pots — prevents all projectile types from damaging pots
+- WaveConfig.cs (extended): WaveDefinition now has 7-param ctor including MilitaryCount
+- RunWaveController.cs (extended): RunSpawnType.Military enum value, military tracking
+- RunDirector.cs (extended): MilitarySpawner wiring
+
+Key design decisions:
+- DOTween used for player knockback animation (0.15s OutQuad) rather than raw position set + body.simulated=false
+- Boids-style separation chosen over hard collisions for enemy anti-stacking (usable across all enemy types)
+- Travellers flee to nearest arena edge after stealing capacity (not toward player or random)
+- Pot projectile immunity implemented at hit-utility layer (WeaponHitUtility) rather than layer masks or faction changes — minimal, covers all projectile types, no prefab changes needed
+- PotController implements ITeamAffiliation (FactionId.Player) and has Health (IDamageable), which made it pass the existing faction + damageable checks — IsPotCollider() walks the parent chain for PotController and returns early before those checks
+
 Exit criteria:
 - Full MVP loop is playable from start to repeat.
 - No major console spam or null reference issues.
 - Keyboard and controller both work.
 - A fresh smoke test and a longer soak run complete without critical failures.
 
-## Post-MVP extension order
-After MVP signoff, the next recommended order is:
-1. Military enemy and improved AI state structure
-2. Non-portal spells and shared status-effect system
-3. Trap placement and trap interaction rules
-4. Assault rifle and richer weapon content
-5. Visual polish including stronger tilt-shift presentation
+## Post-MVP: Military Enemy
+Goal: implement the military mob as a multi-state enemy that can steal pots and carry them off-screen.
+
+Implemented Post-MVP Military files:
+- Assets/_Project/Runtime/Gameplay/Enemies/MilitaryController.cs: full state machine with Combat, Stealing, and Escaping states, pot-carrying theft logic, weapon usage
+- Assets/_Project/Runtime/Gameplay/Enemies/MilitarySpawner.cs: spawning with configurable gold+weapon drops, FindPoolInParent-based drop resolution
+- Assets/_Project/Runtime/Gameplay/Pots/PotController.cs (extended): IsBeingStolenByMilitary, DestroyByMilitary, carries stolen flag for military interaction
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemySeparationUtility.cs (extended): military included in separation targets
+- Assets/_Project/Editor/Phase13MilitarySetup.cs: editor automation for military prefab/SO/pool/spawner creation and wiring
+- Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs (extended): military config references added
+- Assets/_Project/Runtime/Gameplay/Orchestration/WaveConfig.cs (extended): MilitaryCount field, 7-param ctor
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunWaveController.cs (extended): RunSpawnType.Military, military active-count tracking
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunDirector.cs (extended): MilitarySpawner factory wiring
+
+Military behavior rules:
+- Three states: Combat (fights player), Stealing (carries pot toward nearest arena edge), Escaping (flees)
+- After successful pot theft, returns to Combat rather than despawning, enabling repeated steal cycles
+- Drops both weapon AND gold on death (3-tier gold fallback chain: explicit options → legacy → defaultGoldDropAmount)
+- Uses FindPoolInParent by pool name for drop resolution (avoids FindFirstObjectByType conflicts)
+- Color fix: useCurrentColorAsHealthy=false + explicit healthyColor to prevent pooled-object color bugs
+
+Key military fixes applied:
+- Return to Combat after successful pot theft (not despawn)
+- Fixed color by setting useCurrentColorAsHealthy=false + explicit healthyColor
+- Fixed drop pools using FindPoolInParent by name instead of FindFirstObjectByType
+- Added defaultGoldDropAmount fallback for gold drops
+- Null safety in SpawnWeaponPickup/GoldPickup methods
+- Military projectiles destroying pots: fixed in WeaponHitUtility.IsPotCollider (same fix as Phase 13)
 
 ## Recap format to use after each implementation step
 Each delivery recap should include:

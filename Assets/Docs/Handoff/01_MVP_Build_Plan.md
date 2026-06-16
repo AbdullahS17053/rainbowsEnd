@@ -58,14 +58,16 @@ Current first slice: endless traveller and police spawning has been replaced by 
 
 14. Phase 13 - MVP Polish and Stability
 Focus on usability, readability, feedback, smoke testing, balancing, and a possible non-blocking tilt-shift spike if the gameplay is already stable.
+Current slice: unicorn knockback/daze on player collision (DOTween-driven), enemy anti-stacking separation (boids-style with Physics2D.OverlapCircle), traveller steal-and-flee (Seeking→Draining→Fleeing 3-state machine with edge-escape), and military projectiles destroying pots fixed (pot immunity at WeaponHitUtility layer covering all projectile types).
 
 15. Post-MVP Extensions
-Military, more spells, status effects, traps, richer weapons, deeper AI, and stronger presentation polish.
+Military (implemented), more spells, status effects, traps, richer weapons, deeper AI, and stronger presentation polish.
+Current slice: Military mob with Combat/Stealing/Escaping state machine, pot-carrying theft, gold+weapon drops, wave integration via RunSpawnType.Military + MilitaryCount, and Phase13MilitarySetup editor automation.
 
 ## Architecture constraints
 - Treat the game loop as level-based, with room for more levels to be added later.
 - Treat portals as spells from day one.
-- Keep Military outside the MVP critical path.
+- Military was originally kept outside the MVP critical path but has been implemented as a Post-MVP extension.
 - Delay tilt-shift polish until gameplay is stable.
 - Fae tree banking is confirmed and should be treated as a required later MVP mechanic.
 - Player downed time is a gameplay rule and should stay data-driven.

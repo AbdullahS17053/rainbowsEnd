@@ -38,6 +38,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase5UnicornSetup.cs: editor menu command that generates the unicorn and rainbow trail prefabs, wires the trail pool, and places or updates the Unicorn in MainArena
 - Assets/_Project/Editor/Phase6PotSetup.cs: editor menu command that generates the pot prefab, upgrades trail segments for capture, wires scene economy HUD state, and places or updates a Pot in MainArena
 - Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs: editor menu command that seeds the five-wave MVP level config, wires the run director, and creates the restartable win/lose outcome panel
+- Assets/_Project/Editor/Phase13MilitarySetup.cs: editor menu command that generates PF_Military, military config SOs, pool setup, spawner wiring, and MainArena scene integration
 - Assets/_Project/Runtime/RainbowsEnd.Runtime.asmdef: runtime assembly definition
 - Assets/_Project/Tests/EditMode/RainbowsEnd.EditModeTests.asmdef: EditMode test assembly definition
 - Assets/_Project/Tests/PlayMode/RainbowsEnd.PlayModeTests.asmdef: PlayMode test assembly definition
@@ -148,6 +149,31 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs: rerunnable Unity automation for wiring MainArena orchestration and outcome UI
 - Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs: deterministic coverage for exact counts, traveller-first alternation, max concurrency stalls, clear-to-advance, win, and pot-loss precedence
 
+## Implemented Phase 13 polish files
+- Assets/_Project/Runtime/Gameplay/Enemies/EnemySeparationUtility.cs: static boids-style anti-stacking utility using Physics2D.OverlapCircle with ContactFilter2D, shared across traveller, police, and military controllers
+- Assets/_Project/Runtime/Core/Config/EnemyConfig.cs (extended): added SeparationRadius, SeparationStrength, StealRate, StealCapacity, FleeSpeedMultiplier fields
+- Assets/_Project/Runtime/Core/Config/UnicornConfig.cs (extended): added PlayerKnockbackDistance and PlayerDazeDurationSeconds fields
+- Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs (extended): daze state with DOTween .DOMove() for smooth knockback, IsDisabled property replacing IsDowned
+- Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs (extended): collision handlers trigger player knockback/daze
+- Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs (extended): 3-state machine (Seeking→Draining→Fleeing), uses EnemySeparationUtility, flees to nearest arena edge
+- Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs (extended): stolen gold tracking with ResetStolenGold() for traveller death drops
+- Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs (extended): separation applied alongside existing movement
+- Assets/_Project/Runtime/Gameplay/World/ArenaBoundsAuthoring.cs (extended): GetNearestEdgePoint() for edge-based flee targeting
+- Assets/_Project/Runtime/Gameplay/Combat/WeaponHitUtility.cs (extended): added IsPotCollider() helper that walks parent chain for PotController, early-returns false in IsValidDamageableTarget to prevent projectiles damaging pots; covers all projectile types (bow, police, military)
+- Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs (updated): IsDowned check replaced with IsDisabled
+- Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs (updated): IsDowned check replaced with IsDisabled
+
+## Implemented Post-MVP Military files
+- Assets/_Project/Runtime/Gameplay/Enemies/MilitaryController.cs: full state machine with Combat, Stealing, and Escaping states; seeks pots for theft, carries them toward arena edge, uses ranged weapon against player
+- Assets/_Project/Runtime/Gameplay/Enemies/MilitarySpawner.cs: spawning with configurable gold+weapon drop resolution via FindPoolInParent by name, defaultGoldDropAmount fallback, null safety in drop spawns
+- Assets/_Project/Runtime/Gameplay/Pots/PotController.cs (extended): IsBeingStolenByMilitary flag, DestroyByMilitary method, military interaction path
+- Assets/_Project/Runtime/Core/Config/WaveConfig.cs (extended): WaveDefinition now has 7-param constructor including MilitaryCount, RunSpawnType.Military enum value
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunWaveController.cs (extended): military active-count tracking, RunSpawnType.Military spawn handling
+- Assets/_Project/Runtime/Gameplay/Orchestration/RunDirector.cs (extended): MilitarySpawner factory wiring
+- Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs (extended): military config references
+- Assets/_Project/Editor/Phase13MilitarySetup.cs: editor automation for military prefab/SO/pool/spawner creation and MainArena wiring
+- Military key fixes: return to Combat after theft (not despawn), color via useCurrentColorAsHealthy=false + explicit healthyColor, drop pools via FindPoolInParent by name, defaultGoldDropAmount fallback
+
 ## Phase 5 follow-up refinements
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
@@ -158,6 +184,14 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs now exposes an optional EffectsRoot so combat visuals can resolve shared scene-local pools without scene references baked into prefabs
 - TextMesh Pro should be treated as the standard for current and future HUD and UI text instead of legacy UI.Text
 - Late Phase 9 follow-up: travellers now refresh targets when a current pot stops actively harvesting, weapon configs now support configurable projectile volleys for shotgun-style weapons, and PlayerRoot now owns the configured temporary downed state before recovery
+
+## Phase 13 and Military follow-up refinements
+- PlayerRoot now uses IsDisabled (combining downed + daze states) instead of IsDowned; ShopController and PlayerPortalController updated to check IsDisabled rather than IsDowned
+- EnemySeparationUtility uses Unity 6's ContactFilter2D parameter for Physics2D.OverlapCircle (replaces deprecated OverlapCircleNonAlloc)
+- WeaponHitUtility.IsValidDamageableTarget shortcuts pot projectile immunity before faction/damageable checks — covers all projectile types without layer mask or faction changes
+- Military uses FindPoolInParent by pool name instead of FindFirstObjectByType for reliable drop resolution in mixed-pool scenes
+- Traveller death drops include both pocket change (gold-drop option) and stolen gold (from PotDrain tracking)
+- DOTween used for player knockback presentation (0.15s OutQuad) rather than disabling Rigidbody2D simulation
 
 ## Agreed planning decisions
 - Build fully custom gameplay code from scratch
@@ -184,8 +218,8 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - The game should present in landscape
 
 ## Known ambiguities
-- The exact MVP depth for military enemies remains intentionally deferred
 - Tilt-shift is a visual target, not an early production blocker
+- Remaining Post-MVP scope (more spells, status effects, traps) remains deferred
 
 ## Planned top-level project structure
 Expected additions under Assets/_Project:
@@ -223,6 +257,7 @@ Expected additions under Assets/_Project:
 - PF_Portal: portal endpoint visual and teleporter component
 - PF_GoldPickup: dropped resource pickup
 - PF_RainbowTrailSegment: pooled trail element
+- PF_Military: multi-state enemy with pot-stealing capability
 
 ## Core systems map
 - Core bootstrap: startup, service registration, shared contracts

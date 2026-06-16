@@ -2,27 +2,27 @@
 
 ## Current status
 - Planning status: complete enough to start implementation
-- Implementation status: started
-- Current phase: Phase 12 - Level Orchestration and Run Outcome
-- Current focus: run the Phase 12 setup in Unity and manually verify that MainArena uses SO-authored waves, stops endless spawning, shows win or lose outcomes, and restarts cleanly
-- Recommended next executable task: in the already-open Unity editor, run Rainbows End/Setup/Run Phase 12 Level Orchestration Setup, then play MainArena and verify all five waves, pot-loss defeat, final-wave victory, and the restart button
+- Implementation status: in progress
+- Current phase: Post-MVP Extensions (Military implemented; Phase 13 Polish & Stability partially done)
+- Current focus: all assemblies (Runtime, Editor, EditModeTests) compile with 0 errors; awaiting user feedback or testing
+- Recommended next executable task: manual Unity verification of military mob behavior, unicorn knockback, traveller steal-and-flee, enemy separation, and pot projectile immunity
 
 ## Phase tracker
-- [ ] Phase 0 - Project Bootstrap
-- [ ] Phase 1 - Core Architecture Skeleton
-- [ ] Phase 2 - Arena Scene Baseline
-- [ ] Phase 3 - Player Input and Movement
-- [ ] Phase 4 - Combat Foundation
-- [ ] Phase 5 - Unicorn Roaming and Rainbow Trail
-- [ ] Phase 6 - Pot Interaction and First Gold Loop
-- [ ] Phase 7 - First Enemy Pressure Loop
-- [ ] Phase 8 - Multi-Pot Economy and World Rules
-- [ ] Phase 9 - Police and Combat Expansion
-- [ ] Phase 10 - Portal System as First Spell
-- [ ] Phase 11 - Shop and Upgrade Loop
-- [ ] Phase 12 - Escalation and Run Orchestration
-- [ ] Phase 13 - MVP Polish and Stability
-- [ ] Post-MVP extensions
+- [x] Phase 0 - Project Bootstrap (implemented, awaiting manual Unity verification)
+- [x] Phase 1 - Core Architecture Skeleton (implemented, awaiting manual Unity verification)
+- [x] Phase 2 - Arena Scene Baseline (implemented, awaiting manual Unity verification)
+- [x] Phase 3 - Player Input and Movement (implemented, awaiting manual Unity verification)
+- [x] Phase 4 - Combat Foundation (implemented, awaiting manual Unity verification)
+- [x] Phase 5 - Unicorn Roaming and Rainbow Trail (implemented, awaiting manual Unity verification)
+- [x] Phase 6 - Pot Interaction and First Gold Loop (implemented, awaiting manual Unity verification)
+- [x] Phase 7 - First Enemy Pressure Loop (implemented, awaiting manual Unity verification)
+- [x] Phase 8 - Multi-Pot Economy and World Rules (implemented, awaiting manual Unity verification)
+- [x] Phase 9 - Police and Combat Expansion (implemented, awaiting manual Unity verification)
+- [x] Phase 10 - Portal System as First Spell (implemented, awaiting manual Unity verification)
+- [x] Phase 11 - Shop and Upgrade Loop (implemented, awaiting manual Unity verification)
+- [x] Phase 12 - Escalation and Run Orchestration (implemented, awaiting manual Unity verification)
+- [/] Phase 13 - MVP Polish and Stability (partially implemented)
+- [x] Post-MVP: Military Enemy (implemented, awaiting manual Unity verification)
 
 ## Completion rules
 A phase should be marked complete only when all three are true:
@@ -30,27 +30,22 @@ A phase should be marked complete only when all three are true:
 - Focused verification has been run
 - A recap has been written covering outcome, approach, code review notes, verification, and progress
 
+Phases 0-12: all code implemented and compiling; awaiting manual Unity verification for each.
+Phase 13: partially implemented (knockback, separation, traveller flee, pot projectile fix done).
+Post-MVP Military: implemented and compiling; awaiting manual Unity verification.
+
 ## What remains
-- Phase 0 still needs URP renderer assets and any related pipeline assignment if URP is to be fully finalized in-project
-- Phase 1 still needs the remaining composition and service wiring before it can be considered complete
-- Phase 2 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
-- Phase 3 still needs manual verification in Unity and any scene-specific tuning after the automated setup pass
-- Phase 4 now has the first combat runtime slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 5 now has the first unicorn and trail runtime slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 6 now has the first pot and economy runtime slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 7 now has the first traveller pressure slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 8 now has the first multi-pot and world-rules slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 9 now has the first police and combat-expansion slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 10 now has the first portal-system slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 11 now has the first shop-and-upgrade slice implemented but still needs manual Unity verification and setup execution in-scene
-- Phase 12 now has the first level-orchestration and run-outcome slice implemented but still needs manual Unity setup execution and in-scene verification
-- Phase 13 and later work remains in progress or not started
+- Phase 0-12: implemented but still need manual Unity verification and in-scene testing
+- Phase 13: partially implemented — unicorn knockback, enemy separation, traveller steal-and-flee, and pot projectile immunity done; remaining polish items (pause controller, audio hooks, tilt-shift spike) not yet started
+- Post-MVP Military: implemented (state machine, spawning, wave integration, pot theft, drops) but needs manual Unity verification
 - Renderer direction is assumed to be URP 2D unless explicitly changed later
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
+- Post-MVP remaining: more spells, status effects, traps, richer weapons, deeper AI, visual polish
 
 ## Testing queue
 - EditMode tests for deterministic logic such as timers, health transitions, economy scaling, and wave sequencing
 - PlayMode or manual tests for movement, aiming, harvesting, enemy drain, portals, shop upgrades, wave progression, outcomes, and reset flow
+- Manual tests needed: unicorn knockback/daze, enemy anti-stacking separation, traveller steal-and-flee behavior, military mob (Combat/Stealing/Escaping states), military pot theft, military drops, pot projectile immunity
 - Smoke and soak testing before MVP signoff
 
 ## Open decisions and assumptions
@@ -63,6 +58,10 @@ A phase should be marked complete only when all three are true:
 - Orientation: landscape
 - Cinemachine is available and should be used where camera rig value exists, not by default everywhere
 - DOTween is available and should be used for feedback and presentation, not for authoritative gameplay state
+- Military has been implemented as a Post-MVP extension (state machine, pot theft, wave integration)
+- Enemy separation uses boids-style approach with OverlapCircle rather than hard collision resolution
+- Travellers use 3-state machine (Seeking→Draining→Fleeing) with edge-based escape
+- Pot projectile immunity is enforced at WeaponHitUtility layer (not layer masks or faction changes)
 
 ## Progress log
 - 2026-05-06: Reviewed project docs and Unity baseline
@@ -105,6 +104,12 @@ A phase should be marked complete only when all three are true:
 - 2026-05-13: Implemented the first Phase 11 shop slice with ShopConfig, PlayerUpgradeRuntime, a fae-tree anchored ShopController, shop UI presenters, runtime weapon upgrade hooks, the rerunnable Phase11ShopSetup pass, and focused EditMode coverage for upgrade math and cooldown overrides
 - 2026-06-04: Implemented the first Phase 12 level-orchestration slice with SO-authored exact-count waves, director-controlled traveller and police spawning, pot-loss lose condition, final-wave-clear win condition, restartable outcome UI, a rerunnable Phase12LevelOrchestrationSetup pass, and focused EditMode coverage for wave sequencing rules
 - 2026-06-04: Attempted Unity batch EditMode tests for Phase 12, but the run was blocked because another Unity instance already had the project open; verified refreshed Runtime, Editor, and EditMode test assemblies compile with dotnet build
+- 2026-06-17: Implemented unicorn knockback/daze on player collision — added PlayerKnockbackDistance/PlayerDazeDurationSeconds to UnicornConfig, daze state to PlayerRoot with DOTween .DOMove() for smooth push, detection in UnicornController collision handlers, updated IsDowned checks to IsDisabled in Shop/Portal controllers
+- 2026-06-17: Implemented enemy anti-stacking separation — created EnemySeparationUtility.cs with Physics2D.OverlapCircle (ContactFilter2D), added SeparationRadius/SeparationStrength to EnemyConfig, applied in TravellerController and PoliceController
+- 2026-06-17: Implemented traveller steal-and-flee — added 3-state machine (Seeking→Draining→Fleeing), StealRate/StealCapacity/FleeSpeedMultiplier to EnemyConfig, stolen gold tracking in PotDrain, GetNearestEdgePoint on ArenaBoundsAuthoring, death drops pocket change + stolen gold
+- 2026-06-17: Implemented Military mob — added MilitaryCount to WaveDefinition (7-param ctor), RunSpawnType.Military, MilitaryController.cs (Combat/Stealing/Escaping states, pot-carrying), MilitarySpawner.cs (gold+weapon drops), military carry/destroy on PotController, updated EnemySeparationUtility, added configs to ProjectConfigRegistry, created Phase13MilitarySetup.cs editor automation
+- 2026-06-17: Fixed military issues — return to Combat after successful pot theft (not despawn), fixed color by setting useCurrentColorAsHealthy=false + explicit healthyColor, fixed drop pools using FindPoolInParent by name, added defaultGoldDropAmount fallback, null safety in SpawnWeaponPickup/GoldPickup
+- 2026-06-17: Fixed military projectiles destroying pots — root cause in WeaponHitUtility.IsValidDamageableTarget where pots (FactionId.Player + IDamageable) passed faction check; added IsPotCollider() helper walking parent chain for PotController, early-returns false before faction/damageable checks; covers all projectile types (bow, police, military); verified all three assemblies compile with 0 errors
 
 ## Next recap template
 Use this after each completed implementation step:
