@@ -12,6 +12,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         [SerializeField] private WaveConfig waveConfig;
         [SerializeField] private EnemySpawner enemySpawner;
         [SerializeField] private PoliceSpawner policeSpawner;
+        [SerializeField] private MilitarySpawner militarySpawner;
         [SerializeField] private PotRegistry potRegistry;
         [SerializeField] private RunOutcomePresenter outcomePresenter;
         [SerializeField] private bool startRunOnEnable = true;
@@ -30,12 +31,14 @@ namespace RainbowsEnd.Gameplay.Orchestration
             WaveConfig config,
             EnemySpawner travellerSpawner,
             PoliceSpawner rangedPoliceSpawner,
+            MilitarySpawner rangedMilitarySpawner,
             PotRegistry registry,
             RunOutcomePresenter presenter)
         {
             waveConfig = config;
             enemySpawner = travellerSpawner;
             policeSpawner = rangedPoliceSpawner;
+            militarySpawner = rangedMilitarySpawner;
             potRegistry = registry;
             outcomePresenter = presenter;
             InitializeRun();
@@ -67,9 +70,11 @@ namespace RainbowsEnd.Gameplay.Orchestration
                 Time.deltaTime,
                 enemySpawner != null ? enemySpawner.ActiveTravellerCount : 0,
                 policeSpawner != null ? policeSpawner.ActivePoliceCount : 0,
+                militarySpawner != null ? militarySpawner.ActiveMilitaryCount : 0,
                 ResolveActivePotCount(),
                 TrySpawnTraveller,
-                TrySpawnPolice);
+                TrySpawnPolice,
+                TrySpawnMilitary);
 
             if (tickResult.Outcome != RunOutcome.None && tickResult.Outcome != _reportedOutcome)
             {
@@ -94,6 +99,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
             enemySpawner ??= FindFirstObjectByType<EnemySpawner>(FindObjectsInactive.Include);
             policeSpawner ??= FindFirstObjectByType<PoliceSpawner>(FindObjectsInactive.Include);
+            militarySpawner ??= FindFirstObjectByType<MilitarySpawner>(FindObjectsInactive.Include);
 
             if (potRegistry == null && ProjectContext.Instance?.Services.TryGet(out PotRegistry registry) == true)
             {
@@ -132,6 +138,11 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private bool TrySpawnPolice()
         {
             return policeSpawner != null && policeSpawner.TrySpawnPolice();
+        }
+
+        private bool TrySpawnMilitary()
+        {
+            return militarySpawner != null && militarySpawner.TrySpawnMilitary();
         }
 
         private void ReportOutcome(RunOutcome outcome)

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerConfig: {fileID: 11400000, guid: 23b9e25fd4cce9c4882280fcc3b8a685, type: 2}
   travellerConfig: {fileID: 11400000, guid: be8eeaf63c9609b4ca8599f465c1d162, type: 2}
+  policeConfig: {fileID: 0}
+  militaryConfig: {fileID: 11400000, guid: 53a336557857f1246a0120588d343925, type: 2}
   unicornConfig: {fileID: 11400000, guid: 05d068cbc7461674bbb37e64c98a473b, type: 2}
   potConfig: {fileID: 11400000, guid: f77b39dc59e0b5f4d8e959f06f319ed1, type: 2}
   defaultWeaponConfig: {fileID: 11400000, guid: e61205a5b78075a46a675ad8b4fa5661, type: 2}

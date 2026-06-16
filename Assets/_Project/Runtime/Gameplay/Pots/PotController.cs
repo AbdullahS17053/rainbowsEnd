@@ -28,6 +28,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private EconomyState _economyState;
         private PotRegistry _potRegistry;
         private PlayerRoot _carrier;
+        private bool _isBeingStolenByMilitary;
         private Color _idleColor = Color.white;
         private bool _hasIdleColor;
         private bool _isRegisteredWithPotRegistry;
@@ -44,7 +45,9 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public bool IsBeingDrained => _activeDrainerIds.Count > 0;
 
-        public bool CanBePickedUp => !IsDestroyed && !IsCarried;
+        public bool IsBeingStolenByMilitary => _isBeingStolenByMilitary;
+
+        public bool CanBePickedUp => !IsDestroyed && !IsCarried && !_isBeingStolenByMilitary;
 
         public void Configure(
             PotConfig potConfig,
@@ -117,6 +120,17 @@ namespace RainbowsEnd.Gameplay.Pots
             }
 
             if (IsCarried)
+            {
+                _harvestState.ReleaseTrail();
+                ResolveEconomyState();
+                _economyState?.SetHarvesterActive(this, false);
+                _activeDrainerIds.Clear();
+                drainFeedbackPresenter?.SetVisible(false);
+                ApplyVisualState();
+                return;
+            }
+
+            if (_isBeingStolenByMilitary)
             {
                 _harvestState.ReleaseTrail();
                 ResolveEconomyState();
@@ -319,6 +333,35 @@ namespace RainbowsEnd.Gameplay.Pots
 
             float lethalDamage = Mathf.Max(health.CurrentHealth, config != null ? config.MaxHealth : 1f);
             health.ApplyDamage(new DamageInfo(lethalDamage, FactionId.Unicorn, transform.position, instigator));
+        }
+
+        public void SetMilitaryCarryActive(bool isActive)
+        {
+            _isBeingStolenByMilitary = isActive;
+            ApplyWorldInteractionState();
+            ApplyVisualState();
+        }
+
+        public void SetCarriedMilitaryPosition(Vector2 worldPosition)
+        {
+            if (!_isBeingStolenByMilitary)
+            {
+                return;
+            }
+
+            SetWorldPosition(worldPosition);
+        }
+
+        public void DestroyByMilitary(Object instigator)
+        {
+            if (IsDestroyed || health == null)
+            {
+                return;
+            }
+
+            _isBeingStolenByMilitary = false;
+            float lethalDamage = Mathf.Max(health.CurrentHealth, config != null ? config.MaxHealth : 1f);
+            health.ApplyDamage(new DamageInfo(lethalDamage, FactionId.Military, transform.position, instigator));
         }
 
         private void TryRegisterWithPotRegistry()

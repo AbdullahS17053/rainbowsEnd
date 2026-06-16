@@ -18,7 +18,7 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
 
             for (int index = 0; index < 5; index++)
             {
-                controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+                controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
             }
 
             Assert.That(spawnState.SpawnedTravellerCount, Is.EqualTo(3));
@@ -37,7 +37,7 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
 
             for (int index = 0; index < 5; index++)
             {
-                RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+                RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
                 spawnedTypes.Add(result.SpawnedType);
             }
 
@@ -60,10 +60,10 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             });
             FakeSpawnState spawnState = new FakeSpawnState();
 
-            RunWaveTickResult firstResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
-            RunWaveTickResult stalledResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult firstResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
+            RunWaveTickResult stalledResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
             spawnState.ClearActiveEnemies();
-            RunWaveTickResult resumedResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult resumedResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
             Assert.That(firstResult.SpawnedType, Is.EqualTo(RunSpawnType.Traveller));
             Assert.That(stalledResult.SpawnedType, Is.EqualTo(RunSpawnType.None));
@@ -80,10 +80,10 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             });
             FakeSpawnState spawnState = new FakeSpawnState();
 
-            controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
-            RunWaveTickResult waitingResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
+            RunWaveTickResult waitingResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
             spawnState.ClearActiveEnemies();
-            RunWaveTickResult winResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult winResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
             Assert.That(waitingResult.Outcome, Is.EqualTo(RunOutcome.None));
             Assert.That(winResult.Outcome, Is.EqualTo(RunOutcome.Win));
@@ -99,10 +99,10 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             });
             FakeSpawnState spawnState = new FakeSpawnState();
 
-            controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
             spawnState.ClearActiveEnemies();
-            RunWaveTickResult advanceResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
-            RunWaveTickResult policeSpawnResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult advanceResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
+            RunWaveTickResult policeSpawnResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
             Assert.That(advanceResult.WaveAdvanced, Is.True);
             Assert.That(controller.CurrentWaveNumber, Is.EqualTo(2));
@@ -118,7 +118,7 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             });
             FakeSpawnState spawnState = new FakeSpawnState();
 
-            RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 0, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
             Assert.That(result.Outcome, Is.EqualTo(RunOutcome.Lose));
             Assert.That(spawnState.SpawnedTravellerCount, Is.Zero);
@@ -133,7 +133,7 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             });
             FakeSpawnState spawnState = new FakeSpawnState();
 
-            RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice);
+            RunWaveTickResult result = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 0, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
             Assert.That(result.Outcome, Is.EqualTo(RunOutcome.Lose));
         }
@@ -147,6 +147,10 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             public int SpawnedTravellerCount { get; private set; }
 
             public int SpawnedPoliceCount { get; private set; }
+
+            public int SpawnedMilitaryCount { get; private set; }
+
+            public int ActiveMilitaryCount { get; private set; }
 
             public bool TrySpawnTraveller()
             {
@@ -162,10 +166,18 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
                 return true;
             }
 
+            public bool TrySpawnMilitary()
+            {
+                SpawnedMilitaryCount++;
+                ActiveMilitaryCount++;
+                return true;
+            }
+
             public void ClearActiveEnemies()
             {
                 ActiveTravellerCount = 0;
                 ActivePoliceCount = 0;
+                ActiveMilitaryCount = 0;
             }
         }
     }

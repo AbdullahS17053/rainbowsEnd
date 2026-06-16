@@ -3034,6 +3034,8 @@ Transform:
   - {fileID: 244987617}
   - {fileID: 474770145}
   - {fileID: 645312755}
+  - {fileID: 1916400420}
+  - {fileID: 1840192622}
   m_Father: {fileID: 2125188128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &695988579
@@ -3162,6 +3164,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &771466482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 771466483}
+  - component: {fileID: 771466484}
+  m_Layer: 0
+  m_Name: MilitaryProjectilePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &771466483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771466482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2110079809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &771466484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771466482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8702e1456d96aee4c9d410cec0b33043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7733300245575267739, guid: 95db1fe9e109b754881c478816c9183a, type: 3}
+  prewarmCount: 16
+  containerRoot: {fileID: 771466483}
+  maxPoolSize: 64
+  collectionChecks: 1
 --- !u!1 &785541346
 GameObject:
   m_ObjectHideFlags: 0
@@ -5729,6 +5780,7 @@ MonoBehaviour:
   waveConfig: {fileID: 11400000, guid: b0028590e7fa76c4fad91866670c9d3b, type: 2}
   enemySpawner: {fileID: 242175664}
   policeSpawner: {fileID: 645312756}
+  militarySpawner: {fileID: 1840192621}
   potRegistry: {fileID: 525421290}
   outcomePresenter: {fileID: 535684131}
   startRunOnEnable: 1
@@ -6665,6 +6717,116 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806071203}
   m_CullTransparentMesh: 1
+--- !u!1 &1840192620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1840192622}
+  - component: {fileID: 1840192621}
+  m_Layer: 0
+  m_Name: MilitarySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1840192621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840192620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a4b10d6a974144d998be5c5c0d333e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  militaryConfig: {fileID: 11400000, guid: 53a336557857f1246a0120588d343925, type: 2}
+  militaryWeaponConfig: {fileID: 11400000, guid: 1b9133a4319bf3940ad0f3e509d94a28, type: 2}
+  weaponDropOptions:
+  - weaponConfig: {fileID: 11400000, guid: 1b9133a4319bf3940ad0f3e509d94a28, type: 2}
+    ammoCount: 24
+  goldDropOptions:
+  - goldAmount: 10
+  legacyDropWeaponConfig: {fileID: 0}
+  legacyDropAmmoCount: 0
+  legacyDropGoldAmount: 10
+  defaultGoldDropAmount: 10
+  spawnPointsRoot: {fileID: 1076139137}
+  militaryPool: {fileID: 1916400419}
+  projectilePool: {fileID: 771466484}
+  impactPool: {fileID: 441992249}
+  weaponPickupPool: {fileID: 474770144}
+  goldPickupPool: {fileID: 825719999}
+--- !u!4 &1840192622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840192620}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 690968812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1916400418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1916400420}
+  - component: {fileID: 1916400419}
+  m_Layer: 0
+  m_Name: MilitaryPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1916400419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916400418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8702e1456d96aee4c9d410cec0b33043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1046763860811145478, guid: 9df8b63949cbe21459d2b10e13efb279, type: 3}
+  prewarmCount: 2
+  containerRoot: {fileID: 1916400420}
+  maxPoolSize: 64
+  collectionChecks: 1
+--- !u!4 &1916400420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916400418}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 690968812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2032572221
 GameObject:
   m_ObjectHideFlags: 0
@@ -6780,6 +6942,7 @@ Transform:
   - {fileID: 1548693934}
   - {fileID: 348838801}
   - {fileID: 165453299}
+  - {fileID: 771466483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110335773

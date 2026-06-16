@@ -30,7 +30,8 @@ namespace RainbowsEnd.Gameplay.Enemies
                 }
 
                 if (hit.GetComponent<TravellerController>() == null &&
-                    hit.GetComponent<PoliceController>() == null)
+                    hit.GetComponent<PoliceController>() == null &&
+                    hit.GetComponent<MilitaryController>() == null)
                 {
                     continue;
                 }

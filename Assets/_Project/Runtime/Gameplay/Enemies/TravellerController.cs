@@ -3,11 +3,19 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Pots;
+using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Enemies
 {
+    public enum TravellerState
+    {
+        Seeking,
+        Draining,
+        Fleeing
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CircleCollider2D))]
     [RequireComponent(typeof(Health))]
@@ -36,6 +44,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private int _goldDropAmount;
         private float _targetRefreshTimerSeconds;
         private bool _deathHandled;
+        private TravellerState _currentState;
+        private Vector2 _fleeTarget;
+        private ArenaBoundsAuthoring _arenaBounds;
 
         public FactionId FactionId => FactionId.Civilian;
 
@@ -80,10 +91,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = Mathf.Max(0, goldDropAmount);
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _currentState = TravellerState.Seeking;
+            _fleeTarget = Vector2.zero;
+            _arenaBounds = null;
 
             CacheReferences();
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
+            potDrain?.ResetStolenGold();
             if (health != null && config != null)
             {
                 health.Initialize(config.MaxHealth);
@@ -102,6 +117,10 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _currentState = TravellerState.Seeking;
+            _fleeTarget = Vector2.zero;
+            _arenaBounds = null;
+            potDrain?.ResetStolenGold();
             ApplyVisualState(isDraining: false);
         }
 
@@ -120,6 +139,9 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _currentState = TravellerState.Seeking;
+            _fleeTarget = Vector2.zero;
+            _arenaBounds = null;
             ApplyVisualState(isDraining: false);
         }
 
@@ -162,9 +184,26 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            bool isDraining = potDrain != null && potDrain.Tick(Time.deltaTime, config != null ? config.ContactDamage : 0f);
+            switch (_currentState)
+            {
+                case TravellerState.Seeking:
+                    TickSeeking();
+                    break;
+                case TravellerState.Draining:
+                    TickDraining();
+                    break;
+                case TravellerState.Fleeing:
+                    TickFleeing();
+                    break;
+            }
+        }
+
+        private void TickSeeking()
+        {
+            bool isDraining = potDrain != null && potDrain.Tick(Time.deltaTime, config != null ? config.StealRate : 1f);
             if (isDraining)
             {
+                _currentState = TravellerState.Draining;
                 if (body != null)
                 {
                     body.linearVelocity = Vector2.zero;
@@ -178,6 +217,118 @@ namespace RainbowsEnd.Gameplay.Enemies
             RefreshTargetIfNeeded();
             MoveTowardsTarget();
             ApplyVisualState(isDraining: false);
+        }
+
+        private void TickDraining()
+        {
+            bool isDraining = potDrain != null && potDrain.Tick(Time.deltaTime, config != null ? config.StealRate : 1f);
+            if (!isDraining)
+            {
+                StartFleeing();
+                return;
+            }
+
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+            }
+
+            ApplyVisualState(isDraining: true);
+
+            if (potDrain.StolenGold >= (config != null ? config.StealCapacity : 10f))
+            {
+                StartFleeing();
+            }
+        }
+
+        private void TickFleeing()
+        {
+            if (body == null)
+            {
+                return;
+            }
+
+            Vector2 toFleeTarget = _fleeTarget - body.position;
+            float fleeArrivalDistance = ResolveStopDistance() * 2f;
+            if (toFleeTarget.sqrMagnitude <= fleeArrivalDistance * fleeArrivalDistance)
+            {
+                DespawnFleeing();
+                return;
+            }
+
+            float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
+            Vector2 separation = EnemySeparationUtility.CalculateSeparation(
+                body.position,
+                bodyCollider,
+                config != null ? config.SeparationRadius : 0.6f,
+                config != null ? config.SeparationStrength : 2f);
+
+            Vector2 targetVelocity = toFleeTarget.normalized * fleeSpeed;
+            Vector2 combinedVelocity = targetVelocity + separation;
+            if (combinedVelocity.sqrMagnitude > fleeSpeed * fleeSpeed)
+            {
+                combinedVelocity = combinedVelocity.normalized * fleeSpeed;
+            }
+
+            body.linearVelocity = combinedVelocity;
+            ApplyVisualState(isDraining: false);
+        }
+
+        private void StartFleeing()
+        {
+            _currentState = TravellerState.Fleeing;
+            ResolveArenaBounds();
+
+            if (_arenaBounds != null)
+            {
+                _fleeTarget = _arenaBounds.GetNearestEdgePoint(body != null ? body.position : transform.position);
+            }
+            else
+            {
+                _fleeTarget = body != null
+                    ? body.position + (Vector2)transform.up * 20f
+                    : transform.position + transform.up * 20f;
+            }
+
+            _currentTarget = null;
+            ApplyVisualState(isDraining: false);
+        }
+
+        private void DespawnFleeing()
+        {
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+            }
+
+            if (_owningPool != null)
+            {
+                _owningPool.Return(gameObject);
+            }
+            else
+            {
+                _deathHandled = true;
+                _owningSpawner?.NotifyTravellerDespawned(this);
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void ResolveArenaBounds()
+        {
+            if (_arenaBounds != null)
+            {
+                return;
+            }
+
+            if (ProjectContext.Instance?.Services.TryGet(out Core.SceneManagement.ArenaSceneContext arenaCtx) == true)
+            {
+                _arenaBounds = arenaCtx.ArenaBounds;
+            }
+
+            if (_arenaBounds == null)
+            {
+                _arenaBounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
+            }
         }
 
         private void CacheReferences()
@@ -343,7 +494,14 @@ namespace RainbowsEnd.Gameplay.Enemies
                 body.linearVelocity = Vector2.zero;
             }
 
-            SpawnGoldPickup();
+            int stolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
+            int pocketChange = Mathf.Max(0, _goldDropAmount);
+            int totalDrop = pocketChange + stolenGold;
+            if (totalDrop > 0)
+            {
+                SpawnGoldPickup(totalDrop);
+            }
+
             if (_owningPool != null)
             {
                 _owningPool.Return(gameObject);
@@ -354,15 +512,9 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
         }
 
-        private void SpawnGoldPickup()
+        private void SpawnGoldPickup(int goldAmount)
         {
-            if (_goldPickupPool == null)
-            {
-                return;
-            }
-
-            int goldAmount = Mathf.Max(0, _goldDropAmount);
-            if (goldAmount <= 0)
+            if (_goldPickupPool == null || goldAmount <= 0)
             {
                 return;
             }

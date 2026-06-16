@@ -15,10 +15,13 @@ namespace RainbowsEnd.Gameplay.Enemies
         private readonly List<PotController> _overlappingPots = new List<PotController>();
         private EconomyState _economyState;
         private PotController _lastResolvedPot;
+        private float _stolenGold;
 
         public PotController CurrentPot { get; private set; }
 
         public bool IsDraining { get; private set; }
+
+        public float StolenGold => _stolenGold;
 
         public void Configure(TravellerController owner, CircleCollider2D collider2D)
         {
@@ -42,9 +45,15 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return false;
             }
 
-            _economyState.RemoveGold(drainGoldPerSecond * Mathf.Max(0f, deltaTime));
+            float removed = _economyState.RemoveGold(drainGoldPerSecond * Mathf.Max(0f, deltaTime));
+            _stolenGold += removed;
             IsDraining = true;
             return true;
+        }
+
+        public void ResetStolenGold()
+        {
+            _stolenGold = 0f;
         }
 
         private void Reset()
@@ -64,6 +73,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             UpdateCurrentPot(null);
             CurrentPot = null;
             IsDraining = false;
+            _stolenGold = 0f;
         }
 
         private PotController ResolveBestOverlappingPot()

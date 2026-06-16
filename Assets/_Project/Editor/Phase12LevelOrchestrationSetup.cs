@@ -127,7 +127,7 @@ namespace RainbowsEnd.Editor
             GameObject runSystemsRoot = GetOrCreateChild(gameplayRoot.transform, "RunSystems");
             GameObject directorObject = GetOrCreateChild(runSystemsRoot.transform, "RunDirector");
             RunDirector runDirector = GetOrAddComponent<RunDirector>(directorObject);
-            runDirector.Configure(waveConfig, enemySpawner, policeSpawner, potRegistry, outcomePresenter);
+            runDirector.Configure(waveConfig, enemySpawner, policeSpawner, null, potRegistry, outcomePresenter);
 
             outcomePresenter.Hide();
             EnsureEventSystem(scene);

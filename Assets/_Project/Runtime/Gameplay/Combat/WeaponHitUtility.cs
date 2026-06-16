@@ -1,4 +1,5 @@
 using RainbowsEnd.Core.Common;
+using RainbowsEnd.Gameplay.Pots;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Combat
@@ -11,6 +12,11 @@ namespace RainbowsEnd.Gameplay.Combat
             FactionId sourceFaction)
         {
             if (collider == null || IsIgnoredCollider(collider, ignoredCollider))
+            {
+                return false;
+            }
+
+            if (IsPotCollider(collider))
             {
                 return false;
             }
@@ -67,6 +73,11 @@ namespace RainbowsEnd.Gameplay.Combat
             }
 
             return candidate == ignoredCollider || candidate.transform.IsChildOf(ignoredCollider.transform);
+        }
+
+        private static bool IsPotCollider(Collider2D candidate)
+        {
+            return ResolveInterfaceInParents<PotController>(candidate) != null;
         }
 
         private static TInterface ResolveInterfaceInParents<TInterface>(Component component) where TInterface : class

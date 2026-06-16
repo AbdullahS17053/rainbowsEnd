@@ -12,6 +12,7 @@ namespace RainbowsEnd.Core.Config
         [SerializeField] [Min(1)] private int maxConcurrentEnemies;
         [SerializeField] [Min(0)] private int travellerCount;
         [SerializeField] [Min(0)] private int policeCount;
+        [SerializeField] [Min(0)] private int militaryCount;
 
         public WaveDefinition(
             string waveName,
@@ -20,6 +21,18 @@ namespace RainbowsEnd.Core.Config
             int maxConcurrentEnemies,
             int travellerCount,
             int policeCount)
+            : this(waveName, startDelaySeconds, spawnIntervalSeconds, maxConcurrentEnemies, travellerCount, policeCount, 0)
+        {
+        }
+
+        public WaveDefinition(
+            string waveName,
+            float startDelaySeconds,
+            float spawnIntervalSeconds,
+            int maxConcurrentEnemies,
+            int travellerCount,
+            int policeCount,
+            int militaryCount)
         {
             this.waveName = waveName;
             this.startDelaySeconds = Mathf.Max(0f, startDelaySeconds);
@@ -27,6 +40,7 @@ namespace RainbowsEnd.Core.Config
             this.maxConcurrentEnemies = Mathf.Max(1, maxConcurrentEnemies);
             this.travellerCount = Mathf.Max(0, travellerCount);
             this.policeCount = Mathf.Max(0, policeCount);
+            this.militaryCount = Mathf.Max(0, militaryCount);
         }
 
         public string WaveName => string.IsNullOrWhiteSpace(waveName) ? "Wave" : waveName;
@@ -41,7 +55,9 @@ namespace RainbowsEnd.Core.Config
 
         public int PoliceCount => Mathf.Max(0, policeCount);
 
-        public int TotalEnemyCount => TravellerCount + PoliceCount;
+        public int MilitaryCount => Mathf.Max(0, militaryCount);
+
+        public int TotalEnemyCount => TravellerCount + PoliceCount + MilitaryCount;
     }
 
     [CreateAssetMenu(fileName = "SO_WaveConfig", menuName = "Rainbows End/Config/Wave")]
@@ -49,11 +65,11 @@ namespace RainbowsEnd.Core.Config
     {
         [SerializeField] private WaveDefinition[] waves =
         {
-            new WaveDefinition("Wave 1", 0.75f, 1.8f, 3, 3, 0),
-            new WaveDefinition("Wave 2", 0.75f, 1.6f, 4, 5, 0),
-            new WaveDefinition("Wave 3", 0.75f, 1.5f, 5, 4, 1),
-            new WaveDefinition("Wave 4", 0.75f, 1.3f, 6, 5, 2),
-            new WaveDefinition("Wave 5", 0.75f, 1.2f, 7, 6, 3)
+            new WaveDefinition("Wave 1", 0.75f, 1.8f, 3, 3, 0, 0),
+            new WaveDefinition("Wave 2", 0.75f, 1.6f, 4, 5, 0, 0),
+            new WaveDefinition("Wave 3", 0.75f, 1.5f, 5, 4, 1, 0),
+            new WaveDefinition("Wave 4", 0.75f, 1.3f, 6, 5, 2, 0),
+            new WaveDefinition("Wave 5", 0.75f, 1.2f, 7, 6, 3, 2)
         };
 
         public WaveDefinition[] Waves => waves ?? Array.Empty<WaveDefinition>();

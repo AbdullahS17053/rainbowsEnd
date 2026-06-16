@@ -7,6 +7,8 @@ namespace RainbowsEnd.Core.Config
     {
         [SerializeField] private PlayerConfig playerConfig;
         [SerializeField] private EnemyConfig travellerConfig;
+        [SerializeField] private EnemyConfig policeConfig;
+        [SerializeField] private EnemyConfig militaryConfig;
         [SerializeField] private UnicornConfig unicornConfig;
         [SerializeField] private PotConfig potConfig;
         [SerializeField] private WeaponConfig defaultWeaponConfig;
@@ -17,6 +19,10 @@ namespace RainbowsEnd.Core.Config
         public PlayerConfig PlayerConfig => playerConfig;
 
         public EnemyConfig TravellerConfig => travellerConfig;
+
+        public EnemyConfig PoliceConfig => policeConfig;
+
+        public EnemyConfig MilitaryConfig => militaryConfig;
 
         public UnicornConfig UnicornConfig => unicornConfig;
 
@@ -58,6 +64,12 @@ namespace RainbowsEnd.Core.Config
             portalConfig = portal;
             economyConfig = economy;
             waveConfig = wave;
+        }
+
+        public void SetEnemyConfigs(EnemyConfig police, EnemyConfig military)
+        {
+            policeConfig = police;
+            militaryConfig = military;
         }
     }
 }

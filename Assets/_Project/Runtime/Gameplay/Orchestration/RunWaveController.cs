@@ -9,7 +9,8 @@ namespace RainbowsEnd.Gameplay.Orchestration
     {
         None = 0,
         Traveller = 1,
-        Police = 2
+        Police = 2,
+        Military = 3
     }
 
     public readonly struct RunWaveTickResult
@@ -35,6 +36,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private int _currentWaveIndex;
         private int _spawnedTravellerCount;
         private int _spawnedPoliceCount;
+        private int _spawnedMilitaryCount;
         private float _spawnTimerSeconds;
         private bool _preferTraveller = true;
         private RunOutcome _outcome;
@@ -71,11 +73,14 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
         public int SpawnedPoliceCount => _spawnedPoliceCount;
 
+        public int SpawnedMilitaryCount => _spawnedMilitaryCount;
+
         public void Reset()
         {
             _currentWaveIndex = 0;
             _spawnedTravellerCount = 0;
             _spawnedPoliceCount = 0;
+            _spawnedMilitaryCount = 0;
             _preferTraveller = true;
             _outcome = RunOutcome.None;
             _spawnTimerSeconds = _waves.Length > 0 ? _waves[0].StartDelaySeconds : 0f;
@@ -85,9 +90,11 @@ namespace RainbowsEnd.Gameplay.Orchestration
             float deltaTime,
             int activeTravellerCount,
             int activePoliceCount,
+            int activeMilitaryCount,
             int activePotCount,
             Func<bool> trySpawnTraveller,
-            Func<bool> trySpawnPolice)
+            Func<bool> trySpawnPolice,
+            Func<bool> trySpawnMilitary)
         {
             if (_outcome != RunOutcome.None)
             {
@@ -107,7 +114,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
             }
 
             WaveDefinition currentWave = _waves[_currentWaveIndex];
-            int activeEnemyCount = Mathf.Max(0, activeTravellerCount) + Mathf.Max(0, activePoliceCount);
+            int activeEnemyCount = Mathf.Max(0, activeTravellerCount) + Mathf.Max(0, activePoliceCount) + Mathf.Max(0, activeMilitaryCount);
 
             if (HasSpawnedCurrentWave(currentWave))
             {
@@ -143,6 +150,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
             {
                 RunSpawnType.Traveller => trySpawnTraveller?.Invoke() == true,
                 RunSpawnType.Police => trySpawnPolice?.Invoke() == true,
+                RunSpawnType.Military => trySpawnMilitary?.Invoke() == true,
                 _ => false
             };
 
@@ -160,6 +168,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         {
             _spawnedTravellerCount = 0;
             _spawnedPoliceCount = 0;
+            _spawnedMilitaryCount = 0;
             _preferTraveller = true;
             _spawnTimerSeconds = _waves[_currentWaveIndex].StartDelaySeconds;
         }
@@ -167,13 +176,20 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private bool HasSpawnedCurrentWave(WaveDefinition wave)
         {
             return _spawnedTravellerCount >= wave.TravellerCount &&
-                _spawnedPoliceCount >= wave.PoliceCount;
+                _spawnedPoliceCount >= wave.PoliceCount &&
+                _spawnedMilitaryCount >= wave.MilitaryCount;
         }
 
         private RunSpawnType SelectNextSpawnType(WaveDefinition wave)
         {
             int remainingTravellers = wave.TravellerCount - _spawnedTravellerCount;
             int remainingPolice = wave.PoliceCount - _spawnedPoliceCount;
+            int remainingMilitary = wave.MilitaryCount - _spawnedMilitaryCount;
+
+            if (remainingTravellers <= 0 && remainingPolice <= 0)
+            {
+                return remainingMilitary > 0 ? RunSpawnType.Military : RunSpawnType.None;
+            }
 
             if (remainingTravellers <= 0)
             {
@@ -199,6 +215,9 @@ namespace RainbowsEnd.Gameplay.Orchestration
                 case RunSpawnType.Police:
                     _spawnedPoliceCount++;
                     _preferTraveller = _spawnedTravellerCount < wave.TravellerCount;
+                    break;
+                case RunSpawnType.Military:
+                    _spawnedMilitaryCount++;
                     break;
             }
         }
