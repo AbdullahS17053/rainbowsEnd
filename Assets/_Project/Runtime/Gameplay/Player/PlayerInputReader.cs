@@ -13,6 +13,7 @@ namespace RainbowsEnd.Gameplay.Player
         private InputAction _aimAction;
         private InputAction _fireAction;
         private InputAction _interactAction;
+        private InputAction _shopInteractAction;
         private InputAction _castPortalAction;
         private InputAction _pauseAction;
 
@@ -27,6 +28,8 @@ namespace RainbowsEnd.Gameplay.Player
         public bool FireHeld => _fireAction?.IsPressed() ?? false;
 
         public bool InteractPressedThisFrame => _interactAction?.WasPerformedThisFrame() ?? false;
+
+        public bool ShopInteractPressedThisFrame => _shopInteractAction?.WasPerformedThisFrame() ?? false;
 
         public bool CastPortalPressedThisFrame => _castPortalAction?.WasPerformedThisFrame() ?? false;
 
@@ -72,6 +75,7 @@ namespace RainbowsEnd.Gameplay.Player
             _aimAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Aim, false);
             _fireAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Fire, false);
             _interactAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Interact, false);
+            _shopInteractAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.ShopInteract, false);
             _castPortalAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.CastPortal, false);
             _pauseAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Pause, false);
         }

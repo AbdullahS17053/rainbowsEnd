@@ -7,6 +7,7 @@ namespace RainbowsEnd.Gameplay.Player
         public const string Aim = "Aim";
         public const string Fire = "Fire";
         public const string Interact = "Interact";
+        public const string ShopInteract = "ShopInteract";
         public const string CastPortal = "CastPortal";
         public const string Pause = "Pause";
     }

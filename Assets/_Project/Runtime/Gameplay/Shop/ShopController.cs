@@ -88,7 +88,7 @@ namespace RainbowsEnd.Gameplay.Shop
             {
                 panelPresenter?.SetInteractionPromptVisible(canInteractWithShop);
 
-                if (canInteractWithShop && inputReader != null && inputReader.InteractPressedThisFrame)
+                if (canInteractWithShop && inputReader != null && inputReader.ShopInteractPressedThisFrame)
                 {
                     OpenShop();
                 }
@@ -96,7 +96,7 @@ namespace RainbowsEnd.Gameplay.Shop
                 return;
             }
 
-            if (inputReader != null && (inputReader.InteractPressedThisFrame || inputReader.PausePressedThisFrame))
+            if (inputReader != null && (inputReader.ShopInteractPressedThisFrame || inputReader.PausePressedThisFrame))
             {
                 CloseShop();
                 return;
