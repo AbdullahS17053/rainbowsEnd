@@ -12,6 +12,82 @@ namespace RainbowsEnd.Gameplay.Unicorn
 
     public static class UnicornRoamingUtility
     {
+        public static Vector2 GetWallNormal(ArenaBoundarySide side)
+        {
+            return side switch
+            {
+                ArenaBoundarySide.Top => Vector2.down,
+                ArenaBoundarySide.Right => Vector2.left,
+                ArenaBoundarySide.Bottom => Vector2.up,
+                _ => Vector2.right
+            };
+        }
+
+        public static bool TryGetBoundaryIntersection(
+            Vector2 origin,
+            Vector2 direction,
+            Rect bounds,
+            ArenaBoundarySide? excludeSide,
+            out ArenaBoundarySide hitSide,
+            out Vector2 hitPoint)
+        {
+            float closestT = float.MaxValue;
+            hitSide = default;
+            hitPoint = origin;
+            bool anyHit = false;
+
+            if (Mathf.Abs(direction.sqrMagnitude) < 0.0001f)
+            {
+                return false;
+            }
+
+            (ArenaBoundarySide side, float t)[] candidates =
+            {
+                (ArenaBoundarySide.Top, direction.y > 0f ? (bounds.yMax - origin.y) / direction.y : float.MaxValue),
+                (ArenaBoundarySide.Bottom, direction.y < 0f ? (bounds.yMin - origin.y) / direction.y : float.MaxValue),
+                (ArenaBoundarySide.Right, direction.x > 0f ? (bounds.xMax - origin.x) / direction.x : float.MaxValue),
+                (ArenaBoundarySide.Left, direction.x < 0f ? (bounds.xMin - origin.x) / direction.x : float.MaxValue),
+            };
+
+            foreach (var (side, t) in candidates)
+            {
+                if (t <= 0f || t >= closestT)
+                {
+                    continue;
+                }
+
+                if (excludeSide.HasValue && side == excludeSide.Value)
+                {
+                    continue;
+                }
+
+                float xAtT = origin.x + direction.x * t;
+                float yAtT = origin.y + direction.y * t;
+
+                bool onSide = side switch
+                {
+                    ArenaBoundarySide.Top or ArenaBoundarySide.Bottom => xAtT >= bounds.xMin && xAtT <= bounds.xMax,
+                    _ => yAtT >= bounds.yMin && yAtT <= bounds.yMax,
+                };
+
+                if (!onSide)
+                {
+                    continue;
+                }
+
+                closestT = t;
+                hitSide = side;
+                anyHit = true;
+            }
+
+            if (anyHit)
+            {
+                hitPoint = origin + direction * closestT;
+            }
+
+            return anyHit;
+        }
+
         public static ArenaBoundarySide SelectNextBoundarySide(ArenaBoundarySide? previousSide, float randomValue)
         {
             float clampedRandom = Mathf.Clamp01(randomValue);

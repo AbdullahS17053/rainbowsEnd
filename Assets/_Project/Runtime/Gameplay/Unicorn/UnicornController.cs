@@ -168,12 +168,42 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 ? _arenaBounds.WorldRect
                 : new Rect(origin - new Vector2(4f, 2.5f), new Vector2(8f, 5f));
 
-            _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(_currentTargetSide, Random.value);
-            _targetPoint = UnicornRoamingUtility.SelectBoundaryTarget(
-                bounds,
-                _currentTargetSide.Value,
-                Random.value,
-                config != null ? config.BoundaryCornerPadding : 1f);
+            if (_currentTargetSide.HasValue)
+            {
+                Vector2 wallNormal = UnicornRoamingUtility.GetWallNormal(_currentTargetSide.Value);
+                float angle = Random.Range(
+                    config != null ? config.BounceAngleMinDegrees : 45f,
+                    config != null ? config.BounceAngleMaxDegrees : 135f);
+                if (Random.value < 0.5f)
+                {
+                    angle = -angle;
+                }
+
+                Vector2 bounceDirection = Quaternion.Euler(0f, 0f, angle) * wallNormal;
+
+                if (UnicornRoamingUtility.TryGetBoundaryIntersection(
+                        origin, bounceDirection, bounds, _currentTargetSide,
+                        out ArenaBoundarySide nextSide, out Vector2 intersection))
+                {
+                    _currentTargetSide = nextSide;
+                    _targetPoint = intersection;
+                }
+                else
+                {
+                    _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(_currentTargetSide, Random.value);
+                    _targetPoint = UnicornRoamingUtility.SelectBoundaryTarget(
+                        bounds, _currentTargetSide.Value, Random.value,
+                        config != null ? config.BoundaryCornerPadding : 1f);
+                }
+            }
+            else
+            {
+                _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(null, Random.value);
+                _targetPoint = UnicornRoamingUtility.SelectBoundaryTarget(
+                    bounds, _currentTargetSide.Value, Random.value,
+                    config != null ? config.BoundaryCornerPadding : 1f);
+            }
+
             _retargetCooldown = Mathf.Max(0.1f, config != null ? config.RetargetIntervalSeconds : 1f);
         }
 
