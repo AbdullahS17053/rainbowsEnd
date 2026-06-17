@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0499569d57954d34797a0968bd558b08, type: 3}
-  m_Name: SO_Weapon_Bow_Default
+  m_Name: SO_Weapon_FaeBolt_Default
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 1
+  <Damage>k__BackingField: 2
   <ProjectileCount>k__BackingField: 1
   <CooldownSeconds>k__BackingField: 0.5
   <Range>k__BackingField: 12

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0499569d57954d34797a0968bd558b08, type: 3}
   m_Name: SO_Weapon_Pistol_Default
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 2
+  <Damage>k__BackingField: 3
   <ProjectileCount>k__BackingField: 1
   <CooldownSeconds>k__BackingField: 0.75
   <Range>k__BackingField: 8

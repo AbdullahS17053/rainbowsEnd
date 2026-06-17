@@ -405,14 +405,14 @@ namespace RainbowsEnd.Editor
             {
                 return new[]
                 {
-                    new WeaponDropOption(pistolConfig, 10),
+                    new WeaponDropOption(pistolConfig, 12),
                     new WeaponDropOption(shotgunConfig, 6)
                 };
             }
 
             if (pistolConfig != null)
             {
-                return new[] { new WeaponDropOption(pistolConfig, 10) };
+                return new[] { new WeaponDropOption(pistolConfig, 12) };
             }
 
             if (shotgunConfig != null)
