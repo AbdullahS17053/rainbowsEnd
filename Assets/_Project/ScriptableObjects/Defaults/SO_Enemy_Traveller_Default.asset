@@ -19,3 +19,6 @@ MonoBehaviour:
   <EngagementRange>k__BackingField: 10
   <SeparationRadius>k__BackingField: 2
   <SeparationStrength>k__BackingField: 1
+  <StealRate>k__BackingField: 1
+  <StealCapacity>k__BackingField: 10
+  <FleeSpeedMultiplier>k__BackingField: 1.5

@@ -47,6 +47,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private TravellerState _currentState;
         private Vector2 _fleeTarget;
         private ArenaBoundsAuthoring _arenaBounds;
+        private bool _isPatroling;
+        private Vector2 _patrolEdgeTarget;
+        private int _patrolDirection;
 
         public FactionId FactionId => FactionId.Civilian;
 
@@ -95,6 +98,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
 
+            _isPatroling = false;
+
             CacheReferences();
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
@@ -120,6 +125,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
+            _isPatroling = false;
             potDrain?.ResetStolenGold();
             ApplyVisualState(isDraining: false);
         }
@@ -142,6 +148,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
+            _isPatroling = false;
             ApplyVisualState(isDraining: false);
         }
 
@@ -290,6 +297,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                     : transform.position + transform.up * 20f;
             }
 
+            _isPatroling = false;
             _currentTarget = null;
             ApplyVisualState(isDraining: false);
         }
@@ -329,6 +337,53 @@ namespace RainbowsEnd.Gameplay.Enemies
             {
                 _arenaBounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
             }
+        }
+
+        private void InitPatrol(Vector2 currentEdgePoint)
+        {
+            _isPatroling = true;
+            _patrolDirection = Random.value > 0.5f ? 1 : -1;
+
+            Rect rect = _arenaBounds.WorldRect;
+            int nearestCorner = GetNearestCornerIndex(rect, currentEdgePoint);
+            _patrolEdgeTarget = GetCorner(rect, (nearestCorner + _patrolDirection + 4) % 4);
+        }
+
+        private void AdvancePatrolCorner()
+        {
+            Rect rect = _arenaBounds.WorldRect;
+            int currentCorner = GetNearestCornerIndex(rect, _patrolEdgeTarget);
+            _patrolEdgeTarget = GetCorner(rect, (currentCorner + _patrolDirection + 4) % 4);
+        }
+
+        private static Vector2 GetCorner(Rect rect, int index)
+        {
+            return index switch
+            {
+                0 => new Vector2(rect.xMin, rect.yMin),
+                1 => new Vector2(rect.xMin, rect.yMax),
+                2 => new Vector2(rect.xMax, rect.yMax),
+                3 => new Vector2(rect.xMax, rect.yMin),
+                _ => new Vector2(rect.xMin, rect.yMin),
+            };
+        }
+
+        private static int GetNearestCornerIndex(Rect rect, Vector2 point)
+        {
+            int nearestIndex = 0;
+            float nearestDist = float.MaxValue;
+
+            for (int i = 0; i < 4; i++)
+            {
+                float d = Vector2.Distance(point, GetCorner(rect, i));
+                if (d < nearestDist)
+                {
+                    nearestDist = d;
+                    nearestIndex = i;
+                }
+            }
+
+            return nearestIndex;
         }
 
         private void CacheReferences()
@@ -402,7 +457,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                 }
 
                 _candidatePots.Add(pot);
-                _candidateTargets.Add(new TravellerTargetCandidate(pot.transform.position, pot.HarvestStatus == PotHarvestStatus.Harvesting));
+                _candidateTargets.Add(new TravellerTargetCandidate(pot.transform.position, pot.HarvestStatus == PotHarvestStatus.Harvesting, pot.HasGold));
             }
 
             int selectedIndex = TravellerTargetSelectionUtility.SelectBestCandidateIndex(
@@ -430,9 +485,64 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             if (_currentTarget == null)
             {
+                if (_arenaBounds == null)
+                {
+                    ResolveArenaBounds();
+                }
+
+                if (_arenaBounds != null)
+                {
+                    Vector2 nearestEdge = _arenaBounds.GetNearestEdgePoint(body.position);
+                    float edgeArrivalDistance = ResolveStopDistance() * 2f;
+
+                    if (Vector2.Distance(body.position, nearestEdge) > edgeArrivalDistance)
+                    {
+                        // Phase 1 — Retreat to nearest edge
+                        float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
+                        Vector2 toEdge = nearestEdge - body.position;
+                        Vector2 retreatVelocity = toEdge.normalized * fleeSpeed;
+                        Vector2 retreatCombined = retreatVelocity + separation;
+                        if (retreatCombined.sqrMagnitude > fleeSpeed * fleeSpeed)
+                        {
+                            retreatCombined = retreatCombined.normalized * fleeSpeed;
+                        }
+
+                        _isPatroling = false;
+                        body.linearVelocity = retreatCombined;
+                        return;
+                    }
+
+                    // Phase 2 — Patrol along the perimeter
+                    if (!_isPatroling)
+                    {
+                        InitPatrol(nearestEdge);
+                    }
+
+                    Vector2 toPatrolTarget = _patrolEdgeTarget - body.position;
+                    if (Vector2.Distance(body.position, _patrolEdgeTarget) < edgeArrivalDistance)
+                    {
+                        AdvancePatrolCorner();
+                        toPatrolTarget = _patrolEdgeTarget - body.position;
+                    }
+
+                    float patrolSpeed = moveSpeed * 0.25f;
+                    Vector2 patrolVelocity = toPatrolTarget.normalized * patrolSpeed;
+                    Vector2 patrolCombined = patrolVelocity + separation;
+                    if (patrolCombined.sqrMagnitude > moveSpeed * moveSpeed)
+                    {
+                        patrolCombined = patrolCombined.normalized * moveSpeed;
+                    }
+
+                    body.linearVelocity = patrolCombined;
+                    return;
+                }
+
+                // Fallback — no arena bounds resolved
                 body.linearVelocity = separation;
                 return;
             }
+
+            _isPatroling = false;
 
             Vector2 toTarget = (Vector2)_currentTarget.transform.position - body.position;
             float stopDistance = ResolveStopDistance();

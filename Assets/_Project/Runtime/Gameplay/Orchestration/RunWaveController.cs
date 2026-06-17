@@ -92,6 +92,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
             int activePoliceCount,
             int activeMilitaryCount,
             int activePotCount,
+            bool anyPotHasGoldOrHarvesting,
             Func<bool> trySpawnTraveller,
             Func<bool> trySpawnPolice,
             Func<bool> trySpawnMilitary)
@@ -141,6 +142,11 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
             _spawnTimerSeconds -= Mathf.Max(0f, deltaTime);
             if (_spawnTimerSeconds > 0f)
+            {
+                return new RunWaveTickResult(RunOutcome.None, RunSpawnType.None, waveAdvanced: false);
+            }
+
+            if (!anyPotHasGoldOrHarvesting)
             {
                 return new RunWaveTickResult(RunOutcome.None, RunSpawnType.None, waveAdvanced: false);
             }

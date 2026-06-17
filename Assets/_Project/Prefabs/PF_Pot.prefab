@@ -219,6 +219,7 @@ MonoBehaviour:
   harvestingColor: {r: 1, g: 0.88, b: 0.32, a: 1}
   interruptedColor: {r: 0.93, g: 0.55, b: 0.24, a: 1}
   destroyedColor: {r: 0.24, g: 0.24, b: 0.24, a: 1}
+  goldLabel: {fileID: 0}
 --- !u!1 &5394207061409736779
 GameObject:
   m_ObjectHideFlags: 0

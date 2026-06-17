@@ -36,6 +36,45 @@ namespace RainbowsEnd.Gameplay.Pots
             }
         }
 
+        public int TotalStoredGold
+        {
+            get
+            {
+                RemoveNullEntries();
+
+                int total = 0;
+                for (int index = 0; index < _registeredPots.Count; index++)
+                {
+                    PotController pot = _registeredPots[index];
+                    if (pot != null && !pot.IsDestroyed)
+                    {
+                        total += Mathf.FloorToInt(pot.StoredGold);
+                    }
+                }
+
+                return total;
+            }
+        }
+
+        public bool HasAnyGoldOrHarvestingPot
+        {
+            get
+            {
+                RemoveNullEntries();
+
+                for (int index = 0; index < _registeredPots.Count; index++)
+                {
+                    PotController pot = _registeredPots[index];
+                    if (pot != null && pot.HasGoldOrHarvesting)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public void RegisterPot(PotController pot)
         {
             if (pot == null || _registeredPots.Contains(pot))

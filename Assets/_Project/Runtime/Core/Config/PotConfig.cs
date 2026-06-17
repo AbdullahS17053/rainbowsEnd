@@ -18,5 +18,9 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float MovementCancelSpeedThreshold { get; private set; } = 0.1f;
 
         [field: SerializeField] [field: Min(0f)] public float HarvestCancelDelaySeconds { get; private set; } = 0f;
+
+        [field: SerializeField] [field: Min(0f)] public float AutoBankGoldPerSecond { get; private set; } = 0.5f;
+
+        [field: SerializeField] [field: Min(0f)] public float MaxStoredGold { get; private set; } = 0f;
     }
 }

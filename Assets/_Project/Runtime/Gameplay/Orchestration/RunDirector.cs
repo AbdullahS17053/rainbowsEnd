@@ -72,6 +72,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
                 policeSpawner != null ? policeSpawner.ActivePoliceCount : 0,
                 militarySpawner != null ? militarySpawner.ActiveMilitaryCount : 0,
                 ResolveActivePotCount(),
+                ResolveAnyPotHasGoldOrHarvesting(),
                 TrySpawnTraveller,
                 TrySpawnPolice,
                 TrySpawnMilitary);
@@ -128,6 +129,25 @@ namespace RainbowsEnd.Gameplay.Orchestration
             }
 
             return activePotCount;
+        }
+
+        private bool ResolveAnyPotHasGoldOrHarvesting()
+        {
+            if (potRegistry != null)
+            {
+                return potRegistry.HasAnyGoldOrHarvestingPot;
+            }
+
+            PotController[] pots = FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            for (int index = 0; index < pots.Length; index++)
+            {
+                if (pots[index] != null && pots[index].HasGoldOrHarvesting)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool TrySpawnTraveller()

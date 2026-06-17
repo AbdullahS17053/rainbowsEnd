@@ -5,15 +5,18 @@ namespace RainbowsEnd.Gameplay.Enemies
 {
     public readonly struct TravellerTargetCandidate
     {
-        public TravellerTargetCandidate(Vector2 position, bool isHarvesting)
+        public TravellerTargetCandidate(Vector2 position, bool isHarvesting, bool hasGold)
         {
             Position = position;
             IsHarvesting = isHarvesting;
+            HasGold = hasGold;
         }
 
         public Vector2 Position { get; }
 
         public bool IsHarvesting { get; }
+
+        public bool HasGold { get; }
     }
 
     public static class TravellerTargetSelectionUtility
@@ -31,7 +34,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             float maxDistanceSquared = maxRange > 0f ? maxRange * maxRange : float.PositiveInfinity;
             int bestIndex = -1;
             float bestDistanceSquared = float.MaxValue;
-            bool foundHarvestingTarget = false;
+            int bestPriority = -1;
 
             for (int index = 0; index < candidates.Count; index++)
             {
@@ -42,25 +45,22 @@ namespace RainbowsEnd.Gameplay.Enemies
                     continue;
                 }
 
-                if (candidate.IsHarvesting)
+                int priority = candidate switch
                 {
-                    if (!foundHarvestingTarget || distanceSquared < bestDistanceSquared)
-                    {
-                        foundHarvestingTarget = true;
-                        bestIndex = index;
-                        bestDistanceSquared = distanceSquared;
-                    }
+                    { IsHarvesting: true, HasGold: true } => 3,
+                    { HasGold: true } => 2,
+                    { IsHarvesting: true } => 1,
+                    _ => 0
+                };
 
-                    continue;
-                }
-
-                if (foundHarvestingTarget)
+                if (priority == 0)
                 {
                     continue;
                 }
 
-                if (bestIndex < 0 || distanceSquared < bestDistanceSquared)
+                if (priority > bestPriority || (priority == bestPriority && distanceSquared < bestDistanceSquared))
                 {
+                    bestPriority = priority;
                     bestIndex = index;
                     bestDistanceSquared = distanceSquared;
                 }

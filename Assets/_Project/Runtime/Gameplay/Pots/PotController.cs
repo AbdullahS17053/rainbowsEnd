@@ -5,6 +5,7 @@ using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Unicorn;
 using RainbowsEnd.Systems.Economy;
+using TMPro;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Pots
@@ -22,6 +23,7 @@ namespace RainbowsEnd.Gameplay.Pots
         [SerializeField] private Color harvestingColor = new Color(1f, 0.88f, 0.32f, 1f);
         [SerializeField] private Color interruptedColor = new Color(0.93f, 0.55f, 0.24f, 1f);
         [SerializeField] private Color destroyedColor = new Color(0.24f, 0.24f, 0.24f, 1f);
+        [SerializeField] private TextMeshPro goldLabel;
 
         private readonly PotHarvestState _harvestState = new PotHarvestState();
         private readonly HashSet<int> _activeDrainerIds = new HashSet<int>();
@@ -32,6 +34,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private Color _idleColor = Color.white;
         private bool _hasIdleColor;
         private bool _isRegisteredWithPotRegistry;
+        private float _storedGold;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -48,6 +51,12 @@ namespace RainbowsEnd.Gameplay.Pots
         public bool IsBeingStolenByMilitary => _isBeingStolenByMilitary;
 
         public bool CanBePickedUp => !IsDestroyed && !IsCarried && !_isBeingStolenByMilitary;
+
+        public float StoredGold => _storedGold;
+
+        public bool HasGold => _storedGold > 0.001f;
+
+        public bool HasGoldOrHarvesting => HasGold || _harvestState.Status == PotHarvestStatus.Harvesting;
 
         public void Configure(
             PotConfig potConfig,
@@ -150,6 +159,7 @@ namespace RainbowsEnd.Gameplay.Pots
             if (health != null && health.IsDepleted)
             {
                 _carrier = null;
+                _storedGold = 0f;
                 _harvestState.MarkDestroyed();
                 ResolveEconomyState();
                 _economyState?.SetHarvesterActive(this, false);
@@ -184,11 +194,24 @@ namespace RainbowsEnd.Gameplay.Pots
                 float generatedGold = _harvestState.GenerateGold(Time.deltaTime, _economyState.CurrentHarvestMultiplier);
                 if (generatedGold > 0f)
                 {
-                    _economyState.AddGold(generatedGold);
+                    float maxGold = config != null && config.MaxStoredGold > 0f ? config.MaxStoredGold : float.MaxValue;
+                    _storedGold = Mathf.Min(_storedGold + generatedGold, maxGold);
+                }
+
+                if (_harvestState.Status == PotHarvestStatus.Harvesting && !IsBeingDrained && !_isBeingStolenByMilitary)
+                {
+                    float autoBankRate = config != null ? config.AutoBankGoldPerSecond : 0f;
+                    if (autoBankRate > 0f && _storedGold > 0f)
+                    {
+                        float transfer = Mathf.Min(autoBankRate * Time.deltaTime, _storedGold);
+                        _storedGold -= transfer;
+                        _economyState.AddGold(transfer);
+                    }
                 }
             }
 
             ApplyVisualState();
+            UpdateGoldLabel();
         }
 
         private void OnDisable()
@@ -197,6 +220,7 @@ namespace RainbowsEnd.Gameplay.Pots
             _activeDrainerIds.Clear();
             drainFeedbackPresenter?.SetVisible(false);
             UnregisterFromPotRegistry();
+            HideGoldLabel();
         }
 
         private void OnDestroy()
@@ -216,6 +240,8 @@ namespace RainbowsEnd.Gameplay.Pots
             {
                 visualRenderer = GetComponentInChildren<SpriteRenderer>();
             }
+
+            EnsureGoldLabel();
         }
 
         private void ResolveDefaults()
@@ -360,8 +386,32 @@ namespace RainbowsEnd.Gameplay.Pots
             }
 
             _isBeingStolenByMilitary = false;
+            _storedGold = 0f;
             float lethalDamage = Mathf.Max(health.CurrentHealth, config != null ? config.MaxHealth : 1f);
             health.ApplyDamage(new DamageInfo(lethalDamage, FactionId.Military, transform.position, instigator));
+        }
+
+        public float DrainGold(float amount)
+        {
+            if (amount <= 0f || IsDestroyed)
+            {
+                return 0f;
+            }
+
+            float actualDrain = Mathf.Min(amount, _storedGold);
+            _storedGold -= actualDrain;
+            return actualDrain;
+        }
+
+        public void TransferAllGold()
+        {
+            if (_storedGold <= 0f || _economyState == null)
+            {
+                return;
+            }
+
+            _economyState.AddGold(_storedGold);
+            _storedGold = 0f;
         }
 
         private void TryRegisterWithPotRegistry()
@@ -477,6 +527,60 @@ namespace RainbowsEnd.Gameplay.Pots
 
             visualRenderer.color = targetColor;
             drainFeedbackPresenter?.SetVisible(!IsDestroyed && IsBeingDrained);
+        }
+
+        private void EnsureGoldLabel()
+        {
+            if (goldLabel != null)
+            {
+                return;
+            }
+
+            Transform existing = transform.Find("GoldLabel");
+            if (existing != null)
+            {
+                goldLabel = existing.GetComponent<TextMeshPro>();
+                if (goldLabel != null)
+                {
+                    return;
+                }
+            }
+
+            GameObject labelObj = new GameObject("GoldLabel");
+            labelObj.transform.SetParent(transform, false);
+            labelObj.transform.localPosition = new Vector3(0f, 0.65f, 0f);
+            goldLabel = labelObj.AddComponent<TextMeshPro>();
+            goldLabel.fontSize = 3.5f;
+            goldLabel.alignment = TextAlignmentOptions.Center;
+            goldLabel.color = new Color(1f, 0.84f, 0f, 1f);
+            goldLabel.text = string.Empty;
+        }
+
+        private void UpdateGoldLabel()
+        {
+            if (goldLabel == null)
+            {
+                return;
+            }
+
+            bool shouldShow = !IsDestroyed && _storedGold > 0.001f;
+            if (shouldShow)
+            {
+                goldLabel.text = $"{Mathf.FloorToInt(_storedGold)}g";
+            }
+
+            if (goldLabel.gameObject.activeSelf != shouldShow)
+            {
+                goldLabel.gameObject.SetActive(shouldShow);
+            }
+        }
+
+        private void HideGoldLabel()
+        {
+            if (goldLabel != null)
+            {
+                goldLabel.gameObject.SetActive(false);
+            }
         }
     }
 }

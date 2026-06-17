@@ -72,17 +72,18 @@ namespace RainbowsEnd.UI
 
         private void RefreshLabel()
         {
-            RefreshLabel(economyState != null ? economyState.CurrentGold : 0);
-        }
-
-        private void RefreshLabel(int currentGold)
-        {
             if (goldText == null)
             {
                 return;
             }
 
-            goldText.text = $"{labelPrefix}{currentGold}";
+            int bankedGold = economyState != null ? economyState.CurrentGold : 0;
+            goldText.text = $"{labelPrefix}{bankedGold}";
+        }
+
+        private void RefreshLabel(int currentGold)
+        {
+            RefreshLabel();
         }
     }
 }

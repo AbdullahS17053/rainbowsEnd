@@ -43,6 +43,95 @@ namespace RainbowsEnd.Tests.EditMode.Pots
             }
         }
 
+        [Test]
+        public void TotalStoredGold_AggregatesAcrossPots()
+        {
+            GameObject registryHost = new GameObject("PotRegistry");
+            PotRegistry registry = registryHost.AddComponent<PotRegistry>();
+
+            PotConfig potConfig = ScriptableObject.CreateInstance<PotConfig>();
+
+            GameObject pot1Object = new GameObject("Pot1");
+            GameObject pot2Object = new GameObject("Pot2");
+            GameObject destroyedPotObject = new GameObject("DestroyedPot");
+
+            try
+            {
+                PotController pot1 = ConfigurePot(pot1Object, potConfig);
+                PotController pot2 = ConfigurePot(pot2Object, potConfig);
+                PotController destroyedPot = ConfigurePot(destroyedPotObject, potConfig);
+
+                registry.RegisterPot(pot1);
+                registry.RegisterPot(pot2);
+                registry.RegisterPot(destroyedPot);
+                destroyedPot.DestroyByUnicorn(null);
+
+                float _ = pot1.DrainGold(-1f); // no-op drain
+                float drain1 = pot1.DrainGold(10f);
+                float drain2 = pot2.DrainGold(5f);
+
+                Assert.That(drain1, Is.EqualTo(0f));
+                Assert.That(drain2, Is.EqualTo(0f));
+                Assert.That(registry.TotalStoredGold, Is.EqualTo(0));
+            }
+            finally
+            {
+                Object.DestroyImmediate(pot1Object);
+                Object.DestroyImmediate(pot2Object);
+                Object.DestroyImmediate(destroyedPotObject);
+                Object.DestroyImmediate(potConfig);
+                Object.DestroyImmediate(registryHost);
+            }
+        }
+
+        [Test]
+        public void TotalStoredGold_ReturnsZero_WhenAllPotsEmpty()
+        {
+            GameObject registryHost = new GameObject("PotRegistry");
+            PotRegistry registry = registryHost.AddComponent<PotRegistry>();
+
+            PotConfig potConfig = ScriptableObject.CreateInstance<PotConfig>();
+            GameObject potObject = new GameObject("Pot");
+
+            try
+            {
+                PotController pot = ConfigurePot(potObject, potConfig);
+                registry.RegisterPot(pot);
+
+                Assert.That(registry.TotalStoredGold, Is.EqualTo(0));
+            }
+            finally
+            {
+                Object.DestroyImmediate(potObject);
+                Object.DestroyImmediate(potConfig);
+                Object.DestroyImmediate(registryHost);
+            }
+        }
+
+        [Test]
+        public void HasAnyGoldOrHarvestingPot_ReturnsFalse_WhenAllPotsEmptyAndIdle()
+        {
+            GameObject registryHost = new GameObject("PotRegistry");
+            PotRegistry registry = registryHost.AddComponent<PotRegistry>();
+
+            PotConfig potConfig = ScriptableObject.CreateInstance<PotConfig>();
+            GameObject potObject = new GameObject("Pot");
+
+            try
+            {
+                PotController pot = ConfigurePot(potObject, potConfig);
+                registry.RegisterPot(pot);
+
+                Assert.That(registry.HasAnyGoldOrHarvestingPot, Is.False);
+            }
+            finally
+            {
+                Object.DestroyImmediate(potObject);
+                Object.DestroyImmediate(potConfig);
+                Object.DestroyImmediate(registryHost);
+            }
+        }
+
         private static PotController ConfigurePot(GameObject potObject, PotConfig config)
         {
             Rigidbody2D body = potObject.AddComponent<Rigidbody2D>();

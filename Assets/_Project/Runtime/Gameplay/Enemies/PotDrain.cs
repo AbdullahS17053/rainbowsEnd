@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Gameplay.Pots;
-using RainbowsEnd.Systems.Economy;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Enemies
@@ -13,7 +11,6 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private CircleCollider2D sensorCollider;
 
         private readonly List<PotController> _overlappingPots = new List<PotController>();
-        private EconomyState _economyState;
         private PotController _lastResolvedPot;
         private float _stolenGold;
 
@@ -36,19 +33,18 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         public bool Tick(float deltaTime, float drainGoldPerSecond)
         {
-            ResolveEconomyState();
             CurrentPot = ResolveBestOverlappingPot();
             UpdateCurrentPot(CurrentPot);
-            if (CurrentPot == null || _economyState == null || drainGoldPerSecond <= 0f)
+            if (CurrentPot == null || drainGoldPerSecond <= 0f)
             {
                 IsDraining = false;
                 return false;
             }
 
-            float removed = _economyState.RemoveGold(drainGoldPerSecond * Mathf.Max(0f, deltaTime));
-            _stolenGold += removed;
-            IsDraining = true;
-            return true;
+            float stolen = CurrentPot.DrainGold(drainGoldPerSecond * Mathf.Max(0f, deltaTime));
+            _stolenGold += stolen;
+            IsDraining = stolen > 0f;
+            return stolen > 0f;
         }
 
         public void ResetStolenGold()
@@ -146,22 +142,6 @@ namespace RainbowsEnd.Gameplay.Enemies
             return sensorCollider != null
                 ? Mathf.Max(sensorCollider.bounds.extents.x, sensorCollider.bounds.extents.y, 0.01f)
                 : 0.01f;
-        }
-
-        private void ResolveEconomyState()
-        {
-            if (_economyState != null)
-            {
-                return;
-            }
-
-            if (ProjectContext.Instance?.Services.TryGet(out EconomyState economyState) == true)
-            {
-                _economyState = economyState;
-                return;
-            }
-
-            _economyState = FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
         }
     }
 }

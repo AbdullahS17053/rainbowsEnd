@@ -465,7 +465,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             for (int i = 0; i < pots.Length; i++)
             {
                 PotController pot = pots[i];
-                if (pot == null || pot.IsDestroyed || pot.IsBeingStolenByMilitary)
+                if (pot == null || pot.IsDestroyed || pot.IsBeingStolenByMilitary || !pot.HasGold)
                 {
                     continue;
                 }
