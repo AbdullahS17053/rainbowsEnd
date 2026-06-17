@@ -75,6 +75,25 @@ namespace RainbowsEnd.Gameplay.Pots
             }
         }
 
+        public bool HasAnyGoldPot
+        {
+            get
+            {
+                RemoveNullEntries();
+
+                for (int index = 0; index < _registeredPots.Count; index++)
+                {
+                    PotController pot = _registeredPots[index];
+                    if (pot != null && pot.HasGold)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public void RegisterPot(PotController pot)
         {
             if (pot == null || _registeredPots.Contains(pot))

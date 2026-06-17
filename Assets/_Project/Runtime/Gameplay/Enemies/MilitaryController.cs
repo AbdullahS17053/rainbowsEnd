@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
@@ -447,24 +448,35 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private bool ShouldSwitchToStealing()
         {
-            return _owningSpawner != null && _owningSpawner.ActiveMilitaryCount >= 2;
+            if (_owningSpawner == null || _owningSpawner.ActiveMilitaryCount < 2)
+            {
+                return false;
+            }
+
+            ResolvePotRegistry();
+            if (_potRegistry == null || !_potRegistry.HasAnyGoldPot)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private PotController ResolveNearestStealablePot()
         {
             ResolvePotRegistry();
 
-            PotController[] pots = _potRegistry != null
-                ? FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+            IReadOnlyList<PotController> pots = _potRegistry != null
+                ? _potRegistry.RegisteredPots
                 : FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
             PotController bestPot = null;
             float bestDistanceSquared = float.MaxValue;
             Vector2 position = transform.position;
 
-            for (int i = 0; i < pots.Length; i++)
+            for (int index = 0; index < pots.Count; index++)
             {
-                PotController pot = pots[i];
+                PotController pot = pots[index];
                 if (pot == null || pot.IsDestroyed || pot.IsBeingStolenByMilitary || !pot.HasGold)
                 {
                     continue;
