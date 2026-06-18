@@ -467,29 +467,53 @@ namespace RainbowsEnd.Gameplay.Pots
         {
             DestroyHarvestFlare();
 
+            Color[] rainbowColors = new Color[]
+            {
+                new Color(1f, 0f, 0f),
+                new Color(1f, 0.5f, 0f),
+                new Color(1f, 1f, 0f),
+                new Color(0f, 1f, 0f),
+                new Color(0f, 0.5f, 1f),
+                new Color(0.6f, 0f, 1f),
+            };
+
+            int segCount = rainbowColors.Length;
+            float segWidth = 0.12f;
+            float segHeight = 0.35f;
+            float totalWidth = segCount * segWidth;
+            float startX = -totalWidth * 0.5f;
+
             GameObject flareObj = new GameObject("HarvestFlare");
             flareObj.transform.SetParent(transform, false);
-            flareObj.transform.localPosition = Vector3.zero;
+            flareObj.transform.localPosition = new Vector3(0f, 0.8f, 0f);
 
-            SpriteRenderer sr = flareObj.AddComponent<SpriteRenderer>();
-            sr.sprite = visualRenderer != null ? visualRenderer.sprite : null;
-            sr.color = new Color(1f, 0.88f, 0.32f, 1f);
-            sr.sortingOrder = 1;
+            SpriteRenderer[] segmentRenderers = new SpriteRenderer[segCount];
+
+            for (int i = 0; i < segCount; i++)
+            {
+                GameObject seg = new GameObject($"FlareSeg{i}");
+                seg.transform.SetParent(flareObj.transform, false);
+                seg.transform.localPosition = new Vector3(startX + i * segWidth + segWidth * 0.5f, 0f, 0f);
+                seg.transform.localScale = new Vector3(segWidth, segHeight, 1f);
+
+                SpriteRenderer sr = seg.AddComponent<SpriteRenderer>();
+                sr.sprite = visualRenderer != null ? visualRenderer.sprite : null;
+                sr.color = rainbowColors[i];
+                sr.sortingOrder = 1;
+                segmentRenderers[i] = sr;
+            }
 
             _harvestFlareTransform = flareObj.transform;
 
-            Sequence sequence = DOTween.Sequence();
-            sequence.Join(_harvestFlareTransform.DOScale(new Vector3(0.4f, 2f, 1f), duration * 0.15f));
-            sequence.Join(_harvestFlareTransform.DOLocalMoveY(1.5f, duration * 0.15f));
-            sequence.Append(_harvestFlareTransform.DOLocalMoveY(4f, duration * 0.85f).SetEase(Ease.Linear));
-            sequence.Join(DOTween.To(() => sr.color.a, value =>
+            DOTween.To(() => 0f, offset =>
             {
-                Color c = sr.color;
-                c.a = value;
-                sr.color = c;
-            }, 0f, duration * 0.5f).SetDelay(duration * 0.5f));
-            sequence.OnComplete(() => DestroyHarvestFlare());
-            sequence.SetAutoKill(true);
+                int step = Mathf.FloorToInt(offset);
+                for (int i = 0; i < segCount; i++)
+                {
+                    int colorIndex = (i + step) % segCount;
+                    segmentRenderers[i].color = rainbowColors[colorIndex];
+                }
+            }, segCount, duration).SetTarget(flareObj).SetEase(Ease.Linear).OnComplete(() => DestroyHarvestFlare());
         }
 
         private void DestroyHarvestFlare()
