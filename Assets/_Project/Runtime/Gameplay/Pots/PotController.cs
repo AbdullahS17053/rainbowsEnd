@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
@@ -35,6 +36,9 @@ namespace RainbowsEnd.Gameplay.Pots
         private bool _hasIdleColor;
         private bool _isRegisteredWithPotRegistry;
         private float _storedGold;
+        private RainbowTrailEmitter _trailEmitter;
+        private bool _harvestConsumed;
+        private Transform _harvestFlareTransform;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -130,7 +134,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
             if (IsCarried)
             {
-                _harvestState.ReleaseTrail();
+                ForceStopHarvest();
                 ResolveEconomyState();
                 _economyState?.SetHarvesterActive(this, false);
                 _activeDrainerIds.Clear();
@@ -141,7 +145,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
             if (_isBeingStolenByMilitary)
             {
-                _harvestState.ReleaseTrail();
+                ForceStopHarvest();
                 ResolveEconomyState();
                 _economyState?.SetHarvesterActive(this, false);
                 _activeDrainerIds.Clear();
@@ -158,6 +162,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
             if (health != null && health.IsDepleted)
             {
+                DestroyHarvestFlare();
                 _carrier = null;
                 _storedGold = 0f;
                 _harvestState.MarkDestroyed();
@@ -171,18 +176,34 @@ namespace RainbowsEnd.Gameplay.Pots
 
             ResolveEconomyState();
 
-            if (trailCaptureSensor != null && trailCaptureSensor.TryGetOldestOverlappingTrailTimestamp(out float trailTimestampSeconds))
+            if (!_harvestConsumed && trailCaptureSensor != null && trailCaptureSensor.TryGetOldestOverlappingTrailTimestamp(out float trailTimestampSeconds))
             {
-                float capturedTrailAgeSeconds = Mathf.Max(0f, Time.time - trailTimestampSeconds);
-                float baseHarvestGoldPerSecond = PotHarvestUtility.CalculateBaseHarvestGoldPerSecond(
-                    capturedTrailAgeSeconds,
-                    config != null ? config.BaseHarvestGoldPerSecond : 1f,
-                    config != null ? config.TrailAgeGoldMultiplier : 0f);
-                _harvestState.CaptureTrail(trailTimestampSeconds, baseHarvestGoldPerSecond);
+                if (!_harvestState.HasCapturedTrail && !_harvestState.IsTimedHarvestActive)
+                {
+                    float capturedTrailAgeSeconds = Mathf.Max(0f, Time.time - trailTimestampSeconds);
+                    float baseHarvestGoldPerSecond = PotHarvestUtility.CalculateBaseHarvestGoldPerSecond(
+                        capturedTrailAgeSeconds,
+                        config != null ? config.BaseHarvestGoldPerSecond : 1f,
+                        config != null ? config.TrailAgeGoldMultiplier : 0f);
+
+                    ResolveTrailEmitter();
+                    float trailAge = _trailEmitter != null ? _trailEmitter.TrailAgeSeconds : 0f;
+                    float harvestDuration = Mathf.Max(0f, trailAge - capturedTrailAgeSeconds);
+                    harvestDuration = Mathf.Max(config != null ? config.MinHarvestDurationSeconds : 1f, harvestDuration);
+
+                    _harvestState.CaptureTrail(trailTimestampSeconds, baseHarvestGoldPerSecond, harvestDuration);
+                    _trailEmitter?.ClearAllTrail();
+
+                    _harvestConsumed = true;
+                    PlayHarvestFlare(harvestDuration);
+                }
             }
             else
             {
-                _harvestState.ReleaseTrail();
+                if (!_harvestState.IsTimedHarvestActive)
+                {
+                    _harvestState.ReleaseTrail();
+                }
             }
 
             bool isMoving = body != null && body.linearVelocity.magnitude > ResolveMovementCancelSpeedThreshold();
@@ -216,6 +237,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
         private void OnDisable()
         {
+            DestroyHarvestFlare();
             _economyState?.SetHarvesterActive(this, false);
             _activeDrainerIds.Clear();
             drainFeedbackPresenter?.SetVisible(false);
@@ -324,7 +346,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
             _carrier = carrier;
             _activeDrainerIds.Clear();
-            _harvestState.ReleaseTrail();
+            ForceStopHarvest();
             ResolveEconomyState();
             _economyState?.SetHarvesterActive(this, false);
             ApplyWorldInteractionState();
@@ -345,6 +367,7 @@ namespace RainbowsEnd.Gameplay.Pots
         public void Drop(Vector2 worldPosition)
         {
             _carrier = null;
+            _harvestConsumed = false;
             SetWorldPosition(worldPosition);
             ApplyWorldInteractionState();
             ApplyVisualState();
@@ -412,6 +435,70 @@ namespace RainbowsEnd.Gameplay.Pots
 
             _economyState.AddGold(_storedGold);
             _storedGold = 0f;
+        }
+
+        private void ForceStopHarvest()
+        {
+            _harvestState.ReleaseTrail();
+            DestroyHarvestFlare();
+        }
+
+        private void ResolveTrailEmitter()
+        {
+            if (_trailEmitter != null)
+            {
+                return;
+            }
+
+            if (ProjectContext.Instance?.Services.TryGet(out Core.SceneManagement.ArenaSceneContext arenaCtx) == true)
+            {
+                _trailEmitter = arenaCtx.ArenaBounds != null
+                    ? FindFirstObjectByType<RainbowTrailEmitter>(FindObjectsInactive.Include)
+                    : null;
+            }
+
+            if (_trailEmitter == null)
+            {
+                _trailEmitter = FindFirstObjectByType<RainbowTrailEmitter>(FindObjectsInactive.Include);
+            }
+        }
+
+        private void PlayHarvestFlare(float duration)
+        {
+            DestroyHarvestFlare();
+
+            GameObject flareObj = new GameObject("HarvestFlare");
+            flareObj.transform.SetParent(transform, false);
+            flareObj.transform.localPosition = Vector3.zero;
+
+            SpriteRenderer sr = flareObj.AddComponent<SpriteRenderer>();
+            sr.sprite = visualRenderer != null ? visualRenderer.sprite : null;
+            sr.color = new Color(1f, 0.88f, 0.32f, 1f);
+            sr.sortingOrder = 1;
+
+            _harvestFlareTransform = flareObj.transform;
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.Join(_harvestFlareTransform.DOScale(new Vector3(0.4f, 2f, 1f), duration * 0.15f));
+            sequence.Join(_harvestFlareTransform.DOLocalMoveY(1.5f, duration * 0.15f));
+            sequence.Append(_harvestFlareTransform.DOLocalMoveY(4f, duration * 0.85f).SetEase(Ease.Linear));
+            sequence.Join(DOTween.To(() => sr.color.a, value =>
+            {
+                Color c = sr.color;
+                c.a = value;
+                sr.color = c;
+            }, 0f, duration * 0.5f).SetDelay(duration * 0.5f));
+            sequence.OnComplete(() => DestroyHarvestFlare());
+            sequence.SetAutoKill(true);
+        }
+
+        private void DestroyHarvestFlare()
+        {
+            if (_harvestFlareTransform != null)
+            {
+                Object.Destroy(_harvestFlareTransform.gameObject);
+                _harvestFlareTransform = null;
+            }
         }
 
         private void TryRegisterWithPotRegistry()

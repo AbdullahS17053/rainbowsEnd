@@ -1,4 +1,4 @@
-using RainbowsEnd.Core.Utilities;
+using System.Collections.Generic;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
@@ -7,27 +7,38 @@ namespace RainbowsEnd.Gameplay.Unicorn
     public sealed class RainbowTrailSegment : MonoBehaviour, IPoolable
     {
         [SerializeField] private SpriteRenderer visualRenderer;
-        [SerializeField] [Min(0.01f)] private float defaultLifetimeSeconds = 5f;
 
-        private readonly CountdownTimer _lifetimeTimer = new CountdownTimer();
+        private static readonly List<RainbowTrailSegment> ActiveSegments = new List<RainbowTrailSegment>();
+
         private Color _baseColor = Color.white;
         private bool _hasBaseColor;
         private PrefabPool _owningPool;
 
         public float SpawnTimestampSeconds { get; private set; }
 
-        public float LifetimeSeconds { get; private set; }
-
         public float AgeSeconds => SpawnTimestampSeconds <= 0f ? 0f : Mathf.Max(0f, Time.time - SpawnTimestampSeconds);
 
-        public void Activate(PrefabPool owningPool, float spawnTimestampSeconds, float lifetimeSeconds)
+        public static void ReturnAllToPool()
+        {
+            for (int index = ActiveSegments.Count - 1; index >= 0; index--)
+            {
+                RainbowTrailSegment segment = ActiveSegments[index];
+                if (segment != null && segment._owningPool != null)
+                {
+                    segment._owningPool.Return(segment.gameObject);
+                }
+            }
+
+            ActiveSegments.Clear();
+        }
+
+        public void Activate(PrefabPool owningPool, float spawnTimestampSeconds)
         {
             CacheReferences();
 
             _owningPool = owningPool;
             SpawnTimestampSeconds = spawnTimestampSeconds;
-            LifetimeSeconds = lifetimeSeconds > 0f ? lifetimeSeconds : defaultLifetimeSeconds;
-            _lifetimeTimer.Start(LifetimeSeconds);
+            ActiveSegments.Add(this);
             UpdateVisualAlpha(1f);
         }
 
@@ -43,6 +54,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             CacheReferences();
             ResetState();
             UpdateVisualAlpha(1f);
+            ActiveSegments.Remove(this);
         }
 
         private void Reset()
@@ -58,26 +70,6 @@ namespace RainbowsEnd.Gameplay.Unicorn
         private void Awake()
         {
             CacheReferences(refreshBaseColor: true);
-        }
-
-        private void Update()
-        {
-            if (_owningPool == null || !_lifetimeTimer.IsRunning)
-            {
-                return;
-            }
-
-            _lifetimeTimer.Tick(Time.deltaTime);
-            UpdateVisualAlpha(1f - _lifetimeTimer.ElapsedNormalized);
-
-            if (!_lifetimeTimer.IsComplete)
-            {
-                return;
-            }
-
-            PrefabPool owningPool = _owningPool;
-            _owningPool = null;
-            owningPool.Return(gameObject);
         }
 
         private void CacheReferences(bool refreshBaseColor = false)
@@ -106,8 +98,6 @@ namespace RainbowsEnd.Gameplay.Unicorn
         {
             _owningPool = null;
             SpawnTimestampSeconds = 0f;
-            LifetimeSeconds = 0f;
-            _lifetimeTimer.Reset();
         }
     }
 }

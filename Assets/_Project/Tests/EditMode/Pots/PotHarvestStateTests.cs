@@ -9,7 +9,7 @@ namespace RainbowsEnd.Tests.EditMode.Pots
         public void CaptureTrail_ThenGenerateGold_UsesHarvestMultiplier()
         {
             PotHarvestState harvestState = new PotHarvestState();
-            harvestState.CaptureTrail(2f, 3f);
+            harvestState.CaptureTrail(2f, 3f, 100f);
             harvestState.UpdateState(0.1f, isMoving: false, harvestCancelDelaySeconds: 0f);
 
             float generatedGold = harvestState.GenerateGold(0.5f, 2f);
@@ -22,7 +22,7 @@ namespace RainbowsEnd.Tests.EditMode.Pots
         public void MovingPastCancelDelay_InterruptsHarvest()
         {
             PotHarvestState harvestState = new PotHarvestState();
-            harvestState.CaptureTrail(1f, 2f);
+            harvestState.CaptureTrail(1f, 2f, 100f);
 
             harvestState.UpdateState(0.1f, isMoving: true, harvestCancelDelaySeconds: 0.2f);
             harvestState.UpdateState(0.1f, isMoving: true, harvestCancelDelaySeconds: 0.2f);
@@ -37,7 +37,7 @@ namespace RainbowsEnd.Tests.EditMode.Pots
         public void ReleaseTrail_StopsHarvestAndReturnsIdle()
         {
             PotHarvestState harvestState = new PotHarvestState();
-            harvestState.CaptureTrail(1f, 2f);
+            harvestState.CaptureTrail(1f, 2f, 100f);
             harvestState.UpdateState(0.1f, isMoving: false, harvestCancelDelaySeconds: 0f);
 
             harvestState.ReleaseTrail();
@@ -52,7 +52,7 @@ namespace RainbowsEnd.Tests.EditMode.Pots
         public void InterruptedHarvest_ResumesWhenTrailIsStillPresentAndMovementStops()
         {
             PotHarvestState harvestState = new PotHarvestState();
-            harvestState.CaptureTrail(1f, 2f);
+            harvestState.CaptureTrail(1f, 2f, 100f);
 
             harvestState.UpdateState(0.1f, isMoving: true, harvestCancelDelaySeconds: 0f);
             harvestState.UpdateState(0.1f, isMoving: false, harvestCancelDelaySeconds: 0f);

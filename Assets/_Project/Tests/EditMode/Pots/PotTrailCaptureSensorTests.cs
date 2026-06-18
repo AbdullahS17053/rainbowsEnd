@@ -77,7 +77,7 @@ namespace RainbowsEnd.Tests.EditMode.Pots
             collider.radius = 0.16f;
 
             RainbowTrailSegment segment = segmentObject.AddComponent<RainbowTrailSegment>();
-            segment.Activate(null, spawnTimestampSeconds, 5f);
+            segment.Activate(null, spawnTimestampSeconds);
             return segmentObject;
         }
     }

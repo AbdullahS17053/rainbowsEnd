@@ -6,6 +6,7 @@ namespace RainbowsEnd.Gameplay.Pots
     public sealed class PotHarvestState
     {
         private readonly CountdownTimer _cancelTimer = new CountdownTimer();
+        private readonly CountdownTimer _harvestDurationTimer = new CountdownTimer();
 
         public PotHarvestStatus Status { get; private set; } = PotHarvestStatus.Idle;
 
@@ -15,7 +16,13 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public float BaseHarvestGoldPerSecond { get; private set; }
 
-        public void CaptureTrail(float trailTimestampSeconds, float baseHarvestGoldPerSecond)
+        public bool IsTimedHarvestActive => _harvestDurationTimer.IsRunning;
+
+        public float HarvestRemainingSeconds => _harvestDurationTimer.IsRunning ? _harvestDurationTimer.RemainingSeconds : 0f;
+
+        public float HarvestElapsedNormalized => _harvestDurationTimer.ElapsedNormalized;
+
+        public void CaptureTrail(float trailTimestampSeconds, float baseHarvestGoldPerSecond, float harvestDurationSeconds)
         {
             if (Status == PotHarvestStatus.Destroyed)
             {
@@ -25,6 +32,7 @@ namespace RainbowsEnd.Gameplay.Pots
             HasCapturedTrail = true;
             CapturedTrailTimestampSeconds = trailTimestampSeconds;
             BaseHarvestGoldPerSecond = Mathf.Max(0f, baseHarvestGoldPerSecond);
+            _harvestDurationTimer.Start(Mathf.Max(0.01f, harvestDurationSeconds));
         }
 
         public void ReleaseTrail()
@@ -34,6 +42,7 @@ namespace RainbowsEnd.Gameplay.Pots
                 return;
             }
 
+            _harvestDurationTimer.Reset();
             HasCapturedTrail = false;
             CapturedTrailTimestampSeconds = 0f;
             BaseHarvestGoldPerSecond = 0f;
@@ -45,6 +54,18 @@ namespace RainbowsEnd.Gameplay.Pots
         {
             if (Status == PotHarvestStatus.Destroyed)
             {
+                return;
+            }
+
+            _harvestDurationTimer.Tick(deltaTime);
+
+            if (_harvestDurationTimer.IsComplete)
+            {
+                HasCapturedTrail = false;
+                CapturedTrailTimestampSeconds = 0f;
+                BaseHarvestGoldPerSecond = 0f;
+                _cancelTimer.Reset();
+                Status = PotHarvestStatus.Idle;
                 return;
             }
 
@@ -94,6 +115,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public void MarkDestroyed()
         {
+            _harvestDurationTimer.Reset();
             HasCapturedTrail = false;
             CapturedTrailTimestampSeconds = 0f;
             BaseHarvestGoldPerSecond = 0f;

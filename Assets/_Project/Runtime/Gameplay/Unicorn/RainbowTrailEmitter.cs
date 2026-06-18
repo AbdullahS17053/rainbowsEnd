@@ -12,16 +12,26 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private PrefabPool trailPool;
 
         private float _spawnCooldown;
+        private float _trailStartTime;
+
+        public float TrailAgeSeconds => Time.time - _trailStartTime;
 
         public void Configure(UnicornController controller)
         {
             unicornController = controller;
             _spawnCooldown = 0f;
+            _trailStartTime = Time.time;
         }
 
         public void ConfigurePool(PrefabPool pool)
         {
             trailPool = pool;
+        }
+
+        public void ClearAllTrail()
+        {
+            RainbowTrailSegment.ReturnAllToPool();
+            _trailStartTime = Time.time;
         }
 
         private void Reset()
@@ -38,6 +48,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
         {
             unicornController ??= GetComponent<UnicornController>();
             _spawnCooldown = 0f;
+            _trailStartTime = Time.time;
         }
 
         private void Update()
@@ -72,7 +83,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 return;
             }
 
-            trailSegment.Activate(trailPool, Time.time, unicornController.Config.TrailLifetimeSeconds);
+            trailSegment.Activate(trailPool, Time.time);
         }
 
         private bool ResolvePool()
