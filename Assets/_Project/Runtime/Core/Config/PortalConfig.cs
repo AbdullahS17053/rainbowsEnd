@@ -14,5 +14,9 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Min(0f)] public float ExitOffsetDistance { get; private set; } = 0.75f;
 
         [field: SerializeField] [field: Min(0f)] public float ReentryLockoutSeconds { get; private set; } = 0.2f;
+
+        [field: SerializeField] public Color OldestPortalColor { get; private set; } = new Color(0.2f, 0.4f, 0.9f, 0.95f);
+
+        [field: SerializeField] public Color NewestPortalColor { get; private set; } = new Color(1f, 0.55f, 0.1f, 0.95f);
     }
 }

@@ -154,6 +154,7 @@ namespace RainbowsEnd.Gameplay.Spells
                 }
 
                 portalInstance?.SetPairedPortal(pairedPortal);
+                portalInstance?.SetSlotIndex(index);
             }
         }
 

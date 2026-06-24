@@ -19,6 +19,7 @@ namespace RainbowsEnd.Gameplay.Spells
         private PortalRegistry _owningRegistry;
         private PortalConfig _portalConfig;
         private PortalInstance _pairedPortal;
+        private int _portalSlotIndex = -1;
 
         public PortalInstance PairedPortal => _pairedPortal;
 
@@ -39,11 +40,18 @@ namespace RainbowsEnd.Gameplay.Spells
             ApplyVisualState();
         }
 
+        public void SetSlotIndex(int index)
+        {
+            _portalSlotIndex = index;
+            ApplyVisualState();
+        }
+
         public void OnSpawned()
         {
             EnsureTriggerCollider();
             _lockoutExpirationsByTargetId.Clear();
             _pairedPortal = null;
+            _portalSlotIndex = -1;
             ApplyVisualState();
         }
 
@@ -51,6 +59,7 @@ namespace RainbowsEnd.Gameplay.Spells
         {
             _lockoutExpirationsByTargetId.Clear();
             _pairedPortal = null;
+            _portalSlotIndex = -1;
             ApplyVisualState();
         }
 
@@ -223,11 +232,12 @@ namespace RainbowsEnd.Gameplay.Spells
                 return;
             }
 
-            Color targetColor = _pairedPortal != null
-                ? new Color(0.38f, 0.92f, 0.95f, 0.95f)
-                : new Color(0.2f, 0.52f, 0.62f, 0.9f);
+            Color oldestColor = _portalConfig != null ? _portalConfig.OldestPortalColor : new Color(0.2f, 0.4f, 0.9f, 0.95f);
+            Color newestColor = _portalConfig != null ? _portalConfig.NewestPortalColor : new Color(1f, 0.55f, 0.1f, 0.95f);
 
-            visualRenderer.color = targetColor;
+            visualRenderer.color = _pairedPortal != null
+                ? (_portalSlotIndex == 0 ? oldestColor : newestColor)
+                : oldestColor;
         }
     }
 }
