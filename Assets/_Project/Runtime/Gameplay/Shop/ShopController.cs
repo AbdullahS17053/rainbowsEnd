@@ -22,6 +22,7 @@ namespace RainbowsEnd.Gameplay.Shop
         [SerializeField] private EconomyState economyState;
         [SerializeField] private PlayerPortalController portalController;
         [SerializeField] private ShopPanelPresenter panelPresenter;
+        [SerializeField] private GameObject potPrefab;
         [SerializeField] [Min(0f)] private float fallbackInteractionRadius = 1.75f;
 
         private bool _isShopOpen;
@@ -139,6 +140,15 @@ namespace RainbowsEnd.Gameplay.Shop
                 economyState.AddGold(removedGold);
                 RefreshShopPanel();
                 return false;
+            }
+
+            if (definition.EffectType == ShopUpgradeEffectType.PotPurchase2
+                || definition.EffectType == ShopUpgradeEffectType.PotPurchase3)
+            {
+                Vector2 spawnPosition = faeTreeAnchor != null
+                    ? (Vector2)faeTreeAnchor.transform.position + Random.insideUnitCircle * 1.5f
+                    : (Vector2)transform.position + Random.insideUnitCircle * 1.5f;
+                Object.Instantiate(potPrefab, spawnPosition, Quaternion.identity);
             }
 
             RefreshShopPanel();

@@ -33,3 +33,15 @@ MonoBehaviour:
     cost: 15
     maxPurchaseCount: 3
     valuePerPurchase: 0.15
+  - displayName: 2nd Pot of Gold
+    description: Purchase an additional Pot of Gold for $50.
+    effectType: 3
+    cost: 50
+    maxPurchaseCount: 1
+    valuePerPurchase: 0
+  - displayName: 3rd Pot of Gold
+    description: Purchase another Pot of Gold for $75.
+    effectType: 4
+    cost: 75
+    maxPurchaseCount: 1
+    valuePerPurchase: 0

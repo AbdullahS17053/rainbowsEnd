@@ -13,11 +13,14 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerRoot playerRoot;
 
         private int[] _purchasedLevels;
+        private int _potsPurchased;
         private float _weaponDamageBonus;
         private float _weaponCooldownReduction;
         private float _weaponSpreadReduction;
 
         public event Action Changed;
+
+        public int PotsPurchased => _potsPurchased;
 
         public float WeaponDamageMultiplier => 1f + Mathf.Max(0f, _weaponDamageBonus);
 
@@ -82,6 +85,7 @@ namespace RainbowsEnd.Gameplay.Player
             EnsureLevelStorage();
 
             Array.Clear(_purchasedLevels, 0, _purchasedLevels.Length);
+            _potsPurchased = 0;
             _weaponDamageBonus = 0f;
             _weaponCooldownReduction = 0f;
             _weaponSpreadReduction = 0f;
@@ -136,6 +140,11 @@ namespace RainbowsEnd.Gameplay.Player
 
                 case ShopUpgradeEffectType.WeaponAccuracy:
                     _weaponSpreadReduction += valuePerPurchase;
+                    break;
+
+                case ShopUpgradeEffectType.PotPurchase2:
+                case ShopUpgradeEffectType.PotPurchase3:
+                    _potsPurchased++;
                     break;
             }
         }
