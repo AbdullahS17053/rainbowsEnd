@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadMainArenaOnAwake: 1
-  mainArenaSceneName: MainArena
+  mainArenaSceneName: MainArena_3D
 --- !u!4 &208128059
 Transform:
   m_ObjectHideFlags: 0

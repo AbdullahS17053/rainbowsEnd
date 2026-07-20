@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Boot.unity
     guid: 9eea5d9ac3bc7c44f9775331ea5cdaff
   - enabled: 1
-    path: Assets/_Project/Scenes/MainArena.unity
-    guid: 75cbddcc833d31847ac2884533d7eedb
+    path: Assets/_Project/Scenes/MainArena_3D.unity
+    guid: 687d093fe12f7e145b75afccc7e53cf2
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

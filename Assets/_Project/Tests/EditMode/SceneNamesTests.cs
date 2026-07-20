@@ -14,7 +14,7 @@ namespace RainbowsEnd.Tests.EditMode
         [Test]
         public void MainArenaSceneName_IsStable()
         {
-            Assert.That(SceneNames.MainArena, Is.EqualTo("MainArena"));
+            Assert.That(SceneNames.MainArena, Is.EqualTo("MainArena_3D"));
         }
     }
 }
