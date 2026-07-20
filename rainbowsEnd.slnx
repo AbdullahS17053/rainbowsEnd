@@ -20,6 +20,7 @@
   <Project Path="Unity.Splines.csproj" />
   <Project Path="Unity.Searcher.Editor.csproj" />
   <Project Path="Unity.Burst.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="PPv2URPConverters.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.Shared.csproj" />
@@ -29,7 +30,6 @@
   <Project Path="Unity.RenderPipeline.Universal.ShaderLibrary.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="RainbowsEnd.EditModeTests.csproj" />
   <Project Path="UnityEditor.UI.csproj" />
   <Project Path="Unity.TextMeshPro.csproj" />
