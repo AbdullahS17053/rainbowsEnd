@@ -3,9 +3,9 @@
 ## Current status
 - Planning status: complete enough to start implementation
 - Implementation status: in progress
-- Current phase: Post-MVP Extensions (Military implemented; Phase 13 Polish & Stability partially done)
-- Current focus: all assemblies (Runtime, Editor, EditModeTests) compile with 0 errors; awaiting user feedback or testing
-- Recommended next executable task: manual Unity verification of military mob behavior, unicorn knockback, traveller steal-and-flee, enemy separation, and pot projectile immunity
+- Current phase: 3D Asset Integration (Phase A of 05_AssetIntegration_Plan.md)
+- Current focus: integrating imported POLYGON / INTERFACE Synty assets over the existing 2D gameplay logic
+- Recommended next executable task: Phase A — finalize URP renderer assets and convert POLYGON materials
 
 ## Phase tracker
 - [x] Phase 0 - Project Bootstrap (implemented, awaiting manual Unity verification)
@@ -110,6 +110,19 @@ Post-MVP Military: implemented and compiling; awaiting manual Unity verification
 - 2026-06-17: Implemented Military mob — added MilitaryCount to WaveDefinition (7-param ctor), RunSpawnType.Military, MilitaryController.cs (Combat/Stealing/Escaping states, pot-carrying), MilitarySpawner.cs (gold+weapon drops), military carry/destroy on PotController, updated EnemySeparationUtility, added configs to ProjectConfigRegistry, created Phase13MilitarySetup.cs editor automation
 - 2026-06-17: Fixed military issues — return to Combat after successful pot theft (not despawn), fixed color by setting useCurrentColorAsHealthy=false + explicit healthyColor, fixed drop pools using FindPoolInParent by name, added defaultGoldDropAmount fallback, null safety in SpawnWeaponPickup/GoldPickup
 - 2026-06-17: Fixed military projectiles destroying pots — root cause in WeaponHitUtility.IsValidDamageableTarget where pots (FactionId.Player + IDamageable) passed faction check; added IsPotCollider() helper walking parent chain for PotController, early-returns false before faction/damageable checks; covers all projectile types (bow, police, military); verified all three assemblies compile with 0 errors
+
+## Asset Integration (3D visual upgrade)
+- ADR-0001-3D-Asset-Integration.md: decisions record (locked 2026-07-21)
+- 05_AssetIntegration_Plan.md: phased plan (Phases A-K) — execute in order
+- Decision summary:
+  - Hybrid architecture: 2D physics authoritative, 3D models decorative
+  - Orthographic straight top-down camera preserved
+  - New scene MainArena_3D.unity duplicated from Meadow Forest Demo
+  - URP renderer finalized; POLYGON materials converted to URP
+  - Asset map: Fairy=player, City civilians=Traveller, City police=Police, Military=Military, BusinessMan=unicorn stand-in, SM_Env_Planter_Pot=pots, SM_Env_Tree_Fruit=fae tree, FX_RainbowGlow=unicorn cosmetic, FX_Direction_Arrows=projectiles
+  - All characters Idle this phase (bundled Animators); Goblin Locomotion deferred to polish
+  - Visual scope: env + characters + one HUD element swap only
+  - Verification: manual play-test per phase against checklist in 05_AssetIntegration_Plan.md
 
 ## Next recap template
 Use this after each completed implementation step:
