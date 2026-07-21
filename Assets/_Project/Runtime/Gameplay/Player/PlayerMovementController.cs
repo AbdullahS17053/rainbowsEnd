@@ -1,3 +1,6 @@
+using RainbowsEnd.Core.Bootstrap;
+using RainbowsEnd.Core.SceneManagement;
+using RainbowsEnd.Gameplay.World;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Player
@@ -8,6 +11,8 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerRoot playerRoot;
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private Rigidbody2D body;
+
+        private ArenaBoundsAuthoring _arenaBounds;
 
         public Vector2 MoveInput { get; private set; }
 
@@ -54,6 +59,16 @@ namespace RainbowsEnd.Gameplay.Player
             MoveInput = Vector2.ClampMagnitude(inputReader.MoveInput, 1f);
             Vector2 desiredVelocity = MoveInput * playerRoot.Config.MoveSpeed;
             body.linearVelocity = PlayerMovementUtility.MoveTowards(body.linearVelocity, desiredVelocity, playerRoot.Config.Acceleration, Time.fixedDeltaTime);
+
+            if (_arenaBounds == null)
+            {
+                ResolveArenaBounds();
+            }
+
+            if (_arenaBounds != null)
+            {
+                body.position = _arenaBounds.Clamp(body.position);
+            }
         }
 
         private void CacheReferences()
@@ -74,6 +89,24 @@ namespace RainbowsEnd.Gameplay.Player
             body.freezeRotation = true;
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        }
+
+        private void OnDisable()
+        {
+            _arenaBounds = null;
+        }
+
+        private void ResolveArenaBounds()
+        {
+            if (ProjectContext.Instance?.Services.TryGet(out ArenaSceneContext arenaCtx) == true)
+            {
+                _arenaBounds = arenaCtx.ArenaBounds;
+            }
+
+            if (_arenaBounds == null)
+            {
+                _arenaBounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
+            }
         }
     }
 }
