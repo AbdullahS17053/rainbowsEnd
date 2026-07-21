@@ -31056,6 +31056,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 59
@@ -45134,6 +45138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Lillies_02 (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -55086,6 +55094,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -59432,6 +59444,10 @@ PrefabInstance:
     - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_02 (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -79899,6 +79915,10 @@ PrefabInstance:
     - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_01 (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6426667191667704525, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
@@ -105278,6 +105298,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 37
@@ -107679,6 +107703,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -110260,6 +110288,10 @@ PrefabInstance:
     - target: {fileID: 2890188824703842365, guid: 231991aabb568a143b480c4e6638d511, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_05 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890188824703842365, guid: 231991aabb568a143b480c4e6638d511, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4332713594908230821, guid: 231991aabb568a143b480c4e6638d511, type: 3}
@@ -120390,6 +120422,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 60
@@ -124462,6 +124498,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 444a8f8cbbcf5524c8d57562eae746ce, type: 2}
+    - target: {fileID: 4110077751629344341, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5674392069820156046, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -124469,6 +124509,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -134651,6 +134695,10 @@ PrefabInstance:
     - target: {fileID: 733411129065957145, guid: 6d5dadd908e2bff42b4a13969b907286, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 733411129065957145, guid: 6d5dadd908e2bff42b4a13969b907286, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -9184923445417672969, guid: 6d5dadd908e2bff42b4a13969b907286, type: 3}
@@ -157265,6 +157313,10 @@ PrefabInstance:
     - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_03 (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5498474296180865255, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_RootOrder
@@ -206499,6 +206551,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_04
       objectReference: {fileID: 0}
+    - target: {fileID: 1583811397360488284, guid: ad4266017d60f904c9024d082d378839, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1806195147527725212, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -206521,15 +206577,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2211554112688051686, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.5842896
+      value: -9.18
       objectReference: {fileID: 0}
     - target: {fileID: 2211554112688051686, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7434578
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2211554112688051686, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.4247742
+      value: -0.96
       objectReference: {fileID: 0}
     - target: {fileID: 2211554112688051686, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_LocalRotation.w
@@ -211835,6 +211891,10 @@ PrefabInstance:
     - target: {fileID: 1583811397360488284, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583811397360488284, guid: ad4266017d60f904c9024d082d378839, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1806195147527725212, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -262029,6 +262089,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 100
@@ -263376,9 +263440,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 745086265}
     m_Modifications:
+    - target: {fileID: 3125461362382926805, guid: 0996b546c8b0c714991e7456ae040490, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6998238221925613595, guid: 0996b546c8b0c714991e7456ae040490, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Med_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6998238221925613595, guid: 0996b546c8b0c714991e7456ae040490, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7662149334145718945, guid: 0996b546c8b0c714991e7456ae040490, type: 3}
       propertyPath: m_RootOrder
@@ -317438,6 +317510,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_01 (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6426667191667704525, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
     m_RemovedGameObjects: []
@@ -350526,6 +350602,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -355661,7 +355741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &745086265
 Transform:
   m_ObjectHideFlags: 0
@@ -421770,6 +421850,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Lillies_02 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -431655,6 +431739,10 @@ PrefabInstance:
     - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_01 (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6426667191667704525, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
@@ -488982,7 +489070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0}
-  size: {x: 18, y: 10}
+  size: {x: 20, y: 20}
 --- !u!1001 &1023413606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -529215,6 +529303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
       objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
       value: 27
@@ -541297,6 +541389,10 @@ PrefabInstance:
     - target: {fileID: 6062439210530755565, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6062439210530755565, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6875251685013686615, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
       propertyPath: m_RootOrder
@@ -571368,6 +571464,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Lillies_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6062439210530755565, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6875251685013686615, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -576409,6 +576509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 733411129065957145, guid: 6d5dadd908e2bff42b4a13969b907286, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -9184923445417672969, guid: 6d5dadd908e2bff42b4a13969b907286, type: 3}
     m_RemovedGameObjects: []
@@ -580478,6 +580582,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -589869,6 +589977,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 745086265}
     m_Modifications:
+    - target: {fileID: 3598894716754744852, guid: ebfcdc20b68ebc04f96da3e965fec430, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7228379971996999023, guid: ebfcdc20b68ebc04f96da3e965fec430, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -589928,6 +590040,10 @@ PrefabInstance:
     - target: {fileID: 8006148781275711445, guid: ebfcdc20b68ebc04f96da3e965fec430, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006148781275711445, guid: ebfcdc20b68ebc04f96da3e965fec430, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -591133,6 +591249,10 @@ PrefabInstance:
     - target: {fileID: 2256525659426997430, guid: 50a156ed21fe5f448b4b4da0b5345643, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_06 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2256525659426997430, guid: 50a156ed21fe5f448b4b4da0b5345643, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6247683620915409740, guid: 50a156ed21fe5f448b4b4da0b5345643, type: 3}
@@ -608761,8 +608881,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277815769}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -13.6, y: 9.4, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -608809,7 +608929,7 @@ Transform:
   - {fileID: 1264178128}
   - {fileID: 1588716963}
   m_Father: {fileID: 517038102}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1001 &1277926531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -610313,6 +610433,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -618777,6 +618901,10 @@ PrefabInstance:
     - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5498474296180865255, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_RootOrder
@@ -662833,6 +662961,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_05 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2890188824703842365, guid: 231991aabb568a143b480c4e6638d511, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4332713594908230821, guid: 231991aabb568a143b480c4e6638d511, type: 3}
     m_RemovedGameObjects: []
@@ -664586,6 +664718,10 @@ PrefabInstance:
     - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_03 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117586238626964061, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5498474296180865255, guid: 62c6a9838d4b5fb4497d6aa2003415f4, type: 3}
       propertyPath: m_RootOrder
@@ -677164,6 +677300,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 444a8f8cbbcf5524c8d57562eae746ce, type: 2}
+    - target: {fileID: 4110077751629344341, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5674392069820156046, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -677171,6 +677311,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -747286,7 +747430,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 11.36
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -768754,15 +768898,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4832331081059413497, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.919406
+      value: 12.94
       objectReference: {fileID: 0}
     - target: {fileID: 4832331081059413497, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.73775494
+      value: -0.74
       objectReference: {fileID: 0}
     - target: {fileID: 4832331081059413497, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.411011
+      value: -15.39
       objectReference: {fileID: 0}
     - target: {fileID: 4832331081059413497, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: m_LocalRotation.w
@@ -768795,6 +768939,10 @@ PrefabInstance:
     - target: {fileID: 5207343347866302275, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5207343347866302275, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6797575251817464869, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
@@ -807296,6 +807444,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 444a8f8cbbcf5524c8d57562eae746ce, type: 2}
+    - target: {fileID: 4110077751629344341, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5674392069820156046, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -807303,6 +807455,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
@@ -817510,6 +817666,10 @@ PrefabInstance:
     - target: {fileID: 6671201710616577448, guid: 7ccda6cccc3b37b478c8150b94d87825, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671201710616577448, guid: 7ccda6cccc3b37b478c8150b94d87825, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -1027762332776499303, guid: 7ccda6cccc3b37b478c8150b94d87825, type: 3}
@@ -840661,6 +840821,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_05
       objectReference: {fileID: 0}
+    - target: {fileID: 5207343347866302275, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6000148612099593878, guid: 25a366f9530f17847aab7e10d3457add, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -846139,6 +846303,10 @@ PrefabInstance:
     - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_01 (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6349486475167353718, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6426667191667704525, guid: 15ddc642aad5d7e4489243dd22c050a2, type: 3}
@@ -860431,6 +860599,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_06 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2256525659426997430, guid: 50a156ed21fe5f448b4b4da0b5345643, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6247683620915409740, guid: 50a156ed21fe5f448b4b4da0b5345643, type: 3}
     m_RemovedGameObjects: []
@@ -868854,6 +869026,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_Pile_03 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4374485394195453821, guid: 70cf0fb2a13a39544b0d278b44373fd6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 479216536147852162, guid: 70cf0fb2a13a39544b0d278b44373fd6, type: 3}
     m_RemovedGameObjects: []
@@ -869002,6 +869178,10 @@ PrefabInstance:
     - target: {fileID: 6906830690193866741, guid: 3595ba075729fec458abd9577f51845e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Bush_02 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906830690193866741, guid: 3595ba075729fec458abd9577f51845e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -890252,6 +890432,10 @@ PrefabInstance:
     - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_02 (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -917955,6 +918139,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Rock_01
       objectReference: {fileID: 0}
+    - target: {fileID: 756244418324746648, guid: 9cc02011d1e1d024e9c4420809cd2623, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1260519964212850765, guid: 9cc02011d1e1d024e9c4420809cd2623, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -930073,6 +930261,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Lillies_01 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 6062439210530755565, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6875251685013686615, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
       propertyPath: m_RootOrder
       value: 25
@@ -933367,6 +933559,10 @@ PrefabInstance:
     - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lillies_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6774416895602562607, guid: f471d190ac5cada4fb894f44172172c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -937538,6 +937734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Lillies_01 (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 6062439210530755565, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6875251685013686615, guid: 3e44b897679ea1e458c6a0a8c84ef8ac, type: 3}
       propertyPath: m_RootOrder
       value: 63
@@ -941387,6 +941587,10 @@ PrefabInstance:
     - target: {fileID: 1583811397360488284, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583811397360488284, guid: ad4266017d60f904c9024d082d378839, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1806195147527725212, guid: ad4266017d60f904c9024d082d378839, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -957271,6 +957475,10 @@ PrefabInstance:
     - target: {fileID: 2452613710419899469, guid: f5ba9e2973c6d8d4cad295b79e2a7f45, type: 3}
       propertyPath: m_Name
       value: SM_Env_Tree_Fruit_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452613710419899469, guid: f5ba9e2973c6d8d4cad295b79e2a7f45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2973149261809905399, guid: f5ba9e2973c6d8d4cad295b79e2a7f45, type: 3}
       propertyPath: m_RootOrder
@@ -996455,6 +996663,10 @@ PrefabInstance:
     - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_Name
       value: SM_Env_Grass_Tall_Clump_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171772110245735729, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840223071403276171, guid: cfe5427e6e4acef4bb8dc5e23f38b3d5, type: 3}
       propertyPath: m_RootOrder
