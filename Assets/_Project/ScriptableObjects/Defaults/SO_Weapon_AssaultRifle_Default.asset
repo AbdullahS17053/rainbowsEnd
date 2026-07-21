@@ -22,5 +22,5 @@ MonoBehaviour:
   <MinSpreadDegrees>k__BackingField: 2
   <MaxSpreadDegrees>k__BackingField: 8
   <VolleySpreadDegrees>k__BackingField: 0
-  <ImpactEffectLifetimeSeconds>k__BackingField: 0.1
-  <ImpactEffectScale>k__BackingField: 0.28
+  <ImpactEffectLifetimeSeconds>k__BackingField: 0.25
+  <ImpactEffectScale>k__BackingField: 0.5
