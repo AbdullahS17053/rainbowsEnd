@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7291940470656805244}
   - component: {fileID: 672285732124990436}
   - component: {fileID: 5688101733699248648}
+  - component: {fileID: 2196215310813732646}
   m_Layer: 0
   m_Name: PF_Military
   m_TagString: Untagged
@@ -205,6 +206,21 @@ MonoBehaviour:
   depletedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   woundedThreshold: 0.65
   criticalThreshold: 0.3
+--- !u!114 &2196215310813732646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046763860811145478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e502496ed4aa4404b81223e77126d47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 320336674443428955}
+  animator: {fileID: 7680355344619460815}
+  speedParameter: Speed
 --- !u!1 &8759965418389963343
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,11 +361,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95813105710098806, guid: 7f745586162057b4ba599160c0885d7c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d1a3ef63a18a06343a5eaa25a468465e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f745586162057b4ba599160c0885d7c, type: 3}
+--- !u!95 &7680355344619460815 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95813105710098806, guid: 7f745586162057b4ba599160c0885d7c, type: 3}
+  m_PrefabInstance: {fileID: 7764909434064449977}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7767897028693210605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4330754933752916, guid: 7f745586162057b4ba599160c0885d7c, type: 3}

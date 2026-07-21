@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7528337752314213321}
   - component: {fileID: 4458744624779425194}
   - component: {fileID: 6399842137174391276}
+  - component: {fileID: 2297271600386791871}
   m_Layer: 0
   m_Name: PF_Traveller
   m_TagString: Untagged
@@ -147,6 +148,21 @@ MonoBehaviour:
   visualRenderer: {fileID: 706265026370921327}
   roamingColor: {r: 0.8784314, g: 0.23921567, b: 0.2763518, a: 1}
   drainingColor: {r: 0.8192367, g: 0.23921567, b: 1, a: 1}
+--- !u!114 &2297271600386791871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43138855194744848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e502496ed4aa4404b81223e77126d47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 4142890393366784315}
+  animator: {fileID: 8379440644124393459}
+  speedParameter: Speed
 --- !u!1 &3217746819266481716
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,11 +303,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95481129507444498, guid: 7851e97aa32f5474f92b61e3e4988c1a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d1a3ef63a18a06343a5eaa25a468465e, type: 2}
+    - target: {fileID: 95481129507444498, guid: 7851e97aa32f5474f92b61e3e4988c1a, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tTransform
+        'Eyebrows'\n\tTransform 'Eyes'\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tFrom
+        animation clip 'A_POLY_GBL_Walk_F_Neut'"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7851e97aa32f5474f92b61e3e4988c1a, type: 3}
+--- !u!95 &8379440644124393459 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95481129507444498, guid: 7851e97aa32f5474f92b61e3e4988c1a, type: 3}
+  m_PrefabInstance: {fileID: 8438328751020468449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8436521359634125301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4077195986647316, guid: 7851e97aa32f5474f92b61e3e4988c1a, type: 3}

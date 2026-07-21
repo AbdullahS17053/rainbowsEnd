@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3831562268573918119}
   - component: {fileID: 4729398081228199742}
   - component: {fileID: 1149303364663066960}
+  - component: {fileID: 6835420200225938826}
   m_Layer: 0
   m_Name: PF_Police
   m_TagString: Untagged
@@ -205,6 +206,21 @@ MonoBehaviour:
   depletedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   woundedThreshold: 0.65
   criticalThreshold: 0.3
+--- !u!114 &6835420200225938826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258443244820175397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e502496ed4aa4404b81223e77126d47c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 6511329115813671945}
+  animator: {fileID: 9158319711073352091}
+  speedParameter: Speed
 --- !u!1 &8432636644020566880
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +361,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d1a3ef63a18a06343a5eaa25a468465e, type: 2}
+    - target: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tTransform
+        'Eyebrows'\n\tTransform 'Eyes'\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tFrom
+        animation clip 'A_POLY_GBL_Walk_F_Neut'"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -353,5 +381,10 @@ PrefabInstance:
 --- !u!4 &9105054966571095603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
+  m_PrefabInstance: {fileID: 9100263833861231605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9158319711073352091 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
   m_PrefabInstance: {fileID: 9100263833861231605}
   m_PrefabAsset: {fileID: 0}
