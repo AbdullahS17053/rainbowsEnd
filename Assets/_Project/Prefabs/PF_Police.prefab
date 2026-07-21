@@ -221,6 +221,9 @@ MonoBehaviour:
   body: {fileID: 6511329115813671945}
   animator: {fileID: 9158319711073352091}
   speedParameter: Speed
+  visualRoot: {fileID: 9105054966571095603}
+  faceMovementDirection: 1
+  rotationSmoothing: 12
 --- !u!1 &8432636644020566880
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,11 +338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_LocalRotation.y
@@ -355,11 +358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4792760536286662, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_Controller

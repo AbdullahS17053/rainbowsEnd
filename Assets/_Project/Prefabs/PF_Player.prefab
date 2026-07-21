@@ -346,6 +346,9 @@ MonoBehaviour:
   body: {fileID: 1599884398852445248}
   animator: {fileID: 2873564638087603287}
   speedParameter: Speed
+  visualRoot: {fileID: 0}
+  faceMovementDirection: 0
+  rotationSmoothing: 12
 --- !u!1 &6093844470412639986
 GameObject:
   m_ObjectHideFlags: 0
