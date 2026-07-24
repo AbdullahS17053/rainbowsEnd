@@ -440,7 +440,8 @@ namespace RainbowsEnd.Gameplay.Enemies
                 visualRoot.up = direction;
             }
 
-            if (distanceToTarget <= weaponConfig.Range)
+            if (distanceToTarget <= weaponConfig.Range
+                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget)
             {
                 rangedAttackController.TryFire(transform.position, direction, 0f, this);
             }

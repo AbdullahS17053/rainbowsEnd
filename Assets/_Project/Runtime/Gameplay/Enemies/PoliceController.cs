@@ -2,6 +2,7 @@ using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
 using RainbowsEnd.Gameplay.Player;
+using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
@@ -190,7 +191,8 @@ namespace RainbowsEnd.Gameplay.Enemies
                 visualRoot.up = direction;
             }
 
-            if (distanceToTarget <= weaponConfig.Range)
+            if (distanceToTarget <= weaponConfig.Range
+                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget)
             {
                 rangedAttackController.TryFire(transform.position, direction, 0f, this);
             }

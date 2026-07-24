@@ -40,7 +40,6 @@ namespace RainbowsEnd.Gameplay.Combat
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
         private readonly WeaponRuntimeState _runtimeState = new WeaponRuntimeState();
 
-        private static readonly RaycastHit2D[] _coverCheckBuffer = new RaycastHit2D[16];
         private readonly System.Collections.Generic.List<Collider2D> _targetCandidateColliders = new System.Collections.Generic.List<Collider2D>();
 
         private MeshRenderer _runtimeConeMeshRenderer;
@@ -366,28 +365,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private float GetNearestCoverBlockDistance(Vector2 origin, Vector2 direction, float maxDistance)
         {
-            int count = Physics2D.RaycastNonAlloc(origin, direction, _coverCheckBuffer, maxDistance);
-            float nearest = maxDistance;
-            for (int i = 0; i < count; i++)
-            {
-                Collider2D c = _coverCheckBuffer[i].collider;
-                if (c == null)
-                {
-                    continue;
-                }
-
-                CoverBlocker blocker = c.GetComponent<CoverBlocker>();
-                if (blocker != null && blocker.BlocksLineOfSight)
-                {
-                    float d = _coverCheckBuffer[i].distance;
-                    if (d < nearest)
-                    {
-                        nearest = d;
-                    }
-                }
-            }
-
-            return nearest;
+            return CoverBlocker.GetNearestBlockDistance(origin, direction, maxDistance);
         }
 
         private bool HasLineOfSight(Vector2 from, Vector2 targetPosition, float maxRange)
