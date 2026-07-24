@@ -2,6 +2,7 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Player;
+using RainbowsEnd.Gameplay.World;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -38,6 +39,9 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
         private readonly WeaponRuntimeState _runtimeState = new WeaponRuntimeState();
+
+        private static readonly RaycastHit2D[] _coverCheckBuffer = new RaycastHit2D[16];
+        private readonly System.Collections.Generic.List<Collider2D> _targetCandidateColliders = new System.Collections.Generic.List<Collider2D>();
 
         private MeshRenderer _runtimeConeMeshRenderer;
         private MeshFilter _runtimeConeMeshFilter;
@@ -215,6 +219,7 @@ namespace RainbowsEnd.Gameplay.Combat
             Collider2D ignoredCollider = playerRoot != null ? playerRoot.BodyCollider : null;
 
             _targetCandidatePositions.Clear();
+            _targetCandidateColliders.Clear();
 
             for (int index = 0; index < overlaps.Length; index++)
             {
@@ -224,22 +229,35 @@ namespace RainbowsEnd.Gameplay.Combat
                     continue;
                 }
 
+                _targetCandidateColliders.Add(overlap);
                 _targetCandidatePositions.Add(overlap.bounds.center);
             }
 
-            int selectedIndex = WeaponAutoFireTargetingUtility.SelectNearestTargetIndex(
-                targetingOrigin,
-                aimDirection,
-                _targetCandidatePositions,
-                targetingRange,
-                ResolveAutoFireConeDegrees());
-            if (selectedIndex < 0)
+            while (_targetCandidatePositions.Count > 0)
             {
-                return false;
+                int selectedIndex = WeaponAutoFireTargetingUtility.SelectNearestTargetIndex(
+                    targetingOrigin,
+                    aimDirection,
+                    _targetCandidatePositions,
+                    targetingRange,
+                    ResolveAutoFireConeDegrees());
+                if (selectedIndex < 0)
+                {
+                    return false;
+                }
+
+                Vector2 targetPosition = _targetCandidatePositions[selectedIndex];
+                if (HasLineOfSight(targetingOrigin, targetPosition, targetingRange))
+                {
+                    nearestTargetPosition = targetPosition;
+                    return true;
+                }
+
+                _targetCandidatePositions.RemoveAt(selectedIndex);
+                _targetCandidateColliders.RemoveAt(selectedIndex);
             }
 
-            nearestTargetPosition = _targetCandidatePositions[selectedIndex];
-            return true;
+            return false;
         }
 
         private void ResolveDefaults()
@@ -346,6 +364,45 @@ namespace RainbowsEnd.Gameplay.Combat
             return legacyAutoFireConeDegrees > 0f ? legacyAutoFireConeDegrees : DefaultAutoFireConeDegrees;
         }
 
+        private float GetNearestCoverBlockDistance(Vector2 origin, Vector2 direction, float maxDistance)
+        {
+            int count = Physics2D.RaycastNonAlloc(origin, direction, _coverCheckBuffer, maxDistance);
+            float nearest = maxDistance;
+            for (int i = 0; i < count; i++)
+            {
+                Collider2D c = _coverCheckBuffer[i].collider;
+                if (c == null)
+                {
+                    continue;
+                }
+
+                CoverBlocker blocker = c.GetComponent<CoverBlocker>();
+                if (blocker != null && blocker.BlocksLineOfSight)
+                {
+                    float d = _coverCheckBuffer[i].distance;
+                    if (d < nearest)
+                    {
+                        nearest = d;
+                    }
+                }
+            }
+
+            return nearest;
+        }
+
+        private bool HasLineOfSight(Vector2 from, Vector2 targetPosition, float maxRange)
+        {
+            Vector2 toTarget = targetPosition - from;
+            float distanceToTarget = toTarget.magnitude;
+            if (distanceToTarget < 0.01f)
+            {
+                return true;
+            }
+
+            float coverDistance = GetNearestCoverBlockDistance(from, toTarget / distanceToTarget, Mathf.Min(distanceToTarget, maxRange));
+            return coverDistance >= distanceToTarget;
+        }
+
         private bool ShouldAttemptFire()
         {
             if (playerRoot != null && playerRoot.IsCarryingPot)
@@ -382,6 +439,7 @@ namespace RainbowsEnd.Gameplay.Combat
             }
 
             Vector3 origin3D = transform.InverseTransformPoint(ResolveTargetingOrigin());
+            Vector2 worldOrigin = ResolveTargetingOrigin();
             float halfConeDegrees = ResolveAutoFireConeDegrees() * 0.5f;
             int arcPointCount = AutoFireConeGizmoSegments + 2;
             int[] triangles = new int[AutoFireConeGizmoSegments * 3];
@@ -401,7 +459,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 float t = index / (float)AutoFireConeGizmoSegments;
                 float angle = Mathf.Lerp(-halfConeDegrees, halfConeDegrees, t);
                 Vector2 arcDirection = Quaternion.Euler(0f, 0f, angle) * forward;
-                vertices[index + 1] = origin3D + transform.InverseTransformDirection(arcDirection * targetingRange);
+                float arcDistance = GetNearestCoverBlockDistance(worldOrigin, arcDirection, targetingRange);
+                vertices[index + 1] = origin3D + transform.InverseTransformDirection(arcDirection * arcDistance);
             }
 
             _runtimeConeMesh.Clear();
