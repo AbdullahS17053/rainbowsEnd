@@ -12,7 +12,6 @@ namespace RainbowsEnd.Gameplay.Combat
     {
         private const float DefaultAutoFireConeDegrees = 45f;
         private const int AutoFireConeGizmoSegments = 16;
-        private const float RuntimeConeLineWidth = 0.04f;
 
         private enum FireControlMode
         {
@@ -40,7 +39,9 @@ namespace RainbowsEnd.Gameplay.Combat
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
         private readonly WeaponRuntimeState _runtimeState = new WeaponRuntimeState();
 
-        private LineRenderer _runtimeConeRenderer;
+        private MeshRenderer _runtimeConeMeshRenderer;
+        private MeshFilter _runtimeConeMeshFilter;
+        private Mesh _runtimeConeMesh;
         private Material _runtimeConeMaterial;
 
         public WeaponConfig WeaponConfig => weaponConfig;
@@ -95,10 +96,10 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private void OnDestroy()
         {
-            if (_runtimeConeMaterial != null)
+            if (_runtimeConeMesh != null)
             {
-                Destroy(_runtimeConeMaterial);
-                _runtimeConeMaterial = null;
+                Destroy(_runtimeConeMesh);
+                _runtimeConeMesh = null;
             }
         }
 
@@ -375,36 +376,46 @@ namespace RainbowsEnd.Gameplay.Combat
             }
 
             EnsureRuntimeConeRenderer();
-            if (_runtimeConeRenderer == null)
+            if (_runtimeConeMeshRenderer == null)
             {
                 return;
             }
 
-            _runtimeConeRenderer.startColor = autoFireConeColor;
-            _runtimeConeRenderer.endColor = autoFireConeColor;
-            _runtimeConeRenderer.enabled = true;
-
-            Vector2 origin = ResolveTargetingOrigin();
+            Vector3 origin3D = transform.InverseTransformPoint(ResolveTargetingOrigin());
             float halfConeDegrees = ResolveAutoFireConeDegrees() * 0.5f;
-            int positionCount = AutoFireConeGizmoSegments + 3;
-            _runtimeConeRenderer.positionCount = positionCount;
-            _runtimeConeRenderer.SetPosition(0, origin);
+            int arcPointCount = AutoFireConeGizmoSegments + 2;
+            int[] triangles = new int[AutoFireConeGizmoSegments * 3];
+
+            for (int i = 0; i < AutoFireConeGizmoSegments; i++)
+            {
+                triangles[i * 3] = 0;
+                triangles[i * 3 + 1] = i + 2;
+                triangles[i * 3 + 2] = i + 1;
+            }
+
+            Vector3[] vertices = new Vector3[arcPointCount];
+            vertices[0] = origin3D;
 
             for (int index = 0; index <= AutoFireConeGizmoSegments; index++)
             {
                 float t = index / (float)AutoFireConeGizmoSegments;
                 float angle = Mathf.Lerp(-halfConeDegrees, halfConeDegrees, t);
                 Vector2 arcDirection = Quaternion.Euler(0f, 0f, angle) * forward;
-                Vector2 currentPoint = origin + arcDirection * targetingRange;
-                _runtimeConeRenderer.SetPosition(index + 1, currentPoint);
+                vertices[index + 1] = origin3D + transform.InverseTransformDirection(arcDirection * targetingRange);
             }
 
-            _runtimeConeRenderer.SetPosition(positionCount - 1, origin);
+            _runtimeConeMesh.Clear();
+            _runtimeConeMesh.vertices = vertices;
+            _runtimeConeMesh.triangles = triangles;
+            _runtimeConeMesh.RecalculateBounds();
+
+            _runtimeConeMaterial.color = autoFireConeColor;
+            _runtimeConeMeshRenderer.enabled = true;
         }
 
         private void EnsureRuntimeConeRenderer()
         {
-            if (_runtimeConeRenderer != null)
+            if (_runtimeConeMeshRenderer != null)
             {
                 return;
             }
@@ -412,31 +423,26 @@ namespace RainbowsEnd.Gameplay.Combat
             GameObject rendererObject = new GameObject("AutoFireConeRuntime");
             rendererObject.transform.SetParent(transform, false);
 
-            _runtimeConeRenderer = rendererObject.AddComponent<LineRenderer>();
-            _runtimeConeRenderer.useWorldSpace = true;
-            _runtimeConeRenderer.loop = false;
-            _runtimeConeRenderer.textureMode = LineTextureMode.Stretch;
-            _runtimeConeRenderer.alignment = LineAlignment.View;
-            _runtimeConeRenderer.widthMultiplier = RuntimeConeLineWidth;
-            _runtimeConeRenderer.numCapVertices = 2;
-            _runtimeConeRenderer.positionCount = 0;
-            _runtimeConeRenderer.sortingOrder = 9;
-            _runtimeConeRenderer.enabled = false;
+            _runtimeConeMeshFilter = rendererObject.AddComponent<MeshFilter>();
+            _runtimeConeMeshRenderer = rendererObject.AddComponent<MeshRenderer>();
 
-            Shader spriteShader = Shader.Find("Sprites/Default");
-            if (spriteShader != null)
-            {
-                _runtimeConeMaterial = new Material(spriteShader);
-                _runtimeConeMaterial.color = Color.white;
-                _runtimeConeRenderer.material = _runtimeConeMaterial;
-            }
+            _runtimeConeMesh = new Mesh();
+            _runtimeConeMesh.MarkDynamic();
+            _runtimeConeMeshFilter.mesh = _runtimeConeMesh;
+
+            _runtimeConeMeshRenderer.enabled = false;
+            _runtimeConeMeshRenderer.sortingOrder = 9;
+
+            _runtimeConeMaterial = new Material(Shader.Find("Sprites/Default"));
+            _runtimeConeMaterial.color = Color.white;
+            _runtimeConeMeshRenderer.material = _runtimeConeMaterial;
         }
 
         private void SetRuntimeConeVisible(bool isVisible)
         {
-            if (_runtimeConeRenderer != null)
+            if (_runtimeConeMeshRenderer != null)
             {
-                _runtimeConeRenderer.enabled = isVisible;
+                _runtimeConeMeshRenderer.enabled = isVisible;
             }
         }
 

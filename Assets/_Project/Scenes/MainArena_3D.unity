@@ -843400,6 +843400,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 188805178}
     - target: {fileID: 5018818153126188303, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018818153126188303, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
       propertyPath: worldCamera
       value: 
       objectReference: {fileID: 1570835172}
@@ -843467,6 +843471,10 @@ PrefabInstance:
       propertyPath: projectileLauncher
       value: 
       objectReference: {fileID: 1773624264}
+    - target: {fileID: 7355131472775218047, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
+      propertyPath: autoFireConeColor.a
+      value: 0.36862746
+      objectReference: {fileID: 0}
     - target: {fileID: 7355131472775218047, guid: 774572d1830ba8d46a8e0ab8328be3d5, type: 3}
       propertyPath: showAutoFireConeInEditor
       value: 1
