@@ -445,9 +445,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7355717419963551836}
     m_Modifications:
+    - target: {fileID: 1051656882921966, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1076485051776794, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1094484580872426, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1130955691468970, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
       propertyPath: m_Name
       value: Fairy Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212571098015368, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299204259201578, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423211833304134, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432237734282066, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4208564641292386, guid: 978a5cdcbd88a2b46903dec8fab90da9, type: 3}
       propertyPath: m_LocalPosition.x
