@@ -22,13 +22,16 @@ namespace RainbowsEnd.Gameplay.Player
             }
             else if (worldCamera != null)
             {
-                float screenDepth = Mathf.Abs(actorPosition.z - worldCamera.transform.position.z);
-                Vector3 screenPoint = new Vector3(aimValue.x, aimValue.y, screenDepth);
-                Vector3 worldPoint = worldCamera.ScreenToWorldPoint(screenPoint);
-                Vector2 aimDirection = worldPoint - actorPosition;
-                if (aimDirection.sqrMagnitude > 0.0001f)
+                Ray ray = worldCamera.ScreenPointToRay(new Vector3(aimValue.x, aimValue.y, 0f));
+                Plane groundPlane = new Plane(Vector3.back, Vector3.zero);
+                if (groundPlane.Raycast(ray, out float distance))
                 {
-                    return aimDirection.normalized;
+                    Vector3 worldPoint = ray.GetPoint(distance);
+                    Vector2 aimDirection = worldPoint - actorPosition;
+                    if (aimDirection.sqrMagnitude > 0.0001f)
+                    {
+                        return aimDirection.normalized;
+                    }
                 }
             }
 
