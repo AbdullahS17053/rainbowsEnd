@@ -222,7 +222,7 @@ MonoBehaviour:
   animator: {fileID: 7680355344619460815}
   speedParameter: Speed
   visualRoot: {fileID: 8141202990015847881}
-  faceMovementDirection: 1
+  faceMovementDirection: 0
   rotationSmoothing: 12
 --- !u!1 &8759965418389963343
 GameObject:
