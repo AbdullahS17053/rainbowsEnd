@@ -62,5 +62,13 @@ namespace RainbowsEnd.Core.Animation
                     : target;
             }
         }
+
+        public void TriggerFire()
+        {
+            if (animator != null)
+            {
+                animator.SetTrigger("Fire");
+            }
+        }
     }
 }

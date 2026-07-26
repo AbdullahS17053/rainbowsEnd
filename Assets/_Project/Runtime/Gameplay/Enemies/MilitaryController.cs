@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RainbowsEnd.Core.Animation;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
@@ -35,6 +36,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private ProjectileWeaponLauncher projectileLauncher;
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private RangedAttackController rangedAttackController;
+        [SerializeField] private CharacterAnimationBridge animationBridge;
 
         private PrefabPool _owningPool;
         private PrefabPool _weaponPickupPool;
@@ -444,7 +446,10 @@ namespace RainbowsEnd.Gameplay.Enemies
                 && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget
                 && !_targetPlayer.IsDisabled)
             {
-                rangedAttackController.TryFire(transform.position, direction, 0f, this);
+                if (rangedAttackController.TryFire(transform.position, direction, 0f, this))
+                {
+                    animationBridge?.TriggerFire();
+                }
             }
         }
 
@@ -632,6 +637,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             projectileLauncher ??= GetComponent<ProjectileWeaponLauncher>();
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
             rangedAttackController ??= GetComponent<RangedAttackController>();
+            animationBridge ??= GetComponent<CharacterAnimationBridge>();
 
             if (visualRoot == null)
             {

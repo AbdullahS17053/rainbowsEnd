@@ -1,3 +1,4 @@
+using RainbowsEnd.Core.Animation;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
@@ -36,6 +37,7 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] private bool showAutoFireCone;
         [SerializeField] private Color autoFireConeColor = new Color(1f, 0.82f, 0.24f, 0.9f);
         [SerializeField] [Min(0f)] private float fallbackMuzzleOffset = 0.55f;
+        [SerializeField] private CharacterAnimationBridge animationBridge;
 
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
         private readonly WeaponRuntimeState _runtimeState = new WeaponRuntimeState();
@@ -189,6 +191,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 ResolveDamage());
 
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
+
+            animationBridge?.TriggerFire();
         }
 
         private void CacheReferences()
@@ -201,6 +205,7 @@ namespace RainbowsEnd.Gameplay.Combat
             upgradeRuntime ??= GetComponent<PlayerUpgradeRuntime>();
             projectileLauncher ??= GetComponent<ProjectileWeaponLauncher>();
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
+            animationBridge ??= GetComponent<CharacterAnimationBridge>();
         }
 
         private bool TryGetNearestHostileTargetInCone(Vector2 aimDirection, out Vector2 nearestTargetPosition)
