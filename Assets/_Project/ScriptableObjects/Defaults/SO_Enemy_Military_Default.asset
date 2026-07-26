@@ -16,7 +16,7 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 2.75
   <ContactDamage>k__BackingField: 1
   <TargetRefreshSeconds>k__BackingField: 0.2
-  <EngagementRange>k__BackingField: 24
+  <EngagementRange>k__BackingField: 50
   <SeparationRadius>k__BackingField: 0.7
   <SeparationStrength>k__BackingField: 2.5
   <StealRate>k__BackingField: 1
