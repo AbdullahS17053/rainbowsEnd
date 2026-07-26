@@ -12,7 +12,8 @@ namespace RainbowsEnd.Gameplay.Spells
     public sealed class PortalInstance : MonoBehaviour, IPoolable
     {
         [SerializeField] private Collider2D triggerCollider;
-        [SerializeField] private SpriteRenderer visualRenderer;
+        [SerializeField] private GameObject oldestVfx;
+        [SerializeField] private GameObject newestVfx;
 
         private readonly Dictionary<int, float> _lockoutExpirationsByTargetId = new Dictionary<int, float>();
 
@@ -31,19 +32,19 @@ namespace RainbowsEnd.Gameplay.Spells
             Vector2 normalizedFacingDirection = facingDirection.sqrMagnitude > 0f ? facingDirection.normalized : Vector2.up;
             transform.up = normalizedFacingDirection;
             EnsureTriggerCollider();
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         public void SetPairedPortal(PortalInstance pairedPortal)
         {
             _pairedPortal = pairedPortal;
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         public void SetSlotIndex(int index)
         {
             _portalSlotIndex = index;
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         public void OnSpawned()
@@ -52,7 +53,7 @@ namespace RainbowsEnd.Gameplay.Spells
             _lockoutExpirationsByTargetId.Clear();
             _pairedPortal = null;
             _portalSlotIndex = -1;
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         public void OnDespawned()
@@ -60,28 +61,28 @@ namespace RainbowsEnd.Gameplay.Spells
             _lockoutExpirationsByTargetId.Clear();
             _pairedPortal = null;
             _portalSlotIndex = -1;
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         private void Reset()
         {
             CacheReferences();
             EnsureTriggerCollider();
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         private void OnValidate()
         {
             CacheReferences();
             EnsureTriggerCollider();
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         private void Awake()
         {
             CacheReferences();
             EnsureTriggerCollider();
-            ApplyVisualState();
+            UpdatePortalVfx();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -117,10 +118,6 @@ namespace RainbowsEnd.Gameplay.Spells
         private void CacheReferences()
         {
             triggerCollider ??= GetComponent<Collider2D>();
-            if (visualRenderer == null)
-            {
-                visualRenderer = GetComponentInChildren<SpriteRenderer>();
-            }
         }
 
         private void EnsureTriggerCollider()
@@ -225,19 +222,20 @@ namespace RainbowsEnd.Gameplay.Spells
             }
         }
 
-        private void ApplyVisualState()
+        private void UpdatePortalVfx()
         {
-            if (visualRenderer == null)
+            bool showOldest = _pairedPortal == null || _portalSlotIndex == 0;
+            bool showNewest = _pairedPortal != null && _portalSlotIndex == 1;
+
+            if (oldestVfx != null)
             {
-                return;
+                oldestVfx.SetActive(showOldest);
             }
 
-            Color oldestColor = _portalConfig != null ? _portalConfig.OldestPortalColor : new Color(0.2f, 0.4f, 0.9f, 0.95f);
-            Color newestColor = _portalConfig != null ? _portalConfig.NewestPortalColor : new Color(1f, 0.55f, 0.1f, 0.95f);
-
-            visualRenderer.color = _pairedPortal != null
-                ? (_portalSlotIndex == 0 ? oldestColor : newestColor)
-                : oldestColor;
+            if (newestVfx != null)
+            {
+                newestVfx.SetActive(showNewest);
+            }
         }
     }
 }
