@@ -50,6 +50,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private bool _isPatroling;
         private Vector2 _patrolEdgeTarget;
         private int _patrolDirection;
+        private Vector2[] _currentPath;
+        private int _currentWaypointIndex;
+        private float _pathRefreshTimer;
 
         public FactionId FactionId => FactionId.Civilian;
 
@@ -91,11 +94,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldPickupPool = goldPickupPool;
             config = enemyConfig;
             _currentTarget = null;
-            _goldDropAmount = Mathf.Max(0, goldDropAmount);
+            _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
             _arenaBounds = null;
 
             _isPatroling = false;
@@ -149,6 +155,9 @@ namespace RainbowsEnd.Gameplay.Enemies
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
             _isPatroling = false;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
             ApplyVisualState(isDraining: false);
         }
 
@@ -546,7 +555,30 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            Vector2 targetVelocity = toTarget.normalized * moveSpeed;
+            _pathRefreshTimer -= Time.deltaTime;
+            if (_currentPath == null || _pathRefreshTimer <= 0f)
+            {
+                if (NavMeshPathfinder.TryGetPath(body.position, _currentTarget.transform.position, out Vector2[] newPath))
+                {
+                    _currentPath = newPath;
+                    _currentWaypointIndex = 0;
+                }
+
+                _pathRefreshTimer = 0.5f;
+            }
+
+            Vector2 moveDir = Vector2.zero;
+            if (_currentPath != null)
+            {
+                moveDir = NavMeshPathfinder.GetSteeringDirection(body.position, _currentPath, ref _currentWaypointIndex);
+            }
+
+            if (moveDir == Vector2.zero)
+            {
+                moveDir = toTarget.normalized;
+            }
+
+            Vector2 targetVelocity = moveDir * moveSpeed;
             Vector2 combinedVelocity = targetVelocity + separation;
             if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
             {
@@ -554,6 +586,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             body.linearVelocity = combinedVelocity;
+
+            if (_currentPath != null)
+            {
+                for (int i = 0; i < _currentPath.Length - 1; i++)
+                {
+                    Debug.DrawLine(_currentPath[i], _currentPath[i + 1], Color.cyan);
+                }
+            }
         }
 
         private float ResolveStopDistance()

@@ -53,6 +53,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private ArenaBoundsAuthoring _arenaBounds;
         private PotRegistry _potRegistry;
         private Vector2 _fleeTarget;
+        private Vector2[] _currentPath;
+        private int _currentWaypointIndex;
+        private float _pathRefreshTimer;
 
         public FactionId FactionId => FactionId.Military;
 
@@ -142,7 +145,9 @@ namespace RainbowsEnd.Gameplay.Enemies
             _dropGoldAmount = 0;
             _targetPlayer = null;
             _deathHandled = false;
-            _currentState = MilitaryState.Combat;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;            _currentState = MilitaryState.Combat;
             _carriedPot = null;
             _isCarrier = false;
             _arenaBounds = null;
@@ -161,6 +166,9 @@ namespace RainbowsEnd.Gameplay.Enemies
             _owningSpawner = null;
             _targetPlayer = null;
             _deathHandled = false;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
             _isCarrier = false;
             body.linearVelocity = Vector2.zero;
         }
@@ -428,7 +436,39 @@ namespace RainbowsEnd.Gameplay.Enemies
             float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
             Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : Vector2.zero;
 
-            Vector2 targetVelocity = distanceToTarget > preferredRange ? direction * config.MoveSpeed : Vector2.zero;
+            Vector2 targetVelocity;
+            if (distanceToTarget > preferredRange)
+            {
+                _pathRefreshTimer -= Time.deltaTime;
+                if (_currentPath == null || _pathRefreshTimer <= 0f)
+                {
+                    if (NavMeshPathfinder.TryGetPath(transform.position, _targetPlayer.transform.position, out Vector2[] newPath))
+                    {
+                        _currentPath = newPath;
+                        _currentWaypointIndex = 0;
+                    }
+
+                    _pathRefreshTimer = 0.5f;
+                }
+
+                Vector2 moveDir = Vector2.zero;
+                if (_currentPath != null)
+                {
+                    moveDir = NavMeshPathfinder.GetSteeringDirection(transform.position, _currentPath, ref _currentWaypointIndex);
+                }
+
+                if (moveDir == Vector2.zero)
+                {
+                    moveDir = direction;
+                }
+
+                targetVelocity = moveDir * config.MoveSpeed;
+            }
+            else
+            {
+                targetVelocity = Vector2.zero;
+            }
+
             Vector2 combinedVelocity = targetVelocity + separation;
             if (combinedVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
             {
@@ -440,6 +480,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (visualRoot != null && direction.sqrMagnitude > 0f)
             {
                 visualRoot.up = direction;
+            }
+
+            if (_currentPath != null)
+            {
+                for (int i = 0; i < _currentPath.Length - 1; i++)
+                {
+                    Debug.DrawLine(_currentPath[i], _currentPath[i + 1], Color.cyan);
+                }
             }
 
             if (distanceToTarget <= weaponConfig.Range
