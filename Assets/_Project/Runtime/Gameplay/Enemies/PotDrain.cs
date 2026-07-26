@@ -24,11 +24,6 @@ namespace RainbowsEnd.Gameplay.Enemies
         {
             travellerController = owner;
             sensorCollider = collider2D;
-
-            if (sensorCollider != null)
-            {
-                sensorCollider.isTrigger = true;
-            }
         }
 
         public bool Tick(float deltaTime, float drainGoldPerSecond)

@@ -185,6 +185,7 @@ MonoBehaviour:
   projectileLauncher: {fileID: 3039374296443477896}
   impactFeedbackSpawner: {fileID: 5748834869550447159}
   rangedAttackController: {fileID: 3831562268573918119}
+  animationBridge: {fileID: 6835420200225938826}
 --- !u!114 &1149303364663066960
 MonoBehaviour:
   m_ObjectHideFlags: 0

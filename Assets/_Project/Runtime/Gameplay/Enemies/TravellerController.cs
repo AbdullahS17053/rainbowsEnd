@@ -413,17 +413,11 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            body.bodyType = RigidbodyType2D.Kinematic;
             body.gravityScale = 0f;
             body.freezeRotation = true;
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             body.linearDamping = 0f;
-
-            if (bodyCollider != null)
-            {
-                bodyCollider.isTrigger = true;
-            }
         }
 
         private void RefreshTargetIfNeeded()

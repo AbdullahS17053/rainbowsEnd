@@ -252,6 +252,7 @@ MonoBehaviour:
   showAutoFireCone: 0
   autoFireConeColor: {r: 1, g: 0.82, b: 0.24, a: 0.9}
   fallbackMuzzleOffset: 0.55
+  animationBridge: {fileID: 3213909539828360754}
 --- !u!114 &4280196646807836605
 MonoBehaviour:
   m_ObjectHideFlags: 0
