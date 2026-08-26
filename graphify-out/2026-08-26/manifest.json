@@ -1,0 +1,1692 @@
+{
+  ".vscode/extensions.json": {
+    "mtime": 1784570608.7035036,
+    "ast_hash": "2c2bc546cba220f6651a152c8c1819d0",
+    "semantic_hash": "2c2bc546cba220f6651a152c8c1819d0"
+  },
+  ".vscode/launch.json": {
+    "mtime": 1784570608.7035036,
+    "ast_hash": "cf87354d3be05efced104408f9982438",
+    "semantic_hash": "cf87354d3be05efced104408f9982438"
+  },
+  ".vscode/settings.json": {
+    "mtime": 1784570608.7055268,
+    "ast_hash": "69915c06f1fd3b38f106404d9feb71f2",
+    "semantic_hash": "69915c06f1fd3b38f106404d9feb71f2"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXEffectController.cs": {
+    "mtime": 1721671841.0,
+    "ast_hash": "11bd6523769fa00303513f9626129e19",
+    "semantic_hash": "11bd6523769fa00303513f9626129e19"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXEffectControllerPooled.cs": {
+    "mtime": 1721671799.0,
+    "ast_hash": "837aaee91e1d6e03273e0a383bc51fcf",
+    "semantic_hash": "837aaee91e1d6e03273e0a383bc51fcf"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXEffectCycler.cs": {
+    "mtime": 1721672722.0,
+    "ast_hash": "760b90b18043fcad1c54bdde7e266c47",
+    "semantic_hash": "760b90b18043fcad1c54bdde7e266c47"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXFireProjectile.cs": {
+    "mtime": 1721672436.0,
+    "ast_hash": "ea11f76df32192db939979f57d399eec",
+    "semantic_hash": "ea11f76df32192db939979f57d399eec"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXLoopScript.cs": {
+    "mtime": 1721672223.0,
+    "ast_hash": "7555decfd874f8defad2ff2df6034139",
+    "semantic_hash": "7555decfd874f8defad2ff2df6034139"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXMouseOrbit.cs": {
+    "mtime": 1721672434.0,
+    "ast_hash": "b2267b62dcdea46f2649ee37af331b25",
+    "semantic_hash": "b2267b62dcdea46f2649ee37af331b25"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXProjectileScript.cs": {
+    "mtime": 1721672507.0,
+    "ast_hash": "1849d43629ec948451cacbfd76280014",
+    "semantic_hash": "1849d43629ec948451cacbfd76280014"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXSceneManager.cs": {
+    "mtime": 1721671825.0,
+    "ast_hash": "b84b16ff8e614019c4b9c15a00dc07d0",
+    "semantic_hash": "b84b16ff8e614019c4b9c15a00dc07d0"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXSpriteBouncer.cs": {
+    "mtime": 1721672081.0,
+    "ast_hash": "c2f70bb5a1b46e8fc8cf9e38c96ed98c",
+    "semantic_hash": "c2f70bb5a1b46e8fc8cf9e38c96ed98c"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/ETFXTarget.cs": {
+    "mtime": 1721672671.0,
+    "ast_hash": "134473453352730ce328f9b5a5d7fe63",
+    "semantic_hash": "134473453352730ce328f9b5a5d7fe63"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/VFX Library/PEButtonScript.cs": {
+    "mtime": 1721672109.0,
+    "ast_hash": "3d8c6f839071748ca00c80b2ec3df8d7",
+    "semantic_hash": "3d8c6f839071748ca00c80b2ec3df8d7"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/VFX Library/ParticleEffectsLibrary.cs": {
+    "mtime": 1721671904.0,
+    "ast_hash": "f12bea4a0752fb370bb870b99128a889",
+    "semantic_hash": "f12bea4a0752fb370bb870b99128a889"
+  },
+  "Assets/Epic Toon FX/Demo/Scripts/VFX Library/UICanvasManager.cs": {
+    "mtime": 1721672216.0,
+    "ast_hash": "aface5a5738846c0215fae6eb8e502ef",
+    "semantic_hash": "aface5a5738846c0215fae6eb8e502ef"
+  },
+  "Assets/Epic Toon FX/Scripts/ETFXLightFade.cs": {
+    "mtime": 1721671990.0,
+    "ast_hash": "a1638bbccf96d7d56b15d92898a05850",
+    "semantic_hash": "a1638bbccf96d7d56b15d92898a05850"
+  },
+  "Assets/Epic Toon FX/Scripts/ETFXPitchRandomizer.cs": {
+    "mtime": 1721672188.0,
+    "ast_hash": "249aecd34cfd123b244250612fa0ca4b",
+    "semantic_hash": "249aecd34cfd123b244250612fa0ca4b"
+  },
+  "Assets/Epic Toon FX/Scripts/ETFXRotation.cs": {
+    "mtime": 1721672322.0,
+    "ast_hash": "f0d72df56faaf032396cad5571197a1c",
+    "semantic_hash": "f0d72df56faaf032396cad5571197a1c"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleAudio.cs": {
+    "mtime": 1784570608.738286,
+    "ast_hash": "99fa007d66f3bef5b303eea2fb2164b9",
+    "semantic_hash": "99fa007d66f3bef5b303eea2fb2164b9"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleEPOOutline.cs": {
+    "mtime": 1784570608.7397985,
+    "ast_hash": "1cebbaeb6fd3e170fe930fe8c696b9f3",
+    "semantic_hash": "1cebbaeb6fd3e170fe930fe8c696b9f3"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics.cs": {
+    "mtime": 1784570608.7397985,
+    "ast_hash": "027541711a671bfe1b392314bf6a9c1c",
+    "semantic_hash": "027541711a671bfe1b392314bf6a9c1c"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModulePhysics2D.cs": {
+    "mtime": 1784570608.7418034,
+    "ast_hash": "638792fbe5ad5dec344df1f35447cca0",
+    "semantic_hash": "638792fbe5ad5dec344df1f35447cca0"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleSprite.cs": {
+    "mtime": 1784570608.7428036,
+    "ast_hash": "9c47c55c39a2c2eb4000080c9e0f7080",
+    "semantic_hash": "9c47c55c39a2c2eb4000080c9e0f7080"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleUI.cs": {
+    "mtime": 1784570608.743767,
+    "ast_hash": "d65a0ae6d084c71cd66a1728badca3aa",
+    "semantic_hash": "d65a0ae6d084c71cd66a1728badca3aa"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleUIToolkit.cs": {
+    "mtime": 1784570608.7447722,
+    "ast_hash": "def81333a370179015f4362adc5f4300",
+    "semantic_hash": "def81333a370179015f4362adc5f4300"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleUnityVersion.cs": {
+    "mtime": 1784570608.7467723,
+    "ast_hash": "45232a2fcc32328c0597880ce6a559dd",
+    "semantic_hash": "45232a2fcc32328c0597880ce6a559dd"
+  },
+  "Assets/Plugins/Demigiant/DOTween/Modules/DOTweenModuleUtils.cs": {
+    "mtime": 1784570608.7467723,
+    "ast_hash": "781c648e4003027187720f524e502ee5",
+    "semantic_hash": "781c648e4003027187720f524e502ee5"
+  },
+  "Assets/Synty/AnimationGoblinLocomotion/Samples/Scripts/GBL_SampleCameraController.cs": {
+    "mtime": 1772750034.0,
+    "ast_hash": "ea476c2e13c3475b71ced82b5e42de84",
+    "semantic_hash": "ea476c2e13c3475b71ced82b5e42de84"
+  },
+  "Assets/Synty/AnimationGoblinLocomotion/Samples/Scripts/GBL_SampleObjectLockOn.cs": {
+    "mtime": 1772750034.0,
+    "ast_hash": "47554868ebed4dd943c683fd01bd0f4b",
+    "semantic_hash": "47554868ebed4dd943c683fd01bd0f4b"
+  },
+  "Assets/Synty/AnimationGoblinLocomotion/Samples/Scripts/GBL_SamplePlayerAnimationController.cs": {
+    "mtime": 1772750034.0,
+    "ast_hash": "e1da2e60e2df2ff299364d8377feb5fb",
+    "semantic_hash": "e1da2e60e2df2ff299364d8377feb5fb"
+  },
+  "Assets/Synty/AnimationGoblinLocomotion/Samples/Scripts/InputSystem/GBL_Controls.cs": {
+    "mtime": 1784581461.390743,
+    "ast_hash": "f0281d8f91fa4027e34088ddd709a139",
+    "semantic_hash": "f0281d8f91fa4027e34088ddd709a139"
+  },
+  "Assets/Synty/AnimationGoblinLocomotion/Samples/Scripts/InputSystem/GBL_InputReader.cs": {
+    "mtime": 1772750034.0,
+    "ast_hash": "c8d53bb76726f002ecbfd7ae06de7583",
+    "semantic_hash": "c8d53bb76726f002ecbfd7ae06de7583"
+  },
+  "Assets/Synty/InterfaceCore/Scripts/UnityUIExtensions/ShaderLibrary.cs": {
+    "mtime": 1743038955.0,
+    "ast_hash": "cc2c00a6e39504399970e6d85a0c470a",
+    "semantic_hash": "cc2c00a6e39504399970e6d85a0c470a"
+  },
+  "Assets/Synty/InterfaceCore/Scripts/UnityUIExtensions/SoftMaskScript.cs": {
+    "mtime": 1743048389.0,
+    "ast_hash": "80c6ad69ad4795f8f485f8d1a923c030",
+    "semantic_hash": "80c6ad69ad4795f8f485f8d1a923c030"
+  },
+  "Assets/Synty/InterfaceCore/Scripts/UnityUIExtensions/UIParticleSystem.cs": {
+    "mtime": 1743038955.0,
+    "ast_hash": "14f4bb61ddc58bb8f55aeb217c9b7d41",
+    "semantic_hash": "14f4bb61ddc58bb8f55aeb217c9b7d41"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleBrightnessDisplay.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "9ea43873e46da3a84b0e441f262b3e16",
+    "semantic_hash": "9ea43873e46da3a84b0e441f262b3e16"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleButtonDescriptions.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "fcaf3021f1535cb2b2b8b31236a08101",
+    "semantic_hash": "fcaf3021f1535cb2b2b8b31236a08101"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleDefaultSelectable.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "b02054d23280f257f20835ee712f3e53",
+    "semantic_hash": "b02054d23280f257f20835ee712f3e53"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleNavInputHelper.cs": {
+    "mtime": 1784576350.7038498,
+    "ast_hash": "0d0accc56a2f4cdddd55fc1e4dd793b1",
+    "semantic_hash": "0d0accc56a2f4cdddd55fc1e4dd793b1"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleOnHighlightedEvents.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "f7bea2c891a62f303a71342f29698c46",
+    "semantic_hash": "f7bea2c891a62f303a71342f29698c46"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleOscillateSliders.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "4588550693d5b8f6415fd6d77439006b",
+    "semantic_hash": "4588550693d5b8f6415fd6d77439006b"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SamplePopup.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "7784b8647718f940267f1ef9c0c2cfe9",
+    "semantic_hash": "7784b8647718f940267f1ef9c0c2cfe9"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleRadialMenuInput.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "baa7ac74c5e36efea7fc56b975933bc9",
+    "semantic_hash": "baa7ac74c5e36efea7fc56b975933bc9"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSceneLoader.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "02e838337e7724d516f01ed4088f1576",
+    "semantic_hash": "02e838337e7724d516f01ed4088f1576"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleScrollRectExtensions.cs": {
+    "mtime": 1739131364.0,
+    "ast_hash": "8fa02df81f19dbd556c8411b5907a0dc",
+    "semantic_hash": "8fa02df81f19dbd556c8411b5907a0dc"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleScrollRectSelectableListItem.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "93085498ffdecaaef2a6f7153202a7d8",
+    "semantic_hash": "93085498ffdecaaef2a6f7153202a7d8"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleScrollerInputs.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "e6a49787a417a4d784fa0d63496126fb",
+    "semantic_hash": "e6a49787a417a4d784fa0d63496126fb"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSelectedObjectActivator.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "2833a0847abb029b484cdfcaf2503aef",
+    "semantic_hash": "2833a0847abb029b484cdfcaf2503aef"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSelectedObjectHelper.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "690a4c9ec00820a2c3864a42373ea387",
+    "semantic_hash": "690a4c9ec00820a2c3864a42373ea387"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSettingsArray.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "8249640271980bb24a8ef0edc27cdd99",
+    "semantic_hash": "8249640271980bb24a8ef0edc27cdd99"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSettingsArrayObject.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "acccf587aa3b03fd80a9b02b9628dc1b",
+    "semantic_hash": "acccf587aa3b03fd80a9b02b9628dc1b"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSettingsSlider.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "bd6bd0f9704f0b0b2b87926c9a53b72a",
+    "semantic_hash": "bd6bd0f9704f0b0b2b87926c9a53b72a"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleSettingsToggle.cs": {
+    "mtime": 1738721316.0,
+    "ast_hash": "21215d12fa841a71bde43c5c5046f7ce",
+    "semantic_hash": "21215d12fa841a71bde43c5c5046f7ce"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleToggleAnimatorEvents.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "d3a43f5e7fff7b78cc125b0a1f1ed067",
+    "semantic_hash": "d3a43f5e7fff7b78cc125b0a1f1ed067"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleToggleHelper.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "86b3240562c8bd8b85f264f8aa23e27a",
+    "semantic_hash": "86b3240562c8bd8b85f264f8aa23e27a"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleToggleObjectActivator.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "101811d7bbd3f31829cd7ddf460e14b4",
+    "semantic_hash": "101811d7bbd3f31829cd7ddf460e14b4"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleUIButtonInput.cs": {
+    "mtime": 1739739294.0,
+    "ast_hash": "30478c51f7f1c22ffb99226cc4bb1f76",
+    "semantic_hash": "30478c51f7f1c22ffb99226cc4bb1f76"
+  },
+  "Assets/Synty/InterfaceFantasyMenus/Samples/Scripts/SampleURL.cs": {
+    "mtime": 1738627148.0,
+    "ast_hash": "989ef49b916bca0f1d00857ebfbae620",
+    "semantic_hash": "989ef49b916bca0f1d00857ebfbae620"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleAnimatorActionData.cs": {
+    "mtime": 1714692776.0,
+    "ast_hash": "210bce687bb0325c7a55cba5ab0fc659",
+    "semantic_hash": "210bce687bb0325c7a55cba5ab0fc659"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleButtonAction.cs": {
+    "mtime": 1729554998.0,
+    "ast_hash": "d1a9f71d982d1be49639343b0752591d",
+    "semantic_hash": "d1a9f71d982d1be49639343b0752591d"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleCountdownLabel.cs": {
+    "mtime": 1714692841.0,
+    "ast_hash": "1bc71dddef9cc4490e4677ee8cf1904f",
+    "semantic_hash": "1bc71dddef9cc4490e4677ee8cf1904f"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleLoopAnimator.cs": {
+    "mtime": 1714692861.0,
+    "ast_hash": "c812499179b337bd00fddee1a0c10dc9",
+    "semantic_hash": "c812499179b337bd00fddee1a0c10dc9"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleOscillateSliders.cs": {
+    "mtime": 1714692868.0,
+    "ast_hash": "30430ae10933b1e2e2eac8eda2053d28",
+    "semantic_hash": "30430ae10933b1e2e2eac8eda2053d28"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleRadialFillBar.cs": {
+    "mtime": 1714692875.0,
+    "ast_hash": "42e2b7136076021cae42269554a57d7e",
+    "semantic_hash": "42e2b7136076021cae42269554a57d7e"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleSceneLoader.cs": {
+    "mtime": 1714692880.0,
+    "ast_hash": "0405ed6e4003d0ec3fd038b7e00c2051",
+    "semantic_hash": "0405ed6e4003d0ec3fd038b7e00c2051"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleScrollUV.cs": {
+    "mtime": 1714692886.0,
+    "ast_hash": "127a62e17c203381874fecdc6d41c1bc",
+    "semantic_hash": "127a62e17c203381874fecdc6d41c1bc"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleTimeLabel.cs": {
+    "mtime": 1714692891.0,
+    "ast_hash": "3127b38470d6871354c189301fbec52d",
+    "semantic_hash": "3127b38470d6871354c189301fbec52d"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleURL.cs": {
+    "mtime": 1714692976.0,
+    "ast_hash": "f74ffc486ceb9b02debb55a7236de4e2",
+    "semantic_hash": "f74ffc486ceb9b02debb55a7236de4e2"
+  },
+  "Assets/Synty/InterfaceFantasyWarriorHUD/Samples/Scripts/SampleXPBar.cs": {
+    "mtime": 1714692852.0,
+    "ast_hash": "0b9ca8d1e3485b75a3640249c23aa200",
+    "semantic_hash": "0b9ca8d1e3485b75a3640249c23aa200"
+  },
+  "Assets/Synty/PNB_Core/Scripts/Editor/ReplaceShaders.cs": {
+    "mtime": 1784570617.102668,
+    "ast_hash": "5a7e194a2f0cd81b9135d92a4643feae",
+    "semantic_hash": "5a7e194a2f0cd81b9135d92a4643feae"
+  },
+  "Assets/Synty/PNB_Core/Scripts/WeatherControl.cs": {
+    "mtime": 1784570617.103762,
+    "ast_hash": "50f51e00c4121cb7a1f94ec0b2bd6dbd",
+    "semantic_hash": "50f51e00c4121cb7a1f94ec0b2bd6dbd"
+  },
+  "Assets/Synty/PNB_Core/Shaders/InterfaceOverrides/Editor/SyntyFoliage_customGUI.cs": {
+    "mtime": 1784570617.1154137,
+    "ast_hash": "23512c76220fcf55a7a5c11e6410efb4",
+    "semantic_hash": "23512c76220fcf55a7a5c11e6410efb4"
+  },
+  "Assets/Synty/PNB_Core/Shaders/InterfaceOverrides/Editor/SyntyGlacier_customGUI.cs": {
+    "mtime": 1784570617.1165,
+    "ast_hash": "ac639c74961e0479debf13d84d1e7501",
+    "semantic_hash": "ac639c74961e0479debf13d84d1e7501"
+  },
+  "Assets/Synty/PNB_Core/Shaders/InterfaceOverrides/Editor/SyntyPannerOpaque_customGUI.cs": {
+    "mtime": 1784570617.117635,
+    "ast_hash": "44dee415d1d853093b5a0e0da796b5bc",
+    "semantic_hash": "44dee415d1d853093b5a0e0da796b5bc"
+  },
+  "Assets/Synty/PNB_Core/Shaders/InterfaceOverrides/Editor/SyntyPannerTransparent_customGUI.cs": {
+    "mtime": 1784570617.1187623,
+    "ast_hash": "f7f58d00123e53e2c5a59055441ffe18",
+    "semantic_hash": "f7f58d00123e53e2c5a59055441ffe18"
+  },
+  "Assets/Synty/PNB_Core/Shaders/InterfaceOverrides/Editor/SyntyWater_customGUI.cs": {
+    "mtime": 1784570617.1198092,
+    "ast_hash": "8e15f0592662b5c72a87f77003595d9d",
+    "semantic_hash": "8e15f0592662b5c72a87f77003595d9d"
+  },
+  "Assets/Synty/PolygonGeneric/Scripts/Generic_SimpleRotate.cs": {
+    "mtime": 1770956268.0,
+    "ast_hash": "5a745e214b9d3f34ca775d74706a2162",
+    "semantic_hash": "5a745e214b9d3f34ca775d74706a2162"
+  },
+  "Assets/Synty/PolygonGeneric/Scripts/Generic_SimpleTranslate.cs": {
+    "mtime": 1770956268.0,
+    "ast_hash": "15289f89f89c82a4f6f3f38348e16f2a",
+    "semantic_hash": "15289f89f89c82a4f6f3f38348e16f2a"
+  },
+  "Assets/Synty/PolygonGeneric/Scripts/Generic_WaterBob.cs": {
+    "mtime": 1770956268.0,
+    "ast_hash": "34c38b417472e478990c3b9fc81a05eb",
+    "semantic_hash": "34c38b417472e478990c3b9fc81a05eb"
+  },
+  "Assets/Synty/PolygonGeneric/Shaders/InterfaceOverrides/Editor/PolygonShaderGUI.cs": {
+    "mtime": 1770956706.0,
+    "ast_hash": "c45fd0d768a964581d9790fff1a7b60e",
+    "semantic_hash": "c45fd0d768a964581d9790fff1a7b60e"
+  },
+  "Assets/Synty/PolygonGeneric/Shaders/InterfaceOverrides/Editor/PolygonTransparencyShaderGUI.cs": {
+    "mtime": 1770956706.0,
+    "ast_hash": "f91d077591e7955eac8fa7735686332d",
+    "semantic_hash": "f91d077591e7955eac8fa7735686332d"
+  },
+  "Assets/Synty/PolygonGeneric/Shaders/InterfaceOverrides/Editor/polygonShaderTransparent_UI.cs": {
+    "mtime": 1784576353.7374773,
+    "ast_hash": "4521577207a123590b3d326a5c47e7df",
+    "semantic_hash": "4521577207a123590b3d326a5c47e7df"
+  },
+  "Assets/Synty/PolygonGeneric/Shaders/InterfaceOverrides/Editor/polygonShader_UI.cs": {
+    "mtime": 1784576353.7384536,
+    "ast_hash": "322aaef1c33d5521d717bd248e4b9a1f",
+    "semantic_hash": "322aaef1c33d5521d717bd248e4b9a1f"
+  },
+  "Assets/Synty/SyntyPackageHelper/Editor/SyntyPackageHelper.cs": {
+    "mtime": 1770956245.0,
+    "ast_hash": "636dc8a18db053f3b392334ef48d1b7a",
+    "semantic_hash": "636dc8a18db053f3b392334ef48d1b7a"
+  },
+  "Assets/Synty/SyntyPackageHelper/Editor/SyntyPackageHelperConfig.cs": {
+    "mtime": 1770956245.0,
+    "ast_hash": "89f9088df7022e230e1310b5c5ebb87c",
+    "semantic_hash": "89f9088df7022e230e1310b5c5ebb87c"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs": {
+    "mtime": 1784570619.7362957,
+    "ast_hash": "36de2b6492402697e7d036021ce5e50e",
+    "semantic_hash": "36de2b6492402697e7d036021ce5e50e"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs": {
+    "mtime": 1784570619.737295,
+    "ast_hash": "c07d494941dccc22d872a62a2e3d1e8d",
+    "semantic_hash": "c07d494941dccc22d872a62a2e3d1e8d"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs": {
+    "mtime": 1784570619.737295,
+    "ast_hash": "958c3e5e467a51ded587022da3cacdcd",
+    "semantic_hash": "958c3e5e467a51ded587022da3cacdcd"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark03.cs": {
+    "mtime": 1784570619.738294,
+    "ast_hash": "d2bf703632c299d1c2db1237946d4b0d",
+    "semantic_hash": "d2bf703632c299d1c2db1237946d4b0d"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark04.cs": {
+    "mtime": 1784570619.7392945,
+    "ast_hash": "240bd42db1abb3b05fb90b9506a4ebd5",
+    "semantic_hash": "240bd42db1abb3b05fb90b9506a4ebd5"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/CameraController.cs": {
+    "mtime": 1784570619.7407987,
+    "ast_hash": "00dbf9bac72e18dafe900e11f9b6d3eb",
+    "semantic_hash": "00dbf9bac72e18dafe900e11f9b6d3eb"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/ChatController.cs": {
+    "mtime": 1784570619.7407987,
+    "ast_hash": "244c38d780b402dff25efd7e6adb662d",
+    "semantic_hash": "244c38d780b402dff25efd7e6adb662d"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/DropdownSample.cs": {
+    "mtime": 1784570619.7418027,
+    "ast_hash": "f44c5b591bb42b2c5aa32fa014852110",
+    "semantic_hash": "f44c5b591bb42b2c5aa32fa014852110"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/EnvMapAnimator.cs": {
+    "mtime": 1784570619.743315,
+    "ast_hash": "fcef4254a745eee0e41eb629c6817b70",
+    "semantic_hash": "fcef4254a745eee0e41eb629c6817b70"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/ObjectSpin.cs": {
+    "mtime": 1784570619.7443202,
+    "ast_hash": "aa6477a618dff2fb9b0ac490846100bb",
+    "semantic_hash": "aa6477a618dff2fb9b0ac490846100bb"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/ShaderPropAnimator.cs": {
+    "mtime": 1784570619.745324,
+    "ast_hash": "0e34b15fff13c80b293265bc7a36c779",
+    "semantic_hash": "0e34b15fff13c80b293265bc7a36c779"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/SimpleScript.cs": {
+    "mtime": 1784570619.7463512,
+    "ast_hash": "944dcbf490334f278a54b6fb0792fe6e",
+    "semantic_hash": "944dcbf490334f278a54b6fb0792fe6e"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/SkewTextExample.cs": {
+    "mtime": 1784570619.7473476,
+    "ast_hash": "362d0ace31ae6b3fb3757ec3cc5bf062",
+    "semantic_hash": "362d0ace31ae6b3fb3757ec3cc5bf062"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_DigitValidator.cs": {
+    "mtime": 1784570619.7483492,
+    "ast_hash": "8bb8f132d85be6a682626dcab9a246c7",
+    "semantic_hash": "8bb8f132d85be6a682626dcab9a246c7"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_ExampleScript_01.cs": {
+    "mtime": 1784570619.7483492,
+    "ast_hash": "46b08bb14f436836c467157b1807e38c",
+    "semantic_hash": "46b08bb14f436836c467157b1807e38c"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_FrameRateCounter.cs": {
+    "mtime": 1784570619.7498555,
+    "ast_hash": "bc9ced35005acfab4fe262936c0f6cca",
+    "semantic_hash": "bc9ced35005acfab4fe262936c0f6cca"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_PhoneNumberValidator.cs": {
+    "mtime": 1784570619.7508605,
+    "ast_hash": "313fdfe5ff6e8b71e99ccced2b00957e",
+    "semantic_hash": "313fdfe5ff6e8b71e99ccced2b00957e"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextEventCheck.cs": {
+    "mtime": 1784570619.752884,
+    "ast_hash": "1484b5310c771859fe7de18d5e5fb813",
+    "semantic_hash": "1484b5310c771859fe7de18d5e5fb813"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextEventHandler.cs": {
+    "mtime": 1784570619.752884,
+    "ast_hash": "bfcc80ecc37ec83116bb71aeaaf688b0",
+    "semantic_hash": "bfcc80ecc37ec83116bb71aeaaf688b0"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextInfoDebugTool.cs": {
+    "mtime": 1784570619.7543979,
+    "ast_hash": "31e0c6f41e7f0ff05bdfaaa1956e3d51",
+    "semantic_hash": "31e0c6f41e7f0ff05bdfaaa1956e3d51"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextSelector_A.cs": {
+    "mtime": 1784570619.7554045,
+    "ast_hash": "83f3c9e26606e64d3cb6d9c03673104d",
+    "semantic_hash": "83f3c9e26606e64d3cb6d9c03673104d"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextSelector_B.cs": {
+    "mtime": 1784570619.7564027,
+    "ast_hash": "e992b326136c7234663521c81d29e072",
+    "semantic_hash": "e992b326136c7234663521c81d29e072"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_UiFrameRateCounter.cs": {
+    "mtime": 1784570619.7574027,
+    "ast_hash": "1f19f4d96b877196bef408906a041745",
+    "semantic_hash": "1f19f4d96b877196bef408906a041745"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TMPro_InstructionOverlay.cs": {
+    "mtime": 1784570619.7584028,
+    "ast_hash": "0b9035c334d737bc158365f2973dcd6d",
+    "semantic_hash": "0b9035c334d737bc158365f2973dcd6d"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TeleType.cs": {
+    "mtime": 1784570619.759403,
+    "ast_hash": "559bc8cb05992bb541ad20347a549b21",
+    "semantic_hash": "559bc8cb05992bb541ad20347a549b21"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TextConsoleSimulator.cs": {
+    "mtime": 1784570619.759907,
+    "ast_hash": "dccec1047226f70ec8a014352cb2dd95",
+    "semantic_hash": "dccec1047226f70ec8a014352cb2dd95"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TextMeshProFloatingText.cs": {
+    "mtime": 1784570619.7609153,
+    "ast_hash": "0e3c960a78d241a5806b6345f5a002b0",
+    "semantic_hash": "0e3c960a78d241a5806b6345f5a002b0"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/TextMeshSpawner.cs": {
+    "mtime": 1784570619.7624197,
+    "ast_hash": "775f3b2047f240c96b812a5cd01e10b5",
+    "semantic_hash": "775f3b2047f240c96b812a5cd01e10b5"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexColorCycler.cs": {
+    "mtime": 1784570619.7631977,
+    "ast_hash": "05a283946cdc60925f96e87b88bd41b6",
+    "semantic_hash": "05a283946cdc60925f96e87b88bd41b6"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexJitter.cs": {
+    "mtime": 1784570619.7642026,
+    "ast_hash": "dc41ae0ff64a07816d22b6d4e78aed44",
+    "semantic_hash": "dc41ae0ff64a07816d22b6d4e78aed44"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeA.cs": {
+    "mtime": 1784570619.7642026,
+    "ast_hash": "ca403c63e47dbf6a23308694cf109b42",
+    "semantic_hash": "ca403c63e47dbf6a23308694cf109b42"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs": {
+    "mtime": 1784570619.765208,
+    "ast_hash": "f3227a4bfe15cf73e72714d6c27d617b",
+    "semantic_hash": "f3227a4bfe15cf73e72714d6c27d617b"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs": {
+    "mtime": 1784570619.7662072,
+    "ast_hash": "0ade35706e19bf6837b124a0d1f570a9",
+    "semantic_hash": "0ade35706e19bf6837b124a0d1f570a9"
+  },
+  "Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs": {
+    "mtime": 1784570619.7672086,
+    "ast_hash": "6ab21776ec37bed41ad7dd6d9481f0d0",
+    "semantic_hash": "6ab21776ec37bed41ad7dd6d9481f0d0"
+  },
+  "Assets/TextMesh Pro/Sprites/EmojiOne.json": {
+    "mtime": 1784570619.8403103,
+    "ast_hash": "53408097aa38738c15b17ca34e13882a",
+    "semantic_hash": "53408097aa38738c15b17ca34e13882a"
+  },
+  "Assets/_Project/Editor/Phase0ProjectSetup.cs": {
+    "mtime": 1784570619.847844,
+    "ast_hash": "184a8e6cd13004039be812559a65edbb",
+    "semantic_hash": "184a8e6cd13004039be812559a65edbb"
+  },
+  "Assets/_Project/Editor/Phase10PortalSetup.cs": {
+    "mtime": 1784570619.847844,
+    "ast_hash": "788846e0e7a190e972b8658cd752144e",
+    "semantic_hash": "788846e0e7a190e972b8658cd752144e"
+  },
+  "Assets/_Project/Editor/Phase11ShopSetup.cs": {
+    "mtime": 1784570619.8493576,
+    "ast_hash": "11317ce93f9ea024d0240bcd8e465860",
+    "semantic_hash": "11317ce93f9ea024d0240bcd8e465860"
+  },
+  "Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs": {
+    "mtime": 1784570619.850365,
+    "ast_hash": "c7c60b4f9781474d5307c782143e1223",
+    "semantic_hash": "c7c60b4f9781474d5307c782143e1223"
+  },
+  "Assets/_Project/Editor/Phase13MilitarySetup.cs": {
+    "mtime": 1784570619.8513656,
+    "ast_hash": "d28d5c6a786f903bd2f3ab9977c804d6",
+    "semantic_hash": "d28d5c6a786f903bd2f3ab9977c804d6"
+  },
+  "Assets/_Project/Editor/Phase1CoreSetup.cs": {
+    "mtime": 1784570619.8538775,
+    "ast_hash": "5e901002788f108baa64312e95796e7b",
+    "semantic_hash": "5e901002788f108baa64312e95796e7b"
+  },
+  "Assets/_Project/Editor/Phase2ArenaSetup.cs": {
+    "mtime": 1784570619.855878,
+    "ast_hash": "493319e4760df36e316ef438dfec36ed",
+    "semantic_hash": "493319e4760df36e316ef438dfec36ed"
+  },
+  "Assets/_Project/Editor/Phase3PlayerSetup.cs": {
+    "mtime": 1784570619.856893,
+    "ast_hash": "485a94d9a526bdb8620b5314cdd35f96",
+    "semantic_hash": "485a94d9a526bdb8620b5314cdd35f96"
+  },
+  "Assets/_Project/Editor/Phase4CombatSetup.cs": {
+    "mtime": 1784570619.8589015,
+    "ast_hash": "b810ce3d58889a483bcefba554704315",
+    "semantic_hash": "b810ce3d58889a483bcefba554704315"
+  },
+  "Assets/_Project/Editor/Phase5UnicornSetup.cs": {
+    "mtime": 1784570619.8594065,
+    "ast_hash": "07da153affdb069199f5bc8a6224af5e",
+    "semantic_hash": "07da153affdb069199f5bc8a6224af5e"
+  },
+  "Assets/_Project/Editor/Phase6PotSetup.cs": {
+    "mtime": 1784570619.8604136,
+    "ast_hash": "f329f1f02a749c2dabbe1aa0f394d0c0",
+    "semantic_hash": "f329f1f02a749c2dabbe1aa0f394d0c0"
+  },
+  "Assets/_Project/Editor/Phase7EnemySetup.cs": {
+    "mtime": 1784570619.8619199,
+    "ast_hash": "e51ceceddf52a070946518d46fadb561",
+    "semantic_hash": "e51ceceddf52a070946518d46fadb561"
+  },
+  "Assets/_Project/Editor/Phase8WorldRulesSetup.cs": {
+    "mtime": 1784570619.863147,
+    "ast_hash": "3156e8c461da3ac8e6381597c1bf809d",
+    "semantic_hash": "3156e8c461da3ac8e6381597c1bf809d"
+  },
+  "Assets/_Project/Editor/Phase9PoliceCombatSetup.cs": {
+    "mtime": 1784570619.8644578,
+    "ast_hash": "6507f84c41b04b7b4db2728c72c8a28b",
+    "semantic_hash": "6507f84c41b04b7b4db2728c72c8a28b"
+  },
+  "Assets/_Project/Runtime/Core/Animation/CharacterAnimationBridge.cs": {
+    "mtime": 1785059383.082813,
+    "ast_hash": "9811524a07bfda1b0593d0fc3c5b990e",
+    "semantic_hash": "9811524a07bfda1b0593d0fc3c5b990e"
+  },
+  "Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs": {
+    "mtime": 1784570619.8912857,
+    "ast_hash": "070f3651f9dbd5ac8bd198921b28e525",
+    "semantic_hash": "070f3651f9dbd5ac8bd198921b28e525"
+  },
+  "Assets/_Project/Runtime/Core/Bootstrap/IReadOnlyServiceRegistry.cs": {
+    "mtime": 1784570619.8922927,
+    "ast_hash": "b9b9ed68d4bde0004487a2707eace938",
+    "semantic_hash": "b9b9ed68d4bde0004487a2707eace938"
+  },
+  "Assets/_Project/Runtime/Core/Bootstrap/ProjectContext.cs": {
+    "mtime": 1784570619.8942883,
+    "ast_hash": "7369d123a578a2d1c9a956d93015a258",
+    "semantic_hash": "7369d123a578a2d1c9a956d93015a258"
+  },
+  "Assets/_Project/Runtime/Core/Bootstrap/ServiceRegistry.cs": {
+    "mtime": 1784570619.8958046,
+    "ast_hash": "c1b7ecb8b24688951217a04b0b841082",
+    "semantic_hash": "c1b7ecb8b24688951217a04b0b841082"
+  },
+  "Assets/_Project/Runtime/Core/Common/DamageInfo.cs": {
+    "mtime": 1784570619.8973126,
+    "ast_hash": "3cd01f92fc147fe33c56c182f141539e",
+    "semantic_hash": "3cd01f92fc147fe33c56c182f141539e"
+  },
+  "Assets/_Project/Runtime/Core/Common/DamageResult.cs": {
+    "mtime": 1784570619.8983202,
+    "ast_hash": "550d507c9fa241cdc5d1b2a6436abe87",
+    "semantic_hash": "550d507c9fa241cdc5d1b2a6436abe87"
+  },
+  "Assets/_Project/Runtime/Core/Common/FactionId.cs": {
+    "mtime": 1784570619.8988233,
+    "ast_hash": "405d4a52fde03dcdf2be6f1bc10cd3d5",
+    "semantic_hash": "405d4a52fde03dcdf2be6f1bc10cd3d5"
+  },
+  "Assets/_Project/Runtime/Core/Common/Health.cs": {
+    "mtime": 1784570619.8998277,
+    "ast_hash": "2f48d00315f4bdc2c2706b6f088ca81e",
+    "semantic_hash": "2f48d00315f4bdc2c2706b6f088ca81e"
+  },
+  "Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs": {
+    "mtime": 1784570619.9008276,
+    "ast_hash": "4d8a02aee41f4e1a0925b8a67acf9044",
+    "semantic_hash": "4d8a02aee41f4e1a0925b8a67acf9044"
+  },
+  "Assets/_Project/Runtime/Core/Common/HealthState.cs": {
+    "mtime": 1784570619.9023318,
+    "ast_hash": "b5716e0999f26bc56efad1ac6c5816bc",
+    "semantic_hash": "b5716e0999f26bc56efad1ac6c5816bc"
+  },
+  "Assets/_Project/Runtime/Core/Common/IDamageable.cs": {
+    "mtime": 1784570619.9033437,
+    "ast_hash": "5e83a377f894fb6d706a0af2665f3a29",
+    "semantic_hash": "5e83a377f894fb6d706a0af2665f3a29"
+  },
+  "Assets/_Project/Runtime/Core/Common/ITeamAffiliation.cs": {
+    "mtime": 1784570619.904857,
+    "ast_hash": "3a64ab3b19437b09aa018b4bea29fc15",
+    "semantic_hash": "3a64ab3b19437b09aa018b4bea29fc15"
+  },
+  "Assets/_Project/Runtime/Core/Config/ActorConfigBase.cs": {
+    "mtime": 1784570619.9058645,
+    "ast_hash": "a190c9e5b623b0051c9acdef3ab395c6",
+    "semantic_hash": "a190c9e5b623b0051c9acdef3ab395c6"
+  },
+  "Assets/_Project/Runtime/Core/Config/EconomyConfig.cs": {
+    "mtime": 1784570619.9068613,
+    "ast_hash": "81e29819911aa2e8580f47b02944a380",
+    "semantic_hash": "81e29819911aa2e8580f47b02944a380"
+  },
+  "Assets/_Project/Runtime/Core/Config/EnemyConfig.cs": {
+    "mtime": 1784570619.908378,
+    "ast_hash": "3c5f3ec2ddc92fb9a7c010f5bd540899",
+    "semantic_hash": "3c5f3ec2ddc92fb9a7c010f5bd540899"
+  },
+  "Assets/_Project/Runtime/Core/Config/PlayerConfig.cs": {
+    "mtime": 1784570619.9093845,
+    "ast_hash": "432350de3ebaf6e7926e79ec1ebc3c95",
+    "semantic_hash": "432350de3ebaf6e7926e79ec1ebc3c95"
+  },
+  "Assets/_Project/Runtime/Core/Config/PortalConfig.cs": {
+    "mtime": 1784570619.9103827,
+    "ast_hash": "e2b0274cdb7b070525d1221775069057",
+    "semantic_hash": "e2b0274cdb7b070525d1221775069057"
+  },
+  "Assets/_Project/Runtime/Core/Config/PotConfig.cs": {
+    "mtime": 1784570619.9103827,
+    "ast_hash": "8c938173c92f74038dedc0e3637ccf45",
+    "semantic_hash": "8c938173c92f74038dedc0e3637ccf45"
+  },
+  "Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs": {
+    "mtime": 1784570619.911382,
+    "ast_hash": "3373869dd2c56b8dc474563e13316d66",
+    "semantic_hash": "3373869dd2c56b8dc474563e13316d66"
+  },
+  "Assets/_Project/Runtime/Core/Config/ShopConfig.cs": {
+    "mtime": 1787745428.176,
+    "ast_hash": "4e1d903218b03edd41b358a53b1080b0",
+    "semantic_hash": "4e1d903218b03edd41b358a53b1080b0"
+  },
+  "Assets/_Project/Runtime/Core/Config/UnicornConfig.cs": {
+    "mtime": 1784570619.913382,
+    "ast_hash": "24731f52d1c55b9fb3780cc160ff8187",
+    "semantic_hash": "24731f52d1c55b9fb3780cc160ff8187"
+  },
+  "Assets/_Project/Runtime/Core/Config/WaveConfig.cs": {
+    "mtime": 1784570619.9145527,
+    "ast_hash": "e3e4afb7dd341c593d176dcfa7fb2dbb",
+    "semantic_hash": "e3e4afb7dd341c593d176dcfa7fb2dbb"
+  },
+  "Assets/_Project/Runtime/Core/Config/WeaponConfig.cs": {
+    "mtime": 1784570619.9155574,
+    "ast_hash": "ce1ec4f86565440cdfd1d87914c87685",
+    "semantic_hash": "ce1ec4f86565440cdfd1d87914c87685"
+  },
+  "Assets/_Project/Runtime/Core/SceneManagement/ArenaSceneContext.cs": {
+    "mtime": 1784570619.9165597,
+    "ast_hash": "6b9ad44b3d10c76e953f5309f8aff3af",
+    "semantic_hash": "6b9ad44b3d10c76e953f5309f8aff3af"
+  },
+  "Assets/_Project/Runtime/Core/SceneManagement/SceneNames.cs": {
+    "mtime": 1784584305.2054877,
+    "ast_hash": "1b423a251db859bc531f12dad0fad350",
+    "semantic_hash": "1b423a251db859bc531f12dad0fad350"
+  },
+  "Assets/_Project/Runtime/Core/Utilities/CountdownTimer.cs": {
+    "mtime": 1784570619.9189255,
+    "ast_hash": "dd6142e8d7d4809b524faab56a853fc1",
+    "semantic_hash": "dd6142e8d7d4809b524faab56a853fc1"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/ArrowProjectile.cs": {
+    "mtime": 1787746965.826,
+    "ast_hash": "f97445c77de1ad928a52c4574df9a87f",
+    "semantic_hash": "f97445c77de1ad928a52c4574df9a87f"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/CombatImpactEffect.cs": {
+    "mtime": 1784570619.9219277,
+    "ast_hash": "0a3ebc657b55acd6bb1012b734bb7855",
+    "semantic_hash": "0a3ebc657b55acd6bb1012b734bb7855"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/ProjectileWeaponLauncher.cs": {
+    "mtime": 1787746965.696,
+    "ast_hash": "ad500e676ad0a63dd40c970498da814b",
+    "semantic_hash": "ad500e676ad0a63dd40c970498da814b"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/RangedAttackController.cs": {
+    "mtime": 1784570619.9229255,
+    "ast_hash": "4b6f9d1a198e47c15d89a5aeb4c7cc7c",
+    "semantic_hash": "4b6f9d1a198e47c15d89a5aeb4c7cc7c"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponAutoFireTargetingUtility.cs": {
+    "mtime": 1784570619.924555,
+    "ast_hash": "e7a17d4b84b5a4be1eeb25a1ca233537",
+    "semantic_hash": "e7a17d4b84b5a4be1eeb25a1ca233537"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs": {
+    "mtime": 1787747049.2890923,
+    "ast_hash": "24ea1eaad79618754812dfeb29326122",
+    "semantic_hash": "24ea1eaad79618754812dfeb29326122"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponHitResult.cs": {
+    "mtime": 1784570619.9265616,
+    "ast_hash": "311e95c2f827b59e818a53d6eaa535b0",
+    "semantic_hash": "311e95c2f827b59e818a53d6eaa535b0"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponHitUtility.cs": {
+    "mtime": 1784570619.927065,
+    "ast_hash": "0f81cda7b8fb4250612053f761e6358d",
+    "semantic_hash": "0f81cda7b8fb4250612053f761e6358d"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponImpactFeedbackSpawner.cs": {
+    "mtime": 1784570619.9275756,
+    "ast_hash": "0a36c3734ab2a0050b98ae1ddc7829e1",
+    "semantic_hash": "0a36c3734ab2a0050b98ae1ddc7829e1"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponPickup.cs": {
+    "mtime": 1784570619.928581,
+    "ast_hash": "fe5840bd6c62f0222bb5428afd655ac7",
+    "semantic_hash": "fe5840bd6c62f0222bb5428afd655ac7"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponRuntimeState.cs": {
+    "mtime": 1784570619.9295807,
+    "ast_hash": "f603c2ee2bbfaf129e138869913d612a",
+    "semantic_hash": "f603c2ee2bbfaf129e138869913d612a"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponSpreadUtility.cs": {
+    "mtime": 1784570619.9305818,
+    "ast_hash": "5122d2e2a0496e4fb17896604394cdb0",
+    "semantic_hash": "5122d2e2a0496e4fb17896604394cdb0"
+  },
+  "Assets/_Project/Runtime/Gameplay/Combat/WeaponVolleyUtility.cs": {
+    "mtime": 1784570619.9315789,
+    "ast_hash": "2564703b03ea7e7c03113c1afe50f067",
+    "semantic_hash": "2564703b03ea7e7c03113c1afe50f067"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/EnemyDropOptions.cs": {
+    "mtime": 1784570619.932581,
+    "ast_hash": "c9004adda4864c58f2202d4388b6f882",
+    "semantic_hash": "c9004adda4864c58f2202d4388b6f882"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/EnemySeparationUtility.cs": {
+    "mtime": 1785064789.5132227,
+    "ast_hash": "16bfa6a312cfc7eb908632704abf7231",
+    "semantic_hash": "16bfa6a312cfc7eb908632704abf7231"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/EnemySpawner.cs": {
+    "mtime": 1784570619.9341056,
+    "ast_hash": "67c01bbec75495c8bd3918680b2a2297",
+    "semantic_hash": "67c01bbec75495c8bd3918680b2a2297"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs": {
+    "mtime": 1784570619.9351103,
+    "ast_hash": "cb9a926ee02258f277fe5633b3d23750",
+    "semantic_hash": "cb9a926ee02258f277fe5633b3d23750"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/MilitaryController.cs": {
+    "mtime": 1785066909.652634,
+    "ast_hash": "26e3e5c2f1c9813a13206718cd4c6645",
+    "semantic_hash": "26e3e5c2f1c9813a13206718cd4c6645"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/MilitarySpawner.cs": {
+    "mtime": 1784570619.9371243,
+    "ast_hash": "6f786197d6da5aef810be7e9593ad532",
+    "semantic_hash": "6f786197d6da5aef810be7e9593ad532"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs": {
+    "mtime": 1785066908.1248808,
+    "ast_hash": "b07cd5fa94c75059e45d9f7f2e3b548e",
+    "semantic_hash": "b07cd5fa94c75059e45d9f7f2e3b548e"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PoliceSpawner.cs": {
+    "mtime": 1784570619.939128,
+    "ast_hash": "6e2f31caef16c561f67e01c7d84abf56",
+    "semantic_hash": "6e2f31caef16c561f67e01c7d84abf56"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs": {
+    "mtime": 1785060914.9957328,
+    "ast_hash": "567ee48a3bffd25781864b05817cb270",
+    "semantic_hash": "567ee48a3bffd25781864b05817cb270"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs": {
+    "mtime": 1785066911.5897815,
+    "ast_hash": "78909a05cab936722fca433f697eaa52",
+    "semantic_hash": "78909a05cab936722fca433f697eaa52"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs": {
+    "mtime": 1784570619.9411304,
+    "ast_hash": "7044c6f95ea43c188150d661d505ef1b",
+    "semantic_hash": "7044c6f95ea43c188150d661d505ef1b"
+  },
+  "Assets/_Project/Runtime/Gameplay/Orchestration/RunDirector.cs": {
+    "mtime": 1784570619.9421284,
+    "ast_hash": "13a3b2d74d0d5cd1239d188617eaecca",
+    "semantic_hash": "13a3b2d74d0d5cd1239d188617eaecca"
+  },
+  "Assets/_Project/Runtime/Gameplay/Orchestration/RunOutcome.cs": {
+    "mtime": 1784570619.9437346,
+    "ast_hash": "48c73cfc375c194c89e017616c0d6717",
+    "semantic_hash": "48c73cfc375c194c89e017616c0d6717"
+  },
+  "Assets/_Project/Runtime/Gameplay/Orchestration/RunWaveController.cs": {
+    "mtime": 1784570619.9447396,
+    "ast_hash": "9aebb48c74b474706c4823eea654cc9a",
+    "semantic_hash": "9aebb48c74b474706c4823eea654cc9a"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs": {
+    "mtime": 1784570619.9462414,
+    "ast_hash": "ba6bdc1505982b96fa03df89a51f5022",
+    "semantic_hash": "ba6bdc1505982b96fa03df89a51f5022"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs": {
+    "mtime": 1784995503.717759,
+    "ast_hash": "b5086d08c1efe19e63a7bfd6b8c12236",
+    "semantic_hash": "b5086d08c1efe19e63a7bfd6b8c12236"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerInputActionNames.cs": {
+    "mtime": 1784570619.9477565,
+    "ast_hash": "353aaec00176ca00079fff76f26bf738",
+    "semantic_hash": "353aaec00176ca00079fff76f26bf738"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerInputReader.cs": {
+    "mtime": 1784570619.9487576,
+    "ast_hash": "e0fe6a060598d5c0f02d7c66a8f22aca",
+    "semantic_hash": "e0fe6a060598d5c0f02d7c66a8f22aca"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerMovementController.cs": {
+    "mtime": 1784627374.9501784,
+    "ast_hash": "852127ce51513ef34aebb01fe841c04c",
+    "semantic_hash": "852127ce51513ef34aebb01fe841c04c"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerMovementUtility.cs": {
+    "mtime": 1784570619.9507577,
+    "ast_hash": "92f3b28a8603c6bf8d25160c678339a3",
+    "semantic_hash": "92f3b28a8603c6bf8d25160c678339a3"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerPotCarryController.cs": {
+    "mtime": 1787754374.238,
+    "ast_hash": "58ef46d2bed43b79133e4bdf2a0ccb9d",
+    "semantic_hash": "58ef46d2bed43b79133e4bdf2a0ccb9d"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs": {
+    "mtime": 1784570619.9532661,
+    "ast_hash": "863574ff73b83742fd7c8d8104002797",
+    "semantic_hash": "863574ff73b83742fd7c8d8104002797"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerUpgradeRuntime.cs": {
+    "mtime": 1787746965.568,
+    "ast_hash": "937728430336d31bd3d52d4fafc1c4dd",
+    "semantic_hash": "937728430336d31bd3d52d4fafc1c4dd"
+  },
+  "Assets/_Project/Runtime/Gameplay/Player/PlayerWeaponInventory.cs": {
+    "mtime": 1784570619.9552708,
+    "ast_hash": "dc1296320effb47f93262ee9cc3189bc",
+    "semantic_hash": "dc1296320effb47f93262ee9cc3189bc"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotController.cs": {
+    "mtime": 1787754617.634,
+    "ast_hash": "b34fe1ea0e6cc158c93643a4ab04a7a5",
+    "semantic_hash": "b34fe1ea0e6cc158c93643a4ab04a7a5"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotDrainFeedbackPresenter.cs": {
+    "mtime": 1784570619.957297,
+    "ast_hash": "af376ebb537975f3d21c6afdbaf31a76",
+    "semantic_hash": "af376ebb537975f3d21c6afdbaf31a76"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotHarvestState.cs": {
+    "mtime": 1784570619.9582977,
+    "ast_hash": "49e6f13e4bb7c9afe0cdb9f8be00060b",
+    "semantic_hash": "49e6f13e4bb7c9afe0cdb9f8be00060b"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotHarvestStatus.cs": {
+    "mtime": 1784570619.9592972,
+    "ast_hash": "b82f6865bcd31657b60987dfd9611c39",
+    "semantic_hash": "b82f6865bcd31657b60987dfd9611c39"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotHarvestUtility.cs": {
+    "mtime": 1784570619.9602983,
+    "ast_hash": "7a08143cbf67dae5737794cf135538ac",
+    "semantic_hash": "7a08143cbf67dae5737794cf135538ac"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotRegistry.cs": {
+    "mtime": 1784570619.9612978,
+    "ast_hash": "821b3efb4af62918cb2651473d5f25e3",
+    "semantic_hash": "821b3efb4af62918cb2651473d5f25e3"
+  },
+  "Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs": {
+    "mtime": 1784570619.9618018,
+    "ast_hash": "bfdbe9b8b9cf711dce446afa02501cab",
+    "semantic_hash": "bfdbe9b8b9cf711dce446afa02501cab"
+  },
+  "Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs": {
+    "mtime": 1787744615.934,
+    "ast_hash": "7ac118909ec3e69066815292850d506d",
+    "semantic_hash": "7ac118909ec3e69066815292850d506d"
+  },
+  "Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs": {
+    "mtime": 1784570619.9653342,
+    "ast_hash": "00e4336d05e57743b59a364fbdc09c7f",
+    "semantic_hash": "00e4336d05e57743b59a364fbdc09c7f"
+  },
+  "Assets/_Project/Runtime/Gameplay/Spells/PortalInstance.cs": {
+    "mtime": 1785068064.9145467,
+    "ast_hash": "89758f76ce791f096e5cf1ad93dc84c0",
+    "semantic_hash": "89758f76ce791f096e5cf1ad93dc84c0"
+  },
+  "Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs": {
+    "mtime": 1784570619.9670818,
+    "ast_hash": "a95d300605b0186bae855010ced96580",
+    "semantic_hash": "a95d300605b0186bae855010ced96580"
+  },
+  "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailEmitter.cs": {
+    "mtime": 1785069023.130934,
+    "ast_hash": "24e748798e01499b58f70f71a3e21d29",
+    "semantic_hash": "24e748798e01499b58f70f71a3e21d29"
+  },
+  "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs": {
+    "mtime": 1785069023.1320262,
+    "ast_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447",
+    "semantic_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447"
+  },
+  "Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs": {
+    "mtime": 1784570619.9715917,
+    "ast_hash": "c680fe8b4a992474643713e8bc519524",
+    "semantic_hash": "c680fe8b4a992474643713e8bc519524"
+  },
+  "Assets/_Project/Runtime/Gameplay/Unicorn/UnicornRoamingUtility.cs": {
+    "mtime": 1784570619.9715917,
+    "ast_hash": "70e5527b6af00b6b37b2c6981a171cf9",
+    "semantic_hash": "70e5527b6af00b6b37b2c6981a171cf9"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/ArenaBoundsAuthoring.cs": {
+    "mtime": 1784570619.9730983,
+    "ast_hash": "addbc89404bbb19b7cafdf75a5635d07",
+    "semantic_hash": "addbc89404bbb19b7cafdf75a5635d07"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/ConcealmentZone.cs": {
+    "mtime": 1784570619.9730983,
+    "ast_hash": "32dd7d91a7998665c39ac21591f1092b",
+    "semantic_hash": "32dd7d91a7998665c39ac21591f1092b"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/CoverBlocker.cs": {
+    "mtime": 1785065883.3629427,
+    "ast_hash": "12d06d49781bbe072ab9e2a629af8a1a",
+    "semantic_hash": "12d06d49781bbe072ab9e2a629af8a1a"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/FaeTreeAnchor.cs": {
+    "mtime": 1784570619.976133,
+    "ast_hash": "23caad36ded545ab79e109a60abdee8e",
+    "semantic_hash": "23caad36ded545ab79e109a60abdee8e"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/NavMeshPathfinder.cs": {
+    "mtime": 1785066630.154703,
+    "ast_hash": "055609b67a069b2e31085d3103059a85",
+    "semantic_hash": "055609b67a069b2e31085d3103059a85"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/SpawnPointKind.cs": {
+    "mtime": 1784570619.9771297,
+    "ast_hash": "c4c50667981e53df9cacd73c4f7413a3",
+    "semantic_hash": "c4c50667981e53df9cacd73c4f7413a3"
+  },
+  "Assets/_Project/Runtime/Gameplay/World/SpawnPointMarker.cs": {
+    "mtime": 1784570619.978131,
+    "ast_hash": "c9aa58bdea179c92e1ec381fe6806179",
+    "semantic_hash": "c9aa58bdea179c92e1ec381fe6806179"
+  },
+  "Assets/_Project/Runtime/Systems/Economy/EconomyState.cs": {
+    "mtime": 1784570619.9801292,
+    "ast_hash": "2d2642cfeb5ebba6b9cd3915cbafc3a7",
+    "semantic_hash": "2d2642cfeb5ebba6b9cd3915cbafc3a7"
+  },
+  "Assets/_Project/Runtime/Systems/Pooling/IPoolable.cs": {
+    "mtime": 1784570619.9812703,
+    "ast_hash": "4e0e80d055f209be3a22449d8d40c1d5",
+    "semantic_hash": "4e0e80d055f209be3a22449d8d40c1d5"
+  },
+  "Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs": {
+    "mtime": 1785069023.1320262,
+    "ast_hash": "8ef0b4bc5f2900a4d8891d8605ed687c",
+    "semantic_hash": "8ef0b4bc5f2900a4d8891d8605ed687c"
+  },
+  "Assets/_Project/Runtime/UI/EconomyHudPresenter.cs": {
+    "mtime": 1784570619.984289,
+    "ast_hash": "098c46c5c5b1ec033a5ca3163c24fe1e",
+    "semantic_hash": "098c46c5c5b1ec033a5ca3163c24fe1e"
+  },
+  "Assets/_Project/Runtime/UI/RunOutcomePresenter.cs": {
+    "mtime": 1784570619.9848347,
+    "ast_hash": "86c85328d50f160a3b28c9dbb0c032a5",
+    "semantic_hash": "86c85328d50f160a3b28c9dbb0c032a5"
+  },
+  "Assets/_Project/Runtime/UI/ShopPanelPresenter.cs": {
+    "mtime": 1787744322.745,
+    "ast_hash": "a27a7b34e41fa09b7ba1244c8abea279",
+    "semantic_hash": "a27a7b34e41fa09b7ba1244c8abea279"
+  },
+  "Assets/_Project/Runtime/UI/ShopUpgradeButtonView.cs": {
+    "mtime": 1784570619.9868393,
+    "ast_hash": "d33ff72268aee2039510156636ac3213",
+    "semantic_hash": "d33ff72268aee2039510156636ac3213"
+  },
+  "Assets/_Project/Tests/EditMode/Combat/WeaponAutoFireTargetingUtilityTests.cs": {
+    "mtime": 1784570620.0082023,
+    "ast_hash": "73fa06a017abbea338d4f3531e99fd73",
+    "semantic_hash": "73fa06a017abbea338d4f3531e99fd73"
+  },
+  "Assets/_Project/Tests/EditMode/Combat/WeaponHitUtilityTests.cs": {
+    "mtime": 1784570620.009198,
+    "ast_hash": "5d43c90d27469831ac351c13f8b24b0d",
+    "semantic_hash": "5d43c90d27469831ac351c13f8b24b0d"
+  },
+  "Assets/_Project/Tests/EditMode/Combat/WeaponRuntimeStateTests.cs": {
+    "mtime": 1784570620.0102532,
+    "ast_hash": "4bc332baf2d1cf5b050016811e68196f",
+    "semantic_hash": "4bc332baf2d1cf5b050016811e68196f"
+  },
+  "Assets/_Project/Tests/EditMode/Combat/WeaponSpreadUtilityTests.cs": {
+    "mtime": 1784570620.0117586,
+    "ast_hash": "58611f0fc991cf87602865123491684e",
+    "semantic_hash": "58611f0fc991cf87602865123491684e"
+  },
+  "Assets/_Project/Tests/EditMode/CountdownTimerTests.cs": {
+    "mtime": 1784570620.0117586,
+    "ast_hash": "c28eef25e208d9fb0f9198a29b2ba33b",
+    "semantic_hash": "c28eef25e208d9fb0f9198a29b2ba33b"
+  },
+  "Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs": {
+    "mtime": 1784570620.0137894,
+    "ast_hash": "7e039e3444c7bfa32b7864ac7fe0c100",
+    "semantic_hash": "7e039e3444c7bfa32b7864ac7fe0c100"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/EnemyDropSelectionUtilityTests.cs": {
+    "mtime": 1784570620.014798,
+    "ast_hash": "2481bf881641acdb27c7c54a7bc605e6",
+    "semantic_hash": "2481bf881641acdb27c7c54a7bc605e6"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/PotDrainTests.cs": {
+    "mtime": 1784570620.015795,
+    "ast_hash": "01c4ac28149469ced2354fb3cf083ff6",
+    "semantic_hash": "01c4ac28149469ced2354fb3cf083ff6"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs": {
+    "mtime": 1784570620.0167975,
+    "ast_hash": "12789ab485ba3aaa2b9ab28e8c10edc2",
+    "semantic_hash": "12789ab485ba3aaa2b9ab28e8c10edc2"
+  },
+  "Assets/_Project/Tests/EditMode/HealthStateTests.cs": {
+    "mtime": 1784570620.017797,
+    "ast_hash": "82f340109e574c9ae8eca625393e95d2",
+    "semantic_hash": "82f340109e574c9ae8eca625393e95d2"
+  },
+  "Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs": {
+    "mtime": 1784570620.0187943,
+    "ast_hash": "308778565a712f3594bb9aa1a6309f1a",
+    "semantic_hash": "308778565a712f3594bb9aa1a6309f1a"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerAimResolverTests.cs": {
+    "mtime": 1784570620.0199547,
+    "ast_hash": "7e347c8a21b3b626a0bd0f088caef10b",
+    "semantic_hash": "7e347c8a21b3b626a0bd0f088caef10b"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerMovementUtilityTests.cs": {
+    "mtime": 1784570620.0214612,
+    "ast_hash": "1ef6621f2605597822505334cd035442",
+    "semantic_hash": "1ef6621f2605597822505334cd035442"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerWeaponInventoryTests.cs": {
+    "mtime": 1784570620.0214612,
+    "ast_hash": "f4448eaa0fa88b8c7c99c453d8ba6259",
+    "semantic_hash": "f4448eaa0fa88b8c7c99c453d8ba6259"
+  },
+  "Assets/_Project/Tests/EditMode/Pots/PotControllerCarryTests.cs": {
+    "mtime": 1784570620.0234883,
+    "ast_hash": "f51af8e0edbd1d0109e4cd3f5fd2dcc2",
+    "semantic_hash": "f51af8e0edbd1d0109e4cd3f5fd2dcc2"
+  },
+  "Assets/_Project/Tests/EditMode/Pots/PotHarvestStateTests.cs": {
+    "mtime": 1784570620.0244968,
+    "ast_hash": "899bb3f95bab0ecb59fc5ec0a81a2803",
+    "semantic_hash": "899bb3f95bab0ecb59fc5ec0a81a2803"
+  },
+  "Assets/_Project/Tests/EditMode/Pots/PotPlacementTests.cs": {
+    "mtime": 1787754438.187,
+    "ast_hash": "2fc5726f5beb4ee6eed4ba88a743607b",
+    "semantic_hash": "2fc5726f5beb4ee6eed4ba88a743607b"
+  },
+  "Assets/_Project/Tests/EditMode/Pots/PotRegistryTests.cs": {
+    "mtime": 1784570620.0254955,
+    "ast_hash": "b4c1d4a988de4497bf6384755044476b",
+    "semantic_hash": "b4c1d4a988de4497bf6384755044476b"
+  },
+  "Assets/_Project/Tests/EditMode/Pots/PotTrailCaptureSensorTests.cs": {
+    "mtime": 1784570620.026495,
+    "ast_hash": "785f4daf32053d66457a38a9f262f118",
+    "semantic_hash": "785f4daf32053d66457a38a9f262f118"
+  },
+  "Assets/_Project/Tests/EditMode/PrefabPoolTests.cs": {
+    "mtime": 1784570620.026495,
+    "ast_hash": "2293e159f971b34db24f16edcda4be3c",
+    "semantic_hash": "2293e159f971b34db24f16edcda4be3c"
+  },
+  "Assets/_Project/Tests/EditMode/ProjectConfigRegistryTests.cs": {
+    "mtime": 1784570620.0274959,
+    "ast_hash": "d11359ccbce202300206c8b24dbf8191",
+    "semantic_hash": "d11359ccbce202300206c8b24dbf8191"
+  },
+  "Assets/_Project/Tests/EditMode/SceneNamesTests.cs": {
+    "mtime": 1784585328.6166778,
+    "ast_hash": "a41a25f2e86479c7f50b0aa8660c153a",
+    "semantic_hash": "a41a25f2e86479c7f50b0aa8660c153a"
+  },
+  "Assets/_Project/Tests/EditMode/Scene/ArenaBoundsAuthoringTests.cs": {
+    "mtime": 1784570620.029692,
+    "ast_hash": "60fd9e335d797e4395837aafaca6cca6",
+    "semantic_hash": "60fd9e335d797e4395837aafaca6cca6"
+  },
+  "Assets/_Project/Tests/EditMode/ServiceRegistryTests.cs": {
+    "mtime": 1784570620.031199,
+    "ast_hash": "2b9e295e5fdf840e49f46f6df0cc7e94",
+    "semantic_hash": "2b9e295e5fdf840e49f46f6df0cc7e94"
+  },
+  "Assets/_Project/Tests/EditMode/Shop/PlayerUpgradeRuntimeTests.cs": {
+    "mtime": 1787747161.508172,
+    "ast_hash": "941637d9c65d258ec906f620b42a75c2",
+    "semantic_hash": "941637d9c65d258ec906f620b42a75c2"
+  },
+  "Assets/_Project/Tests/EditMode/Spells/PortalRegistryTests.cs": {
+    "mtime": 1784570620.034255,
+    "ast_hash": "9350cfc3e994edc14c053665552a29e7",
+    "semantic_hash": "9350cfc3e994edc14c053665552a29e7"
+  },
+  "Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs": {
+    "mtime": 1784570620.0362556,
+    "ast_hash": "4e9d57cd4aa40cd741a1821adda4f642",
+    "semantic_hash": "4e9d57cd4aa40cd741a1821adda4f642"
+  },
+  "Packages/manifest.json": {
+    "mtime": 1787724065.965794,
+    "ast_hash": "aed55e7ce142de96751227cfd43737dd",
+    "semantic_hash": "aed55e7ce142de96751227cfd43737dd"
+  },
+  "Packages/packages-lock.json": {
+    "mtime": 1787724065.9749367,
+    "ast_hash": "58a5331fc686c782495511ba7c8b35ed",
+    "semantic_hash": "58a5331fc686c782495511ba7c8b35ed"
+  },
+  "ProjectSettings/Packages/com.unity.sequences/Settings.json": {
+    "mtime": 1784570620.0441267,
+    "ast_hash": "07316b8ece7def1d0fec4af12a0183ab",
+    "semantic_hash": "07316b8ece7def1d0fec4af12a0183ab"
+  },
+  "ProjectSettings/SceneTemplateSettings.json": {
+    "mtime": 1784570620.0471253,
+    "ast_hash": "3620a2b0a1c79cc4ae4b6b6ad599ff4d",
+    "semantic_hash": "3620a2b0a1c79cc4ae4b6b6ad599ff4d"
+  },
+  "rainbowsEnd.slnx": {
+    "mtime": 1787725257.1707551,
+    "ast_hash": "5385f2cfde1647d42cff198f1af93be8",
+    "semantic_hash": "5385f2cfde1647d42cff198f1af93be8"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_acid.wav": {
+    "mtime": 1721672554.0,
+    "ast_hash": "cf2c6ece24285b71bedff94eb8221dd5",
+    "semantic_hash": "cf2c6ece24285b71bedff94eb8221dd5"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_bubble.wav": {
+    "mtime": 1721672323.0,
+    "ast_hash": "60ad2bea83a0a2c88648f69304d18c35",
+    "semantic_hash": "60ad2bea83a0a2c88648f69304d18c35"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_bullet.wav": {
+    "mtime": 1721671998.0,
+    "ast_hash": "39f3bfcc8ddcd902758407f8d31ea607",
+    "semantic_hash": "39f3bfcc8ddcd902758407f8d31ea607"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_chargeup.wav": {
+    "mtime": 1721672016.0,
+    "ast_hash": "7bc414492c2bf55202b23a8b5faf8115",
+    "semantic_hash": "7bc414492c2bf55202b23a8b5faf8115"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_chargeup2.wav": {
+    "mtime": 1721672020.0,
+    "ast_hash": "631a7072bb6b44b2708a691064fb3f09",
+    "semantic_hash": "631a7072bb6b44b2708a691064fb3f09"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_dark01.wav": {
+    "mtime": 1721672857.0,
+    "ast_hash": "d2e35cb2fa209df2791c0838ae4b01ba",
+    "semantic_hash": "d2e35cb2fa209df2791c0838ae4b01ba"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_dark02.wav": {
+    "mtime": 1721672734.0,
+    "ast_hash": "b13f1cb1e16eb9160d0347f980c83a88",
+    "semantic_hash": "b13f1cb1e16eb9160d0347f980c83a88"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_fireball.wav": {
+    "mtime": 1721672202.0,
+    "ast_hash": "7623a76e24e97c97cc5306d35ef18839",
+    "semantic_hash": "7623a76e24e97c97cc5306d35ef18839"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_fireball2.wav": {
+    "mtime": 1721672165.0,
+    "ast_hash": "d947ffc5201eb3f16fae287b1f36763f",
+    "semantic_hash": "d947ffc5201eb3f16fae287b1f36763f"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_flash.wav": {
+    "mtime": 1721672449.0,
+    "ast_hash": "d8c22d5d20581cb0d255765b948f4631",
+    "semantic_hash": "d8c22d5d20581cb0d255765b948f4631"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_frost.wav": {
+    "mtime": 1721672750.0,
+    "ast_hash": "8ee664021f7fd42e14918fd02ce1a5aa",
+    "semantic_hash": "8ee664021f7fd42e14918fd02ce1a5aa"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_gas.wav": {
+    "mtime": 1721672366.0,
+    "ast_hash": "5c59fccd7ced9e29655dd77c6035ac96",
+    "semantic_hash": "5c59fccd7ced9e29655dd77c6035ac96"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_grenade.wav": {
+    "mtime": 1721672301.0,
+    "ast_hash": "210b85d05bd27ad87ca7afd8c9aa4192",
+    "semantic_hash": "210b85d05bd27ad87ca7afd8c9aa4192"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_laser.wav": {
+    "mtime": 1721671814.0,
+    "ast_hash": "1128820020efe924a7b1835ecc23ae2c",
+    "semantic_hash": "1128820020efe924a7b1835ecc23ae2c"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_lava.wav": {
+    "mtime": 1721672661.0,
+    "ast_hash": "8f65ff6bb38fa38b7c18dc08acd05176",
+    "semantic_hash": "8f65ff6bb38fa38b7c18dc08acd05176"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_lightning.wav": {
+    "mtime": 1721672527.0,
+    "ast_hash": "9bab708a75ace2ab0ea7be49b6281e7b",
+    "semantic_hash": "9bab708a75ace2ab0ea7be49b6281e7b"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_liquid.wav": {
+    "mtime": 1721672064.0,
+    "ast_hash": "d5cbef080b53347c71e8074f15a9fe34",
+    "semantic_hash": "d5cbef080b53347c71e8074f15a9fe34"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_liquid2.wav": {
+    "mtime": 1721672023.0,
+    "ast_hash": "a454b532fa526320af15a0e14c026148",
+    "semantic_hash": "a454b532fa526320af15a0e14c026148"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_liquid3.wav": {
+    "mtime": 1721672880.0,
+    "ast_hash": "367cd5d825c499c024c6ee8bfde408bb",
+    "semantic_hash": "367cd5d825c499c024c6ee8bfde408bb"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_magic.wav": {
+    "mtime": 1721672001.0,
+    "ast_hash": "8004c543cfc060aa7d1d1113f46c9e38",
+    "semantic_hash": "8004c543cfc060aa7d1d1113f46c9e38"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_magic2.wav": {
+    "mtime": 1721672298.0,
+    "ast_hash": "1b4d5e6d7166623b67fb8610cce56bb6",
+    "semantic_hash": "1b4d5e6d7166623b67fb8610cce56bb6"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_minimagic.wav": {
+    "mtime": 1721672286.0,
+    "ast_hash": "b07fdf11c57d987f5e2847ed987178e4",
+    "semantic_hash": "b07fdf11c57d987f5e2847ed987178e4"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_minimagic2.wav": {
+    "mtime": 1721672868.0,
+    "ast_hash": "ee395cc8d315c0a2ee55a3f648ac80f4",
+    "semantic_hash": "ee395cc8d315c0a2ee55a3f648ac80f4"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_mystic.wav": {
+    "mtime": 1721671982.0,
+    "ast_hash": "f92a2b58124346208b5aaff1ef18034b",
+    "semantic_hash": "f92a2b58124346208b5aaff1ef18034b"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_mystic02.wav": {
+    "mtime": 1721671940.0,
+    "ast_hash": "668fc1ba6beeafc195bb9e85a4c6fef9",
+    "semantic_hash": "668fc1ba6beeafc195bb9e85a4c6fef9"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_nuke.wav": {
+    "mtime": 1721672395.0,
+    "ast_hash": "bd800b87c3a36a2a157667c444135d16",
+    "semantic_hash": "bd800b87c3a36a2a157667c444135d16"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_plasma.wav": {
+    "mtime": 1721672108.0,
+    "ast_hash": "fca3f7253f15f0b7c2beac138a8ddca9",
+    "semantic_hash": "fca3f7253f15f0b7c2beac138a8ddca9"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_plasma2.wav": {
+    "mtime": 1721672329.0,
+    "ast_hash": "e0a30b51e10da86625bbe57dbf34e5bd",
+    "semantic_hash": "e0a30b51e10da86625bbe57dbf34e5bd"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_poisoncloud.wav": {
+    "mtime": 1721672664.0,
+    "ast_hash": "6848aa9dbc24270f813fd20bb70816bb",
+    "semantic_hash": "6848aa9dbc24270f813fd20bb70816bb"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_poof.wav": {
+    "mtime": 1721672408.0,
+    "ast_hash": "7147e6f5f8f7d3924817c4cb1893ae48",
+    "semantic_hash": "7147e6f5f8f7d3924817c4cb1893ae48"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_rocket.wav": {
+    "mtime": 1721672380.0,
+    "ast_hash": "6007630eae8c94a514d1d2a57effeed8",
+    "semantic_hash": "6007630eae8c94a514d1d2a57effeed8"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_rocket2.wav": {
+    "mtime": 1721672353.0,
+    "ast_hash": "eba02f536f63f717b9dabd6da5a69a77",
+    "semantic_hash": "eba02f536f63f717b9dabd6da5a69a77"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_scan.wav": {
+    "mtime": 1721671922.0,
+    "ast_hash": "be8beae97db9fd6c0dad1df5fca4f161",
+    "semantic_hash": "be8beae97db9fd6c0dad1df5fca4f161"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_sharp.wav": {
+    "mtime": 1721672599.0,
+    "ast_hash": "81d8ec7dde1b05fcf59c308e9768adcf",
+    "semantic_hash": "81d8ec7dde1b05fcf59c308e9768adcf"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_slime.wav": {
+    "mtime": 1721671924.0,
+    "ast_hash": "9c027765fa877b07ae6f2cc0b5858a59",
+    "semantic_hash": "9c027765fa877b07ae6f2cc0b5858a59"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_slime2.wav": {
+    "mtime": 1721672659.0,
+    "ast_hash": "cf89b7fe1f66cc755d61e25d266be869",
+    "semantic_hash": "cf89b7fe1f66cc755d61e25d266be869"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_snow.wav": {
+    "mtime": 1721672494.0,
+    "ast_hash": "41081dc70d486e750c61b0af38984418",
+    "semantic_hash": "41081dc70d486e750c61b0af38984418"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_soul.wav": {
+    "mtime": 1721672758.0,
+    "ast_hash": "46790a0e979fada56b61635d02bd003d",
+    "semantic_hash": "46790a0e979fada56b61635d02bd003d"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_sparkle2.wav": {
+    "mtime": 1721671957.0,
+    "ast_hash": "09af2fff821ff3691cb67eb32a8fc399",
+    "semantic_hash": "09af2fff821ff3691cb67eb32a8fc399"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_sparkle3.wav": {
+    "mtime": 1721671983.0,
+    "ast_hash": "cd8d4361645317168ef84e21dccf6f51",
+    "semantic_hash": "cd8d4361645317168ef84e21dccf6f51"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_explosion_storm.wav": {
+    "mtime": 1721672481.0,
+    "ast_hash": "fa76da5232fdf8470f522c294f729d3c",
+    "semantic_hash": "fa76da5232fdf8470f522c294f729d3c"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_impact_metal01.wav": {
+    "mtime": 1721672550.0,
+    "ast_hash": "4b2514f8d322309671f52e0f83867190",
+    "semantic_hash": "4b2514f8d322309671f52e0f83867190"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_impact_metal02.wav": {
+    "mtime": 1721672479.0,
+    "ast_hash": "940e42ba4887892356dbd0448b69afea",
+    "semantic_hash": "940e42ba4887892356dbd0448b69afea"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_impact_metal03.wav": {
+    "mtime": 1721672533.0,
+    "ast_hash": "8bc066dc210809d4df92000f1d0cbc95",
+    "semantic_hash": "8bc066dc210809d4df92000f1d0cbc95"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_pop_balloon.wav": {
+    "mtime": 1721672473.0,
+    "ast_hash": "e430bc4b1c58d4e348edbb78a95da567",
+    "semantic_hash": "e430bc4b1c58d4e348edbb78a95da567"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_bubble.wav": {
+    "mtime": 1721672412.0,
+    "ast_hash": "40aaf69be6eaa73c6132cd4f5690e097",
+    "semantic_hash": "40aaf69be6eaa73c6132cd4f5690e097"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_bubble2.wav": {
+    "mtime": 1721672762.0,
+    "ast_hash": "c98341ea5b83198750c9537a96f9ab38",
+    "semantic_hash": "c98341ea5b83198750c9537a96f9ab38"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_energy01.wav": {
+    "mtime": 1721671826.0,
+    "ast_hash": "fe0ded19b515265db6781bf94c7c971d",
+    "semantic_hash": "fe0ded19b515265db6781bf94c7c971d"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_energy02.wav": {
+    "mtime": 1721671962.0,
+    "ast_hash": "d2b9b17e8eeb74bd4bfc600e30c59953",
+    "semantic_hash": "d2b9b17e8eeb74bd4bfc600e30c59953"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_energy03.wav": {
+    "mtime": 1721672070.0,
+    "ast_hash": "46e87b25378de867c27d87a60bf9ba58",
+    "semantic_hash": "46e87b25378de867c27d87a60bf9ba58"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_energy04.wav": {
+    "mtime": 1721672539.0,
+    "ast_hash": "a05a881c3738d79add05314c86e911a8",
+    "semantic_hash": "a05a881c3738d79add05314c86e911a8"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_fireball.wav": {
+    "mtime": 1721671880.0,
+    "ast_hash": "b5bd1490449e44af6617f248d464e3ae",
+    "semantic_hash": "b5bd1490449e44af6617f248d464e3ae"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_fireball2.wav": {
+    "mtime": 1721672138.0,
+    "ast_hash": "55fe0bff5f7d43814245c90a419e21f9",
+    "semantic_hash": "55fe0bff5f7d43814245c90a419e21f9"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_flash.wav": {
+    "mtime": 1721672412.0,
+    "ast_hash": "73b4b1c8574690fb4dec4cc6ffe3ad13",
+    "semantic_hash": "73b4b1c8574690fb4dec4cc6ffe3ad13"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_frost.wav": {
+    "mtime": 1721671814.0,
+    "ast_hash": "446c4b967a77ad0e587f87ad2346ed93",
+    "semantic_hash": "446c4b967a77ad0e587f87ad2346ed93"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_gas.wav": {
+    "mtime": 1721672500.0,
+    "ast_hash": "4510047b5214d14ebff0a39834fca127",
+    "semantic_hash": "4510047b5214d14ebff0a39834fca127"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_gas2.wav": {
+    "mtime": 1721672625.0,
+    "ast_hash": "d54158d40c5883aa7a99e6c3355d2921",
+    "semantic_hash": "d54158d40c5883aa7a99e6c3355d2921"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_grenade.wav": {
+    "mtime": 1721672480.0,
+    "ast_hash": "ef9489957ea0ebf8ead633663e9e4cc0",
+    "semantic_hash": "ef9489957ea0ebf8ead633663e9e4cc0"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_laser.wav": {
+    "mtime": 1721672537.0,
+    "ast_hash": "eb6a4d9b4dd5b8fe3aa1d0d149478b87",
+    "semantic_hash": "eb6a4d9b4dd5b8fe3aa1d0d149478b87"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_laser02.wav": {
+    "mtime": 1721672393.0,
+    "ast_hash": "79e094ea2d5b313b911874b9ee65963f",
+    "semantic_hash": "79e094ea2d5b313b911874b9ee65963f"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_laser03.wav": {
+    "mtime": 1721672806.0,
+    "ast_hash": "13a0ec643f21e2ed396d8015cd96ea1f",
+    "semantic_hash": "13a0ec643f21e2ed396d8015cd96ea1f"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_lightning.wav": {
+    "mtime": 1721672271.0,
+    "ast_hash": "01f908f78d1ac80ee810c1b93b4c243e",
+    "semantic_hash": "01f908f78d1ac80ee810c1b93b4c243e"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_lightning2.wav": {
+    "mtime": 1721671836.0,
+    "ast_hash": "c821194dbdec088b35563c850bbb6dab",
+    "semantic_hash": "c821194dbdec088b35563c850bbb6dab"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_magic.wav": {
+    "mtime": 1721671859.0,
+    "ast_hash": "730c800a5e6c1ad3e194f6b8c69b33d3",
+    "semantic_hash": "730c800a5e6c1ad3e194f6b8c69b33d3"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_mystic.wav": {
+    "mtime": 1721672432.0,
+    "ast_hash": "7a790cb1af1116ba0c91510a7f5dd3ee",
+    "semantic_hash": "7a790cb1af1116ba0c91510a7f5dd3ee"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_nuke.wav": {
+    "mtime": 1721672769.0,
+    "ast_hash": "875d39c403bab5ef14b42a9a1e139f79",
+    "semantic_hash": "875d39c403bab5ef14b42a9a1e139f79"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_pistol02.wav": {
+    "mtime": 1721672636.0,
+    "ast_hash": "96ee87ff26a2f5b569d28d9c29ea67c0",
+    "semantic_hash": "96ee87ff26a2f5b569d28d9c29ea67c0"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_pistol03.wav": {
+    "mtime": 1721672019.0,
+    "ast_hash": "d2faed05fca3b91c3b4a27dd569fc56d",
+    "semantic_hash": "d2faed05fca3b91c3b4a27dd569fc56d"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_rocket.wav": {
+    "mtime": 1721672349.0,
+    "ast_hash": "11ed6aa9964fa0ea0fb65571731c9343",
+    "semantic_hash": "11ed6aa9964fa0ea0fb65571731c9343"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_rocket02.wav": {
+    "mtime": 1721672294.0,
+    "ast_hash": "b985125cdf08e174c0eb81eca41a0caa",
+    "semantic_hash": "b985125cdf08e174c0eb81eca41a0caa"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_rocket03.wav": {
+    "mtime": 1721671996.0,
+    "ast_hash": "e15fcf2dd4a93daa528a9dce39427357",
+    "semantic_hash": "e15fcf2dd4a93daa528a9dce39427357"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_snowball.wav": {
+    "mtime": 1721672374.0,
+    "ast_hash": "22f6823e0af6df27455f0ed39cedb2ce",
+    "semantic_hash": "22f6823e0af6df27455f0ed39cedb2ce"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_soul.wav": {
+    "mtime": 1721672085.0,
+    "ast_hash": "4d8a1fbb71b7642d308934373191b3af",
+    "semantic_hash": "4d8a1fbb71b7642d308934373191b3af"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_shoot_storm.wav": {
+    "mtime": 1721672283.0,
+    "ast_hash": "ac8d82041294015c652282e6feb4c3fa",
+    "semantic_hash": "ac8d82041294015c652282e6feb4c3fa"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_spawn.wav": {
+    "mtime": 1721672116.0,
+    "ast_hash": "c5dd4de15c5ac66266a894b2b1b0c8de",
+    "semantic_hash": "c5dd4de15c5ac66266a894b2b1b0c8de"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_stun01.wav": {
+    "mtime": 1721672870.0,
+    "ast_hash": "e2919661aa8f59a0a8868140a60cd6b4",
+    "semantic_hash": "e2919661aa8f59a0a8868140a60cd6b4"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_stun02.wav": {
+    "mtime": 1721672547.0,
+    "ast_hash": "fd4d5241c26fe64144418aef660af14f",
+    "semantic_hash": "fd4d5241c26fe64144418aef660af14f"
+  },
+  "Assets/Epic Toon FX/Sound/etfx_target_hit.wav": {
+    "mtime": 1721671863.0,
+    "ast_hash": "f5bff81a3b30056a8abfd6ceed29e908",
+    "semantic_hash": "f5bff81a3b30056a8abfd6ceed29e908"
+  }
+}
