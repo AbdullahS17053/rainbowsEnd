@@ -112,8 +112,14 @@ namespace RainbowsEnd.Gameplay.Player
             }
 
             PotController potToDrop = _carriedPot;
+            Vector2 dropPosition = ResolveCarryAnchor(ResolveDropDistance());
+            if (!potToDrop.CanDropAt(dropPosition))
+            {
+                return;
+            }
+
             _carriedPot = null;
-            potToDrop.Drop(ResolveCarryAnchor(ResolveDropDistance()));
+            potToDrop.Drop(dropPosition);
         }
 
         private PotController ResolveNearestPickupPot()

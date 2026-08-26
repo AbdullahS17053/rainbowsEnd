@@ -4,6 +4,7 @@ using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Unicorn;
+using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Economy;
 using TMPro;
 using UnityEngine;
@@ -371,6 +372,39 @@ namespace RainbowsEnd.Gameplay.Pots
             SetWorldPosition(worldPosition);
             ApplyWorldInteractionState();
             ApplyVisualState();
+        }
+
+        public bool CanDropAt(Vector2 worldPosition)
+        {
+            CircleCollider2D circleCollider = bodyCollider as CircleCollider2D;
+            if (circleCollider == null)
+            {
+                return true;
+            }
+
+            float scale = Mathf.Max(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.y));
+            float radius = circleCollider.radius * scale;
+            Vector3 worldOffset = transform.TransformVector(circleCollider.offset);
+            Vector2 queryCenter = worldPosition + new Vector2(worldOffset.x, worldOffset.y);
+
+            Physics2D.SyncTransforms();
+            Collider2D[] overlaps = Physics2D.OverlapCircleAll(queryCenter, radius);
+            for (int index = 0; index < overlaps.Length; index++)
+            {
+                Collider2D overlap = overlaps[index];
+                if (overlap == null || overlap.transform == transform || overlap.transform.IsChildOf(transform))
+                {
+                    continue;
+                }
+
+                CoverBlocker blocker = overlap.GetComponentInParent<CoverBlocker>();
+                if (blocker != null && blocker.BlocksMovement)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public void DestroyByUnicorn(Object instigator)
