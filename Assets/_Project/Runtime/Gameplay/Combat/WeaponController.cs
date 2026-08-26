@@ -188,7 +188,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 playerRoot != null ? playerRoot.BodyCollider : null,
                 this,
                 impactFeedbackSpawner,
-                ResolveDamage());
+                ResolveDamage(),
+                rangeOverride: ResolveTargetingRange());
 
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
 
@@ -305,7 +306,14 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private float ResolveTargetingRange()
         {
-            return weaponConfig != null ? Mathf.Max(0f, weaponConfig.Range) : 0f;
+            if (weaponConfig == null)
+            {
+                return 0f;
+            }
+
+            return upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponRange(weaponConfig.Range)
+                : Mathf.Max(0f, weaponConfig.Range);
         }
 
         private float ResolveDamage()

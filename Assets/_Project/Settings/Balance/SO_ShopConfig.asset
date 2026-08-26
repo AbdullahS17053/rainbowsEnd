@@ -18,30 +18,36 @@ MonoBehaviour:
   - displayName: Damage Up
     description: Increase weapon damage by 25% per purchase.
     effectType: 0
-    cost: 20
+    cost: 10
     maxPurchaseCount: 3
     valuePerPurchase: 0.25
   - displayName: Fire Rate Up
     description: Reduce weapon cooldown by 10% per purchase.
     effectType: 1
-    cost: 25
+    cost: 12
     maxPurchaseCount: 3
     valuePerPurchase: 0.1
   - displayName: Accuracy Up
     description: Reduce weapon spread by 15% per purchase.
     effectType: 2
-    cost: 15
+    cost: 7
     maxPurchaseCount: 3
     valuePerPurchase: 0.15
   - displayName: 2nd Pot of Gold
     description: Purchase an additional Pot of Gold for $50.
     effectType: 3
-    cost: 50
+    cost: 25
     maxPurchaseCount: 1
     valuePerPurchase: 0
   - displayName: 3rd Pot of Gold
     description: Purchase another Pot of Gold for $75.
     effectType: 4
-    cost: 75
+    cost: 37
     maxPurchaseCount: 1
     valuePerPurchase: 0
+  - displayName: Cone Reach Up
+    description: Increase firing-cone and arrow range by 2 units per purchase.
+    effectType: 5
+    cost: 12
+    maxPurchaseCount: 3
+    valuePerPurchase: 2

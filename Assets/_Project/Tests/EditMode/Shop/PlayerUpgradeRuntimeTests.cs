@@ -34,14 +34,17 @@ namespace RainbowsEnd.Tests.EditMode.Shop
             ShopUpgradeDefinition damageUpgrade = CreateDefinition(0, "Damage Up", ShopUpgradeEffectType.WeaponDamage, 20, 3, 0.25f);
             ShopUpgradeDefinition fireRateUpgrade = CreateDefinition(1, "Fire Rate Up", ShopUpgradeEffectType.WeaponFireRate, 25, 3, 0.1f);
             ShopUpgradeDefinition accuracyUpgrade = CreateDefinition(2, "Accuracy Up", ShopUpgradeEffectType.WeaponAccuracy, 15, 3, 0.15f);
+            ShopUpgradeDefinition rangeUpgrade = CreateDefinition(3, "Cone Reach Up", ShopUpgradeEffectType.WeaponRange, 12, 3, 2f);
 
             Assert.That(_upgradeRuntime.ApplyPurchase(damageUpgrade), Is.True);
             Assert.That(_upgradeRuntime.ApplyPurchase(fireRateUpgrade), Is.True);
             Assert.That(_upgradeRuntime.ApplyPurchase(accuracyUpgrade), Is.True);
+            Assert.That(_upgradeRuntime.ApplyPurchase(rangeUpgrade), Is.True);
 
             Assert.That(_upgradeRuntime.ResolveWeaponDamage(8f), Is.EqualTo(10f).Within(0.001f));
             Assert.That(_upgradeRuntime.ResolveWeaponCooldownSeconds(1f), Is.EqualTo(0.9f).Within(0.001f));
             Assert.That(_upgradeRuntime.ResolveWeaponSpreadDegrees(20f), Is.EqualTo(17f).Within(0.001f));
+            Assert.That(_upgradeRuntime.ResolveWeaponRange(8f), Is.EqualTo(10f).Within(0.001f));
         }
 
         [Test]

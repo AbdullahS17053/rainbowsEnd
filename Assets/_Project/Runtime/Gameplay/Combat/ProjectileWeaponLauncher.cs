@@ -25,7 +25,8 @@ namespace RainbowsEnd.Gameplay.Combat
             Collider2D ignoredCollider,
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
-            float damageOverride = -1f)
+            float damageOverride = -1f,
+            float rangeOverride = -1f)
         {
             if (weaponConfig == null || !ResolvePool())
             {
@@ -42,7 +43,16 @@ namespace RainbowsEnd.Gameplay.Combat
                     projectileCount,
                     weaponConfig.VolleySpreadDegrees);
 
-                if (LaunchResolved(origin, projectileDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride))
+                if (LaunchResolved(
+                    origin,
+                    projectileDirection,
+                    weaponConfig,
+                    sourceFaction,
+                    ignoredCollider,
+                    instigator,
+                    impactFeedbackSpawner,
+                    damageOverride,
+                    rangeOverride))
                 {
                     launchedCount++;
                 }
@@ -59,14 +69,24 @@ namespace RainbowsEnd.Gameplay.Combat
             Collider2D ignoredCollider,
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
-            float damageOverride = -1f)
+            float damageOverride = -1f,
+            float rangeOverride = -1f)
         {
             if (weaponConfig == null || !ResolvePool())
             {
                 return false;
             }
 
-            return LaunchResolved(origin, direction, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride);
+            return LaunchResolved(
+                origin,
+                direction,
+                weaponConfig,
+                sourceFaction,
+                ignoredCollider,
+                instigator,
+                impactFeedbackSpawner,
+                damageOverride,
+                rangeOverride);
         }
 
         private bool LaunchResolved(
@@ -77,7 +97,8 @@ namespace RainbowsEnd.Gameplay.Combat
             Collider2D ignoredCollider,
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
-            float damageOverride)
+            float damageOverride,
+            float rangeOverride)
         {
             if (weaponConfig == null || projectilePool == null)
             {
@@ -94,7 +115,16 @@ namespace RainbowsEnd.Gameplay.Combat
                 return false;
             }
 
-            projectile.Launch(projectilePool, normalizedDirection, weaponConfig, sourceFaction, ignoredCollider, instigator, impactFeedbackSpawner, damageOverride);
+            projectile.Launch(
+                projectilePool,
+                normalizedDirection,
+                weaponConfig,
+                sourceFaction,
+                ignoredCollider,
+                instigator,
+                impactFeedbackSpawner,
+                damageOverride,
+                rangeOverride);
             return true;
         }
 

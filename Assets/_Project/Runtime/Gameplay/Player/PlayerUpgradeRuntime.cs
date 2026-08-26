@@ -17,6 +17,7 @@ namespace RainbowsEnd.Gameplay.Player
         private float _weaponDamageBonus;
         private float _weaponCooldownReduction;
         private float _weaponSpreadReduction;
+        private float _weaponRangeBonus;
 
         public event Action Changed;
 
@@ -27,6 +28,8 @@ namespace RainbowsEnd.Gameplay.Player
         public float WeaponCooldownMultiplier => Mathf.Max(MinimumCooldownMultiplier, 1f - Mathf.Max(0f, _weaponCooldownReduction));
 
         public float WeaponSpreadMultiplier => Mathf.Max(MinimumSpreadMultiplier, 1f - Mathf.Max(0f, _weaponSpreadReduction));
+
+        public float WeaponRangeBonus => Mathf.Max(0f, _weaponRangeBonus);
 
         private void Reset()
         {
@@ -89,6 +92,7 @@ namespace RainbowsEnd.Gameplay.Player
             _weaponDamageBonus = 0f;
             _weaponCooldownReduction = 0f;
             _weaponSpreadReduction = 0f;
+            _weaponRangeBonus = 0f;
             Changed?.Invoke();
         }
 
@@ -106,6 +110,11 @@ namespace RainbowsEnd.Gameplay.Player
         public float ResolveWeaponSpreadDegrees(float baseSpreadDegrees)
         {
             return Mathf.Max(0f, baseSpreadDegrees) * WeaponSpreadMultiplier;
+        }
+
+        public float ResolveWeaponRange(float baseRange)
+        {
+            return Mathf.Max(0f, baseRange) + WeaponRangeBonus;
         }
 
         private void CacheReferences()
@@ -140,6 +149,10 @@ namespace RainbowsEnd.Gameplay.Player
 
                 case ShopUpgradeEffectType.WeaponAccuracy:
                     _weaponSpreadReduction += valuePerPurchase;
+                    break;
+
+                case ShopUpgradeEffectType.WeaponRange:
+                    _weaponRangeBonus += valuePerPurchase;
                     break;
 
                 case ShopUpgradeEffectType.PotPurchase2:

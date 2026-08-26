@@ -23,9 +23,7 @@ namespace RainbowsEnd.Gameplay.Shop
         [SerializeField] private PlayerPortalController portalController;
         [SerializeField] private ShopPanelPresenter panelPresenter;
         [SerializeField] private GameObject potPrefab;
-        [SerializeField] [Min(0f)] private float fallbackInteractionRadius = 1.75f;
-
-        private bool _isShopOpen;
+private bool _isShopOpen;
         private bool _wasMovementControllerEnabled;
         private bool _wasAimControllerEnabled;
         private bool _wasPotCarryControllerEnabled;
@@ -80,16 +78,15 @@ namespace RainbowsEnd.Gameplay.Shop
             SetShopPresentation(false, false);
         }
 
-        private void Update()
+private void Update()
         {
             ResolveReferences();
 
-            bool canInteractWithShop = CanInteractWithShop();
             if (!_isShopOpen)
             {
-                panelPresenter?.SetInteractionPromptVisible(canInteractWithShop);
+                panelPresenter?.SetInteractionPromptVisible(false);
 
-                if (canInteractWithShop && inputReader != null && inputReader.ShopInteractPressedThisFrame)
+                if (inputReader != null && inputReader.ShopInteractPressedThisFrame)
                 {
                     OpenShop();
                 }
@@ -157,7 +154,7 @@ namespace RainbowsEnd.Gameplay.Shop
 
         private void OpenShop()
         {
-            if (!CanInteractWithShop())
+            if (!CanOpenShop())
             {
                 return;
             }
@@ -168,8 +165,7 @@ namespace RainbowsEnd.Gameplay.Shop
             SetShopPresentation(true, false);
         }
 
-        private void CloseShop()
-        {
+        private void CloseShop() {
             if (!_isShopOpen)
             {
                 return;
@@ -177,7 +173,7 @@ namespace RainbowsEnd.Gameplay.Shop
 
             _isShopOpen = false;
             RestorePlayerGameplay();
-            SetShopPresentation(false, CanInteractWithShop());
+            SetShopPresentation(false, false);
         }
 
         private void RefreshShopPanel()
@@ -218,35 +214,15 @@ namespace RainbowsEnd.Gameplay.Shop
             }
         }
 
-        private bool CanInteractWithShop()
+        private bool CanOpenShop()
         {
             return shopConfig != null
                 && panelPresenter != null
-                && faeTreeAnchor != null
                 && playerRoot != null
                 && inputReader != null
                 && upgradeRuntime != null
                 && economyState != null
-                && shopConfig.Upgrades.Length > 0
-                && !playerRoot.IsDisabled
-                && !playerRoot.IsCarryingPot
-                && IsPlayerWithinInteractionRadius();
-        }
-
-        private bool IsPlayerWithinInteractionRadius()
-        {
-            if (playerRoot == null || faeTreeAnchor == null)
-            {
-                return false;
-            }
-
-            Vector2 playerPosition = playerRoot.Body != null
-                ? playerRoot.Body.position
-                : (Vector2)playerRoot.transform.position;
-            float interactionRadius = shopConfig != null && shopConfig.InteractionRadius > 0f
-                ? shopConfig.InteractionRadius
-                : fallbackInteractionRadius;
-            return Vector2.Distance(playerPosition, faeTreeAnchor.transform.position) <= interactionRadius;
+                && shopConfig.Upgrades.Length > 0;
         }
 
         private void HandleKeyboardShortcuts()

@@ -21,6 +21,7 @@ namespace RainbowsEnd.Gameplay.Combat
         private FactionId _sourceFaction;
         private Object _instigator;
         private float _damage;
+        private float _range;
         private float _distanceTravelled;
         private bool _isLaunched;
 
@@ -32,7 +33,8 @@ namespace RainbowsEnd.Gameplay.Combat
             Collider2D ignoredCollider,
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
-            float damageOverride = -1f)
+            float damageOverride = -1f,
+            float rangeOverride = -1f)
         {
             _owningPool = owningPool;
             _direction = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.up;
@@ -42,6 +44,9 @@ namespace RainbowsEnd.Gameplay.Combat
             _instigator = instigator;
             _impactFeedbackSpawner = impactFeedbackSpawner;
             _damage = damageOverride >= 0f ? damageOverride : (weaponConfig != null ? weaponConfig.Damage : 0f);
+            _range = rangeOverride >= 0f
+                ? rangeOverride
+                : (weaponConfig != null ? Mathf.Max(0f, weaponConfig.Range) : 0f);
             _distanceTravelled = 0f;
             _isLaunched = true;
 
@@ -66,7 +71,7 @@ namespace RainbowsEnd.Gameplay.Combat
                 return;
             }
 
-            float remainingDistance = Mathf.Max(0f, _weaponConfig.Range - _distanceTravelled);
+            float remainingDistance = Mathf.Max(0f, _range - _distanceTravelled);
             if (remainingDistance <= 0f)
             {
                 ReturnToPool();
@@ -105,7 +110,7 @@ namespace RainbowsEnd.Gameplay.Combat
             transform.position = currentPosition + _direction * stepDistance;
             _distanceTravelled += stepDistance;
 
-            if (_distanceTravelled >= _weaponConfig.Range)
+            if (_distanceTravelled >= _range)
             {
                 ReturnToPool();
             }
@@ -145,6 +150,7 @@ namespace RainbowsEnd.Gameplay.Combat
             _sourceFaction = FactionId.Neutral;
             _instigator = null;
             _damage = 0f;
+            _range = 0f;
             _distanceTravelled = 0f;
             _isLaunched = false;
         }

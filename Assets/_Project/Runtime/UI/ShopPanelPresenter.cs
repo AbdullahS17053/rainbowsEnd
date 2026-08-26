@@ -77,7 +77,7 @@ namespace RainbowsEnd.UI
 
             if (instructionsText != null)
             {
-                instructionsText.text = "Press 1-9 or click an upgrade. Press Interact again to close.";
+                
             }
 
             for (int index = 0; index < upgradeButtonViews.Length; index++)

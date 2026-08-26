@@ -9,7 +9,9 @@ namespace RainbowsEnd.Core.Config
         WeaponFireRate = 1,
         WeaponAccuracy = 2,
         PotPurchase2 = 3,
-        PotPurchase3 = 4
+        PotPurchase3 = 4,
+        WeaponRange = 5
+        
     }
 
     [Serializable]
