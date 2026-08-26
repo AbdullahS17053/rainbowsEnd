@@ -21,8 +21,7 @@ namespace RainbowsEnd.Gameplay.Combat
                 return false;
             }
 
-            ITeamAffiliation teamAffiliation = ResolveInterfaceInParents<ITeamAffiliation>(collider);
-            if (teamAffiliation != null && teamAffiliation.FactionId == sourceFaction)
+            if (IsFriendlyCollider(collider, sourceFaction))
             {
                 return false;
             }
@@ -42,6 +41,12 @@ namespace RainbowsEnd.Gameplay.Combat
             out WeaponHitResult hitResult)
         {
             if (collider == null || IsIgnoredCollider(collider, ignoredCollider))
+            {
+                hitResult = default;
+                return false;
+            }
+
+            if (IsFriendlyCollider(collider, sourceFaction))
             {
                 hitResult = default;
                 return false;
@@ -78,6 +83,12 @@ namespace RainbowsEnd.Gameplay.Combat
         private static bool IsPotCollider(Collider2D candidate)
         {
             return ResolveInterfaceInParents<PotController>(candidate) != null;
+        }
+
+        private static bool IsFriendlyCollider(Collider2D candidate, FactionId sourceFaction)
+        {
+            ITeamAffiliation teamAffiliation = ResolveInterfaceInParents<ITeamAffiliation>(candidate);
+            return teamAffiliation != null && teamAffiliation.FactionId == sourceFaction;
         }
 
         private static TInterface ResolveInterfaceInParents<TInterface>(Component component) where TInterface : class
