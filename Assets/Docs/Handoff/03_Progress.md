@@ -4,8 +4,8 @@
 - Planning status: complete enough to start implementation
 - Implementation status: gameplay implementation is substantially complete; 3D visual integration and manual sign-off remain in progress
 - Current phase: 3D Asset Integration verification (the A-K implementation landed incrementally; Phase K is not signed off)
-- Current focus: manually verify the current `MainArena_3D` scene and reconcile any remaining visual or gameplay wiring issues
-- Recommended next executable task: run the Phase K full five-wave playthrough from Boot and record failures by subsystem
+- Current focus: execute Upgrade Screen Feedback Plan Phase 1 after completing Phase 0 verification
+- Recommended next executable task: create the version-control checkpoint, then implement Phase 1 global Q upgrade-screen toggle
 - Unity state observed through MCP: Unity 6000.0.67f1, `MainArena_3D` loaded in Edit mode, `ArenaSceneContext.IsConfigured = true`, and zero current console errors or warnings
 - Scene direction: current `CameraRoot` is a perspective 3/4 camera; the earlier orthographic-camera assumption is superseded by the current scene implementation
 
@@ -122,6 +122,7 @@ Post-MVP Military: implemented and compiling; awaiting manual Unity verification
 - 2026-07-24: Added cover-aware LOS for player and enemies, converted the player fire cone to a transparent mesh, and updated enemy spawn placement
 - 2026-07-26: Added NavMesh pathfinding for traveller, police, and military movement; refined ranges, traveller triggers, portal behavior, and military animation setup
 - 2026-08-26: Reconciled this handoff with the current source, serialized prefabs, active Unity scene, and console state; final manual verification remains open
+- 2026-08-26: Completed Upgrade Screen Feedback Plan Phase 0 through Unity MCP; confirmed MainArena_3D, five live upgrade buttons, five configured shop entries, and finalized client decisions; no runtime or scene changes made
 
 ## Asset Integration (3D visual upgrade)
 - ADR-0001-3D-Asset-Integration.md: decisions record (locked 2026-07-21)
