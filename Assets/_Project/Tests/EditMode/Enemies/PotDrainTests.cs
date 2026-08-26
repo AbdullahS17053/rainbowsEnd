@@ -1,8 +1,6 @@
 using NUnit.Framework;
-using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Enemies;
 using RainbowsEnd.Gameplay.Pots;
-using RainbowsEnd.Systems.Economy;
 using UnityEngine;
 
 namespace RainbowsEnd.Tests.EditMode.Enemies
@@ -12,17 +10,11 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
         [Test]
         public void Tick_DrainsGoldWhenOverlappingIdlePot()
         {
-            GameObject economyHost = new GameObject("EconomyStateHost");
             GameObject traveller = new GameObject("Traveller");
             GameObject pot = new GameObject("Pot");
 
-            EconomyConfig economyConfig = ScriptableObject.CreateInstance<EconomyConfig>();
-
             try
             {
-                EconomyState economyState = economyHost.AddComponent<EconomyState>();
-                economyState.Configure(economyConfig);
-
                 CircleCollider2D sensorCollider = traveller.AddComponent<CircleCollider2D>();
                 sensorCollider.isTrigger = true;
                 sensorCollider.radius = 0.5f;
@@ -46,7 +38,6 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
                 bool isDraining = potDrain.Tick(1f, 2f);
 
                 Assert.That(isDraining, Is.True);
-                Assert.That(economyState.CurrentGold, Is.EqualTo(0));
                 Assert.That(potController.StoredGold, Is.EqualTo(0f));
                 Assert.That(potDrain.StolenGold, Is.EqualTo(2f));
                 Assert.That(potDrain.CurrentPot, Is.SameAs(potController));
@@ -55,8 +46,6 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
             {
                 Object.DestroyImmediate(pot);
                 Object.DestroyImmediate(traveller);
-                Object.DestroyImmediate(economyConfig);
-                Object.DestroyImmediate(economyHost);
             }
         }
     }

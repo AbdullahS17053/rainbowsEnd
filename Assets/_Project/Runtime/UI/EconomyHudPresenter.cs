@@ -1,5 +1,5 @@
 using RainbowsEnd.Core.Bootstrap;
-using RainbowsEnd.Systems.Economy;
+using RainbowsEnd.Gameplay.Pots;
 using TMPro;
 using UnityEngine;
 
@@ -7,9 +7,11 @@ namespace RainbowsEnd.UI
 {
     public sealed class EconomyHudPresenter : MonoBehaviour
     {
-        [SerializeField] private EconomyState economyState;
+        [SerializeField] private PotRegistry potRegistry;
         [SerializeField] private TMP_Text goldText;
         [SerializeField] private string labelPrefix = "Gold: ";
+
+        private int _lastDisplayedGold = int.MinValue;
 
         private void Awake()
         {
@@ -20,54 +22,31 @@ namespace RainbowsEnd.UI
         private void OnEnable()
         {
             ResolveReferences();
-            if (economyState != null)
-            {
-                economyState.GoldChanged += HandleGoldChanged;
-            }
-
             RefreshLabel();
         }
 
-        private void OnDisable()
+        private void Update()
         {
-            if (economyState != null)
-            {
-                economyState.GoldChanged -= HandleGoldChanged;
-            }
+            RefreshLabel();
         }
 
-        public void Configure(EconomyState state, TMP_Text label)
+        public void Configure(PotRegistry registry, TMP_Text label)
         {
-            if (economyState != null)
-            {
-                economyState.GoldChanged -= HandleGoldChanged;
-            }
-
-            economyState = state;
+            potRegistry = registry;
             goldText = label;
-
-            if (isActiveAndEnabled && economyState != null)
-            {
-                economyState.GoldChanged += HandleGoldChanged;
-            }
-
+            _lastDisplayedGold = int.MinValue;
             RefreshLabel();
         }
 
         private void ResolveReferences()
         {
             goldText ??= GetComponent<TMP_Text>();
-            if (economyState == null && ProjectContext.Instance?.Services.TryGet(out EconomyState service) == true)
+            if (potRegistry == null && ProjectContext.Instance?.Services.TryGet(out PotRegistry service) == true)
             {
-                economyState = service;
+                potRegistry = service;
             }
 
-            economyState ??= FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
-        }
-
-        private void HandleGoldChanged(int currentGold)
-        {
-            RefreshLabel(currentGold);
+            potRegistry ??= FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
         }
 
         private void RefreshLabel()
@@ -77,13 +56,14 @@ namespace RainbowsEnd.UI
                 return;
             }
 
-            int bankedGold = economyState != null ? economyState.CurrentGold : 0;
-            goldText.text = $"{labelPrefix}{bankedGold}";
-        }
+            int displayedGold = potRegistry != null ? potRegistry.TotalStoredGold : 0;
+            if (displayedGold == _lastDisplayedGold)
+            {
+                return;
+            }
 
-        private void RefreshLabel(int currentGold)
-        {
-            RefreshLabel();
+            _lastDisplayedGold = displayedGold;
+            goldText.text = $"{labelPrefix}{displayedGold}";
         }
     }
 }

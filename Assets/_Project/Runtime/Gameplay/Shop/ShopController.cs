@@ -4,7 +4,7 @@ using RainbowsEnd.Core.SceneManagement;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Spells;
 using RainbowsEnd.Gameplay.World;
-using RainbowsEnd.Systems.Economy;
+using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,7 +19,7 @@ namespace RainbowsEnd.Gameplay.Shop
         [SerializeField] private PlayerRoot playerRoot;
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerUpgradeRuntime upgradeRuntime;
-        [SerializeField] private EconomyState economyState;
+        [SerializeField] private PotRegistry potRegistry;
         [SerializeField] private PlayerPortalController portalController;
         [SerializeField] private ShopPanelPresenter panelPresenter;
         [SerializeField] private GameObject potPrefab;
@@ -36,7 +36,7 @@ private bool _isShopOpen;
             ArenaSceneContext arenaSceneContext,
             FaeTreeAnchor treeAnchor,
             PlayerRoot root,
-            EconomyState state,
+            PotRegistry registry,
             PlayerPortalController playerPortalController,
             ShopPanelPresenter presenter)
         {
@@ -46,7 +46,7 @@ private bool _isShopOpen;
             playerRoot = root;
             inputReader = root != null ? root.InputReader : null;
             upgradeRuntime = root != null ? root.GetComponent<PlayerUpgradeRuntime>() : null;
-            economyState = state;
+            potRegistry = registry;
             portalController = playerPortalController;
             panelPresenter = presenter;
         }
@@ -106,7 +106,7 @@ private void Update()
 
         public bool TryPurchaseUpgrade(int upgradeIndex)
         {
-            if (!_isShopOpen || shopConfig == null || economyState == null || upgradeRuntime == null)
+            if (!_isShopOpen || shopConfig == null || potRegistry == null || upgradeRuntime == null)
             {
                 return false;
             }
@@ -118,23 +118,15 @@ private void Update()
             }
 
             ShopUpgradeDefinition definition = upgrades[upgradeIndex];
-            if (!upgradeRuntime.CanPurchase(definition) || economyState.CurrentGold < definition.Cost)
+            if (!upgradeRuntime.CanPurchase(definition) || !potRegistry.TrySpendGold(definition.Cost))
             {
-                RefreshShopPanel();
-                return false;
-            }
-
-            float removedGold = economyState.RemoveGold(definition.Cost);
-            if (removedGold < definition.Cost)
-            {
-                economyState.AddGold(removedGold);
                 RefreshShopPanel();
                 return false;
             }
 
             if (!upgradeRuntime.ApplyPurchase(definition))
             {
-                economyState.AddGold(removedGold);
+                potRegistry.StoreGold(definition.Cost);
                 RefreshShopPanel();
                 return false;
             }
@@ -184,7 +176,7 @@ private void Update()
             }
 
             panelPresenter.Configure(this);
-            panelPresenter.Refresh(shopConfig, economyState, upgradeRuntime);
+            panelPresenter.Refresh(shopConfig, potRegistry, upgradeRuntime);
         }
 
         private void ResolveReferences()
@@ -197,12 +189,12 @@ private void Update()
             sceneContext ??= FindFirstObjectByType<ArenaSceneContext>(FindObjectsInactive.Include);
             faeTreeAnchor ??= sceneContext != null ? sceneContext.FaeTreeAnchor : FindFirstObjectByType<FaeTreeAnchor>(FindObjectsInactive.Include);
 
-            if (economyState == null && ProjectContext.Instance?.Services.TryGet(out EconomyState economyService) == true)
+            if (potRegistry == null && ProjectContext.Instance?.Services.TryGet(out PotRegistry potService) == true)
             {
-                economyState = economyService;
+                potRegistry = potService;
             }
 
-            economyState ??= FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
+            potRegistry ??= FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
             playerRoot ??= FindFirstObjectByType<PlayerRoot>(FindObjectsInactive.Include);
             panelPresenter ??= FindFirstObjectByType<ShopPanelPresenter>(FindObjectsInactive.Include);
 
@@ -221,7 +213,7 @@ private void Update()
                 && playerRoot != null
                 && inputReader != null
                 && upgradeRuntime != null
-                && economyState != null
+                && potRegistry != null
                 && shopConfig.Upgrades.Length > 0;
         }
 

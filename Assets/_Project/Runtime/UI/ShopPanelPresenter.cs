@@ -2,7 +2,7 @@ using System;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Shop;
-using RainbowsEnd.Systems.Economy;
+using RainbowsEnd.Gameplay.Pots;
 using TMPro;
 using UnityEngine;
 
@@ -55,14 +55,14 @@ namespace RainbowsEnd.UI
             }
         }
 
-        public void Refresh(ShopConfig shopConfig, EconomyState economyState, PlayerUpgradeRuntime upgradeRuntime)
+        public void Refresh(ShopConfig shopConfig, PotRegistry potRegistry, PlayerUpgradeRuntime upgradeRuntime)
         {
             if (shopConfig == null)
             {
                 return;
             }
 
-            int currentGold = economyState != null ? economyState.CurrentGold : 0;
+            int currentGold = potRegistry != null ? potRegistry.TotalStoredGold : 0;
             ShopUpgradeDefinition[] upgrades = shopConfig.Upgrades;
 
             if (titleText != null)

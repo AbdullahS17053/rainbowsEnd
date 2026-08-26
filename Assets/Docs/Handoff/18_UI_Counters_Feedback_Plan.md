@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: Phase 0 complete; Phase 1 pending. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 complete; Phase 2 pending. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
@@ -20,17 +20,14 @@ framework.
 
 - The active gameplay scene is `Assets/_Project/Scenes/MainArena_3D.unity`.
   Do not modify legacy `MainArena.unity` or run legacy setup passes against it.
-- `PotController` stores harvested gold in `_storedGold`, but then
-  auto-banks at `PotConfig.AutoBankGoldPerSecond` into `EconomyState`.
-  `EconomyHudPresenter` and the shop currently display/spend
-  `EconomyState.CurrentGold`. That separate state explains the reported
-  80-on-pot/20-on-HUD mismatch.
-- `PotRegistry` already owns registration order, active-pot filtering, and
+- `PotController` stores harvested gold in `_storedGold` and no longer auto-banks
+  it. `PotRegistry` is the authoritative aggregate for live pot gold.
+  `EconomyHudPresenter` and the shop display/spend that aggregate, removing
+  the separate wallet that caused the reported 80-on-pot/20-on-HUD mismatch.- `PotRegistry` already owns registration order, active-pot filtering, and
   aggregate stored-gold queries. It is the smallest suitable source for a
   shared Pot Gold balance.
-- `GoldPickup`, spawned by military deaths, currently adds collected gold
-  directly to `EconomyState`; this must move to Pot Gold as part of the same
-  change.
+- `GoldPickup`, spawned by military deaths, deposits into the oldest live pot
+  through `PotRegistry` and remains in the world when all live pots are full.
 - `PlayerWeaponInventory` owns temporary-weapon shots. Its default weapon has
   no finite ammo; `RemainingTemporaryShots` is zero when the default weapon is
   active.
@@ -138,6 +135,8 @@ This phase changes no gameplay code or serialized gameplay data.
 No runtime or serialized changes exist. Discard only Phase 0 notes/checkpoint.
 
 ## Phase 1 — Make Pot Gold the only spendable gold path
+
+Status: Complete. Automated coverage passed; the combined manual playthrough remains in Phase 4.
 
 ### Goal
 

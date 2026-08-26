@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98617009ada8994488ee36e5654ecd70, type: 3}
   m_Name: SO_Economy_Default
   m_EditorClassIdentifier: 
-  <StartingGold>k__BackingField: 0
   <OnePotHarvestMultiplier>k__BackingField: 1
   <TwoPotHarvestMultiplier>k__BackingField: 2.5
   <ThreePotHarvestMultiplier>k__BackingField: 5

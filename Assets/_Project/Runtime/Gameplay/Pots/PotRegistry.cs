@@ -22,11 +22,11 @@ namespace RainbowsEnd.Gameplay.Pots
             get
             {
                 RemoveNullEntries();
-
                 int count = 0;
                 for (int index = 0; index < _registeredPots.Count; index++)
                 {
-                    if (_registeredPots[index] != null && !_registeredPots[index].IsDestroyed)
+                    PotController pot = _registeredPots[index];
+                    if (pot != null && !pot.IsDestroyed)
                     {
                         count++;
                     }
@@ -36,19 +36,18 @@ namespace RainbowsEnd.Gameplay.Pots
             }
         }
 
-        public int TotalStoredGold
+        public float TotalStoredGoldValue
         {
             get
             {
                 RemoveNullEntries();
-
-                int total = 0;
+                float total = 0f;
                 for (int index = 0; index < _registeredPots.Count; index++)
                 {
                     PotController pot = _registeredPots[index];
                     if (pot != null && !pot.IsDestroyed)
                     {
-                        total += Mathf.FloorToInt(pot.StoredGold);
+                        total += Mathf.Max(0f, pot.StoredGold);
                     }
                 }
 
@@ -56,16 +55,17 @@ namespace RainbowsEnd.Gameplay.Pots
             }
         }
 
+        public int TotalStoredGold => Mathf.FloorToInt(TotalStoredGoldValue);
+
         public bool HasAnyGoldOrHarvestingPot
         {
             get
             {
                 RemoveNullEntries();
-
                 for (int index = 0; index < _registeredPots.Count; index++)
                 {
                     PotController pot = _registeredPots[index];
-                    if (pot != null && pot.HasGoldOrHarvesting)
+                    if (pot != null && !pot.IsDestroyed && pot.HasGoldOrHarvesting)
                     {
                         return true;
                     }
@@ -80,11 +80,10 @@ namespace RainbowsEnd.Gameplay.Pots
             get
             {
                 RemoveNullEntries();
-
                 for (int index = 0; index < _registeredPots.Count; index++)
                 {
                     PotController pot = _registeredPots[index];
-                    if (pot != null && pot.HasGold)
+                    if (pot != null && !pot.IsDestroyed && pot.HasGold)
                     {
                         return true;
                     }
@@ -106,12 +105,64 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public void UnregisterPot(PotController pot)
         {
-            if (pot == null)
+            if (pot != null)
             {
-                return;
+                _registeredPots.Remove(pot);
+            }
+        }
+
+        public float StoreGold(float amount)
+        {
+            if (amount <= 0f)
+            {
+                return 0f;
             }
 
-            _registeredPots.Remove(pot);
+            RemoveNullEntries();
+            float remaining = amount;
+            float acceptedTotal = 0f;
+            for (int index = 0; index < _registeredPots.Count && remaining > 0.0001f; index++)
+            {
+                PotController pot = _registeredPots[index];
+                if (pot == null || pot.IsDestroyed)
+                {
+                    continue;
+                }
+
+                float accepted = pot.TryStoreGold(remaining);
+                acceptedTotal += accepted;
+                remaining -= accepted;
+            }
+
+            return acceptedTotal;
+        }
+
+        public bool TrySpendGold(int amount)
+        {
+            if (amount <= 0)
+            {
+                return true;
+            }
+
+            if (TotalStoredGoldValue < amount)
+            {
+                return false;
+            }
+
+            float remaining = amount;
+            RemoveNullEntries();
+            for (int index = 0; index < _registeredPots.Count && remaining > 0.0001f; index++)
+            {
+                PotController pot = _registeredPots[index];
+                if (pot == null || pot.IsDestroyed)
+                {
+                    continue;
+                }
+
+                remaining -= pot.DrainGold(remaining);
+            }
+
+            return remaining <= 0.0001f;
         }
 
         private void Awake()

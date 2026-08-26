@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Config;
@@ -11,16 +10,8 @@ namespace RainbowsEnd.Systems.Economy
         [SerializeField] private EconomyConfig config;
 
         private readonly HashSet<int> _activeHarvesterIds = new HashSet<int>();
-        private bool _isInitialized;
-        private float _currentGoldValue;
-
-        public event Action<int> GoldChanged;
 
         public EconomyConfig Config => config;
-
-        public float CurrentGoldValue => _currentGoldValue;
-
-        public int CurrentGold => Mathf.FloorToInt(_currentGoldValue);
 
         public int ActiveHarvesterCount => _activeHarvesterIds.Count;
 
@@ -29,43 +20,8 @@ namespace RainbowsEnd.Systems.Economy
         public void Configure(EconomyConfig economyConfig)
         {
             config = economyConfig;
-            Initialize(forceReset: true);
+            _activeHarvesterIds.Clear();
             RegisterWithProjectContext();
-        }
-
-        public void AddGold(float amount)
-        {
-            Initialize();
-            if (amount <= 0f)
-            {
-                return;
-            }
-
-            int previousGold = CurrentGold;
-            _currentGoldValue += amount;
-            if (CurrentGold != previousGold)
-            {
-                GoldChanged?.Invoke(CurrentGold);
-            }
-        }
-
-        public float RemoveGold(float amount)
-        {
-            Initialize();
-            if (amount <= 0f)
-            {
-                return 0f;
-            }
-
-            int previousGold = CurrentGold;
-            float removedAmount = Mathf.Min(_currentGoldValue, amount);
-            _currentGoldValue -= removedAmount;
-            if (CurrentGold != previousGold)
-            {
-                GoldChanged?.Invoke(CurrentGold);
-            }
-
-            return removedAmount;
         }
 
         public void SetHarvesterActive(UnityEngine.Object owner, bool isActive)
@@ -88,8 +44,6 @@ namespace RainbowsEnd.Systems.Economy
 
         public float GetHarvestMultiplier(int activePotCount)
         {
-            Initialize();
-
             if (config == null || activePotCount <= 0)
             {
                 return 1f;
@@ -106,7 +60,6 @@ namespace RainbowsEnd.Systems.Economy
         private void Awake()
         {
             ResolveDefaults();
-            Initialize();
             RegisterWithProjectContext();
         }
 
@@ -121,19 +74,6 @@ namespace RainbowsEnd.Systems.Economy
             {
                 config = ProjectContext.Instance.ConfigRegistry.EconomyConfig;
             }
-        }
-
-        private void Initialize(bool forceReset = false)
-        {
-            if (_isInitialized && !forceReset)
-            {
-                return;
-            }
-
-            _currentGoldValue = config != null ? Mathf.Max(0, config.StartingGold) : 0f;
-            _activeHarvesterIds.Clear();
-            _isInitialized = true;
-            GoldChanged?.Invoke(CurrentGold);
         }
 
         private void RegisterWithProjectContext()

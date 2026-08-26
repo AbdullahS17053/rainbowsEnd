@@ -5,7 +5,7 @@ using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Shop;
 using RainbowsEnd.Gameplay.Spells;
 using RainbowsEnd.Gameplay.World;
-using RainbowsEnd.Systems.Economy;
+using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.UI;
 using TMPro;
 using UnityEditor;
@@ -170,10 +170,10 @@ namespace RainbowsEnd.Editor
                 return;
             }
 
-            EconomyState economyState = Object.FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
-            if (economyState == null)
+            PotRegistry potRegistry = Object.FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
+            if (potRegistry == null)
             {
-                Debug.LogError("EconomyState is missing from MainArena. Run Phase 6 pot setup first.");
+                Debug.LogError("PotRegistry is missing from MainArena. Run Phase 6 pot setup first.");
                 return;
             }
 
@@ -196,10 +196,10 @@ namespace RainbowsEnd.Editor
             GameObject shopSystemsRoot = GetOrCreateChild(gameplayRoot.transform, "ShopSystems");
             GameObject shopControllerObject = GetOrCreateChild(shopSystemsRoot.transform, "FaeTreeShop");
             ShopController shopController = GetOrAddComponent<ShopController>(shopControllerObject);
-            shopController.Configure(shopConfig, sceneContext, faeTreeAnchor, playerRoot, economyState, portalController, panelPresenter);
+            shopController.Configure(shopConfig, sceneContext, faeTreeAnchor, playerRoot, potRegistry, portalController, panelPresenter);
 
             panelPresenter.Configure(shopController);
-            panelPresenter.Refresh(shopConfig, economyState, upgradeRuntime);
+            panelPresenter.Refresh(shopConfig, potRegistry, upgradeRuntime);
             panelPresenter.SetShopVisible(false);
             panelPresenter.SetInteractionPromptVisible(false);
 

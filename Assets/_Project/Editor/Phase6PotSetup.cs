@@ -135,16 +135,17 @@ namespace RainbowsEnd.Editor
             }
 
             EconomyState economyState = GetOrAddComponent<EconomyState>(GetOrCreateChild(gameplayRoot.transform, "EconomyState"));
+            PotRegistry potRegistry = GetOrAddComponent<PotRegistry>(GetOrCreateChild(gameplayRoot.transform, "PotRegistry"));
             economyState.Configure(economyConfig);
 
-            EnsureHudBinding(uiRoot.transform, economyState);
+            EnsureHudBinding(uiRoot.transform, potRegistry);
             PlaceOrUpdateScenePot(scene, gameplayRoot.transform, spawnPointsRoot.transform, potConfig);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
         }
 
-        private static void EnsureHudBinding(Transform uiRoot, EconomyState economyState)
+        private static void EnsureHudBinding(Transform uiRoot, PotRegistry potRegistry)
         {
             Transform hudRoot = uiRoot.Find("HudRoot");
             if (hudRoot == null)
@@ -177,7 +178,7 @@ namespace RainbowsEnd.Editor
             }
 
             EconomyHudPresenter presenter = GetOrAddComponent<EconomyHudPresenter>(goldCounterPlaceholder);
-            presenter.Configure(economyState, goldText);
+            presenter.Configure(potRegistry, goldText);
         }
 
         private static bool EnsureTextMeshProEssentials()

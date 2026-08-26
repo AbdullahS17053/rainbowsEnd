@@ -1,6 +1,6 @@
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Gameplay.Player;
-using RainbowsEnd.Systems.Economy;
+using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
@@ -11,9 +11,9 @@ namespace RainbowsEnd.Gameplay.Enemies
     {
         [SerializeField] private Collider2D triggerCollider;
 
-        private EconomyState _economyState;
+        private PotRegistry _potRegistry;
         private PrefabPool _owningPool;
-        private int _goldAmount;
+        private float _goldAmount;
 
         public void Activate(PrefabPool owningPool, int goldAmount)
         {
@@ -29,13 +29,15 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void OnSpawned()
         {
             EnsureCollider();
-            _goldAmount = 0;
+            _goldAmount = 0f;
+            _potRegistry = null;
             _owningPool = null;
         }
 
         public void OnDespawned()
         {
-            _goldAmount = 0;
+            _goldAmount = 0f;
+            _potRegistry = null;
             _owningPool = null;
         }
 
@@ -51,13 +53,18 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_goldAmount <= 0 || other.GetComponentInParent<PlayerRoot>() == null)
+            if (_goldAmount <= 0f || other.GetComponentInParent<PlayerRoot>() == null)
             {
                 return;
             }
 
-            ResolveEconomyState();
-            _economyState?.AddGold(_goldAmount);
+            ResolvePotRegistry();
+            float acceptedGold = _potRegistry != null ? _potRegistry.StoreGold(_goldAmount) : 0f;
+            _goldAmount -= acceptedGold;
+            if (_goldAmount > 0.0001f)
+            {
+                return;
+            }
 
             PrefabPool owningPool = _owningPool;
             _owningPool = null;
@@ -69,20 +76,20 @@ namespace RainbowsEnd.Gameplay.Enemies
             triggerCollider ??= GetComponent<Collider2D>();
         }
 
-        private void ResolveEconomyState()
+        private void ResolvePotRegistry()
         {
-            if (_economyState != null)
+            if (_potRegistry != null)
             {
                 return;
             }
 
-            if (ProjectContext.Instance?.Services.TryGet(out EconomyState economyState) == true)
+            if (ProjectContext.Instance?.Services.TryGet(out PotRegistry service) == true)
             {
-                _economyState = economyState;
+                _potRegistry = service;
                 return;
             }
 
-            _economyState = FindFirstObjectByType<EconomyState>(FindObjectsInactive.Include);
+            _potRegistry = FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
         }
     }
 }

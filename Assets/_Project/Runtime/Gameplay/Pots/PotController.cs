@@ -214,22 +214,8 @@ namespace RainbowsEnd.Gameplay.Pots
             {
                 _economyState.SetHarvesterActive(this, _harvestState.Status == PotHarvestStatus.Harvesting);
                 float generatedGold = _harvestState.GenerateGold(Time.deltaTime, _economyState.CurrentHarvestMultiplier);
-                if (generatedGold > 0f)
-                {
-                    float maxGold = config != null && config.MaxStoredGold > 0f ? config.MaxStoredGold : float.MaxValue;
-                    _storedGold = Mathf.Min(_storedGold + generatedGold, maxGold);
-                }
+                TryStoreGold(generatedGold);
 
-                if (_harvestState.Status == PotHarvestStatus.Harvesting && !IsBeingDrained && !_isBeingStolenByMilitary)
-                {
-                    float autoBankRate = config != null ? config.AutoBankGoldPerSecond : 0f;
-                    if (autoBankRate > 0f && _storedGold > 0f)
-                    {
-                        float transfer = Mathf.Min(autoBankRate * Time.deltaTime, _storedGold);
-                        _storedGold -= transfer;
-                        _economyState.AddGold(transfer);
-                    }
-                }
             }
 
             ApplyVisualState();
@@ -470,16 +456,20 @@ namespace RainbowsEnd.Gameplay.Pots
             return actualDrain;
         }
 
-        public void TransferAllGold()
+        public float TryStoreGold(float amount)
         {
-            if (_storedGold <= 0f || _economyState == null)
+            if (amount <= 0f || IsDestroyed)
             {
-                return;
+                return 0f;
             }
 
-            _economyState.AddGold(_storedGold);
-            _storedGold = 0f;
+            float maxGold = config != null && config.MaxStoredGold > 0f ? config.MaxStoredGold : float.MaxValue;
+            float available = Mathf.Max(0f, maxGold - _storedGold);
+            float acceptedAmount = Mathf.Min(amount, available);
+            _storedGold += acceptedAmount;
+            return acceptedAmount;
         }
+
 
         private void ForceStopHarvest()
         {
