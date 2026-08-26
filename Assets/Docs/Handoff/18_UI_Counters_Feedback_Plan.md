@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 pending. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 complete; Phase 4 pending. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
@@ -304,6 +304,8 @@ Revert only the new RunDirector fields/methods and the three enemy-controller
 record calls together. No wave configuration or pooling asset needs reverting.
 
 ## Phase 3 — Author the compact Synty Run Status HUD
+
+Status: Complete. The compact scene HUD and formatter coverage are delivered; integrated gameplay checks remain in Phase 4.
 
 ### Goal
 
