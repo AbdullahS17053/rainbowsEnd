@@ -174,7 +174,7 @@ Unity editor steps:
 14. Add a simple gold counter text placeholder.
 
 Camera note:
-- Cinemachine is available in the project, but this slice can stay on a fixed orthographic camera until the gameplay loop needs camera rig features or feedback layers.
+- Cinemachine is available in the project, but the current `MainArena_3D` slice uses a fixed perspective 3/4 camera; add a camera rig only when it provides clear gameplay or feedback value.
 
 Scripts and components to attach:
 - ArenaBoundsAuthoring or equivalent on SceneContext or World
@@ -616,7 +616,7 @@ Implementation notes:
 - This phase should orchestrate existing systems, not replace them.
 - The current slice converts EnemySpawner and PoliceSpawner into director-controlled spawn factories while preserving their existing pool, drop, config, and spawn-point wiring.
 - The current wave sequence uses exact authored traveller and police counts, alternates mixed waves traveller-first, waits for active enemies to clear before advancing, and caps active enemies by the current wave.
-- The current run outcome rules are intentionally simple: surviving the final cleared wave wins, losing all active pots loses, and restart reloads MainArena after restoring Time.timeScale.
+- The current run outcome rules are intentionally simple: surviving the final cleared wave wins, losing all active pots loses, and restart reloads MainArena_3D after restoring Time.timeScale.
 - Fae tree banking and star scoring remain deferred to the next MVP step.
 
 Exit criteria:

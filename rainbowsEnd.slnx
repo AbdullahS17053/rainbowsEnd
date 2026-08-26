@@ -2,6 +2,7 @@
   <Project Path="Unity.ShaderGraph.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.GPUDriven.Runtime.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
+  <Project Path="MCPForUnity.Runtime.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Runtime.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.csproj" />
   <Project Path="Unity.Splines.Editor.csproj" />
@@ -23,6 +24,7 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
+  <Project Path="MCPForUnity.Editor.csproj" />
   <Project Path="PPv2URPConverters.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Runtime.Shared.csproj" />
   <Project Path="Unity.TextMeshPro.Editor.csproj" />
@@ -38,8 +40,8 @@
   <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="Unity.Rendering.LightTransport.Runtime.csproj" />
   <Project Path="Unity.Burst.Editor.csproj" />
-  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Unity.AI.Navigation.Updater.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="Unity.Settings.Editor.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
   <Project Path="Unity.Multiplayer.Center.Common.csproj" />

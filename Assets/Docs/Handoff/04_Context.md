@@ -1,31 +1,53 @@
 # Rainbow's End Project Context
 
 ## Project summary
-Rainbow's End is a single-screen top-down tactical shooter built in Unity. The MVP focuses on the core loop of pushing pots into a unicorn's rainbow trail to harvest gold while defending those pots from enemies. The full game adds more spells, more advanced AI, more weapons, traps, and stronger visual polish, but the MVP should stay lean and prove the central loop first.
+Rainbow's End is a single-screen tactical shooter presented through a perspective 3/4 camera and powered by 2D XY gameplay physics. The MVP focuses on the core loop of pushing pots into a unicorn's rainbow trail to harvest gold while defending those pots from enemies. The full game adds more spells, more advanced AI, more weapons, traps, and stronger visual polish, but the MVP should stay lean and prove the central loop first.
 
 ## Source documents
 - Assets/Docs/Rainbow's End MVP GDD.txt: condensed MVP scope and milestone guidance
 - Assets/Docs/Rainbow's End.txt: fuller design and long-term architecture constraints
 - Assets/Docs/Close Encounters of the Mini Kind (2025).html: visual inspiration reference only, not a gameplay specification
 
-## Current repository state at implementation start
+## Historical repository state at implementation start
 - Unity version: 6000.0.67f1
 - Assets initially contained docs only
 - No gameplay scripts, scenes, or prefabs existed at implementation start
 - No third-party gameplay framework is present in the repository
 - Packages started at the Unity baseline modules only
 
-## Current repository state after bootstrap work
-- Assets/_Project/Scenes contains Boot.unity and MainArena.unity
-- ProjectSettings/EditorBuildSettings.asset includes Boot and MainArena in build settings
+## Historical bootstrap snapshot
+- Assets/_Project/Scenes contained Boot.unity and MainArena.unity
+- ProjectSettings/EditorBuildSettings.asset initially included Boot and MainArena in build settings
 - Assets/_Project/Input contains IA_Gameplay.inputactions
 - ProjectSettings/ProjectSettings.asset is configured for the new Input System
-- Assets/_Project/Settings is still empty, so URP renderer assets and assignment still need to be finalized if URP is kept as the renderer direction
+- Assets/_Project/Settings was still empty at this snapshot, before the later URP integration
 - Packages/manifest.json now includes Cinemachine
 - DOTween is present as an imported plugin under Assets/Plugins/Demigiant/DOTween
 
+## Current repository state (2026-08-26)
+- Unity version: 6000.0.67f1
+- Build scenes are `Boot.unity` (index 0) and `MainArena_3D.unity` (index 1); `SceneNames.MainArena` resolves to `MainArena_3D`
+- Unity MCP currently reports `MainArena_3D` loaded in Edit mode, `ArenaSceneContext.IsConfigured = true`, no compilation in progress, and zero current console errors or warnings
+- `MainArena_3D` has separate `EnvironmentRoot`, `WorldRoot`, `GameplayRoot`, `SpawnPointsRoot`, `EffectsRoot`, `UIRoot`, `CameraRoot`, and scene-system roots for run, shop, spell, and enemy systems
+- `CameraRoot` is currently perspective with a 60 degree field of view and a 3/4 downward angle; `PlayerAimResolver` projects pointer rays onto the XY gameplay plane
+- URP assets exist at `Assets/_Project/Settings/URP_Asset.asset` and `Assets/_Project/Settings/URP_Renderer.asset`
+- The active scene includes environment dressing, arena bounds, cover blockers, concealment zones, fae-tree anchor, three pot spawn points, four enemy-edge spawn points, NavMesh data, pooled effects, shop UI, outcome UI, and a gold HUD
+- 3D visual prefabs are currently serialized for the player Fairy, traveller BusinessMan, police, military soldier, Palomino horse unicorn, Polygon Fantasy Kingdom pot, and `FX_RainbowGlow_02` trail cosmetic; 2D physics components remain authoritative
+- `CharacterAnimationBridge` now drives movement speed, optional movement-facing, and fire animation triggers for 3D characters
+- `NavMeshPathfinder` is used by traveller, police, and military movement; `CoverBlocker` participates in player/enemy line-of-sight tests
+- Gameplay phases 0-12, Phase 13 core polish items, and the Military extension are implemented in source; PlayMode/manual verification and final visual polish are still open
+- The working tree has only the earlier MCP package/solution changes before this documentation update; no gameplay source was changed for onboarding
+
+## Graphify reference (2026-08-26)
+- Graph scope: `Assets/_Project/Runtime` C# runtime source; Unity scenes, prefabs, ScriptableObjects, imported art, and handoff docs are outside this graph and must be checked separately for serialized wiring and visual status
+- Outputs: `graphify-out/graph.json` (machine-readable graph), `graphify-out/GRAPH_REPORT.md` (audit/report), and `graphify-out/graph.html` (interactive view)
+- Current graph: 1,105 nodes, 2,316 edges, and 40 communities, refreshed from the 12 changed runtime files after the prior 2026-07-20 graph
+- Graph delta: 90 nodes added, 1 removed, 172 edges added, and 187 edges removed during source reconciliation
+- Integrity: no missing or dangling endpoints and no collapsed endpoint groups; one benign self-reference remains at `Gameplay/Spells/PortalInstance.cs:L22`
+- Refresh guidance: use Graphify incremental update after runtime C# changes, then reconcile scene/prefab state through Unity MCP and update this handoff when behavior or serialized wiring changes
+
 ## Implemented bootstrap files
-- Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs: persistent bootstrap MonoBehaviour that loads MainArena from Boot
+- Assets/_Project/Runtime/Core/Bootstrap/GameBootstrap.cs: persistent bootstrap MonoBehaviour that loads MainArena_3D from Boot
 - Assets/_Project/Runtime/Core/Bootstrap/ProjectContext.cs: persistent composition root that loads and registers shared services and core config
 - Assets/_Project/Runtime/Core/Bootstrap/IReadOnlyServiceRegistry.cs and ServiceRegistry.cs: typed service access and registration layer for project-level dependencies
 - Assets/_Project/Runtime/Core/SceneManagement/SceneNames.cs: shared scene name constants
@@ -145,7 +167,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Assets/_Project/Runtime/Core/Config/WaveConfig.cs: level-wave ScriptableObject with exact-count wave definitions for start delay, spawn interval, max concurrent enemies, traveller count, and police count
 - Assets/_Project/Runtime/Gameplay/Orchestration/RunOutcome.cs, RunWaveController.cs, and RunDirector.cs: deterministic wave sequencing, director-controlled spawning, pot-loss defeat, final-wave victory, and outcome reporting
 - Assets/_Project/Runtime/Gameplay/Enemies/EnemySpawner.cs and PoliceSpawner.cs: existing spawners now act as spawn factories with active counts and explicit TrySpawn methods instead of endless autonomous timers
-- Assets/_Project/Runtime/UI/RunOutcomePresenter.cs: simple TextMesh Pro outcome panel presenter with restart that restores Time.timeScale and reloads MainArena
+- Assets/_Project/Runtime/UI/RunOutcomePresenter.cs: simple TextMesh Pro outcome panel presenter with restart that restores Time.timeScale and reloads MainArena_3D
 - Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs: rerunnable Unity automation for wiring MainArena orchestration and outcome UI
 - Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs: deterministic coverage for exact counts, traveller-first alternation, max concurrency stalls, clear-to-advance, win, and pot-loss precedence
 
@@ -178,6 +200,13 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - RainbowTrailSegment now preserves its authored base color across pooling cycles so reused trail segments do not stay invisible after fading out once
 - UnicornController now chooses successive roam targets on different arena boundary sides instead of clamped local offsets, which produces more readable cross-arena traversal
 
+## Current implementation refinements
+- `Assets/_Project/Runtime/Core/Animation/CharacterAnimationBridge.cs`: shared Animator speed/facing/fire bridge used by the current 3D character prefabs
+- `Assets/_Project/Runtime/Gameplay/World/NavMeshPathfinder.cs`: shared NavMesh corner path and waypoint steering helper used by enemy controllers
+- `Assets/_Project/Runtime/Gameplay/World/CoverBlocker.cs`: cover collider and nearest-block query used by combat LOS checks
+- `Assets/_Project/Runtime/Gameplay/World/ConcealmentZone.cs`: trigger-volume authoring for concealment spaces
+- `Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs`: perspective-camera pointer aiming by ray/XY-plane intersection, plus controller deadzone handling
+
 ## Follow-up architecture refinements
 - Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs now uses UnityEngine.Pool.ObjectPool internally instead of a custom queue while keeping the project's existing pool API stable
 - Assets/_Project/Runtime/Gameplay/Player/PlayerAimController.cs now consumes PlayerConfig.AimTurnSpeed for smoothed aim-facing behavior
@@ -199,7 +228,7 @@ Rainbow's End is a single-screen top-down tactical shooter built in Unity. The M
 - Support keyboard and mouse plus controller for the MVP
 - Start with the thinnest playable slice, then expand to the fuller MVP
 - Keep police and portals inside the MVP plan, but not in the first implementation slice
-- Use URP 2D from the start unless explicitly changed later
+- Use URP; retain 2D gameplay physics while the current presentation uses the perspective 3/4 camera
 - Delay tilt-shift polish until gameplay is stable
 - Use ScriptableObjects for gameplay tuning and content configuration
 - Use object pooling for repeated runtime objects
@@ -246,7 +275,8 @@ Expected additions under Assets/_Project:
 
 ## Planned scene ownership
 - Boot: startup and persistent service bootstrap
-- MainArena: gameplay arena, camera framing, environment blockers, concealment, spawn points, player and unicorn runtime context
+- MainArena_3D: current gameplay arena, perspective camera framing, 3D environment, blockers, concealment, spawn points, player and unicorn runtime context
+- MainArena: retained 2D fallback scene for rollback/debugging
 
 ## Planned prefab ownership
 - PF_Player: movement, aim, combat, spell casting, health, interaction
@@ -270,7 +300,7 @@ Expected additions under Assets/_Project:
 - Economy system: current gold, scaling multipliers, pickups, shop purchases
 - Spell system: portal spell first, reusable for future spells
 - Pooling system: shared pooled lifecycle for repeated runtime objects
-- UI system: HUD, shop, outcome screen, pause, feedback prompts
+- UI system: HUD, shop, outcome screen, and feedback prompts; pause controller remains unimplemented
 
 ## Handoff usage order
 1. Read this context file first.

@@ -17,15 +17,39 @@ expands each decision into observable, runnable steps.
   by the parent MonoBehaviour's `visualRoot` serialized field (typically a
   child named `Visual` or `SpriteVisual`), and add the new 3D GameObject as a
   child of that root.
-- Local rotation `(90, 0, 0)` means Euler angles X=90, Y=0, Z=0. POLYGON
-  characters are authored Y-up; rotating +90 on X lays them flat with their
-  head pointing toward +Y in our XY-plane world, readable from straight above.
-  Signs may need to be inverted to (270, 0, 0) or (-90, 0, 0) depending on the
-  prefab; verify visually in the Scene view before pinning the value.
+- POLYGON characters are authored Y-up and are rotated onto the XY gameplay
+  plane as visual children. The current `MainArena_3D` camera is perspective
+  3/4, so do not assume one global X rotation or an orthographic view; verify
+  each prefab visually in the Scene view before pinning transform values.
 - All gameplay code (Rigidbody2D, Physics2D, BoxCollider2D) is authoritative.
   3D models must NOT have a Collider, Collider2D, Rigidbody, or Rigidbody2D
   of their own. The 3D mesh is a visual sibling/child only.
 - After any prefab edit, click Overrides > Apply in the Inspector to persist.
+
+## Current implementation snapshot (2026-08-26)
+
+- Phase A is implemented: URP assets exist and the active scene contains a
+  Directional Light.
+- Phase B is implemented: `MainArena_3D.unity` exists, is build scene 1, and is
+  the scene loaded by `SceneNames.MainArena`.
+- Phases C-D are substantially implemented: gameplay roots, environment,
+  arena bounds, cover, concealment, fae-tree anchor, spawn points, and NavMesh
+  data are present in the active scene.
+- Phase E is implemented in the player prefab with the Fairy visual child and
+  Animator wiring.
+- Phase F is implemented in traveller, police, and military prefabs; current
+  serialized examples are BusinessMan_Shirt, Character_Male_Police, and
+  SM_Chr_Soldier_Male_02.
+- Phase G is implemented with a Palomino horse visual and
+  `FX_RainbowGlow_02`; it is a temporary unicorn visual, not a final unicorn.
+- Phase H is implemented with `SM_Prop_Pot_01` visuals and the current fae-tree
+  scene dressing.
+- Phase I projectile visuals and Phase J HUD work are present in the project.
+  Current projectile prefab mappings are `PF_BowArrow` → `SpikyFireTrail` and
+  `PF_PoliceProjectile` / `PF_MilitaryProjectile` → `SM_Item_Bullet_01`; final
+  visual acceptance remains open.
+- Phase K has not passed. Keep the checkboxes below unchecked until a complete
+  Boot-to-win/lose playthrough is recorded with no console errors.
 
 ## Phase A — Render Pipeline and Lighting Foundation
 
@@ -132,8 +156,8 @@ loads MainArena_3D.
 
 4. Camera setup:
    - `CameraRoot` GameObject: add a `Camera` component.
-   - Camera: Orthographic = true. Orthographic Size = 7. Clear Flags = Solid
-     Color. Background = (0.11, 0.13, 0.15, 1).
+   - Camera: Perspective = true. Current `CameraRoot` uses a 60 degree field
+     of view and a 3/4 downward angle. Preserve XY-plane aim projection.
    - Position the CameraRoot above the arena clearing at roughly the center
      of where you want gameplay to happen. The XY position of the camera
      defines the on-screen arena center. Set Camera Z = -10 (so it looks
@@ -187,7 +211,7 @@ it. More churn, not recommended.
 - [ ] MainArena_3D.unity exists at Assets/_Project/Scenes/
 - [ ] Scene contains WorldRoot, EnvironmentRoot, GameplayRoot, SpawnPointsRoot,
       EffectsRoot, UIRoot, CameraRoot, ArenaSceneContext GameObjects
-- [ ] Camera is Orthographic, Size 7, looking straight down
+- [ ] Camera is the current perspective 3/4 setup and frames the whole arena
 - [ ] Build settings include Boot at index 0 and MainArena_3D at index 1
 - [ ] SceneNames.MainArena equals "MainArena_3D"
 - [ ] Enter Play mode from Boot — ProjectContext boots, MainArena_3D loads,
@@ -295,8 +319,8 @@ fruit tree in the scene.
    - Add component `ArenaBoundsAuthoring`.
    - Configure the Size field to match the clearing in your dressed
      environment (e.g. Width=14, Height=10 if your visible play area is that
-     size — orthographicSize=7 shows about 14 units tall, so adjust camera
-     or bounds to match).
+     size — use the current perspective 3/4 framing and adjust camera or
+     bounds to match).
    - Center the ArenaBounds GameObject at the center of the clearing.
    - Verify the camera (CameraRoot) is centered above the same X,Y point.
 
@@ -454,7 +478,7 @@ prefabs as before.
 
 5. Repeat for PF_Military:
    - Disable the sprite.
-   - Drag `Assets/Synty/PolygonMilitary/Prefabs/Characters/SM_Chr_Soldier_Male_01.prefab`
+   - Drag `Assets/Synty/PolygonMilitary/Prefabs/Characters/SM_Chr_Soldier_Male_02.prefab`
      (or variants Male_02, Female_01, Female_02 for variety), name
      `MilitaryVisual`, rotation/scale as above.
    - Apply prefab overrides.
@@ -494,8 +518,8 @@ Per prefab: re-enable the disabled SpriteRenderer, delete the 3D visual child.
 ## Phase G — Unicorn 3D Stand-in + Rainbow Particle Overlay
 
 ### Goal
-Unicorn GameObject renders as a temporary 3D civilian (BusinessMan_Shirt). A
-`FX_RainbowGlow_01` particle effect on the unicorn provides the visible
+Unicorn GameObject renders as a temporary 3D Palomino horse. An
+`FX_RainbowGlow_02` particle effect on the unicorn provides the visible
 rainbow. RainbowTrailEmitter and RainbowTrailSegment pooling kept intact —
 the segment 2D colliders still drive harvesting, but their SpriteRenderers
 may be disabled so the only visible rainbow is the particle cosmetic.
@@ -508,13 +532,13 @@ may be disabled so the only visible rainbow is the particle cosmetic.
    - Locate the child referenced by UnicornController's `visualRenderer`
      (or equivalent). Uncheck SpriteRenderer.
 
-3. Add the civilian stand-in:
-   - Drag `Character_BusinessMan_Shirt.prefab` as child of VisualRoot.
-   - Name `UnicornStandIn`.
-   - Rotation (90, 0, 0) for upright.
+3. Add the horse stand-in:
+   - Use `Assets/SimpleFarmAnimals/Prefabs/SA_Animal_Horse_Palomino.prefab` as
+     child of VisualRoot.
+   - Keep the existing visual child name if the prefab wiring already uses it.
 
 4. Add the rainbow particle effect:
-   - Drag `Assets/PolygonParticleFX/Prefabs/FX_RainbowGlow_01.prefab` as
+   - Drag `Assets/PolygonParticleFX/Prefabs/FX_RainbowGlow_02.prefab` as
      a child of VisualRoot (or as a child of the prefab root, near
      `UnicornStandIn`). Name `RainbowCosmeticFX`.
    - Position (0, 0, 0). Rotation (90, 0, 0) so the particle system emits
@@ -545,8 +569,8 @@ None. The trail harvesting code paths are unchanged. `PotTrailCaptureSensor`
 queries Physics2D overlap, which works regardless of SpriteRenderer state.
 
 ### Verification checklist
-- [ ] PF_Unicorn prefab has UnicornStandIn child with BusinessMan mesh
-- [ ] PF_Unicorn prefab has RainbowCosmeticFX child with FX_RainbowGlow_01
+- [ ] PF_Unicorn prefab has UnicornStandIn child with Palomino horse mesh
+- [ ] PF_Unicorn prefab has RainbowCosmeticFX child with FX_RainbowGlow_02
 - [ ] ParticleSystem loops and emits in the XY plane (visible from camera)
 - [ ] PF_RainbowTrailSegment SpriteRenderer is disabled
 - [ ] PF_RainbowTrailSegment BoxCollider2D remains intact (gameplay)
@@ -566,9 +590,9 @@ SpriteRenderer.
 ## Phase H — Pot and Fae Tree 3D Swaps
 
 ### Goal
-All three pots render as `SM_Env_Planter_Pot_01` (or variants 02, 03 for
-variety). Fae tree anchor (already placed in Phase D) confirms
-`SM_Env_Tree_Fruit_01` visual. Pot drain visual feedback preserved via
+All three pots render as `SM_Prop_Pot_01` (or compatible variants for
+variety). Fae tree anchor (already placed in Phase D) confirms the current
+scene tree visual. Pot drain visual feedback preserved via
 PotDrainFeedbackPresenter sprite halo (left enabled).
 
 ### Editor steps
@@ -579,9 +603,9 @@ PotDrainFeedbackPresenter sprite halo (left enabled).
    - Locate the child referenced by PotController's `visualRenderer`.
    - Disable / uncheck the SpriteRenderer component.
 
-3. Add the planter pot 3D mesh:
-   - Drag `Assets/Synty/PolygonNatureBiomes/PNB_Meadow_Forest/Prefabs/Props/
-     SM_Env_Planter_Pot_01.prefab` as child of VisualRoot, name `PotVisual`.
+3. Add the pot 3D mesh:
+   - Use `Assets/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Pot_01.prefab`
+     as child of VisualRoot, name `PotVisual`.
    - Position (0, 0, 0). Rotation (0, 0, 0) (pots are symmetric — no
      upright rotation needed; if they appear sideways, set to (90, 0, 0)).
    - Scale ~ (1, 1, 1). Tune to match prior sprite size.
@@ -608,7 +632,7 @@ PotDrainFeedbackPresenter sprite halo (left enabled).
 None.
 
 ### Verification checklist
-- [ ] PF_Pot prefab has PotVisual child with SM_Env_Planter_Pot_01 mesh
+- [ ] PF_Pot prefab has PotVisual child with SM_Prop_Pot_01 mesh
 - [ ] SpriteRenderer on the pot visual child disabled
 - [ ] PotDrainFeedbackPresenter SpriteRenderer still enabled
 - [ ] All three pots in MainArena_3D scene render as 3D planters
@@ -626,9 +650,14 @@ Per pot prefab: re-enable the pot sprite, delete the planter mesh child.
 ## Phase I — Combat Projectile Visual Upgrade
 
 ### Goal
-Player arrow projectile renders as `FX_Direction_Arrows_01` (POLYGON Particle
-FX). Police and military projectiles either use the same swap or remain 2D
-if they use a separate prefab (verify which and apply same pattern).
+All three projectile prefabs have a visible 3D child while their root
+`SpriteRenderer` remains disabled and their `ArrowProjectile` 2D hit logic is
+preserved. Current serialized state: `PF_BowArrow` uses the Epic Toon FX
+`SpikyFireTrail` child; `PF_PoliceProjectile` and `PF_MilitaryProjectile` use
+the Synty `SM_Item_Bullet_01` child.
+
+The steps below are fallback replacement instructions if Phase K visual
+verification finds a projectile that is missing, misaligned, or unreadable.
 
 ### Editor steps
 
@@ -645,10 +674,11 @@ if they use a separate prefab (verify which and apply same pattern).
 3. Disable the SpriteRenderer on the projectile visual child:
    - Locate the sprite child. Disable the SpriteRenderer component.
 
-4. Add the 3D arrow FX:
-   - Drag `Assets/PolygonParticleFX/Prefabs/FX_Direction_Arrows_01.prefab`
-     as child of the projectile's VisualRoot (or as sibling of the
-     disabled sprite), name `ArrowVisualFX`.
+4. Add or replace the 3D projectile visual:
+   - Use the current serialized mapping above, or drag a verified replacement
+     such as `Assets/PolygonParticleFX/Prefabs/FX_Direction_Arrows_01.prefab`
+     as child of the projectile's VisualRoot (or as sibling of the disabled
+     sprite), name `ArrowVisualFX`.
    - Position (0, 0, 0). Rotation (90, 0, 0) or as needed so the arrow
      points the projectile's forward direction.
    - Particle System: Looping = true (so the arrow trail persists while
@@ -753,7 +783,7 @@ place. Any failure sends us to a per-phase rollback before sign-off.
 - [ ] Player takes damage, HP HUD decrements
 - [ ] Player gets downed at zero HP, recovers after configured 3s
 - [ ] Player knockback + daze on unicorn collision (DOTween-driven)
-- [ ] Unicorn roams as 3D civilian, emits rainbow sparkle particles
+- [ ] Unicorn roams as a 3D Palomino horse, emits rainbow sparkle particles
 - [ ] Unicorn-trail overlap on pots starts harvesting (gold increments)
 - [ ] Three pots (or fewer if destroyed) tracked correctly
 - [ ] Unicorn-pot collision destroys pots (gameplay intact)
@@ -784,8 +814,8 @@ All checklist items pass → 3D Asset Integration phase complete. Update
 - Weapon pickup visuals: held-3D-mesh attachment for SM_Wep_Rifle_01 etc.
 - Impact VFX: PolygonParticleFX FX_ShardMagic_Explosion_01 / FX_Sparks_01
   on hit, via existing WeaponImpactFeedbackSpawner
-- Real unicorn asset hunt (replace BusinessMan stand-in)
-- Pipe Unicorn rainbow particle with the actual trail emission timing for
+- Real unicorn asset hunt (replace the current Palomino horse stand-in)
+- Align the Unicorn rainbow particle with the actual trail emission timing for
   tighter visual alignment with segment timestamps
 
 ### Rollback

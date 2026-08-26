@@ -1,11 +1,13 @@
 # Rainbow's End Progress Tracker
 
-## Current status
+## Current status (as of 2026-08-26)
 - Planning status: complete enough to start implementation
-- Implementation status: in progress
-- Current phase: 3D Asset Integration (Phase A of 05_AssetIntegration_Plan.md)
-- Current focus: integrating imported POLYGON / INTERFACE Synty assets over the existing 2D gameplay logic
-- Recommended next executable task: Phase A — finalize URP renderer assets and convert POLYGON materials
+- Implementation status: gameplay implementation is substantially complete; 3D visual integration and manual sign-off remain in progress
+- Current phase: 3D Asset Integration verification (the A-K implementation landed incrementally; Phase K is not signed off)
+- Current focus: manually verify the current `MainArena_3D` scene and reconcile any remaining visual or gameplay wiring issues
+- Recommended next executable task: run the Phase K full five-wave playthrough from Boot and record failures by subsystem
+- Unity state observed through MCP: Unity 6000.0.67f1, `MainArena_3D` loaded in Edit mode, `ArenaSceneContext.IsConfigured = true`, and zero current console errors or warnings
+- Scene direction: current `CameraRoot` is a perspective 3/4 camera; the earlier orthographic-camera assumption is superseded by the current scene implementation
 
 ## Phase tracker
 - [x] Phase 0 - Project Bootstrap (implemented, awaiting manual Unity verification)
@@ -23,6 +25,7 @@
 - [x] Phase 12 - Escalation and Run Orchestration (implemented, awaiting manual Unity verification)
 - [/] Phase 13 - MVP Polish and Stability (partially implemented)
 - [x] Post-MVP: Military Enemy (implemented, awaiting manual Unity verification)
+- [/] 3D Asset Integration (substantially integrated; final manual sign-off pending)
 
 ## Completion rules
 A phase should be marked complete only when all three are true:
@@ -30,15 +33,17 @@ A phase should be marked complete only when all three are true:
 - Focused verification has been run
 - A recap has been written covering outcome, approach, code review notes, verification, and progress
 
-Phases 0-12: all code implemented and compiling; awaiting manual Unity verification for each.
+Phases 0-12: code and scene wiring implemented and compiling; awaiting manual Unity verification for each.
 Phase 13: partially implemented (knockback, separation, traveller flee, pot projectile fix done).
 Post-MVP Military: implemented and compiling; awaiting manual Unity verification.
+3D Asset Integration: URP, `MainArena_3D`, 3D character/pot/trail visuals, environment, HUD, cover/concealment, and NavMesh pathfinding are present; the end-to-end checklist remains unverified.
 
 ## What remains
 - Phase 0-12: implemented but still need manual Unity verification and in-scene testing
 - Phase 13: partially implemented — unicorn knockback, enemy separation, traveller steal-and-flee, and pot projectile immunity done; remaining polish items (pause controller, audio hooks, tilt-shift spike) not yet started
 - Post-MVP Military: implemented (state machine, spawning, wave integration, pot theft, drops) but needs manual Unity verification
-- Renderer direction is assumed to be URP 2D unless explicitly changed later
+- 3D Asset Integration: final playthrough, performance check, and per-phase visual verification are still outstanding
+- Current render direction is URP with 2D physics and a perspective 3/4 presentation camera
 - Fae tree banking is confirmed and should be treated as a required future MVP mechanic
 - Post-MVP remaining: more spells, status effects, traps, richer weapons, deeper AI, visual polish
 
@@ -62,6 +67,8 @@ Post-MVP Military: implemented and compiling; awaiting manual Unity verification
 - Enemy separation uses boids-style approach with OverlapCircle rather than hard collision resolution
 - Travellers use 3-state machine (Seeking→Draining→Fleeing) with edge-based escape
 - Pot projectile immunity is enforced at WeaponHitUtility layer (not layer masks or faction changes)
+- AI navigation uses the baked Unity NavMesh through NavMeshPathfinder when direct movement would otherwise ignore cover
+- CoverBlocker is used by enemy and player line-of-sight checks; ConcealmentZone remains a world-volume marker for concealment behavior
 
 ## Progress log
 - 2026-05-06: Reviewed project docs and Unity baseline
@@ -110,18 +117,23 @@ Post-MVP Military: implemented and compiling; awaiting manual Unity verification
 - 2026-06-17: Implemented Military mob — added MilitaryCount to WaveDefinition (7-param ctor), RunSpawnType.Military, MilitaryController.cs (Combat/Stealing/Escaping states, pot-carrying), MilitarySpawner.cs (gold+weapon drops), military carry/destroy on PotController, updated EnemySeparationUtility, added configs to ProjectConfigRegistry, created Phase13MilitarySetup.cs editor automation
 - 2026-06-17: Fixed military issues — return to Combat after successful pot theft (not despawn), fixed color by setting useCurrentColorAsHealthy=false + explicit healthyColor, fixed drop pools using FindPoolInParent by name, added defaultGoldDropAmount fallback, null safety in SpawnWeaponPickup/GoldPickup
 - 2026-06-17: Fixed military projectiles destroying pots — root cause in WeaponHitUtility.IsValidDamageableTarget where pots (FactionId.Player + IDamageable) passed faction check; added IsPotCollider() helper walking parent chain for PotController, early-returns false before faction/damageable checks; covers all projectile types (bow, police, military); verified all three assemblies compile with 0 errors
+- 2026-07-21: Began 3D integration — finalized URP assets, created `MainArena_3D`, migrated gameplay roots, added the 3D environment, player/enemy visual prefabs, fae tree, pot, HUD, and rainbow visual assets while preserving 2D gameplay authority
+- 2026-07-22: Added player animation/facing refinements and concealment-zone scene dressing
+- 2026-07-24: Added cover-aware LOS for player and enemies, converted the player fire cone to a transparent mesh, and updated enemy spawn placement
+- 2026-07-26: Added NavMesh pathfinding for traveller, police, and military movement; refined ranges, traveller triggers, portal behavior, and military animation setup
+- 2026-08-26: Reconciled this handoff with the current source, serialized prefabs, active Unity scene, and console state; final manual verification remains open
 
 ## Asset Integration (3D visual upgrade)
 - ADR-0001-3D-Asset-Integration.md: decisions record (locked 2026-07-21)
 - 05_AssetIntegration_Plan.md: phased plan (Phases A-K) — execute in order
 - Decision summary:
   - Hybrid architecture: 2D physics authoritative, 3D models decorative
-  - Orthographic straight top-down camera preserved
+  - Perspective 3/4 `CameraRoot` is the current presentation camera; 2D XY physics and aim-plane calculations remain authoritative
   - New scene MainArena_3D.unity duplicated from Meadow Forest Demo
   - URP renderer finalized; POLYGON materials converted to URP
-  - Asset map: Fairy=player, City civilians=Traveller, City police=Police, Military=Military, BusinessMan=unicorn stand-in, SM_Env_Planter_Pot=pots, SM_Env_Tree_Fruit=fae tree, FX_RainbowGlow=unicorn cosmetic, FX_Direction_Arrows=projectiles
-  - All characters Idle this phase (bundled Animators); Goblin Locomotion deferred to polish
-  - Visual scope: env + characters + one HUD element swap only
+  - Current asset map: Fairy=player, BusinessMan_Shirt=Traveller, Male_Police=Police, Soldier_Male_02=Military, Palomino horse=Unicorn, SM_Prop_Pot_01=pots, FX_RainbowGlow_02=trail cosmetic, SpikyFireTrail=player projectile, SM_Item_Bullet_01=police/military projectile
+  - CharacterAnimationBridge drives Animator speed/facing and fire triggers; full locomotion polish is still deferred
+  - Visual integration is present in the active scene/prefabs, but the full Phase K verification checklist has not passed
   - Verification: manual play-test per phase against checklist in 05_AssetIntegration_Plan.md
 
 ## Next recap template

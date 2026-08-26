@@ -120,9 +120,9 @@
     "semantic_hash": "6b9ad44b3d10c76e953f5309f8aff3af"
   },
   "Core/SceneManagement/SceneNames.cs": {
-    "mtime": 1784570619.9179208,
-    "ast_hash": "ca5d98111311f3c7169993a1dda9661b",
-    "semantic_hash": "ca5d98111311f3c7169993a1dda9661b"
+    "mtime": 1784584305.2054877,
+    "ast_hash": "1b423a251db859bc531f12dad0fad350",
+    "semantic_hash": "1b423a251db859bc531f12dad0fad350"
   },
   "Core/Utilities/CountdownTimer.cs": {
     "mtime": 1784570619.9189255,
@@ -155,9 +155,9 @@
     "semantic_hash": "e7a17d4b84b5a4be1eeb25a1ca233537"
   },
   "Gameplay/Combat/WeaponController.cs": {
-    "mtime": 1784570619.925561,
-    "ast_hash": "283c4ce53a1645d0d02a9e99c96000c7",
-    "semantic_hash": "283c4ce53a1645d0d02a9e99c96000c7"
+    "mtime": 1785059410.508296,
+    "ast_hash": "20e3926d2b74127ed675bdfddca6b1e0",
+    "semantic_hash": "20e3926d2b74127ed675bdfddca6b1e0"
   },
   "Gameplay/Combat/WeaponHitResult.cs": {
     "mtime": 1784570619.9265616,
@@ -200,7 +200,7 @@
     "semantic_hash": "c9004adda4864c58f2202d4388b6f882"
   },
   "Gameplay/Enemies/EnemySeparationUtility.cs": {
-    "mtime": 1784570619.932581,
+    "mtime": 1785064789.5132227,
     "ast_hash": "16bfa6a312cfc7eb908632704abf7231",
     "semantic_hash": "16bfa6a312cfc7eb908632704abf7231"
   },
@@ -215,9 +215,9 @@
     "semantic_hash": "cb9a926ee02258f277fe5633b3d23750"
   },
   "Gameplay/Enemies/MilitaryController.cs": {
-    "mtime": 1784570619.9366171,
-    "ast_hash": "ace868c4a6d9d771365c73bf409179aa",
-    "semantic_hash": "ace868c4a6d9d771365c73bf409179aa"
+    "mtime": 1785066909.652634,
+    "ast_hash": "26e3e5c2f1c9813a13206718cd4c6645",
+    "semantic_hash": "26e3e5c2f1c9813a13206718cd4c6645"
   },
   "Gameplay/Enemies/MilitarySpawner.cs": {
     "mtime": 1784570619.9371243,
@@ -225,9 +225,9 @@
     "semantic_hash": "6f786197d6da5aef810be7e9593ad532"
   },
   "Gameplay/Enemies/PoliceController.cs": {
-    "mtime": 1784570619.9381294,
-    "ast_hash": "e14e6d5415c74dcee8440763b5fa3e99",
-    "semantic_hash": "e14e6d5415c74dcee8440763b5fa3e99"
+    "mtime": 1785066908.1248808,
+    "ast_hash": "b07cd5fa94c75059e45d9f7f2e3b548e",
+    "semantic_hash": "b07cd5fa94c75059e45d9f7f2e3b548e"
   },
   "Gameplay/Enemies/PoliceSpawner.cs": {
     "mtime": 1784570619.939128,
@@ -235,14 +235,14 @@
     "semantic_hash": "6e2f31caef16c561f67e01c7d84abf56"
   },
   "Gameplay/Enemies/PotDrain.cs": {
-    "mtime": 1784570619.9401298,
-    "ast_hash": "270fa0f2cedd8b29633412569cc67a80",
-    "semantic_hash": "270fa0f2cedd8b29633412569cc67a80"
+    "mtime": 1785060914.9957328,
+    "ast_hash": "567ee48a3bffd25781864b05817cb270",
+    "semantic_hash": "567ee48a3bffd25781864b05817cb270"
   },
   "Gameplay/Enemies/TravellerController.cs": {
-    "mtime": 1784570619.9401298,
-    "ast_hash": "ac885c40ae39c445b855ec13d719b2ff",
-    "semantic_hash": "ac885c40ae39c445b855ec13d719b2ff"
+    "mtime": 1785066911.5897815,
+    "ast_hash": "78909a05cab936722fca433f697eaa52",
+    "semantic_hash": "78909a05cab936722fca433f697eaa52"
   },
   "Gameplay/Enemies/TravellerTargetSelectionUtility.cs": {
     "mtime": 1784570619.9411304,
@@ -270,9 +270,9 @@
     "semantic_hash": "ba6bdc1505982b96fa03df89a51f5022"
   },
   "Gameplay/Player/PlayerAimResolver.cs": {
-    "mtime": 1784570619.9467523,
-    "ast_hash": "4efb67632261c0a43074110df4624dee",
-    "semantic_hash": "4efb67632261c0a43074110df4624dee"
+    "mtime": 1784995503.717759,
+    "ast_hash": "b5086d08c1efe19e63a7bfd6b8c12236",
+    "semantic_hash": "b5086d08c1efe19e63a7bfd6b8c12236"
   },
   "Gameplay/Player/PlayerInputActionNames.cs": {
     "mtime": 1784570619.9477565,
@@ -285,9 +285,9 @@
     "semantic_hash": "e0fe6a060598d5c0f02d7c66a8f22aca"
   },
   "Gameplay/Player/PlayerMovementController.cs": {
-    "mtime": 1784570619.949758,
-    "ast_hash": "ee9ed3a9583bbd5a4edb1ec97f628ce6",
-    "semantic_hash": "ee9ed3a9583bbd5a4edb1ec97f628ce6"
+    "mtime": 1784627374.9501784,
+    "ast_hash": "852127ce51513ef34aebb01fe841c04c",
+    "semantic_hash": "852127ce51513ef34aebb01fe841c04c"
   },
   "Gameplay/Player/PlayerMovementUtility.cs": {
     "mtime": 1784570619.9507577,
@@ -360,9 +360,9 @@
     "semantic_hash": "00e4336d05e57743b59a364fbdc09c7f"
   },
   "Gameplay/Spells/PortalInstance.cs": {
-    "mtime": 1784570619.966077,
-    "ast_hash": "5165c7b4e46d9180fabf8b9067d15e04",
-    "semantic_hash": "5165c7b4e46d9180fabf8b9067d15e04"
+    "mtime": 1785068064.9145467,
+    "ast_hash": "89758f76ce791f096e5cf1ad93dc84c0",
+    "semantic_hash": "89758f76ce791f096e5cf1ad93dc84c0"
   },
   "Gameplay/Spells/PortalRegistry.cs": {
     "mtime": 1784570619.9670818,
@@ -370,12 +370,12 @@
     "semantic_hash": "a95d300605b0186bae855010ced96580"
   },
   "Gameplay/Unicorn/RainbowTrailEmitter.cs": {
-    "mtime": 1784570619.9690816,
+    "mtime": 1785069023.130934,
     "ast_hash": "24e748798e01499b58f70f71a3e21d29",
     "semantic_hash": "24e748798e01499b58f70f71a3e21d29"
   },
   "Gameplay/Unicorn/RainbowTrailSegment.cs": {
-    "mtime": 1784570619.9690816,
+    "mtime": 1785069023.1320262,
     "ast_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447",
     "semantic_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447"
   },
@@ -400,9 +400,9 @@
     "semantic_hash": "32dd7d91a7998665c39ac21591f1092b"
   },
   "Gameplay/World/CoverBlocker.cs": {
-    "mtime": 1784570619.9751246,
-    "ast_hash": "77c31a98841c7ab83993ff986cf17d08",
-    "semantic_hash": "77c31a98841c7ab83993ff986cf17d08"
+    "mtime": 1785065883.3629427,
+    "ast_hash": "12d06d49781bbe072ab9e2a629af8a1a",
+    "semantic_hash": "12d06d49781bbe072ab9e2a629af8a1a"
   },
   "Gameplay/World/FaeTreeAnchor.cs": {
     "mtime": 1784570619.976133,
@@ -430,7 +430,7 @@
     "semantic_hash": "4e0e80d055f209be3a22449d8d40c1d5"
   },
   "Systems/Pooling/PrefabPool.cs": {
-    "mtime": 1784570619.9827776,
+    "mtime": 1785069023.1320262,
     "ast_hash": "8ef0b4bc5f2900a4d8891d8605ed687c",
     "semantic_hash": "8ef0b4bc5f2900a4d8891d8605ed687c"
   },
@@ -453,5 +453,15 @@
     "mtime": 1784570619.9868393,
     "ast_hash": "d33ff72268aee2039510156636ac3213",
     "semantic_hash": "d33ff72268aee2039510156636ac3213"
+  },
+  "Core/Animation/CharacterAnimationBridge.cs": {
+    "mtime": 1785059383.082813,
+    "ast_hash": "9811524a07bfda1b0593d0fc3c5b990e",
+    "semantic_hash": "9811524a07bfda1b0593d0fc3c5b990e"
+  },
+  "Gameplay/World/NavMeshPathfinder.cs": {
+    "mtime": 1785066630.154703,
+    "ast_hash": "055609b67a069b2e31085d3103059a85",
+    "semantic_hash": "055609b67a069b2e31085d3103059a85"
   }
 }
