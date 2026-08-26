@@ -38,10 +38,11 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
             controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, false, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
             controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, false, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
 
-            RunWaveTickResult openResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, true, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
-
             Assert.That(gateResult.SpawnedType, Is.EqualTo(RunSpawnType.None));
             Assert.That(spawnState.SpawnedTravellerCount, Is.Zero);
+
+            RunWaveTickResult openResult = controller.Tick(0.1f, spawnState.ActiveTravellerCount, spawnState.ActivePoliceCount, 0, 1, true, spawnState.TrySpawnTraveller, spawnState.TrySpawnPolice, null);
+
             Assert.That(openResult.SpawnedType, Is.EqualTo(RunSpawnType.Traveller));
             Assert.That(spawnState.SpawnedTravellerCount, Is.EqualTo(1));
         }

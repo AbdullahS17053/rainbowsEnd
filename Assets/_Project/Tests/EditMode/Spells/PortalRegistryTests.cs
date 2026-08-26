@@ -59,8 +59,10 @@ namespace RainbowsEnd.Tests.EditMode.Spells
 
             Assert.That(_portalRegistry.TryPlacePortal(new Vector2(4f, 0f), Vector2.down, null), Is.True);
             Assert.That(_portalRegistry.ActivePortals.Count, Is.EqualTo(2));
-            Assert.That(_portalRegistry.ActivePortals[0], Is.Not.SameAs(firstPortal));
-            Assert.That(_portalRegistry.ActivePortals[1], Is.Not.SameAs(firstPortal));
+            Assert.That(_portalRegistry.ActivePortals[0], Is.SameAs(secondPortal));
+            Assert.That(_portalRegistry.ActivePortals[1], Is.SameAs(firstPortal));
+            Assert.That(_portalRegistry.ActivePortals[0].transform.position, Is.EqualTo(new Vector3(2f, 0f, 0f)));
+            Assert.That(_portalRegistry.ActivePortals[1].transform.position, Is.EqualTo(new Vector3(4f, 0f, 0f)));
 
             PortalInstance remainingFirstPortal = _portalRegistry.ActivePortals[0];
             PortalInstance remainingSecondPortal = _portalRegistry.ActivePortals[1];

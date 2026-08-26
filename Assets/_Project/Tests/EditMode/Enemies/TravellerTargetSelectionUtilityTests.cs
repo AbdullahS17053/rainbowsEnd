@@ -21,12 +21,12 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
         }
 
         [Test]
-        public void SelectBestCandidateIndex_FallsBackToNearestPotWhenNoPotIsHarvesting()
+        public void SelectBestCandidateIndex_SelectsNearestGoldPotWhenNoPotIsHarvesting()
         {
             TravellerTargetCandidate[] candidates =
             {
-                new TravellerTargetCandidate(new Vector2(4f, 0f), isHarvesting: false, hasGold: false),
-                new TravellerTargetCandidate(new Vector2(2f, 0f), isHarvesting: false, hasGold: false)
+                new TravellerTargetCandidate(new Vector2(4f, 0f), isHarvesting: false, hasGold: true),
+                new TravellerTargetCandidate(new Vector2(2f, 0f), isHarvesting: false, hasGold: true)
             };
 
             int index = TravellerTargetSelectionUtility.SelectBestCandidateIndex(Vector2.zero, candidates, 10f);

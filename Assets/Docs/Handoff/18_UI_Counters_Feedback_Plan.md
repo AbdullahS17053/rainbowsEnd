@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 complete; Phase 4 complete; Phase 5 pending. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 complete; Phase 4 complete; Phase 5 complete. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
@@ -426,6 +426,10 @@ regressing the pot, shop, combat, enemy, or pause loops.
   missing references.
 
 ## Phase 5 — Handoff, graph refresh, and checkpoint
+
+Status: Complete. Graphify was refreshed after the final source
+and handoff changes; the full EditMode suite is green and the manual UI
+smoke test was confirmed by the user.
 
 ### Goal
 
