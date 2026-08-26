@@ -21,6 +21,12 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private RunWaveController _waveController;
         private RunOutcome _reportedOutcome;
 
+        public float ElapsedRunSeconds { get; private set; }
+
+        public int KillCount { get; private set; }
+
+        public int SuccessfulTheftEscapeCount { get; private set; }
+
         public RunOutcome Outcome => _waveController?.Outcome ?? RunOutcome.None;
 
         public int CurrentWaveNumber => _waveController?.CurrentWaveNumber ?? 0;
@@ -47,10 +53,13 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private void Awake()
         {
             ResolveReferences();
+            RegisterWithProjectContext();
         }
 
         private void OnEnable()
         {
+            RegisterWithProjectContext();
+
             if (startRunOnEnable)
             {
                 InitializeRun();
@@ -65,6 +74,11 @@ namespace RainbowsEnd.Gameplay.Orchestration
             }
 
             ResolveReferences();
+
+            if (_reportedOutcome == RunOutcome.None)
+            {
+                ElapsedRunSeconds += Time.deltaTime;
+            }
 
             RunWaveTickResult tickResult = _waveController.Tick(
                 Time.deltaTime,
@@ -88,7 +102,38 @@ namespace RainbowsEnd.Gameplay.Orchestration
             ResolveReferences();
             _waveController = new RunWaveController(waveConfig != null ? waveConfig.Waves : null);
             _reportedOutcome = RunOutcome.None;
+            ElapsedRunSeconds = 0f;
+            KillCount = 0;
+            SuccessfulTheftEscapeCount = 0;
             outcomePresenter?.Hide();
+        }
+
+        public void RecordKill()
+        {
+            if (_reportedOutcome != RunOutcome.None)
+            {
+                return;
+            }
+
+            KillCount++;
+        }
+
+        public void RecordSuccessfulTheftEscape()
+        {
+            if (_reportedOutcome != RunOutcome.None)
+            {
+                return;
+            }
+
+            SuccessfulTheftEscapeCount++;
+        }
+
+        private void RegisterWithProjectContext()
+        {
+            if (ProjectContext.Instance?.ServiceRegistry != null)
+            {
+                ProjectContext.Instance.ServiceRegistry.Register(this, replaceExisting: true);
+            }
         }
 
         private void ResolveReferences()

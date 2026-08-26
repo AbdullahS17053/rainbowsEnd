@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: Phase 0 complete; Phase 1 complete; Phase 2 pending. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 pending. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
@@ -33,6 +33,8 @@ framework.
   active.
 - `RunDirector` owns run initialization and outcome handling. The existing
   Q upgrade panel pauses via `Time.timeScale = 0`; outcomes also freeze time.
+  It now also owns per-run elapsed seconds, combined hostile kills, and successful theft escapes; these reset on run initialization and freeze after outcome reporting.
+
 - Each enemy controller already has a one-time death path guarded by
   `_deathHandled`. A traveller has a distinct `DespawnFleeing` path after
   reaching the arena edge. Its `PotDrain.StolenGold` is available before pool
@@ -231,6 +233,8 @@ Revert the PotController/PotRegistry/shop/HUD/pickup changes as one currency
 unit. Do not leave a shop reading one balance while the HUD shows another.
 
 ## Phase 2 — Add minimal per-run statistic state at existing event seams
+
+Status: Complete. Runtime counters and event wiring are implemented; focused Phase 2 tests pass. Manual pause/outcome and integrated gameplay checks remain in Phase 4.
 
 ### Goal
 

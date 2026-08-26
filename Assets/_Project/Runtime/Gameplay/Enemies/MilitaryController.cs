@@ -4,6 +4,7 @@ using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
 using RainbowsEnd.Gameplay.Player;
+using RainbowsEnd.Gameplay.Orchestration;
 using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
@@ -570,6 +571,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             _deathHandled = true;
+            RecordKill();
 
             if (_carriedPot != null)
             {
@@ -592,6 +594,18 @@ namespace RainbowsEnd.Gameplay.Enemies
             {
                 gameObject.SetActive(false);
             }
+        }
+
+        private void RecordKill()
+        {
+            RunDirector runDirector = null;
+            if (Core.Bootstrap.ProjectContext.Instance?.Services.TryGet(out RunDirector registeredDirector) == true)
+            {
+                runDirector = registeredDirector;
+            }
+
+            runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
+            runDirector?.RecordKill();
         }
 
         private void SpawnWeaponPickup()

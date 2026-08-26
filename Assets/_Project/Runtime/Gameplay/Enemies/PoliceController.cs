@@ -1,8 +1,10 @@
 using RainbowsEnd.Core.Animation;
+using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Combat;
 using RainbowsEnd.Gameplay.Player;
+using RainbowsEnd.Gameplay.Orchestration;
 using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
@@ -261,6 +263,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             _deathHandled = true;
+            RecordKill();
             SpawnWeaponPickup();
             _owningSpawner?.NotifyPoliceDespawned(this);
 
@@ -274,6 +277,18 @@ namespace RainbowsEnd.Gameplay.Enemies
             {
                 gameObject.SetActive(false);
             }
+        }
+
+        private void RecordKill()
+        {
+            RunDirector runDirector = null;
+            if (ProjectContext.Instance?.Services.TryGet(out RunDirector registeredDirector) == true)
+            {
+                runDirector = registeredDirector;
+            }
+
+            runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
+            runDirector?.RecordKill();
         }
 
         private void SpawnWeaponPickup()

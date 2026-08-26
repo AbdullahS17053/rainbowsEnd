@@ -3,6 +3,7 @@ using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Pots;
+using RainbowsEnd.Gameplay.Orchestration;
 using RainbowsEnd.Gameplay.World;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
@@ -44,6 +45,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         private int _goldDropAmount;
         private float _targetRefreshTimerSeconds;
         private bool _deathHandled;
+        private bool _escapeHandled;
         private TravellerState _currentState;
         private Vector2 _fleeTarget;
         private ArenaBoundsAuthoring _arenaBounds;
@@ -97,6 +99,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _escapeHandled = false;
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
             _currentPath = null;
@@ -128,6 +131,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _escapeHandled = false;
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
@@ -151,6 +155,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             _goldDropAmount = 0;
             _targetRefreshTimerSeconds = 0f;
             _deathHandled = false;
+            _escapeHandled = false;
             _currentState = TravellerState.Seeking;
             _fleeTarget = Vector2.zero;
             _arenaBounds = null;
@@ -313,6 +318,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void DespawnFleeing()
         {
+            RecordSuccessfulTheftEscape();
             if (body != null)
             {
                 body.linearVelocity = Vector2.zero;
@@ -328,6 +334,41 @@ namespace RainbowsEnd.Gameplay.Enemies
                 _owningSpawner?.NotifyTravellerDespawned(this);
                 gameObject.SetActive(false);
             }
+        }
+
+        private void RecordKill()
+        {
+            RunDirector runDirector = null;
+            if (ProjectContext.Instance?.Services.TryGet(out RunDirector registeredDirector) == true)
+            {
+                runDirector = registeredDirector;
+            }
+
+            runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
+            runDirector?.RecordKill();
+        }
+
+        private void RecordSuccessfulTheftEscape()
+        {
+            if (_escapeHandled)
+            {
+                return;
+            }
+
+            _escapeHandled = true;
+            if (potDrain == null || potDrain.StolenGold <= 0f)
+            {
+                return;
+            }
+
+            RunDirector runDirector = null;
+            if (ProjectContext.Instance?.Services.TryGet(out RunDirector registeredDirector) == true)
+            {
+                runDirector = registeredDirector;
+            }
+
+            runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
+            runDirector?.RecordSuccessfulTheftEscape();
         }
 
         private void ResolveArenaBounds()
@@ -633,6 +674,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             _deathHandled = true;
+            RecordKill();
             if (body != null)
             {
                 body.linearVelocity = Vector2.zero;
