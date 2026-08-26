@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: proposed. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 pending. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
