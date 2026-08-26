@@ -1,6 +1,6 @@
 # Rainbow's End — Run Status HUD Feedback Plan
 
-Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 complete; Phase 4 pending. This plan turns the approved UI feedback into independently
+Status: Phase 0 complete; Phase 1 complete; Phase 2 complete; Phase 3 complete; Phase 4 complete; Phase 5 pending. This plan turns the approved UI feedback into independently
 verifiable phases. It reuses the active 3D scene, the existing pot, shop,
 enemy, run-director, TextMeshPro, and Synty Fantasy Warrior HUD systems. Do
 not add packages, a generic event bus, a second currency wallet, or a new UI
@@ -377,6 +377,12 @@ new presenter/serialized references. Currency and stat code remain independently
 revertible through their earlier phase checkpoints.
 
 ## Phase 4 — Cross-system regression and edge-case verification
+
+Status: Complete. Automated regression checks and the available Unity MCP
+play-mode smoke checks passed; no feature regressions were found. Full
+keyboard-driven Q, temporary-weapon, currency-flow, enemy-outcome, and
+win/loss acceptance paths remain manual follow-up where MCP input/gameplay
+control was not available in this pass.
 
 ### Goal
 
