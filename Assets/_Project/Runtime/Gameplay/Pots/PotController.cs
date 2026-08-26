@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using DG.Tweening;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
@@ -25,6 +24,9 @@ namespace RainbowsEnd.Gameplay.Pots
         [SerializeField] private Color interruptedColor = new Color(0.93f, 0.55f, 0.24f, 1f);
         [SerializeField] private Color destroyedColor = new Color(0.24f, 0.24f, 0.24f, 1f);
         [SerializeField] private TextMeshPro goldLabel;
+        [SerializeField] private GameObject potGlow;
+        [SerializeField] private GameObject harvestFlair;
+        [SerializeField] private GameObject unicornImpactBurstPrefab;
 
         private readonly PotHarvestState _harvestState = new PotHarvestState();
         private readonly HashSet<int> _activeDrainerIds = new HashSet<int>();
@@ -38,7 +40,6 @@ namespace RainbowsEnd.Gameplay.Pots
         private float _storedGold;
         private RainbowTrailEmitter _trailEmitter;
         private bool _harvestConsumed;
-        private Transform _harvestFlareTransform;
 
         public FactionId FactionId => FactionId.Player;
 
@@ -162,7 +163,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
             if (health != null && health.IsDepleted)
             {
-                DestroyHarvestFlare();
+                ForceStopHarvest();
                 _carrier = null;
                 _storedGold = 0f;
                 _harvestState.MarkDestroyed();
@@ -195,7 +196,6 @@ namespace RainbowsEnd.Gameplay.Pots
                     _trailEmitter?.ClearAllTrail();
 
                     _harvestConsumed = true;
-                    PlayHarvestFlare(harvestDuration);
                 }
             }
             else
@@ -237,7 +237,7 @@ namespace RainbowsEnd.Gameplay.Pots
 
         private void OnDisable()
         {
-            DestroyHarvestFlare();
+            ForceStopHarvest();
             _economyState?.SetHarvesterActive(this, false);
             _activeDrainerIds.Clear();
             drainFeedbackPresenter?.SetVisible(false);
@@ -380,8 +380,18 @@ namespace RainbowsEnd.Gameplay.Pots
                 return;
             }
 
+            PlayUnicornImpactBurst();
             float lethalDamage = Mathf.Max(health.CurrentHealth, config != null ? config.MaxHealth : 1f);
             health.ApplyDamage(new DamageInfo(lethalDamage, FactionId.Unicorn, transform.position, instigator));
+            ApplyVisualState();
+        }
+
+        private void PlayUnicornImpactBurst()
+        {
+            if (unicornImpactBurstPrefab != null)
+            {
+                Object.Instantiate(unicornImpactBurstPrefab, transform.position, Quaternion.identity);
+            }
         }
 
         public void SetMilitaryCarryActive(bool isActive)
@@ -440,7 +450,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private void ForceStopHarvest()
         {
             _harvestState.ReleaseTrail();
-            DestroyHarvestFlare();
+            ApplyVisualState();
         }
 
         private void ResolveTrailEmitter()
@@ -460,68 +470,6 @@ namespace RainbowsEnd.Gameplay.Pots
             if (_trailEmitter == null)
             {
                 _trailEmitter = FindFirstObjectByType<RainbowTrailEmitter>(FindObjectsInactive.Include);
-            }
-        }
-
-        private void PlayHarvestFlare(float duration)
-        {
-            DestroyHarvestFlare();
-
-            Color[] rainbowColors = new Color[]
-            {
-                new Color(1f, 0f, 0f),
-                new Color(1f, 0.5f, 0f),
-                new Color(1f, 1f, 0f),
-                new Color(0f, 1f, 0f),
-                new Color(0f, 0.5f, 1f),
-                new Color(0.6f, 0f, 1f),
-            };
-
-            int segCount = rainbowColors.Length;
-            float segWidth = 0.12f;
-            float segHeight = 0.35f;
-            float totalWidth = segCount * segWidth;
-            float startX = -totalWidth * 0.5f;
-
-            GameObject flareObj = new GameObject("HarvestFlare");
-            flareObj.transform.SetParent(transform, false);
-            flareObj.transform.localPosition = new Vector3(0f, 0.8f, 0f);
-
-            SpriteRenderer[] segmentRenderers = new SpriteRenderer[segCount];
-
-            for (int i = 0; i < segCount; i++)
-            {
-                GameObject seg = new GameObject($"FlareSeg{i}");
-                seg.transform.SetParent(flareObj.transform, false);
-                seg.transform.localPosition = new Vector3(startX + i * segWidth + segWidth * 0.5f, 0f, 0f);
-                seg.transform.localScale = new Vector3(segWidth, segHeight, 1f);
-
-                SpriteRenderer sr = seg.AddComponent<SpriteRenderer>();
-                sr.sprite = visualRenderer != null ? visualRenderer.sprite : null;
-                sr.color = rainbowColors[i];
-                sr.sortingOrder = 1;
-                segmentRenderers[i] = sr;
-            }
-
-            _harvestFlareTransform = flareObj.transform;
-
-            DOTween.To(() => 0f, offset =>
-            {
-                int step = Mathf.FloorToInt(offset);
-                for (int i = 0; i < segCount; i++)
-                {
-                    int colorIndex = (i + step) % segCount;
-                    segmentRenderers[i].color = rainbowColors[colorIndex];
-                }
-            }, segCount, duration).SetTarget(flareObj).SetEase(Ease.Linear).OnComplete(() => DestroyHarvestFlare());
-        }
-
-        private void DestroyHarvestFlare()
-        {
-            if (_harvestFlareTransform != null)
-            {
-                Object.Destroy(_harvestFlareTransform.gameObject);
-                _harvestFlareTransform = null;
             }
         }
 
@@ -623,20 +571,33 @@ namespace RainbowsEnd.Gameplay.Pots
 
         private void ApplyVisualState()
         {
-            if (visualRenderer == null)
+            if (visualRenderer != null)
             {
-                return;
+                Color targetColor = _harvestState.Status switch
+                {
+                    PotHarvestStatus.Harvesting => harvestingColor,
+                    PotHarvestStatus.Interrupted => interruptedColor,
+                    PotHarvestStatus.Destroyed => destroyedColor,
+                    _ => _idleColor
+                };
+
+                visualRenderer.color = targetColor;
             }
 
-            Color targetColor = _harvestState.Status switch
-            {
-                PotHarvestStatus.Harvesting => harvestingColor,
-                PotHarvestStatus.Interrupted => interruptedColor,
-                PotHarvestStatus.Destroyed => destroyedColor,
-                _ => _idleColor
-            };
+            bool isUnavailable = IsDestroyed || IsCarried || _isBeingStolenByMilitary;
+            bool showPotGlow = !isUnavailable && HasGold;
+            bool showHarvestFlair = !isUnavailable && _harvestState.Status == PotHarvestStatus.Harvesting;
 
-            visualRenderer.color = targetColor;
+            if (potGlow != null && potGlow.activeSelf != showPotGlow)
+            {
+                potGlow.SetActive(showPotGlow);
+            }
+
+            if (harvestFlair != null && harvestFlair.activeSelf != showHarvestFlair)
+            {
+                harvestFlair.SetActive(showHarvestFlair);
+            }
+
             drainFeedbackPresenter?.SetVisible(!IsDestroyed && IsBeingDrained);
         }
 
