@@ -31,7 +31,13 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
 
                 pot.AddComponent<Rigidbody2D>().gravityScale = 0f;
                 pot.AddComponent<CircleCollider2D>().radius = 0.4f;
-                pot.AddComponent<PotController>();
+                PotController potController = pot.AddComponent<PotController>();
+
+                System.Reflection.FieldInfo storedGoldField = typeof(PotController).GetField(
+                    "_storedGold",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                Assert.That(storedGoldField, Is.Not.Null);
+                storedGoldField.SetValue(potController, 2f);
 
                 traveller.transform.position = Vector3.zero;
                 pot.transform.position = Vector3.zero;
@@ -40,8 +46,10 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
                 bool isDraining = potDrain.Tick(1f, 2f);
 
                 Assert.That(isDraining, Is.True);
-                Assert.That(economyState.CurrentGold, Is.EqualTo(19));
-                Assert.That(potDrain.CurrentPot, Is.Not.Null);
+                Assert.That(economyState.CurrentGold, Is.EqualTo(0));
+                Assert.That(potController.StoredGold, Is.EqualTo(0f));
+                Assert.That(potDrain.StolenGold, Is.EqualTo(2f));
+                Assert.That(potDrain.CurrentPot, Is.SameAs(potController));
             }
             finally
             {

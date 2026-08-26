@@ -39,6 +39,7 @@ namespace RainbowsEnd.Tests.EditMode.Economy
             EconomyConfig config = ScriptableObject.CreateInstance<EconomyConfig>();
 
             economyState.Configure(config);
+            economyState.AddGold(21f);
 
             float removedOne = economyState.RemoveGold(3f);
             float removedTwo = economyState.RemoveGold(100f);
