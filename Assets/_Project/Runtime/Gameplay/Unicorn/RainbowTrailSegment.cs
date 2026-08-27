@@ -9,14 +9,36 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private SpriteRenderer visualRenderer;
 
         private static readonly List<RainbowTrailSegment> ActiveSegments = new List<RainbowTrailSegment>();
+        private static readonly Dictionary<Vector2Int, RainbowTrailSegment> ActiveSegmentsByCell = new Dictionary<Vector2Int, RainbowTrailSegment>();
+
 
         private Color _baseColor = Color.white;
         private bool _hasBaseColor;
         private PrefabPool _owningPool;
+        private Vector2Int _cell;
+        private bool _hasCell;
+
 
         public float SpawnTimestampSeconds { get; private set; }
 
         public float AgeSeconds => SpawnTimestampSeconds <= 0f ? 0f : Mathf.Max(0f, Time.time - SpawnTimestampSeconds);
+
+        public static bool IsCellOccupied(Vector2Int cell)
+        {
+            if (!ActiveSegmentsByCell.TryGetValue(cell, out RainbowTrailSegment segment))
+            {
+                return false;
+            }
+
+            if (segment == null || !segment.isActiveAndEnabled || !segment._hasCell)
+            {
+                ActiveSegmentsByCell.Remove(cell);
+                return false;
+            }
+
+            return true;
+        }
+
 
         public static void ReturnAllToPool()
         {
@@ -30,14 +52,27 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
 
             ActiveSegments.Clear();
+            ActiveSegmentsByCell.Clear();
         }
 
         public void Activate(PrefabPool owningPool, float spawnTimestampSeconds)
+        {
+            Activate(owningPool, spawnTimestampSeconds, null);
+        }
+
+        public void Activate(PrefabPool owningPool, float spawnTimestampSeconds, Vector2Int? cell)
         {
             CacheReferences();
 
             _owningPool = owningPool;
             SpawnTimestampSeconds = spawnTimestampSeconds;
+            if (cell.HasValue)
+            {
+                _cell = cell.Value;
+                _hasCell = true;
+                ActiveSegmentsByCell[_cell] = this;
+            }
+
             ActiveSegments.Add(this);
             UpdateVisualAlpha(1f);
         }
@@ -52,6 +87,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
         public void OnDespawned()
         {
             CacheReferences();
+            RemoveCellRegistration();
             ResetState();
             UpdateVisualAlpha(1f);
             ActiveSegments.Remove(this);
@@ -98,6 +134,21 @@ namespace RainbowsEnd.Gameplay.Unicorn
         {
             _owningPool = null;
             SpawnTimestampSeconds = 0f;
+            _cell = default;
+            _hasCell = false;
+        }
+
+
+        private void RemoveCellRegistration()
+        {
+            if (!_hasCell
+                || !ActiveSegmentsByCell.TryGetValue(_cell, out RainbowTrailSegment current)
+                || !ReferenceEquals(current, this))
+            {
+                return;
+            }
+
+            ActiveSegmentsByCell.Remove(_cell);
         }
     }
 }

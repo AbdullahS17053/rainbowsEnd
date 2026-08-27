@@ -75,6 +75,12 @@ namespace RainbowsEnd.Gameplay.Unicorn
 
         private void SpawnTrailSegment()
         {
+            Vector2Int cell = RainbowTrailCellUtility.GetCell(transform.position, unicornController.Config.TrailCellSizeWorldUnits);
+            if (RainbowTrailSegment.IsCellOccupied(cell))
+            {
+                return;
+            }
+
             GameObject instance = trailPool.Rent(transform.position, Quaternion.identity);
             RainbowTrailSegment trailSegment = instance.GetComponent<RainbowTrailSegment>();
             if (trailSegment == null)
@@ -83,7 +89,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 return;
             }
 
-            trailSegment.Activate(trailPool, Time.time);
+            trailSegment.Activate(trailPool, Time.time, cell);
         }
 
         private bool ResolvePool()

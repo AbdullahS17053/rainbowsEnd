@@ -17,7 +17,7 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float TrailSpawnIntervalSeconds { get; private set; } = 0.1f;
 
-        [field: SerializeField] [field: Min(0.01f)] public float TrailLifetimeSeconds { get; private set; } = 5f;
+        [field: SerializeField] [field: Min(0.01f)] public float TrailCellSizeWorldUnits { get; private set; } = 0.32f;
 
         [field: SerializeField] [field: Range(0f, 180f)] public float BounceAngleMinDegrees { get; private set; } = 45f;
 

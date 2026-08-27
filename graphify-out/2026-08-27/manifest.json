@@ -617,7 +617,7 @@
   "Assets/_Project/Editor/Phase11ShopSetup.cs": {
     "mtime": 1787772996.6665795,
     "ast_hash": "babb5cf4163921b6f5f0a93e27a80d7f",
-    "semantic_hash": ""
+    "semantic_hash": "babb5cf4163921b6f5f0a93e27a80d7f"
   },
   "Assets/_Project/Editor/Phase12LevelOrchestrationSetup.cs": {
     "mtime": 1784570619.850365,
@@ -657,7 +657,7 @@
   "Assets/_Project/Editor/Phase6PotSetup.cs": {
     "mtime": 1787772996.663573,
     "ast_hash": "caae7bf8fa0b43fdbc0d1e8c8ceaf897",
-    "semantic_hash": ""
+    "semantic_hash": "caae7bf8fa0b43fdbc0d1e8c8ceaf897"
   },
   "Assets/_Project/Editor/Phase7EnemySetup.cs": {
     "mtime": 1784570619.8619199,
@@ -747,7 +747,7 @@
   "Assets/_Project/Runtime/Core/Config/EconomyConfig.cs": {
     "mtime": 1787772795.4351244,
     "ast_hash": "10dccc36387be7fc75ece6e629b6608f",
-    "semantic_hash": ""
+    "semantic_hash": "10dccc36387be7fc75ece6e629b6608f"
   },
   "Assets/_Project/Runtime/Core/Config/EnemyConfig.cs": {
     "mtime": 1784570619.908378,
@@ -760,14 +760,14 @@
     "semantic_hash": "432350de3ebaf6e7926e79ec1ebc3c95"
   },
   "Assets/_Project/Runtime/Core/Config/PortalConfig.cs": {
-    "mtime": 1784570619.9103827,
-    "ast_hash": "e2b0274cdb7b070525d1221775069057",
-    "semantic_hash": "e2b0274cdb7b070525d1221775069057"
+    "mtime": 1787823068.821182,
+    "ast_hash": "c5e250aad22642876d50a75ce3259d7f",
+    "semantic_hash": "c5e250aad22642876d50a75ce3259d7f"
   },
   "Assets/_Project/Runtime/Core/Config/PotConfig.cs": {
     "mtime": 1787772795.4351244,
     "ast_hash": "64bb52a0389873b04b65f160a683292a",
-    "semantic_hash": ""
+    "semantic_hash": "64bb52a0389873b04b65f160a683292a"
   },
   "Assets/_Project/Runtime/Core/Config/ProjectConfigRegistry.cs": {
     "mtime": 1784570619.911382,
@@ -780,9 +780,9 @@
     "semantic_hash": "4e1d903218b03edd41b358a53b1080b0"
   },
   "Assets/_Project/Runtime/Core/Config/UnicornConfig.cs": {
-    "mtime": 1784570619.913382,
-    "ast_hash": "24731f52d1c55b9fb3780cc160ff8187",
-    "semantic_hash": "24731f52d1c55b9fb3780cc160ff8187"
+    "mtime": 1787827218.426,
+    "ast_hash": "2f670b7e3064c7a3838b5b92ab4d8164",
+    "semantic_hash": "2f670b7e3064c7a3838b5b92ab4d8164"
   },
   "Assets/_Project/Runtime/Core/Config/WaveConfig.cs": {
     "mtime": 1784570619.9145527,
@@ -847,7 +847,7 @@
   "Assets/_Project/Runtime/Gameplay/Combat/WeaponHitUtility.cs": {
     "mtime": 1787779976.3616166,
     "ast_hash": "1840a1b8e3b0362b269a58a761eaa55e",
-    "semantic_hash": ""
+    "semantic_hash": "1840a1b8e3b0362b269a58a761eaa55e"
   },
   "Assets/_Project/Runtime/Gameplay/Combat/WeaponImpactFeedbackSpawner.cs": {
     "mtime": 1784570619.9275756,
@@ -892,12 +892,12 @@
   "Assets/_Project/Runtime/Gameplay/Enemies/GoldPickup.cs": {
     "mtime": 1787772959.1566105,
     "ast_hash": "4b871d5ab630d150d0caab6c0d8696fc",
-    "semantic_hash": ""
+    "semantic_hash": "4b871d5ab630d150d0caab6c0d8696fc"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/MilitaryController.cs": {
     "mtime": 1787774316.5534675,
     "ast_hash": "628da2a00bef9c1de94400425b85c6b1",
-    "semantic_hash": ""
+    "semantic_hash": "628da2a00bef9c1de94400425b85c6b1"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/MilitarySpawner.cs": {
     "mtime": 1784570619.9371243,
@@ -907,7 +907,7 @@
   "Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs": {
     "mtime": 1787774410.7447166,
     "ast_hash": "34100157a8a13f2e41d2d5229b596ca2",
-    "semantic_hash": ""
+    "semantic_hash": "34100157a8a13f2e41d2d5229b596ca2"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/PoliceSpawner.cs": {
     "mtime": 1784570619.939128,
@@ -922,7 +922,7 @@
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs": {
     "mtime": 1787774316.5489542,
     "ast_hash": "0b158b010e0e5d4e1b53beedbd9b3a32",
-    "semantic_hash": ""
+    "semantic_hash": "0b158b010e0e5d4e1b53beedbd9b3a32"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs": {
     "mtime": 1784570619.9411304,
@@ -932,7 +932,7 @@
   "Assets/_Project/Runtime/Gameplay/Orchestration/RunDirector.cs": {
     "mtime": 1787774316.5406308,
     "ast_hash": "1d45e93bc0b1d48053cb25cbcf037d04",
-    "semantic_hash": ""
+    "semantic_hash": "1d45e93bc0b1d48053cb25cbcf037d04"
   },
   "Assets/_Project/Runtime/Gameplay/Orchestration/RunOutcome.cs": {
     "mtime": 1784570619.9437346,
@@ -997,7 +997,7 @@
   "Assets/_Project/Runtime/Gameplay/Pots/PotController.cs": {
     "mtime": 1787773235.4893713,
     "ast_hash": "6a38fa8d0fe0a452674bb1031336c914",
-    "semantic_hash": ""
+    "semantic_hash": "6a38fa8d0fe0a452674bb1031336c914"
   },
   "Assets/_Project/Runtime/Gameplay/Pots/PotDrainFeedbackPresenter.cs": {
     "mtime": 1784570619.957297,
@@ -1020,9 +1020,9 @@
     "semantic_hash": "7a08143cbf67dae5737794cf135538ac"
   },
   "Assets/_Project/Runtime/Gameplay/Pots/PotRegistry.cs": {
-    "mtime": 1787772882.1820068,
-    "ast_hash": "462d4278d4d4f3055bd2eba597d7357d",
-    "semantic_hash": ""
+    "mtime": 1787820349.013,
+    "ast_hash": "9660598f367bf70f8781377bd117bb12",
+    "semantic_hash": "9660598f367bf70f8781377bd117bb12"
   },
   "Assets/_Project/Runtime/Gameplay/Pots/PotTrailCaptureSensor.cs": {
     "mtime": 1784570619.9618018,
@@ -1030,9 +1030,9 @@
     "semantic_hash": "bfdbe9b8b9cf711dce446afa02501cab"
   },
   "Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs": {
-    "mtime": 1787772937.4906702,
-    "ast_hash": "eea34589c02946bee350690fd478d484",
-    "semantic_hash": ""
+    "mtime": 1787820349.196,
+    "ast_hash": "1ead1e3c0a63f25fcebdea75c11a5199",
+    "semantic_hash": "1ead1e3c0a63f25fcebdea75c11a5199"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs": {
     "mtime": 1784570619.9653342,
@@ -1040,9 +1040,9 @@
     "semantic_hash": "00e4336d05e57743b59a364fbdc09c7f"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalInstance.cs": {
-    "mtime": 1785068064.9145467,
-    "ast_hash": "89758f76ce791f096e5cf1ad93dc84c0",
-    "semantic_hash": "89758f76ce791f096e5cf1ad93dc84c0"
+    "mtime": 1787823140.0769672,
+    "ast_hash": "871d8ea896e9bad719c106c799ded8f9",
+    "semantic_hash": "871d8ea896e9bad719c106c799ded8f9"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs": {
     "mtime": 1784570619.9670818,
@@ -1050,14 +1050,14 @@
     "semantic_hash": "a95d300605b0186bae855010ced96580"
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailEmitter.cs": {
-    "mtime": 1785069023.130934,
-    "ast_hash": "24e748798e01499b58f70f71a3e21d29",
-    "semantic_hash": "24e748798e01499b58f70f71a3e21d29"
+    "mtime": 1787827826.456,
+    "ast_hash": "1e6f6087744e071a5d7b34c4586782e0",
+    "semantic_hash": "1e6f6087744e071a5d7b34c4586782e0"
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs": {
-    "mtime": 1785069023.1320262,
-    "ast_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447",
-    "semantic_hash": "9589ac056c9b1ca3b11c6bd8f8ac6447"
+    "mtime": 1787827934.49,
+    "ast_hash": "51b5c55080779cd271093b77fca57a96",
+    "semantic_hash": "51b5c55080779cd271093b77fca57a96"
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs": {
     "mtime": 1784570619.9715917,
@@ -1107,7 +1107,7 @@
   "Assets/_Project/Runtime/Systems/Economy/EconomyState.cs": {
     "mtime": 1787772909.9733877,
     "ast_hash": "03575187004946fbecbd4dc82bd811cc",
-    "semantic_hash": ""
+    "semantic_hash": "03575187004946fbecbd4dc82bd811cc"
   },
   "Assets/_Project/Runtime/Systems/Pooling/IPoolable.cs": {
     "mtime": 1784570619.9812703,
@@ -1122,7 +1122,7 @@
   "Assets/_Project/Runtime/UI/EconomyHudPresenter.cs": {
     "mtime": 1787772909.9733877,
     "ast_hash": "3fb5b7e2f3a9176529b33ab3c1c76250",
-    "semantic_hash": ""
+    "semantic_hash": "3fb5b7e2f3a9176529b33ab3c1c76250"
   },
   "Assets/_Project/Runtime/UI/RunOutcomePresenter.cs": {
     "mtime": 1784570619.9848347,
@@ -1132,7 +1132,7 @@
   "Assets/_Project/Runtime/UI/ShopPanelPresenter.cs": {
     "mtime": 1787772937.470302,
     "ast_hash": "911f987846ac85a52af8c4b3bb3903d0",
-    "semantic_hash": ""
+    "semantic_hash": "911f987846ac85a52af8c4b3bb3903d0"
   },
   "Assets/_Project/Runtime/UI/ShopUpgradeButtonView.cs": {
     "mtime": 1784570619.9868393,
@@ -1167,7 +1167,7 @@
   "Assets/_Project/Tests/EditMode/Economy/EconomyStateTests.cs": {
     "mtime": 1787773026.7961135,
     "ast_hash": "3c42ba1576696f79a53948d86ad88dbe",
-    "semantic_hash": ""
+    "semantic_hash": "3c42ba1576696f79a53948d86ad88dbe"
   },
   "Assets/_Project/Tests/EditMode/Enemies/EnemyDropSelectionUtilityTests.cs": {
     "mtime": 1784570620.014798,
@@ -1177,12 +1177,12 @@
   "Assets/_Project/Tests/EditMode/Enemies/PotDrainTests.cs": {
     "mtime": 1787773026.7981882,
     "ast_hash": "a55d28a8b7053da2008bbe55cbc598c5",
-    "semantic_hash": ""
+    "semantic_hash": "a55d28a8b7053da2008bbe55cbc598c5"
   },
   "Assets/_Project/Tests/EditMode/Enemies/TravellerTargetSelectionUtilityTests.cs": {
     "mtime": 1787779976.3631215,
     "ast_hash": "e9e40e2bc99fedc4e0d7b5c5b571623c",
-    "semantic_hash": ""
+    "semantic_hash": "e9e40e2bc99fedc4e0d7b5c5b571623c"
   },
   "Assets/_Project/Tests/EditMode/HealthStateTests.cs": {
     "mtime": 1784570620.017797,
@@ -1192,7 +1192,7 @@
   "Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs": {
     "mtime": 1787779976.3637064,
     "ast_hash": "814b6070d028af9042affe5f44a73492",
-    "semantic_hash": ""
+    "semantic_hash": "814b6070d028af9042affe5f44a73492"
   },
   "Assets/_Project/Tests/EditMode/Player/PlayerAimResolverTests.cs": {
     "mtime": 1784570620.0199547,
@@ -1225,9 +1225,9 @@
     "semantic_hash": "2fc5726f5beb4ee6eed4ba88a743607b"
   },
   "Assets/_Project/Tests/EditMode/Pots/PotRegistryTests.cs": {
-    "mtime": 1787773075.1770349,
-    "ast_hash": "ac79bed6ed0fb4dee18387718b95341a",
-    "semantic_hash": ""
+    "mtime": 1787820738.34,
+    "ast_hash": "9d4cb268124682091783c36ce50cfe9c",
+    "semantic_hash": "9d4cb268124682091783c36ce50cfe9c"
   },
   "Assets/_Project/Tests/EditMode/Pots/PotTrailCaptureSensorTests.cs": {
     "mtime": 1784570620.026495,
@@ -1265,9 +1265,9 @@
     "semantic_hash": "941637d9c65d258ec906f620b42a75c2"
   },
   "Assets/_Project/Tests/EditMode/Spells/PortalRegistryTests.cs": {
-    "mtime": 1787779976.364668,
-    "ast_hash": "db483bf60b37658d94e9fe84227e3c7e",
-    "semantic_hash": ""
+    "mtime": 1787823187.603616,
+    "ast_hash": "944e83f873430109289b2c98f294cea8",
+    "semantic_hash": "944e83f873430109289b2c98f294cea8"
   },
   "Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs": {
     "mtime": 1784570620.0362556,
@@ -1692,17 +1692,17 @@
   "Assets/_Project/Runtime/UI/RunStatusHudPresenter.cs": {
     "mtime": 1787775614.951,
     "ast_hash": "6564f07dd4a7a6c9ecc2f6c9fc9845ce",
-    "semantic_hash": ""
+    "semantic_hash": "6564f07dd4a7a6c9ecc2f6c9fc9845ce"
   },
   "Assets/_Project/Tests/EditMode/Orchestration/RunDirectorTests.cs": {
     "mtime": 1787774362.993479,
     "ast_hash": "a7a58a1076c922865cdf9e2c10dac86e",
-    "semantic_hash": ""
+    "semantic_hash": "a7a58a1076c922865cdf9e2c10dac86e"
   },
   "Assets/_Project/Tests/EditMode/UI/RunStatusHudPresenterTests.cs": {
     "mtime": 1787775684.295,
     "ast_hash": "a9f34420ac993eb07cc4ead19a6c4e66",
-    "semantic_hash": ""
+    "semantic_hash": "a9f34420ac993eb07cc4ead19a6c4e66"
   },
   "Assets/Docs/Close Encounters of the Mini Kind (2025).html": {
     "mtime": 1784570608.712077,
@@ -18303,5 +18303,35 @@
     "mtime": 1784570619.8448255,
     "ast_hash": "e446baebd290a2d39c804d65db1c5197",
     "semantic_hash": ""
+  },
+  "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailCellUtility.cs": {
+    "mtime": 1787827411.706,
+    "ast_hash": "a4733d416ba27642b84d263f14014bf3",
+    "semantic_hash": "a4733d416ba27642b84d263f14014bf3"
+  },
+  "Assets/_Project/Runtime/UI/TutorialPromptView.cs": {
+    "mtime": 1787820347.71,
+    "ast_hash": "09507e5936d3d435532ef3559e748145",
+    "semantic_hash": "09507e5936d3d435532ef3559e748145"
+  },
+  "Assets/_Project/Runtime/UI/TutorialSequenceController.cs": {
+    "mtime": 1787820738.13,
+    "ast_hash": "7cbfac99e2bb6afd7de520d30a90c3ef",
+    "semantic_hash": "7cbfac99e2bb6afd7de520d30a90c3ef"
+  },
+  "Assets/_Project/Runtime/UI/TutorialSequenceState.cs": {
+    "mtime": 1787820347.03,
+    "ast_hash": "701bdc48ddb6f837354eb9e8437e306e",
+    "semantic_hash": "701bdc48ddb6f837354eb9e8437e306e"
+  },
+  "Assets/_Project/Tests/EditMode/UI/TutorialSequenceTests.cs": {
+    "mtime": 1787820619.9,
+    "ast_hash": "3f1d8b0b48d9ca74c3f42f776602bef2",
+    "semantic_hash": "3f1d8b0b48d9ca74c3f42f776602bef2"
+  },
+  "Assets/_Project/Tests/EditMode/Unicorn/RainbowTrailSegmentTests.cs": {
+    "mtime": 1787827444.457,
+    "ast_hash": "eee80332744462ccbe9beedfd13ea67f",
+    "semantic_hash": "eee80332744462ccbe9beedfd13ea67f"
   }
 }
