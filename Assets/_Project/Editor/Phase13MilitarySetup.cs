@@ -16,7 +16,9 @@ namespace RainbowsEnd.Editor
     public static class Phase13MilitarySetup
     {
         private const string MainArenaScenePath = "Assets/_Project/Scenes/MainArena.unity";
-        private const string ConfigRootPath = "Assets/_Project/ScriptableObjects";
+        private const string ConfigRootPath = "Assets/_Project/ScriptableObjects";        private const string MilitaryMobConfigPath = "Assets/_Project/ScriptableObjects/Defaults/SO_MilitaryMob_Default.asset";
+        private const string ShotgunConfigPath = "Assets/_Project/ScriptableObjects/Defaults/SO_Weapon_Shotgun_Default.asset";
+
         private const string DefaultsFolderName = "Defaults";
         private const string MilitaryPrefabPath = "Assets/_Project/Prefabs/PF_Military.prefab";
         private const string MilitaryProjectilePrefabPath = "Assets/_Project/Prefabs/PF_MilitaryProjectile.prefab";
@@ -51,15 +53,18 @@ namespace RainbowsEnd.Editor
 
             EnemyConfig militaryConfig = CreateIfMissing<EnemyConfig>(defaultsPath, "SO_Enemy_Military_Default.asset", CreateMilitaryConfigDefaults);
             WeaponConfig assaultRifleConfig = CreateIfMissing<WeaponConfig>(defaultsPath, "SO_Weapon_AssaultRifle_Default.asset", CreateAssaultRifleConfigDefaults);
+            WeaponConfig shotgunConfig = AssetDatabase.LoadAssetAtPath<WeaponConfig>(ShotgunConfigPath);
+            MilitaryMobConfig militaryMobConfig = CreateIfMissing<MilitaryMobConfig>(defaultsPath, "SO_MilitaryMob_Default.asset", null);
             CreateMilitaryConfigDefaults(militaryConfig);
             CreateAssaultRifleConfigDefaults(assaultRifleConfig);
+            CreateMilitaryMobConfigDefaults(militaryMobConfig, shotgunConfig, assaultRifleConfig);
 
             SetProjectConfigRegistryMilitary(configRegistry, militaryConfig);
 
             GameObject militaryProjectilePrefab = CreateOrUpdateMilitaryProjectilePrefab(placeholderSprite);
             GameObject militaryPrefab = CreateOrUpdateMilitaryPrefab(placeholderSprite, militaryConfig, assaultRifleConfig);
 
-            CreateOrUpdateSceneObjects(militaryPrefab, militaryProjectilePrefab, assaultRifleConfig, militaryConfig, goldPickupPrefab);
+            CreateOrUpdateSceneObjects(militaryPrefab, militaryProjectilePrefab, assaultRifleConfig, militaryConfig, militaryMobConfig, goldPickupPrefab);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -127,7 +132,16 @@ namespace RainbowsEnd.Editor
                 WeaponImpactFeedbackSpawner impactSpawner = GetOrAddComponent<WeaponImpactFeedbackSpawner>(prefabRoot);
                 RangedAttackController rangedAttackController = GetOrAddComponent<RangedAttackController>(prefabRoot);
                 MilitaryController militaryController = GetOrAddComponent<MilitaryController>(prefabRoot);
-                HealthStageFeedbackPresenter healthFeedback = GetOrAddComponent<HealthStageFeedbackPresenter>(prefabRoot);
+                HealthStageFeedbackPresenter healthFeedback = GetOrAddComponent<HealthStageFeedbackPresenter>(prefabRoot);                LineRenderer aimTelegraph = GetOrAddComponent<LineRenderer>(prefabRoot);
+                aimTelegraph.useWorldSpace = true;
+                aimTelegraph.positionCount = 2;
+                aimTelegraph.startWidth = 0.08f;
+                aimTelegraph.endWidth = 0.02f;
+                aimTelegraph.startColor = Color.red;
+                aimTelegraph.endColor = Color.red;
+                aimTelegraph.sortingOrder = 30;
+                aimTelegraph.enabled = false;
+
 
                 GameObject visualRoot = GetOrCreateChild(prefabRoot.transform, "VisualRoot");
                 SpriteRenderer visualRenderer = GetOrAddComponent<SpriteRenderer>(visualRoot);
@@ -180,6 +194,7 @@ namespace RainbowsEnd.Editor
             GameObject militaryProjectilePrefab,
             WeaponConfig assaultRifleConfig,
             EnemyConfig militaryConfig,
+            MilitaryMobConfig militaryMobConfig,
             GameObject goldPickupPrefab)
         {
             Scene scene = EditorSceneManager.OpenScene(MainArenaScenePath, OpenSceneMode.Single);
@@ -208,6 +223,10 @@ namespace RainbowsEnd.Editor
             GameObject militarySpawnerObject = GetOrCreateChild(enemySystemsRoot.transform, "MilitarySpawner");
             MilitarySpawner militarySpawner = GetOrAddComponent<MilitarySpawner>(militarySpawnerObject);
             militarySpawner.Configure(militaryConfig, assaultRifleConfig, spawnPointsRoot.transform, militaryPool, militaryProjectilePool, impactPool, weaponPickupPool, goldPickupPool, CreateDefaultWeaponDropOptions(assaultRifleConfig));
+
+            SerializedObject militaryMobConfigSo = new SerializedObject(militarySpawner);
+            militaryMobConfigSo.FindProperty("militaryMobConfig").objectReferenceValue = militaryMobConfig;
+            militaryMobConfigSo.ApplyModifiedPropertiesWithoutUndo();
 
             SerializedObject spawnerSo = new SerializedObject(militarySpawner);
             SerializedProperty goldOptionsProp = spawnerSo.FindProperty("goldDropOptions");
@@ -297,7 +316,7 @@ namespace RainbowsEnd.Editor
             SetFloat(serializedObject, "<Damage>k__BackingField", 1.6f);
             SetInt(serializedObject, "<ProjectileCount>k__BackingField", 1);
             SetFloat(serializedObject, "<CooldownSeconds>k__BackingField", 0.25f);
-            SetFloat(serializedObject, "<Range>k__BackingField", 14f);
+            SetFloat(serializedObject, "<Range>k__BackingField", 8f);
             SetFloat(serializedObject, "<AutoFireConeDegrees>k__BackingField", 32f);
             SetFloat(serializedObject, "<ProjectileSpeed>k__BackingField", 28f);
             SetFloat(serializedObject, "<MuzzleOffset>k__BackingField", 0.55f);
@@ -310,7 +329,37 @@ namespace RainbowsEnd.Editor
             EditorUtility.SetDirty(config);
         }
 
-        private static WeaponDropOption[] CreateDefaultWeaponDropOptions(WeaponConfig assaultRifleConfig)
+                private static void CreateMilitaryMobConfigDefaults(MilitaryMobConfig config, WeaponConfig shotgunConfig, WeaponConfig assaultRifleConfig)
+        {
+            if (config == null)
+            {
+                return;
+            }
+
+            SerializedObject serializedObject = new SerializedObject(config);
+            serializedObject.FindProperty("<ShotgunWeapon>k__BackingField").objectReferenceValue = shotgunConfig;
+            serializedObject.FindProperty("<AssaultRifleWeapon>k__BackingField").objectReferenceValue = assaultRifleConfig;
+            SetFloat(serializedObject, "<AssaultRifleChance>k__BackingField", 0.5f);
+            SetInt(serializedObject, "<BurstShotCount>k__BackingField", 3);
+            SetFloat(serializedObject, "<BurstPauseSeconds>k__BackingField", 1f);
+            SetFloat(serializedObject, "<AimTelegraphSeconds>k__BackingField", 0.35f);
+            serializedObject.FindProperty("<AimTelegraphColor>k__BackingField").colorValue = Color.red;
+            SetFloat(serializedObject, "<AimTelegraphStartWidth>k__BackingField", 0.08f);
+            SetFloat(serializedObject, "<AimTelegraphEndWidth>k__BackingField", 0.02f);
+            SetInt(serializedObject, "<StandardCarryMobCount>k__BackingField", 2);
+            SetInt(serializedObject, "<ConcealedCarryMobCount>k__BackingField", 1);
+            SetFloat(serializedObject, "<CarryAssemblyRadius>k__BackingField", 1.5f);
+            SetFloat(serializedObject, "<CarryFollowDistance>k__BackingField", 2.5f);
+            SetFloat(serializedObject, "<DeathDropChance>k__BackingField", 0.33f);
+            SetFloat(serializedObject, "<WeaponRewardChance>k__BackingField", 0.5f);
+            SetInt(serializedObject, "<AssaultRifleDropAmmo>k__BackingField", 24);
+            SetInt(serializedObject, "<ShotgunDropAmmo>k__BackingField", 6);
+            SetInt(serializedObject, "<GoldDropAmount>k__BackingField", 10);
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(config);
+        }
+
+private static WeaponDropOption[] CreateDefaultWeaponDropOptions(WeaponConfig assaultRifleConfig)
         {
             if (assaultRifleConfig != null)
             {

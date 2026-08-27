@@ -11,6 +11,8 @@ namespace RainbowsEnd.Gameplay.Enemies
     public sealed class MilitarySpawner : MonoBehaviour
     {
         [SerializeField] private EnemyConfig militaryConfig;
+        [SerializeField] private MilitaryMobConfig militaryMobConfig;
+
         [SerializeField] private WeaponConfig militaryWeaponConfig;
         [SerializeField] private List<WeaponDropOption> weaponDropOptions = new List<WeaponDropOption>();
         [SerializeField] private List<GoldDropOption> goldDropOptions = new List<GoldDropOption>();
@@ -109,7 +111,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheSpawnPoints();
         }
 
-        private bool SpawnMilitary(int spawnIndex)
+private bool SpawnMilitary(int spawnIndex)
         {
             if (!CanSpawnMoreMilitary())
             {
@@ -132,9 +134,27 @@ namespace RainbowsEnd.Gameplay.Enemies
             weaponLauncher?.Configure(projectilePool);
             feedbackSpawner?.Configure(impactPool);
 
-            ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount);
-            int dropGoldAmount = ResolveGoldDropAmount();
-            militaryController.Activate(this, militaryPool, weaponPickupPool, goldPickupPool, militaryConfig, militaryWeaponConfig, dropWeaponConfig, dropAmmoCount, dropGoldAmount);
+            ResolveMilitaryLoadout(out WeaponConfig assignedWeaponConfig, out int assignedWeaponAmmo);
+            if (assignedWeaponConfig == null)
+            {
+                militaryPool.Return(militaryInstance);
+                return false;
+            }
+
+            int dropGoldAmount = militaryMobConfig != null
+                ? Mathf.Max(0, militaryMobConfig.GoldDropAmount)
+                : ResolveGoldDropAmount();
+            militaryController.Activate(
+                this,
+                militaryPool,
+                weaponPickupPool,
+                goldPickupPool,
+                militaryConfig,
+                assignedWeaponConfig,
+                militaryMobConfig,
+                assignedWeaponConfig,
+                assignedWeaponAmmo,
+                dropGoldAmount);
             NotifyMilitarySpawned(militaryController);
             return true;
         }
@@ -187,10 +207,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             _enemySpawnPoints.Sort((left, right) => left.Order.CompareTo(right.Order));
         }
 
-        private bool CanSpawnMoreMilitary()
+private bool CanSpawnMoreMilitary()
         {
+            bool hasWeaponConfig = militaryMobConfig != null
+                ? militaryMobConfig.AssaultRifleWeapon != null || militaryMobConfig.ShotgunWeapon != null
+                : militaryWeaponConfig != null;
+
             return militaryConfig != null
-                && militaryWeaponConfig != null
+                && hasWeaponConfig
                 && militaryPool != null
                 && _enemySpawnPoints.Count > 0;
         }
@@ -200,5 +224,32 @@ namespace RainbowsEnd.Gameplay.Enemies
             _activeMilitaryIds.Clear();
             _nextSpawnPointIndex = 0;
         }
-    }
+
+
+private void ResolveMilitaryLoadout(out WeaponConfig assignedWeaponConfig, out int assignedWeaponAmmo)
+        {
+            if (militaryMobConfig == null)
+            {
+                assignedWeaponConfig = militaryWeaponConfig;
+                assignedWeaponAmmo = 0;
+                ResolveWeaponDrop(out _, out assignedWeaponAmmo);
+                return;
+            }
+
+            bool canUseAssaultRifle = militaryMobConfig.AssaultRifleWeapon != null;
+            bool canUseShotgun = militaryMobConfig.ShotgunWeapon != null;
+            if (!canUseAssaultRifle && !canUseShotgun)
+            {
+                assignedWeaponConfig = null;
+                assignedWeaponAmmo = 0;
+                return;
+            }
+
+            bool useAssaultRifle = canUseAssaultRifle && (!canUseShotgun || Random.value < militaryMobConfig.AssaultRifleChance);
+            assignedWeaponConfig = useAssaultRifle ? militaryMobConfig.AssaultRifleWeapon : militaryMobConfig.ShotgunWeapon;
+            assignedWeaponAmmo = useAssaultRifle
+                ? Mathf.Max(0, militaryMobConfig.AssaultRifleDropAmmo)
+                : Mathf.Max(0, militaryMobConfig.ShotgunDropAmmo);
+        }
+}
 }

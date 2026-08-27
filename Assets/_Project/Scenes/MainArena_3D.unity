@@ -249605,6 +249605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   militaryConfig: {fileID: 11400000, guid: 53a336557857f1246a0120588d343925, type: 2}
+  militaryMobConfig: {fileID: 11400000, guid: 29efc8e7f6cde504b9293e1c28ff8824, type: 2}
   militaryWeaponConfig: {fileID: 11400000, guid: 1b9133a4319bf3940ad0f3e509d94a28, type: 2}
   weaponDropOptions:
   - weaponConfig: {fileID: 11400000, guid: 1b9133a4319bf3940ad0f3e509d94a28, type: 2}

@@ -93,3 +93,33 @@ _Avoid_: Rounded gold, discarded fractions
 **Gold Pickup Deposit**:
 A collected military gold pickup adds its value to the oldest live Pot of Gold, making it part of Pot Gold rather than a separate bank balance.
 _Avoid_: Legacy bank reward, hidden gold
+
+## Military Mobs
+
+**Concealment Zone**:
+A gameplay trigger area represented visually by tall grass or bushes; it governs concealment rules independently of the foliage mesh.
+_Avoid_: Tall-grass mesh, bush prop
+
+**Paired Carry**:
+The standard military theft of a Pot of Gold requires two military mobs to assemble at the pot and remain present as it is carried to the arena edge. If either mob is lost, the pot is dropped and the survivor returns to combat.
+_Avoid_: Escort carry, single-carrier theft
+
+**Concealed Solo Carry**:
+A military mob may carry a Pot of Gold alone only when the pot is inside a Concealment Zone at the start of the theft; that status remains fixed for the carry.
+_Avoid_: Dynamic grass check, one-mob standard theft
+
+**Military Death Drop**:
+A military mob has one 33% chance on death to create exactly one reward: its equipped weapon with ammo or a gold pickup. The other 67% creates no reward.
+_Avoid_: Guaranteed drops, combined weapon-and-gold drops, ammo-only pickup
+
+**Military Loadout**:
+Each military mob receives one permanent, equally likely spawn loadout: shotgun or assault rifle. A weapon reward, when rolled, matches that loadout.
+_Avoid_: Per-shot weapon roll, generic military weapon drop
+
+**Military Burst**:
+A military mob fires three shots using its assigned weapon's normal cadence, then takes a one-second non-firing strafe left or right before beginning another burst.
+_Avoid_: Continuous military fire, three-projectile volley
+
+**Military Aim Telegraph**:
+A non-damaging red aim line appears for 0.35 seconds before a military burst begins.
+_Avoid_: Hitscan laser, permanent laser sight

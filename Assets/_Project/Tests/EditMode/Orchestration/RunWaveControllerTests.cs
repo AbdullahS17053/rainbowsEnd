@@ -202,5 +202,42 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
                 ActiveMilitaryCount = 0;
             }
         }
-    }
+
+
+[Test]
+        public void Tick_RotatesTravellerPoliceMilitary_WhenAllTypesRemain()
+        {
+            RunWaveController controller = new RunWaveController(new[]
+            {
+                new WaveDefinition("Mixed", 0f, 0.1f, 10, 2, 2, 2)
+            });
+            FakeSpawnState spawnState = new FakeSpawnState();
+            List<RunSpawnType> spawnedTypes = new List<RunSpawnType>();
+
+            for (int index = 0; index < 6; index++)
+            {
+                RunWaveTickResult result = controller.Tick(
+                    0.1f,
+                    spawnState.ActiveTravellerCount,
+                    spawnState.ActivePoliceCount,
+                    spawnState.ActiveMilitaryCount,
+                    1,
+                    true,
+                    spawnState.TrySpawnTraveller,
+                    spawnState.TrySpawnPolice,
+                    spawnState.TrySpawnMilitary);
+                spawnedTypes.Add(result.SpawnedType);
+            }
+
+            Assert.That(spawnedTypes, Is.EqualTo(new[]
+            {
+                RunSpawnType.Traveller,
+                RunSpawnType.Police,
+                RunSpawnType.Military,
+                RunSpawnType.Traveller,
+                RunSpawnType.Police,
+                RunSpawnType.Military
+            }));
+        }
+}
 }

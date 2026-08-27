@@ -39,7 +39,14 @@ namespace RainbowsEnd.Gameplay.Enemies
         public bool IsValid => weaponConfig != null && AmmoCount > 0;
     }
 
-    public static class EnemyDropSelectionUtility
+        public enum MilitaryDropType
+    {
+        None,
+        Weapon,
+        Gold
+    }
+
+public static class EnemyDropSelectionUtility
     {
         public static int SelectGoldDropIndex(IReadOnlyList<GoldDropOption> options, float roll01)
         {
@@ -150,5 +157,18 @@ namespace RainbowsEnd.Gameplay.Enemies
             float clampedRoll = Mathf.Clamp01(roll01);
             return Mathf.Min(Mathf.FloorToInt(clampedRoll * validCount), validCount - 1);
         }
-    }
+
+
+public static MilitaryDropType SelectMilitaryDropType(float dropRoll01, float rewardRoll01, float dropChance, float weaponRewardChance)
+        {
+            if (Mathf.Clamp01(dropRoll01) >= Mathf.Clamp01(dropChance))
+            {
+                return MilitaryDropType.None;
+            }
+
+            return Mathf.Clamp01(rewardRoll01) < Mathf.Clamp01(weaponRewardChance)
+                ? MilitaryDropType.Weapon
+                : MilitaryDropType.Gold;
+        }
+}
 }

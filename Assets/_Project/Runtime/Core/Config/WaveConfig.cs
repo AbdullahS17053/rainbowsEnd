@@ -67,9 +67,9 @@ namespace RainbowsEnd.Core.Config
         {
             new WaveDefinition("Wave 1", 0.75f, 1.8f, 3, 3, 0, 0),
             new WaveDefinition("Wave 2", 0.75f, 1.6f, 4, 5, 0, 0),
-            new WaveDefinition("Wave 3", 0.75f, 1.5f, 5, 4, 1, 0),
-            new WaveDefinition("Wave 4", 0.75f, 1.3f, 6, 5, 2, 0),
-            new WaveDefinition("Wave 5", 0.75f, 1.2f, 7, 6, 3, 2)
+            new WaveDefinition("Wave 3", 0.75f, 1.5f, 5, 4, 1, 2),
+            new WaveDefinition("Wave 4", 0.75f, 1.3f, 6, 5, 2, 3),
+            new WaveDefinition("Wave 5", 0.75f, 1.2f, 7, 6, 3, 4)
         };
 
         public WaveDefinition[] Waves => waves ?? Array.Empty<WaveDefinition>();

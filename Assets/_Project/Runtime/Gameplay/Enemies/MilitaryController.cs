@@ -27,6 +27,12 @@ namespace RainbowsEnd.Gameplay.Enemies
     [RequireComponent(typeof(RangedAttackController))]
     public sealed class MilitaryController : MonoBehaviour, ITeamAffiliation, IPoolable
     {
+        private enum MilitaryCombatPhase
+        {
+            Firing,
+            Telegraphing,
+            Repositioning
+        }
         [SerializeField] private EnemyConfig config;
         [SerializeField] private WeaponConfig weaponConfig;
         [SerializeField] private Transform visualRoot;
@@ -38,6 +44,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private RangedAttackController rangedAttackController;
         [SerializeField] private CharacterAnimationBridge animationBridge;
+        [SerializeField] private LineRenderer aimTelegraph;
+
 
         private PrefabPool _owningPool;
         private PrefabPool _weaponPickupPool;
@@ -57,6 +65,16 @@ namespace RainbowsEnd.Gameplay.Enemies
         private Vector2[] _currentPath;
         private int _currentWaypointIndex;
         private float _pathRefreshTimer;
+        private MilitaryMobConfig _militaryMobConfig;
+        private PotController _stealTargetPot;
+        private bool _targetPotWasConcealed;
+        private int _shotsInBurst;
+        private bool _hasTelegraphedCurrentBurst;
+
+        private int _strafeSign;
+        private float _combatPhaseTimer;
+        private MilitaryCombatPhase _combatPhase;
+
 
         public FactionId FactionId => FactionId.Military;
 
@@ -90,13 +108,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             rangedAttackController = attackController;
         }
 
-        public void Activate(
+public void Activate(
             MilitarySpawner owningSpawner,
             PrefabPool owningPool,
             PrefabPool weaponPickupPool,
             PrefabPool goldPickupPool,
             EnemyConfig enemyConfig,
             WeaponConfig militaryWeaponConfig,
+            MilitaryMobConfig mobConfig,
             WeaponConfig dropWeaponConfig,
             int dropAmmoCount,
             int dropGoldAmount)
@@ -105,15 +124,19 @@ namespace RainbowsEnd.Gameplay.Enemies
             _owningPool = owningPool;
             _weaponPickupPool = weaponPickupPool;
             _goldPickupPool = goldPickupPool;
+            _militaryMobConfig = mobConfig;
             _dropWeaponConfig = dropWeaponConfig;
             _dropAmmoCount = Mathf.Max(0, dropAmmoCount);
             _dropGoldAmount = Mathf.Max(0, dropGoldAmount);
             _deathHandled = false;
             _currentState = MilitaryState.Combat;
             _carriedPot = null;
+            _stealTargetPot = null;
+            _targetPotWasConcealed = false;
             _isCarrier = false;
             _arenaBounds = null;
             _potRegistry = null;
+            ResetBurstState();
 
             if (enemyConfig != null)
             {
@@ -132,15 +155,17 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             body.linearVelocity = Vector2.zero;
             rangedAttackController.Configure(projectileLauncher, impactFeedbackSpawner, weaponConfig, FactionId, bodyCollider);
+            ConfigureAimTelegraph();
         }
 
-        public void OnSpawned()
+public void OnSpawned()
         {
             CacheReferences();
             _owningPool = null;
             _weaponPickupPool = null;
             _goldPickupPool = null;
             _owningSpawner = null;
+            _militaryMobConfig = null;
             _dropWeaponConfig = null;
             _dropAmmoCount = 0;
             _dropGoldAmount = 0;
@@ -148,20 +173,23 @@ namespace RainbowsEnd.Gameplay.Enemies
             _deathHandled = false;
             _currentPath = null;
             _currentWaypointIndex = 0;
-            _pathRefreshTimer = 0f;            _currentState = MilitaryState.Combat;
+            _pathRefreshTimer = 0f;
+            _currentState = MilitaryState.Combat;
             _carriedPot = null;
+            _stealTargetPot = null;
+            _targetPotWasConcealed = false;
             _isCarrier = false;
             _arenaBounds = null;
             _potRegistry = null;
+            ResetBurstState();
             body.linearVelocity = Vector2.zero;
         }
 
-        public void OnDespawned()
+public void OnDespawned()
         {
             if (_carriedPot != null)
             {
-                _carriedPot.SetMilitaryCarryActive(false);
-                _carriedPot = null;
+                BreakMilitaryCarry();
             }
 
             _owningSpawner = null;
@@ -171,6 +199,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             _currentWaypointIndex = 0;
             _pathRefreshTimer = 0f;
             _isCarrier = false;
+            _stealTargetPot = null;
+            ResetBurstState();
             body.linearVelocity = Vector2.zero;
         }
 
@@ -218,11 +248,20 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
         }
 
-        private void TickCombat()
+private void TickCombat()
         {
+            if (ShouldPrioritizePlayerCombat())
+            {
+                TickPoliceStyleCombat();
+                return;
+            }
+
             if (ShouldSwitchToStealing())
             {
                 _currentState = MilitaryState.Stealing;
+                _currentPath = null;
+                _currentWaypointIndex = 0;
+                _pathRefreshTimer = 0f;
                 body.linearVelocity = Vector2.zero;
                 return;
             }
@@ -230,7 +269,29 @@ namespace RainbowsEnd.Gameplay.Enemies
             TickPoliceStyleCombat();
         }
 
-        private void TickStealing()
+private bool ShouldPrioritizePlayerCombat()
+        {
+            ResolveTargetPlayer();
+            if (_targetPlayer == null || weaponConfig == null || _targetPlayer.IsDisabled)
+            {
+                return false;
+            }
+
+            Vector2 toTarget = _targetPlayer.transform.position - transform.position;
+            float distanceToTarget = toTarget.magnitude;
+            Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : Vector2.up;
+            bool hasLineOfSight = distanceToTarget <= 0.001f
+                || CoverBlocker.GetNearestBlockDistance(transform.position, direction, distanceToTarget) >= distanceToTarget;
+
+            return MilitaryCombatPriorityUtility.ShouldPrioritizeCombat(
+                distanceToTarget,
+                weaponConfig.Range,
+                true,
+                hasLineOfSight);
+        }
+
+
+private void TickStealing()
         {
             if (body == null)
             {
@@ -239,8 +300,8 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             if (_carriedPot != null && _carriedPot.IsDestroyed)
             {
-                _carriedPot = null;
-                _isCarrier = false;
+                BreakMilitaryCarry();
+                return;
             }
 
             if (_isCarrier)
@@ -250,32 +311,71 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            MilitaryController existingCarrier = FindCarrier();
-            if (existingCarrier != null && existingCarrier != this)
+            if (_stealTargetPot == null || _stealTargetPot.IsDestroyed || _stealTargetPot.IsBeingStolenByMilitary)
             {
-                _currentState = MilitaryState.Escaping;
-                StartEscaping();
-                return;
+                _stealTargetPot = ResolveNearestStealablePot();
+                if (_stealTargetPot == null)
+                {
+                    _currentState = MilitaryState.Combat;
+                    body.linearVelocity = Vector2.zero;
+                    return;
+                }
+
+                _targetPotWasConcealed = IsPotInConcealment(_stealTargetPot);
+                _currentPath = null;
+                _currentWaypointIndex = 0;
+                _pathRefreshTimer = 0f;
             }
 
-            PotController targetPot = ResolveNearestStealablePot();
-            if (targetPot == null)
-            {
-                _currentState = MilitaryState.Combat;
-                body.linearVelocity = Vector2.zero;
-                return;
-            }
-
+            PotController targetPot = _stealTargetPot;
             Vector2 toTarget = (Vector2)targetPot.transform.position - body.position;
             float stopDistance = (bodyCollider as CircleCollider2D)?.radius * 2f + 0.1f ?? 0.5f;
             if (toTarget.sqrMagnitude <= stopDistance * stopDistance)
             {
-                _carriedPot = targetPot;
-                _isCarrier = true;
-                targetPot.SetMilitaryCarryActive(true);
-                _currentState = MilitaryState.Escaping;
-                StartEscaping();
+                if (_targetPotWasConcealed)
+                {
+                    BeginMilitaryCarry(targetPot, null);
+                }
+                else
+                {
+                    MilitaryController partner = FindCarryPartner(targetPot, true);
+                    if (partner != null)
+                    {
+                        BeginMilitaryCarry(targetPot, partner);
+                    }
+                    else
+                    {
+                        body.linearVelocity = Vector2.zero;
+                    }
+                }
+
                 return;
+            }
+
+            _pathRefreshTimer -= Time.deltaTime;
+            if (_currentPath == null || _pathRefreshTimer <= 0f)
+            {
+                if (NavMeshPathfinder.TryGetPath(body.position, targetPot.transform.position, out Vector2[] newPath))
+                {
+                    _currentPath = newPath;
+                    _currentWaypointIndex = 0;
+                }
+                else
+                {
+                    _currentPath = null;
+                    _currentWaypointIndex = 0;
+                }
+
+                _pathRefreshTimer = 0.5f;
+            }
+
+            Vector2 moveDirection = _currentPath != null
+                ? NavMeshPathfinder.GetSteeringDirection(body.position, _currentPath, ref _currentWaypointIndex)
+                : Vector2.zero;
+            if (moveDirection == Vector2.zero
+                && CoverBlocker.GetNearestBlockDistance(body.position, toTarget.normalized, toTarget.magnitude) >= toTarget.magnitude)
+            {
+                moveDirection = toTarget.normalized;
             }
 
             float moveSpeed = config != null ? Mathf.Max(0f, config.MoveSpeed) : 3f;
@@ -284,7 +384,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
-            Vector2 combinedVelocity = toTarget.normalized * moveSpeed + separation;
+            Vector2 combinedVelocity = moveDirection * moveSpeed + separation;
             if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
             {
                 combinedVelocity = combinedVelocity.normalized * moveSpeed;
@@ -292,51 +392,58 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             body.linearVelocity = combinedVelocity;
 
-            if (visualRoot != null)
+            if (visualRoot != null && moveDirection != Vector2.zero)
             {
-                visualRoot.up = toTarget.normalized;
+                visualRoot.up = moveDirection;
             }
         }
 
-        private void TickEscaping()
+private void TickEscaping()
         {
             if (body == null)
             {
                 return;
             }
 
+            if (_carriedPot == null || _carriedPot.IsDestroyed)
+            {
+                BreakMilitaryCarry();
+                return;
+            }
+
             if (_isCarrier)
             {
-                if (_carriedPot == null || _carriedPot.IsDestroyed)
-                {
-                    _isCarrier = false;
-                    _currentState = MilitaryState.Combat;
-                    body.linearVelocity = Vector2.zero;
-                    return;
-                }
-
                 TickCarrierEscaping();
+                return;
             }
-            else
-            {
-                MilitaryController carrier = FindCarrier();
-                if (carrier == null)
-                {
-                    _currentState = MilitaryState.Combat;
-                    body.linearVelocity = Vector2.zero;
-                    return;
-                }
 
-                TickEscortEscaping(carrier);
+            MilitaryController carrier = FindCarrier(_carriedPot);
+            if (carrier == null)
+            {
+                BreakMilitaryCarry();
+                return;
             }
+
+            TickEscortEscaping(carrier);
         }
 
-        private void TickCarrierEscaping()
+private void TickCarrierEscaping()
         {
             ResolveArenaBounds();
             Vector2 edgeTarget = _arenaBounds != null
                 ? _arenaBounds.GetNearestEdgePoint(body.position)
                 : body.position + (Vector2)transform.up * 20f;
+
+            if (!_targetPotWasConcealed)
+            {
+                MilitaryController partner = FindCarryPartner(_carriedPot);
+                float followDistance = _militaryMobConfig != null ? _militaryMobConfig.CarryFollowDistance : 2.5f;
+                if (partner == null || ((Vector2)partner.transform.position - body.position).sqrMagnitude > followDistance * followDistance)
+                {
+                    BreakMilitaryCarry();
+                    return;
+                }
+            }
 
             Vector2 toEdge = edgeTarget - body.position;
             float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
@@ -364,12 +471,10 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (toEdge.sqrMagnitude <= edgeArrivalDistance * edgeArrivalDistance)
             {
                 PotController potToDestroy = _carriedPot;
-                _carriedPot = null;
-                _isCarrier = false;
+                MilitaryController partner = FindCarryPartner(potToDestroy);
+                partner?.ClearCarryState();
+                ClearCarryState();
                 potToDestroy.DestroyByMilitary(this);
-
-                _currentState = MilitaryState.Combat;
-                body.linearVelocity = Vector2.zero;
             }
         }
 
@@ -410,7 +515,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             ResolveArenaBounds();
         }
 
-        private void TickPoliceStyleCombat()
+private void TickPoliceStyleCombat()
         {
             ResolveTargetPlayer();
 
@@ -421,6 +526,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             if (_targetPlayer == null || config == null || weaponConfig == null)
             {
+                ResetBurstState();
                 body.linearVelocity = separation;
                 return;
             }
@@ -430,12 +536,43 @@ namespace RainbowsEnd.Gameplay.Enemies
             float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
             if (distanceToTarget > engagementRange)
             {
+                ResetBurstState();
                 body.linearVelocity = separation;
                 return;
             }
 
             float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
-            Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : Vector2.zero;
+            Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : (Vector2)transform.up;
+            bool canShoot = distanceToTarget <= weaponConfig.Range
+                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget
+                && !_targetPlayer.IsDisabled;
+
+            if (_combatPhase == MilitaryCombatPhase.Repositioning)
+            {
+                Vector2 strafeDirection = new Vector2(-direction.y, direction.x) * _strafeSign;
+                Vector2 repositionVelocity = strafeDirection * config.MoveSpeed + separation;
+                if (repositionVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
+                {
+                    repositionVelocity = repositionVelocity.normalized * config.MoveSpeed;
+                }
+
+                body.linearVelocity = repositionVelocity;
+                SetAimTelegraphVisible(false);
+                if (visualRoot != null)
+                {
+                    visualRoot.up = direction;
+                }
+
+                _combatPhaseTimer -= Time.deltaTime;
+                if (_combatPhaseTimer <= 0f)
+                {
+                    _shotsInBurst = 0;
+                    _hasTelegraphedCurrentBurst = false;
+                    _combatPhase = MilitaryCombatPhase.Firing;
+                }
+
+                return;
+            }
 
             Vector2 targetVelocity;
             if (distanceToTarget > preferredRange)
@@ -491,31 +628,70 @@ namespace RainbowsEnd.Gameplay.Enemies
                 }
             }
 
-            if (distanceToTarget <= weaponConfig.Range
-                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget
-                && !_targetPlayer.IsDisabled)
+            if (!canShoot)
             {
-                if (rangedAttackController.TryFire(transform.position, direction, 0f, this))
+                ResetBurstState();
+                return;
+            }
+
+            if (_combatPhase == MilitaryCombatPhase.Telegraphing)
+            {
+                UpdateAimTelegraph(direction);
+                _combatPhaseTimer -= Time.deltaTime;
+                if (_combatPhaseTimer <= 0f)
                 {
-                    animationBridge?.TriggerFire();
+                    SetAimTelegraphVisible(false);
+                    _combatPhase = MilitaryCombatPhase.Firing;
+                }
+
+                return;
+            }
+
+            if (_shotsInBurst >= ResolveBurstShotCount())
+            {
+                BeginReposition();
+                return;
+            }
+
+            if (_militaryMobConfig != null
+                && MilitaryBurstUtility.ShouldStartTelegraph(
+                    _shotsInBurst,
+                    _hasTelegraphedCurrentBurst,
+                    _militaryMobConfig.AimTelegraphSeconds))
+            {
+                BeginAimTelegraph(direction);
+                return;
+            }
+
+            if (rangedAttackController.TryFire(transform.position, direction, 0f, this))
+            {
+                _shotsInBurst++;
+                animationBridge?.TriggerFire();
+                if (_shotsInBurst >= ResolveBurstShotCount())
+                {
+                    BeginReposition();
                 }
             }
         }
 
-        private bool ShouldSwitchToStealing()
+private bool ShouldSwitchToStealing()
         {
-            if (_owningSpawner == null || _owningSpawner.ActiveMilitaryCount < 2)
-            {
-                return false;
-            }
-
             ResolvePotRegistry();
-            if (_potRegistry == null || !_potRegistry.HasAnyGoldPot)
+            PotController targetPot = ResolveNearestStealablePot();
+            if (targetPot == null)
             {
                 return false;
             }
 
-            return true;
+            if (IsPotInConcealment(targetPot))
+            {
+                return true;
+            }
+
+            int requiredMobCount = _militaryMobConfig != null
+                ? Mathf.Max(1, _militaryMobConfig.StandardCarryMobCount)
+                : 2;
+            return _owningSpawner != null && _owningSpawner.ActiveMilitaryCount >= requiredMobCount;
         }
 
         private PotController ResolveNearestStealablePot()
@@ -549,12 +725,16 @@ namespace RainbowsEnd.Gameplay.Enemies
             return bestPot;
         }
 
-        private MilitaryController FindCarrier()
+private MilitaryController FindCarrier(PotController pot)
         {
             MilitaryController[] allMilitary = FindObjectsByType<MilitaryController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             for (int i = 0; i < allMilitary.Length; i++)
             {
-                if (allMilitary[i] != this && allMilitary[i].IsCarrier && !allMilitary[i].Health.IsDepleted)
+                if (allMilitary[i] != this
+                    && allMilitary[i].IsCarrier
+                    && allMilitary[i]._carriedPot == pot
+                    && allMilitary[i].Health != null
+                    && !allMilitary[i].Health.IsDepleted)
                 {
                     return allMilitary[i];
                 }
@@ -563,7 +743,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             return null;
         }
 
-        private void HandleDeath()
+private void HandleDeath()
         {
             if (_deathHandled)
             {
@@ -571,17 +751,26 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             _deathHandled = true;
+            BreakMilitaryCarry();
             RecordKill();
 
-            if (_carriedPot != null)
+            MilitaryDropType dropType = _militaryMobConfig != null
+                ? EnemyDropSelectionUtility.SelectMilitaryDropType(
+                    Random.value,
+                    Random.value,
+                    _militaryMobConfig.DeathDropChance,
+                    _militaryMobConfig.WeaponRewardChance)
+                : MilitaryDropType.Weapon;
+
+            if (dropType == MilitaryDropType.Weapon)
             {
-                _carriedPot.SetMilitaryCarryActive(false);
-                _carriedPot = null;
-                _isCarrier = false;
+                SpawnWeaponPickup();
+            }
+            else if (dropType == MilitaryDropType.Gold)
+            {
+                SpawnGoldPickup();
             }
 
-            SpawnWeaponPickup();
-            SpawnGoldPickup();
             _owningSpawner?.NotifyMilitaryDespawned(this);
 
             PrefabPool owningPool = _owningPool;
@@ -647,7 +836,181 @@ namespace RainbowsEnd.Gameplay.Enemies
             goldPickup.Activate(_goldPickupPool, _dropGoldAmount);
         }
 
-        private void ResolveTargetPlayer()
+                private void BeginMilitaryCarry(PotController pot, MilitaryController partner)
+        {
+            _carriedPot = pot;
+            _stealTargetPot = pot;
+            _isCarrier = true;
+            _currentState = MilitaryState.Escaping;
+            pot.SetMilitaryCarryActive(true);
+            StartEscaping();
+
+            if (partner == null)
+            {
+                return;
+            }
+
+            partner._carriedPot = pot;
+            partner._stealTargetPot = pot;
+            partner._targetPotWasConcealed = false;
+            partner._isCarrier = false;
+            partner._currentState = MilitaryState.Escaping;
+            partner.StartEscaping();
+        }
+
+private MilitaryController FindCarryPartner(PotController pot, bool forAssembly = false)
+        {
+            MilitaryController[] allMilitary = FindObjectsByType<MilitaryController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            float partnerRadius = forAssembly
+                ? (_militaryMobConfig != null ? _militaryMobConfig.CarryAssemblyRadius : 1.5f)
+                : (_militaryMobConfig != null ? _militaryMobConfig.CarryFollowDistance : 2.5f);
+            float partnerRadiusSquared = partnerRadius * partnerRadius;
+            for (int i = 0; i < allMilitary.Length; i++)
+            {
+                MilitaryController candidate = allMilitary[i];
+                if (candidate == this
+                    || candidate._stealTargetPot != pot
+                    || candidate.Health == null
+                    || candidate.Health.IsDepleted)
+                {
+                    continue;
+                }
+
+                if (forAssembly)
+                {
+                    if (candidate._currentState != MilitaryState.Stealing || candidate._carriedPot != null)
+                    {
+                        continue;
+                    }
+                }
+                else if (candidate._currentState != MilitaryState.Escaping || candidate._carriedPot != pot)
+                {
+                    continue;
+                }
+
+                if (((Vector2)candidate.transform.position - (Vector2)transform.position).sqrMagnitude <= partnerRadiusSquared)
+                {
+                    return candidate;
+                }
+            }
+
+            return null;
+        }
+
+        private bool IsPotInConcealment(PotController pot)
+        {
+            if (pot == null)
+            {
+                return false;
+            }
+
+            ConcealmentZone[] zones = FindObjectsByType<ConcealmentZone>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            for (int index = 0; index < zones.Length; index++)
+            {
+                if (zones[index] != null && zones[index].Contains(pot.transform.position))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void BreakMilitaryCarry()
+        {
+            PotController pot = _carriedPot;
+            MilitaryController partner = _isCarrier ? FindCarryPartner(pot) : FindCarrier(pot);
+            partner?.ClearCarryState();
+            ClearCarryState();
+            pot?.SetMilitaryCarryActive(false);
+        }
+
+        private void ClearCarryState()
+        {
+            _carriedPot = null;
+            _stealTargetPot = null;
+            _targetPotWasConcealed = false;
+            _isCarrier = false;
+            _currentState = MilitaryState.Combat;
+            body.linearVelocity = Vector2.zero;
+        }
+
+        private int ResolveBurstShotCount()
+        {
+            return _militaryMobConfig != null ? Mathf.Max(1, _militaryMobConfig.BurstShotCount) : 3;
+        }
+
+private void BeginReposition()
+        {
+            _combatPhase = MilitaryCombatPhase.Repositioning;
+            _combatPhaseTimer = _militaryMobConfig != null ? Mathf.Max(0f, _militaryMobConfig.BurstPauseSeconds) : 1f;
+            _strafeSign = Random.value < 0.5f ? -1 : 1;
+            SetAimTelegraphVisible(false);
+        }
+
+private void BeginAimTelegraph(Vector2 direction)
+        {
+            _hasTelegraphedCurrentBurst = true;
+            _combatPhase = MilitaryCombatPhase.Telegraphing;
+            _combatPhaseTimer = Mathf.Max(0f, _militaryMobConfig.AimTelegraphSeconds);
+            ConfigureAimTelegraph();
+            UpdateAimTelegraph(direction);
+            SetAimTelegraphVisible(true);
+        }
+
+        private void UpdateAimTelegraph(Vector2 direction)
+        {
+            if (aimTelegraph == null)
+            {
+                return;
+            }
+
+            Vector2 normalizedDirection = direction.sqrMagnitude > 0.001f ? direction.normalized : Vector2.up;
+            Vector3 start = transform.position;
+            Vector3 end = start + (Vector3)(normalizedDirection * Mathf.Max(0.5f, weaponConfig != null ? weaponConfig.Range : 8f));
+            aimTelegraph.positionCount = 2;
+            aimTelegraph.SetPosition(0, start);
+            aimTelegraph.SetPosition(1, end);
+        }
+
+private void ResetBurstState()
+        {
+            _combatPhase = MilitaryCombatPhase.Firing;
+            _combatPhaseTimer = 0f;
+            _shotsInBurst = 0;
+            _hasTelegraphedCurrentBurst = false;
+            _strafeSign = 1;
+            SetAimTelegraphVisible(false);
+        }
+
+private void ConfigureAimTelegraph()
+        {
+            SetAimTelegraphVisible(false);
+            if (aimTelegraph == null)
+            {
+                return;
+            }
+
+            aimTelegraph.useWorldSpace = true;
+            aimTelegraph.positionCount = 2;
+            aimTelegraph.startWidth = _militaryMobConfig != null ? _militaryMobConfig.AimTelegraphStartWidth : 0.08f;
+            aimTelegraph.endWidth = _militaryMobConfig != null ? _militaryMobConfig.AimTelegraphEndWidth : 0.02f;
+            aimTelegraph.startColor = _militaryMobConfig != null ? _militaryMobConfig.AimTelegraphColor : Color.red;
+            aimTelegraph.endColor = aimTelegraph.startColor;
+            aimTelegraph.sortingOrder = 30;
+        }
+
+private void SetAimTelegraphVisible(bool isVisible)
+        {
+            aimTelegraph ??= GetComponent<LineRenderer>();
+            if (aimTelegraph != null)
+            {
+                aimTelegraph.enabled = isVisible;
+            }
+        }
+
+
+private void ResolveTargetPlayer()
         {
             if (_targetPlayer != null && !_targetPlayer.Health.IsDepleted)
             {
@@ -701,7 +1064,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             rangedAttackController ??= GetComponent<RangedAttackController>();
             animationBridge ??= GetComponent<CharacterAnimationBridge>();
 
-            if (visualRoot == null)
+                        aimTelegraph ??= GetComponent<LineRenderer>();
+if (visualRoot == null)
             {
                 Transform child = transform.Find("VisualRoot");
                 visualRoot = child != null ? child : transform;

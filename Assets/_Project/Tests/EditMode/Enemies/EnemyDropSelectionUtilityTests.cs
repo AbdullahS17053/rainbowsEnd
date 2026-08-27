@@ -87,5 +87,20 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
             Assert.That(weaponConfig, Is.Null);
             Assert.That(ammoCount, Is.EqualTo(0));
         }
-    }
+
+
+[Test]
+        public void SelectMilitaryDropType_UsesOneExclusiveRewardRoll()
+        {
+            Assert.That(
+                EnemyDropSelectionUtility.SelectMilitaryDropType(0.33f, 0.1f, 0.33f, 0.5f),
+                Is.EqualTo(MilitaryDropType.None));
+            Assert.That(
+                EnemyDropSelectionUtility.SelectMilitaryDropType(0.32f, 0.49f, 0.33f, 0.5f),
+                Is.EqualTo(MilitaryDropType.Weapon));
+            Assert.That(
+                EnemyDropSelectionUtility.SelectMilitaryDropType(0.32f, 0.5f, 0.33f, 0.5f),
+                Is.EqualTo(MilitaryDropType.Gold));
+        }
+}
 }

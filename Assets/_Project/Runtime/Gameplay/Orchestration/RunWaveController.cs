@@ -38,7 +38,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private int _spawnedPoliceCount;
         private int _spawnedMilitaryCount;
         private float _spawnTimerSeconds;
-        private bool _preferTraveller = true;
+        private RunSpawnType _nextSpawnType = RunSpawnType.Traveller;
         private RunOutcome _outcome;
 
         public RunWaveController(IReadOnlyList<WaveDefinition> waves)
@@ -75,13 +75,13 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
         public int SpawnedMilitaryCount => _spawnedMilitaryCount;
 
-        public void Reset()
+public void Reset()
         {
             _currentWaveIndex = 0;
             _spawnedTravellerCount = 0;
             _spawnedPoliceCount = 0;
             _spawnedMilitaryCount = 0;
-            _preferTraveller = true;
+            _nextSpawnType = RunSpawnType.Traveller;
             _outcome = RunOutcome.None;
             _spawnTimerSeconds = _waves.Length > 0 ? _waves[0].StartDelaySeconds : 0f;
         }
@@ -170,12 +170,12 @@ namespace RainbowsEnd.Gameplay.Orchestration
             return new RunWaveTickResult(RunOutcome.None, nextSpawnType, waveAdvanced: false);
         }
 
-        private void StartCurrentWave()
+private void StartCurrentWave()
         {
             _spawnedTravellerCount = 0;
             _spawnedPoliceCount = 0;
             _spawnedMilitaryCount = 0;
-            _preferTraveller = true;
+            _nextSpawnType = RunSpawnType.Traveller;
             _spawnTimerSeconds = _waves[_currentWaveIndex].StartDelaySeconds;
         }
 
@@ -186,46 +186,45 @@ namespace RainbowsEnd.Gameplay.Orchestration
                 _spawnedMilitaryCount >= wave.MilitaryCount;
         }
 
-        private RunSpawnType SelectNextSpawnType(WaveDefinition wave)
+private RunSpawnType SelectNextSpawnType(WaveDefinition wave)
         {
-            int remainingTravellers = wave.TravellerCount - _spawnedTravellerCount;
-            int remainingPolice = wave.PoliceCount - _spawnedPoliceCount;
-            int remainingMilitary = wave.MilitaryCount - _spawnedMilitaryCount;
-
-            if (remainingTravellers <= 0 && remainingPolice <= 0)
+            int[] remaining =
             {
-                return remainingMilitary > 0 ? RunSpawnType.Military : RunSpawnType.None;
+                wave.TravellerCount - _spawnedTravellerCount,
+                wave.PoliceCount - _spawnedPoliceCount,
+                wave.MilitaryCount - _spawnedMilitaryCount
+            };
+
+            for (int offset = 0; offset < remaining.Length; offset++)
+            {
+                int candidateIndex = ((int)_nextSpawnType - 1 + offset) % remaining.Length;
+                if (remaining[candidateIndex] > 0)
+                {
+                    return (RunSpawnType)(candidateIndex + 1);
+                }
             }
 
-            if (remainingTravellers <= 0)
-            {
-                return remainingPolice > 0 ? RunSpawnType.Police : RunSpawnType.None;
-            }
-
-            if (remainingPolice <= 0)
-            {
-                return RunSpawnType.Traveller;
-            }
-
-            return _preferTraveller ? RunSpawnType.Traveller : RunSpawnType.Police;
+            return RunSpawnType.None;
         }
 
-        private void RecordSpawn(WaveDefinition wave, RunSpawnType spawnedType)
+private void RecordSpawn(WaveDefinition wave, RunSpawnType spawnedType)
         {
             switch (spawnedType)
             {
                 case RunSpawnType.Traveller:
                     _spawnedTravellerCount++;
-                    _preferTraveller = _spawnedPoliceCount < wave.PoliceCount ? false : true;
                     break;
                 case RunSpawnType.Police:
                     _spawnedPoliceCount++;
-                    _preferTraveller = _spawnedTravellerCount < wave.TravellerCount;
                     break;
                 case RunSpawnType.Military:
                     _spawnedMilitaryCount++;
                     break;
             }
+
+            _nextSpawnType = spawnedType == RunSpawnType.Military
+                ? RunSpawnType.Traveller
+                : (RunSpawnType)((int)spawnedType + 1);
         }
     }
 }

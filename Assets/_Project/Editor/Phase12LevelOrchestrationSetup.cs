@@ -60,24 +60,25 @@ namespace RainbowsEnd.Editor
             SerializedProperty wavesProperty = serializedObject.FindProperty("waves");
             wavesProperty.arraySize = 5;
 
-            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(0), "Wave 1", 0.75f, 1.8f, 3, 3, 0);
-            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(1), "Wave 2", 0.75f, 1.6f, 4, 5, 0);
-            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(2), "Wave 3", 0.75f, 1.5f, 5, 4, 1);
-            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(3), "Wave 4", 0.75f, 1.3f, 6, 5, 2);
-            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(4), "Wave 5", 0.75f, 1.2f, 7, 6, 3);
+            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(0), "Wave 1", 0.75f, 1.8f, 3, 3, 0, 0);
+            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(1), "Wave 2", 0.75f, 1.6f, 4, 5, 0, 0);
+            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(2), "Wave 3", 0.75f, 1.5f, 5, 4, 1, 2);
+            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(3), "Wave 4", 0.75f, 1.3f, 6, 5, 2, 3);
+            SetWaveDefinition(wavesProperty.GetArrayElementAtIndex(4), "Wave 5", 0.75f, 1.2f, 7, 6, 3, 4);
 
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(waveConfig);
         }
 
-        private static void SetWaveDefinition(
+private static void SetWaveDefinition(
             SerializedProperty waveProperty,
             string waveName,
             float startDelaySeconds,
             float spawnIntervalSeconds,
             int maxConcurrentEnemies,
             int travellerCount,
-            int policeCount)
+            int policeCount,
+            int militaryCount)
         {
             waveProperty.FindPropertyRelative("waveName").stringValue = waveName;
             waveProperty.FindPropertyRelative("startDelaySeconds").floatValue = startDelaySeconds;
@@ -85,6 +86,7 @@ namespace RainbowsEnd.Editor
             waveProperty.FindPropertyRelative("maxConcurrentEnemies").intValue = maxConcurrentEnemies;
             waveProperty.FindPropertyRelative("travellerCount").intValue = travellerCount;
             waveProperty.FindPropertyRelative("policeCount").intValue = policeCount;
+            waveProperty.FindPropertyRelative("militaryCount").intValue = militaryCount;
         }
 
         private static void EnsureRegistryUsesWaveConfig(WaveConfig waveConfig)
