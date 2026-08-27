@@ -1,6 +1,8 @@
+using System.Reflection;
 using NUnit.Framework;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using UnityEngine;
 
@@ -207,6 +209,40 @@ namespace RainbowsEnd.Tests.EditMode.Pots
             }
         }
 
+
+        [Test]
+        public void HasHarvestingPot_ReturnsTrueOnlyForLiveUncarriedHarvestingPot()
+        {
+            GameObject registryObject = new GameObject("PotRegistry");
+            PotRegistry registry = registryObject.AddComponent<PotRegistry>();
+            PotConfig config = ScriptableObject.CreateInstance<PotConfig>();
+            GameObject potObject = new GameObject("Pot");
+            GameObject playerObject = new GameObject("Player");
+
+            try
+            {
+                PotController pot = ConfigurePot(potObject, config);
+                PlayerRoot playerRoot = playerObject.AddComponent<PlayerRoot>();
+                registry.RegisterPot(pot);
+
+                Assert.That(registry.HasHarvestingPot, Is.False);
+                SetHarvesting(pot);
+                Assert.That(registry.HasHarvestingPot, Is.True);
+
+                Assert.That(pot.TryPickUp(playerRoot), Is.True);
+                Assert.That(registry.HasHarvestingPot, Is.False);
+
+                pot.Drop(Vector2.zero);
+                SetHarvesting(pot);
+                pot.DestroyByUnicorn(null);
+                Assert.That(registry.HasHarvestingPot, Is.False);
+            }
+            finally
+            {
+                DestroyAll(registryObject, potObject, playerObject, config);
+            }
+        }
+
         private static PotController ConfigurePot(GameObject potObject, PotConfig config)
         {
             Rigidbody2D body = potObject.AddComponent<Rigidbody2D>();
@@ -215,6 +251,16 @@ namespace RainbowsEnd.Tests.EditMode.Pots
             PotController pot = potObject.AddComponent<PotController>();
             pot.Configure(config, body, collider2D, health, null, null);
             return pot;
+        }
+
+
+        private static void SetHarvesting(PotController pot)
+        {
+            FieldInfo field = typeof(PotController).GetField("_harvestState", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(field, Is.Not.Null);
+            PotHarvestState state = (PotHarvestState)field.GetValue(pot);
+            state.CaptureTrail(1f, 2f, 100f);
+            state.UpdateState(0.1f, false, 0f);
         }
 
         private static void SetMaxStoredGold(PotConfig config, float amount)

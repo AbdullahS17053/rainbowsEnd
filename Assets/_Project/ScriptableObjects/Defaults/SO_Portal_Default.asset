@@ -16,6 +16,7 @@ MonoBehaviour:
   <MaxActivePortals>k__BackingField: 2
   <PlacementDistance>k__BackingField: 1.5
   <ExitOffsetDistance>k__BackingField: 0.85
+  <EntryRadiusWorldUnits>k__BackingField: 0.6
   <ReentryLockoutSeconds>k__BackingField: 0.25
   <OldestPortalColor>k__BackingField: {r: 0.2, g: 0.4, b: 0.9, a: 0.95}
   <NewestPortalColor>k__BackingField: {r: 0.10196078, g: 1, b: 0.15847513, a: 0.95}

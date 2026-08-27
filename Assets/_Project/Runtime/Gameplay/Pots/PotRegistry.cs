@@ -57,6 +57,25 @@ namespace RainbowsEnd.Gameplay.Pots
 
         public int TotalStoredGold => Mathf.FloorToInt(TotalStoredGoldValue);
 
+        public bool HasHarvestingPot
+        {
+            get
+            {
+                RemoveNullEntries();
+                for (int index = 0; index < _registeredPots.Count; index++)
+                {
+                    PotController pot = _registeredPots[index];
+                    if (pot != null && !pot.IsDestroyed && !pot.IsCarried
+                        && pot.HarvestStatus == PotHarvestStatus.Harvesting)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public bool HasAnyGoldOrHarvestingPot
         {
             get

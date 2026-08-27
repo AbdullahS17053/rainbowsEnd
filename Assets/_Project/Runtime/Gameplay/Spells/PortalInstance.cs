@@ -32,6 +32,7 @@ namespace RainbowsEnd.Gameplay.Spells
             Vector2 normalizedFacingDirection = facingDirection.sqrMagnitude > 0f ? facingDirection.normalized : Vector2.up;
             transform.up = normalizedFacingDirection;
             EnsureTriggerCollider();
+            ApplyConfiguredEntryRadius();
             UpdatePortalVfx();
         }
 
@@ -75,6 +76,7 @@ namespace RainbowsEnd.Gameplay.Spells
         {
             CacheReferences();
             EnsureTriggerCollider();
+            ValidateTransformScale();
             UpdatePortalVfx();
         }
 
@@ -126,6 +128,49 @@ namespace RainbowsEnd.Gameplay.Spells
             {
                 triggerCollider.isTrigger = true;
             }
+        }
+
+        private void ApplyConfiguredEntryRadius()
+        {
+            if (_portalConfig == null || triggerCollider is not CircleCollider2D circleCollider)
+            {
+                return;
+            }
+
+            if (!TryGetUniformScale(out float uniformScale))
+            {
+                return;
+            }
+
+            circleCollider.radius = Mathf.Max(0.01f, _portalConfig.EntryRadiusWorldUnits) / uniformScale;
+        }
+
+        private void ValidateTransformScale()
+        {
+            TryGetUniformScale(out _);
+        }
+
+        private bool TryGetUniformScale(out float uniformScale)
+        {
+            Vector3 scale = transform.lossyScale;
+            float xScale = Mathf.Abs(scale.x);
+            float yScale = Mathf.Abs(scale.y);
+            if (xScale <= 0.0001f || yScale <= 0.0001f)
+            {
+                uniformScale = 1f;
+                Debug.LogError($"{nameof(PortalInstance)} on {name} requires a non-zero root scale to apply its entry radius.", this);
+                return false;
+            }
+
+            if (!Mathf.Approximately(xScale, yScale))
+            {
+                uniformScale = 1f;
+                Debug.LogError($"{nameof(PortalInstance)} on {name} requires a uniform root scale to apply its circular entry radius.", this);
+                return false;
+            }
+
+            uniformScale = xScale;
+            return true;
         }
 
         private bool TryResolveTeleportTarget(Collider2D other, out Component targetRoot, out Rigidbody2D targetBody)

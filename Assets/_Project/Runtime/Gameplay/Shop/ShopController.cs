@@ -31,6 +31,8 @@ private bool _isShopOpen;
         private bool _wasPortalControllerEnabled;
         private float _previousTimeScale = 1f;
 
+        public bool IsShopOpen => _isShopOpen;
+
         public void Configure(
             ShopConfig config,
             ArenaSceneContext arenaSceneContext,

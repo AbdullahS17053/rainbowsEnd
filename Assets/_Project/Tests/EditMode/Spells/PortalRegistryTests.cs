@@ -69,5 +69,18 @@ namespace RainbowsEnd.Tests.EditMode.Spells
             Assert.That(remainingFirstPortal.PairedPortal, Is.SameAs(remainingSecondPortal));
             Assert.That(remainingSecondPortal.PairedPortal, Is.SameAs(remainingFirstPortal));
         }
+        [Test]
+        public void TryPlacePortal_AppliesWorldEntryRadiusToScaledTrigger()
+        {
+            _portalPrefab.transform.localScale = Vector3.one * 2f;
+
+            Assert.That(_portalConfig.EntryRadiusWorldUnits, Is.EqualTo(0.60f).Within(0.0001f));
+            Assert.That(_portalRegistry.TryPlacePortal(Vector2.zero, Vector2.up, null), Is.True);
+
+            CircleCollider2D collider = _portalRegistry.ActivePortals[0].GetComponent<CircleCollider2D>();
+            Assert.That(collider.isTrigger, Is.True);
+            Assert.That(collider.radius, Is.EqualTo(0.30f).Within(0.0001f));
+        }
+
     }
 }

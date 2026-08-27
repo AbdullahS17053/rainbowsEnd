@@ -44,6 +44,40 @@ _Avoid_: Retreat, unsuccessful flee
 The compact, always-visible Synty-styled HUD block showing Pot Gold, ammo, elapsed run time, kills, and successful theft escapes.
 _Avoid_: Separate score screens, temporary notifications
 
+## Onboarding
+
+**Tutorial Sequence**:
+The ordered, in-run guidance that introduces Pot pickup, Trail placement, portal placement, and upgrades one step at a time as the player completes each preceding objective.
+_Avoid_: Simultaneous tooltips, all-at-once tutorial
+
+**Tutorial Opt-Out**:
+The single, one-way player preference that suppresses the current and all future Tutorial Sequence prompts across runs.
+_Avoid_: Per-step tutorial settings, temporary dismissal, resettable setting
+
+**Tutorial Card**:
+The non-blocking HUD panel that displays the active Tutorial Sequence instruction while gameplay remains interactive.
+_Avoid_: Paused modal, blocking dialog
+
+**Tutorial Run Progress**:
+The in-memory position within a Tutorial Sequence. It resets at the start of each run and is not stored between runs.
+_Avoid_: Per-step completion save, cross-run tutorial resume
+
+**Trail Placement Completion**:
+The first successful start of Pot Harvesting from an active Rainbow Trail; this completes the Trail instruction.
+_Avoid_: Dropping near a trail, visual trail contact
+
+**Portal Placement Completion**:
+The first successful portal creation by the Portal Registry; this completes the portal instruction.
+_Avoid_: Right-click attempt, cooldown-blocked input
+
+**Upgrade Menu Completion**:
+The first successful opening of the Upgrade Screen; this completes the upgrade instruction.
+_Avoid_: Q-key attempt, purchase completion
+
+**Portal Entry Radius**:
+The configurable 0.60-unit world-space trigger radius within which a valid target enters a portal; it is independent of the portal's visual size.
+_Avoid_: Portal visual radius, placement distance
+
 **Run Statistics**:
 Pot Gold, elapsed time, kills, and successful theft escapes are per-run values. They reset at run start and remain visible after the outcome until the next run.
 _Avoid_: Lifetime statistics, persistent score
