@@ -64,5 +64,33 @@ namespace RainbowsEnd.Tests.EditMode.Combat
 
             Object.DestroyImmediate(config);
         }
+
+        [Test]
+        public void ResolveFireOrigin_UsesAuthoredTransformWhenPresent()
+        {
+            GameObject muzzleObject = new GameObject("Muzzle");
+            muzzleObject.transform.position = new Vector3(7f, 9f, 0f);
+
+            Vector2 origin = RangedAttackController.ResolveFireOrigin(
+                new Vector2(1f, 2f),
+                Vector2.right,
+                muzzleObject.transform,
+                0.5f);
+
+            Assert.That(origin, Is.EqualTo(new Vector2(7f, 9f)));
+            Object.DestroyImmediate(muzzleObject);
+        }
+
+        [Test]
+        public void ResolveFireOrigin_UsesOffsetFallbackWhenMissing()
+        {
+            Vector2 origin = RangedAttackController.ResolveFireOrigin(
+                new Vector2(1f, 2f),
+                Vector2.up,
+                null,
+                0.5f);
+
+            Assert.That(origin, Is.EqualTo(new Vector2(1f, 2.5f)));
+        }
     }
 }

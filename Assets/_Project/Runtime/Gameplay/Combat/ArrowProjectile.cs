@@ -11,6 +11,11 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] [Min(0.01f)] private float fallbackSpeed = 18f;
         [SerializeField] [Min(0f)] private float castRadius = 0.05f;
 
+        private TrailRenderer _firearmTracer;
+        private GameObject _magicVisual;
+        private ParticleSystem[] _magicParticles;
+
+
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[16];
 
         private PrefabPool _owningPool;
@@ -34,7 +39,8 @@ namespace RainbowsEnd.Gameplay.Combat
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
             float damageOverride = -1f,
-            float rangeOverride = -1f)
+            float rangeOverride = -1f,
+            bool renderTracer = true)
         {
             _owningPool = owningPool;
             _direction = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.up;
@@ -52,6 +58,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            ApplyPresentation(renderTracer);
         }
 
         public void OnSpawned()
@@ -142,6 +149,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private void ResetState()
         {
+            ResetPresentation();
             _owningPool = null;
             _weaponConfig = null;
             _ignoredCollider = null;
@@ -153,6 +161,82 @@ namespace RainbowsEnd.Gameplay.Combat
             _range = 0f;
             _distanceTravelled = 0f;
             _isLaunched = false;
+        }
+
+        private void ApplyPresentation(bool renderTracer)
+        {
+            CachePresentation();
+
+            bool isFirearm = _weaponConfig != null && _weaponConfig.IsFirearm;
+            if (_firearmTracer != null)
+            {
+                _firearmTracer.Clear();
+                _firearmTracer.enabled = isFirearm && renderTracer;
+                if (_firearmTracer.enabled)
+                {
+                    bool isPlayerTracer = _sourceFaction == FactionId.Player;
+                    _firearmTracer.startColor = isPlayerTracer
+                        ? new Color(1f, 0.72f, 0.08f, 1f)
+                        : new Color(1f, 0.12f, 0.02f, 1f);
+                    _firearmTracer.endColor = new Color(
+                        _firearmTracer.startColor.r,
+                        _firearmTracer.startColor.g,
+                        _firearmTracer.startColor.b,
+                        0f);
+                }
+            }
+
+            if (_magicVisual != null)
+            {
+                _magicVisual.SetActive(!isFirearm);
+            }
+
+            for (int index = 0; index < (_magicParticles != null ? _magicParticles.Length : 0); index++)
+            {
+                ParticleSystem particleSystem = _magicParticles[index];
+                if (particleSystem == null)
+                {
+                    continue;
+                }
+
+                particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                if (!isFirearm)
+                {
+                    ParticleSystem.MainModule main = particleSystem.main;
+                    main.startColor = new ParticleSystem.MinMaxGradient(
+                        new Color(0.08f, 1f, 0.38f, 1f),
+                        new Color(1f, 0.82f, 0.12f, 1f));
+                    particleSystem.Play(true);
+                }
+            }
+        }
+
+        private void CachePresentation()
+        {
+            _firearmTracer ??= GetComponent<TrailRenderer>();
+            _magicVisual ??= transform.Find("SpikyFireTrail")?.gameObject;
+            _magicParticles ??= GetComponentsInChildren<ParticleSystem>(true);
+        }
+
+        private void ResetPresentation()
+        {
+            CachePresentation();
+
+            if (_firearmTracer != null)
+            {
+                _firearmTracer.Clear();
+                _firearmTracer.enabled = false;
+            }
+
+            if (_magicVisual != null)
+            {
+                _magicVisual.SetActive(false);
+            }
+
+            for (int index = 0; index < (_magicParticles != null ? _magicParticles.Length : 0); index++)
+            {
+                _magicParticles[index]?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
         }
     }
 }

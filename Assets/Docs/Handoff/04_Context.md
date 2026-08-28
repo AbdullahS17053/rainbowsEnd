@@ -1,4 +1,4 @@
-# Rainbow's End Project Context
+﻿# Rainbow's End Project Context
 
 ## Project summary
 Rainbow's End is a single-screen tactical shooter presented through a perspective 3/4 camera and powered by 2D XY gameplay physics. The MVP focuses on the core loop of pushing pots into a unicorn's rainbow trail to harvest gold while defending those pots from enemies. The full game adds more spells, more advanced AI, more weapons, traps, and stronger visual polish, but the MVP should stay lean and prove the central loop first.
@@ -266,6 +266,14 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 - **Cross-map return**: After reaching the arena's top edge, the unicorn's next roaming target is on the bottom edge, preserving whole-map traversal without upper-area loops. _Avoid_: top-third exclusion, dead zone.
 
 - **Unicorn daze**: The short player-control lock caused by a unicorn impact when the player is not carrying a pot. It includes a one-unit knockback, a half-second duration, and spinning-star feedback. _Avoid_: player downed state, recovery veil.
+
+## Approved weapons and combat terminology
+- **Fae Bolt**: the Player's unlimited default magic attack. It keeps the existing projectile mechanics, cooldown, targeting, damage, range, and pooling behavior, but uses a distinct green-and-gold magical projectile/trail/impact presentation. The Player shows no firearm while Fae Bolt is active.
+- **Firearm override**: the existing temporary weapon equipped from a pooled WeaponPickup. It replaces Fae Bolt only while it has shots remaining, stays visibly drawn during idle, movement, and firing, and automatically returns the Player to Fae Bolt when exhausted. Assault rifles remain a Military-only drop.
+- **Tactical tracer**: presentation-only firearm feedback: a fast visible bullet trail, short muzzle flash, and impact cue. It does not add hitscan, gravity/drop, penetration, reloads, magazines, recoil-driven aim, or alter pooled hit/damage behavior. Player tracers are amber; hostile tracers are red/orange; shotgun volleys show two representative tracers while all pellets still resolve normally.
+- **Muzzle origin**: the authored Transform at the actual firearm muzzle, or the Player casting hand for Fae Bolt. It is the projectile and local fire-feedback origin. The old numerical muzzle offset remains a defensive fallback only when an authoring reference is unavailable.
+- **Hip-fire cone**: Player-only movement posture while moving. It uses 70% of the active weapon range and 1.75 times its normal auto-fire-cone width, then restores the normal aiming values when stationary. Both multipliers are Inspector-tunable.
+- **Aim-facing rule**: while aiming or fighting, a character's complete visual body and held weapon face its aim target; movement never overwrites that direction. Outside that state, the visual faces travel direction.
 
 ## Known ambiguities
 - Tilt-shift is a visual target, not an early production blocker

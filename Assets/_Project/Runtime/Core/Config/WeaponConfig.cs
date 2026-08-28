@@ -2,9 +2,21 @@ using UnityEngine;
 
 namespace RainbowsEnd.Core.Config
 {
+    public enum WeaponPresentation
+    {
+        FaeBolt = 0,
+        Pistol = 1,
+        Shotgun = 2,
+        AssaultRifle = 3
+    }
+
     [CreateAssetMenu(fileName = "SO_WeaponConfig", menuName = "Rainbows End/Config/Weapon")]
     public sealed class WeaponConfig : ScriptableObject
     {
+        [field: SerializeField] public WeaponPresentation Presentation { get; private set; } = WeaponPresentation.FaeBolt;
+
+        public bool IsFirearm => Presentation != WeaponPresentation.FaeBolt;
+
         [field: SerializeField] [field: Min(0f)] public float Damage { get; private set; } = 1f;
 
         [field: SerializeField] [field: Min(1)] public int ProjectileCount { get; private set; } = 1;

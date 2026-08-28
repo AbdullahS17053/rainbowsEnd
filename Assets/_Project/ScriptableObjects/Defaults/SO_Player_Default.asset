@@ -17,6 +17,9 @@ MonoBehaviour:
   <Acceleration>k__BackingField: 25
   <InteractionRadius>k__BackingField: 1.25
   <AimTurnSpeed>k__BackingField: 540
+  <HipFireMovementThreshold>k__BackingField: 0.1
+  <HipFireRangeMultiplier>k__BackingField: 0.7
+  <HipFireConeMultiplier>k__BackingField: 1.75
   <StunDurationSeconds>k__BackingField: 1
   <RecoveryVeilDurationSeconds>k__BackingField: 2
   <ConcealedOpacity>k__BackingField: 0.35

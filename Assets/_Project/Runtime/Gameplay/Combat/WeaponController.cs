@@ -37,6 +37,13 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] private bool showAutoFireCone;
         [SerializeField] private Color autoFireConeColor = new Color(1f, 0.82f, 0.24f, 0.9f);
         [SerializeField] [Min(0f)] private float fallbackMuzzleOffset = 0.55f;
+        [SerializeField] private Transform faeBoltMuzzle;
+        [SerializeField] private Transform pistolMuzzle;
+        [SerializeField] private Transform shotgunMuzzle;
+        [SerializeField] private Transform assaultRifleMuzzle;
+        [SerializeField] private GameObject pistolVisual;
+        [SerializeField] private GameObject shotgunVisual;
+        [SerializeField] private GameObject assaultRifleVisual;
         [SerializeField] private CharacterAnimationBridge animationBridge;
 
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
@@ -47,7 +54,11 @@ namespace RainbowsEnd.Gameplay.Combat
         private MeshRenderer _runtimeConeMeshRenderer;
         private MeshFilter _runtimeConeMeshFilter;
         private Mesh _runtimeConeMesh;
-        private Material _runtimeConeMaterial;
+                private Material _runtimeConeMaterial;
+        private bool _isHipFiring;
+        private float _resolvedTargetingRange;
+        private float _resolvedAutoFireConeDegrees;
+        private int _resolvedPostureFrame = -1;
 
         public WeaponConfig WeaponConfig => weaponConfig;
 
@@ -112,6 +123,8 @@ namespace RainbowsEnd.Gameplay.Combat
         {
             _runtimeState.Tick(Time.deltaTime);
             SyncActiveWeaponConfig();
+            ApplyWeaponPresentation();
+            ResolvePlayerWeaponPosture();
 
             Vector2 baseAimDirection = ResolveBaseAimDirection();
             UpdateRuntimeConeVisualization(baseAimDirection);
@@ -165,7 +178,7 @@ namespace RainbowsEnd.Gameplay.Combat
             DrawAutoFireConeGizmo(origin, forward, targetingRange, ResolveAutoFireConeDegrees());
         }
 
-        private void FireShot(Vector2 baseAimDirection)
+private void FireShot(Vector2 baseAimDirection)
         {
             if (baseAimDirection.sqrMagnitude <= 0f)
             {
@@ -179,8 +192,13 @@ namespace RainbowsEnd.Gameplay.Combat
                 Random.value);
 
             Vector2 fireDirection = WeaponSpreadUtility.ApplySpread(baseAimDirection, CurrentSpreadOffsetDegrees);
-            Vector2 origin = (Vector2)transform.position + fireDirection * ResolveMuzzleOffset();
-            projectileLauncher.LaunchVolley(
+            Transform muzzle = ResolveActiveMuzzle();
+            Vector2 origin = RangedAttackController.ResolveFireOrigin(
+                transform.position,
+                fireDirection,
+                muzzle,
+                ResolveMuzzleOffset());
+            int launchedCount = projectileLauncher.LaunchVolley(
                 origin,
                 fireDirection,
                 weaponConfig,
@@ -191,13 +209,18 @@ namespace RainbowsEnd.Gameplay.Combat
                 ResolveDamage(),
                 rangeOverride: ResolveTargetingRange());
 
+            if (launchedCount > 0)
+            {
+                ProjectileWeaponLauncher.PlayMuzzleFeedback(muzzle);
+            }
+
             playerRoot?.NotifyShotFired();
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
 
             animationBridge?.TriggerFire();
         }
 
-        private void CacheReferences()
+private void CacheReferences()
         {
             playerRoot ??= GetComponent<PlayerRoot>();
             inputReader ??= GetComponent<PlayerInputReader>();
@@ -208,6 +231,62 @@ namespace RainbowsEnd.Gameplay.Combat
             projectileLauncher ??= GetComponent<ProjectileWeaponLauncher>();
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
             animationBridge ??= GetComponent<CharacterAnimationBridge>();
+
+            Transform hand = transform.Find("VisualRoot/Fairy Visual/Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R");
+            if (hand == null)
+            {
+                return;
+            }
+
+            faeBoltMuzzle ??= hand.Find("FaeBoltMuzzle");
+            pistolVisual ??= hand.Find("PlayerPistolVisual")?.gameObject;
+            shotgunVisual ??= hand.Find("PlayerShotgunVisual")?.gameObject;
+            assaultRifleVisual ??= hand.Find("PlayerAssaultRifleVisual")?.gameObject;
+            pistolMuzzle ??= pistolVisual?.transform.Find("Muzzle");
+            shotgunMuzzle ??= shotgunVisual?.transform.Find("Muzzle");
+            assaultRifleMuzzle ??= assaultRifleVisual?.transform.Find("Muzzle");
+        }
+
+        private void ApplyWeaponPresentation()
+        {
+            WeaponPresentation presentation = weaponConfig != null
+                ? weaponConfig.Presentation
+                : WeaponPresentation.FaeBolt;
+
+            if (faeBoltMuzzle != null)
+            {
+                faeBoltMuzzle.gameObject.SetActive(presentation == WeaponPresentation.FaeBolt);
+            }
+
+            if (pistolVisual != null)
+            {
+                pistolVisual.SetActive(presentation == WeaponPresentation.Pistol);
+            }
+
+            if (shotgunVisual != null)
+            {
+                shotgunVisual.SetActive(presentation == WeaponPresentation.Shotgun);
+            }
+
+            if (assaultRifleVisual != null)
+            {
+                assaultRifleVisual.SetActive(presentation == WeaponPresentation.AssaultRifle);
+            }
+        }
+
+        private Transform ResolveActiveMuzzle()
+        {
+            switch (weaponConfig != null ? weaponConfig.Presentation : WeaponPresentation.FaeBolt)
+            {
+                case WeaponPresentation.Pistol:
+                    return pistolMuzzle;
+                case WeaponPresentation.Shotgun:
+                    return shotgunMuzzle;
+                case WeaponPresentation.AssaultRifle:
+                    return assaultRifleMuzzle;
+                default:
+                    return faeBoltMuzzle;
+            }
         }
 
         private bool TryGetNearestHostileTargetInCone(Vector2 aimDirection, out Vector2 nearestTargetPosition)
@@ -307,14 +386,8 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private float ResolveTargetingRange()
         {
-            if (weaponConfig == null)
-            {
-                return 0f;
-            }
-
-            return upgradeRuntime != null
-                ? upgradeRuntime.ResolveWeaponRange(weaponConfig.Range)
-                : Mathf.Max(0f, weaponConfig.Range);
+            ResolvePlayerWeaponPosture();
+            return _resolvedTargetingRange;
         }
 
         private float ResolveDamage()
@@ -369,6 +442,53 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private float ResolveAutoFireConeDegrees()
         {
+            ResolvePlayerWeaponPosture();
+            return _resolvedAutoFireConeDegrees;
+        }
+
+        private void ResolvePlayerWeaponPosture()
+        {
+            if (Application.isPlaying && _resolvedPostureFrame == Time.frameCount)
+            {
+                return;
+            }
+
+            float normalRange = ResolveBaseTargetingRange();
+            float normalConeDegrees = ResolveBaseAutoFireConeDegrees();
+            PlayerConfig playerConfig = playerRoot != null ? playerRoot.Config : null;
+            float movementNormalized = movementController != null ? movementController.SpeedNormalized : 0f;
+            float movementThreshold = playerConfig != null ? playerConfig.HipFireMovementThreshold : 0.1f;
+            float rangeMultiplier = playerConfig != null ? playerConfig.HipFireRangeMultiplier : 0.7f;
+            float coneMultiplier = playerConfig != null ? playerConfig.HipFireConeMultiplier : 1.75f;
+
+            _isHipFiring = PlayerWeaponPostureUtility.IsHipFiring(movementNormalized, movementThreshold);
+            _resolvedTargetingRange = PlayerWeaponPostureUtility.ResolveRange(
+                normalRange,
+                movementNormalized,
+                movementThreshold,
+                rangeMultiplier);
+            _resolvedAutoFireConeDegrees = PlayerWeaponPostureUtility.ResolveConeDegrees(
+                normalConeDegrees,
+                movementNormalized,
+                movementThreshold,
+                coneMultiplier);
+            _resolvedPostureFrame = Application.isPlaying ? Time.frameCount : -1;
+        }
+
+        private float ResolveBaseTargetingRange()
+        {
+            if (weaponConfig == null)
+            {
+                return 0f;
+            }
+
+            return upgradeRuntime != null
+                ? upgradeRuntime.ResolveWeaponRange(weaponConfig.Range)
+                : Mathf.Max(0f, weaponConfig.Range);
+        }
+
+        private float ResolveBaseAutoFireConeDegrees()
+        {
             if (weaponConfig != null && weaponConfig.AutoFireConeDegrees > 0f)
             {
                 return weaponConfig.AutoFireConeDegrees;
@@ -376,7 +496,6 @@ namespace RainbowsEnd.Gameplay.Combat
 
             return legacyAutoFireConeDegrees > 0f ? legacyAutoFireConeDegrees : DefaultAutoFireConeDegrees;
         }
-
         private float GetNearestCoverBlockDistance(Vector2 origin, Vector2 direction, float maxDistance)
         {
             return CoverBlocker.GetNearestBlockDistance(origin, direction, maxDistance);

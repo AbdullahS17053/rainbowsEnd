@@ -12,6 +12,12 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float AimTurnSpeed { get; private set; } = 540f;
 
+        [field: SerializeField] [field: Min(0f)] public float HipFireMovementThreshold { get; private set; } = 0.1f;
+
+        [field: SerializeField] [field: Min(0f)] public float HipFireRangeMultiplier { get; private set; } = 0.7f;
+
+        [field: SerializeField] [field: Min(0f)] public float HipFireConeMultiplier { get; private set; } = 1.75f;
+
         [field: SerializeField] [field: Min(0f)] [field: FormerlySerializedAs("DownedDurationSeconds")] public float StunDurationSeconds { get; private set; } = 1f;
 
         [field: SerializeField] [field: Min(0f)] public float RecoveryVeilDurationSeconds { get; private set; } = 2f;

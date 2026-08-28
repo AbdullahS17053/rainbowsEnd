@@ -31,6 +31,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private RangedAttackController rangedAttackController;
         [SerializeField] private CharacterAnimationBridge animationBridge;
         [SerializeField] private GameObject pistolVisual;
+        [SerializeField] private Transform pistolMuzzle;
+        [SerializeField] private Transform shotgunMuzzle;
         [SerializeField] private GameObject shotgunVisual;
 
         private PrefabPool _owningPool;
@@ -166,7 +168,13 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             ApplyWeaponVisual(_usesShotgun);
             body.linearVelocity = Vector2.zero;
-            rangedAttackController.Configure(projectileLauncher, impactFeedbackSpawner, weaponConfig, FactionId, bodyCollider);
+            rangedAttackController.Configure(
+                projectileLauncher,
+                impactFeedbackSpawner,
+                weaponConfig,
+                FactionId,
+                bodyCollider,
+                ResolveWeaponMuzzle());
         }
 
         public void OnSpawned()
@@ -350,6 +358,11 @@ private void Update()
             }
         }
 
+        private Transform ResolveWeaponMuzzle()
+        {
+            return _usesShotgun ? shotgunMuzzle : pistolMuzzle;
+        }
+
         private void ResolveTargetPlayer()
         {
             if (_targetPlayer != null && !_targetPlayer.Health.IsDepleted)
@@ -375,6 +388,9 @@ private void Update()
                 Transform child = transform.Find("VisualRoot");
                 visualRoot = child != null ? child : transform;
             }
+
+            pistolMuzzle ??= pistolVisual?.transform.Find("Muzzle");
+            shotgunMuzzle ??= shotgunVisual?.transform.Find("Muzzle");
 
             if (visualRenderer == null && visualRoot != null)
             {

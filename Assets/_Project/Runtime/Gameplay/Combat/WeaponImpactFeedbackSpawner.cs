@@ -37,7 +37,11 @@ namespace RainbowsEnd.Gameplay.Combat
 
             float lifetimeSeconds = weaponConfig != null ? weaponConfig.ImpactEffectLifetimeSeconds : 0.12f;
             float uniformScale = weaponConfig != null ? weaponConfig.ImpactEffectScale : 0.35f;
-            impactEffect.Play(impactPool, lifetimeSeconds, uniformScale);
+            impactEffect.Play(
+                impactPool,
+                lifetimeSeconds,
+                uniformScale,
+                weaponConfig == null || weaponConfig.Presentation == WeaponPresentation.FaeBolt);
         }
 
         private bool ResolvePool()

@@ -34,7 +34,7 @@ namespace RainbowsEnd.Core.Animation
             }
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (body == null)
             {

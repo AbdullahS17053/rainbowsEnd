@@ -44,6 +44,10 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private RangedAttackController rangedAttackController;
         [SerializeField] private CharacterAnimationBridge animationBridge;
+        [SerializeField] private GameObject rifleVisual;
+        [SerializeField] private GameObject shotgunVisual;
+        [SerializeField] private Transform rifleMuzzle;
+        [SerializeField] private Transform shotgunMuzzle;
         [SerializeField] private LineRenderer aimTelegraph;
 
 
@@ -154,7 +158,14 @@ public void Activate(
             }
 
             body.linearVelocity = Vector2.zero;
-            rangedAttackController.Configure(projectileLauncher, impactFeedbackSpawner, weaponConfig, FactionId, bodyCollider);
+            ApplyWeaponVisual();
+            rangedAttackController.Configure(
+                projectileLauncher,
+                impactFeedbackSpawner,
+                weaponConfig,
+                FactionId,
+                bodyCollider,
+                ResolveWeaponMuzzle());
             ConfigureAimTelegraph();
         }
 
@@ -1010,6 +1021,31 @@ private void SetAimTelegraphVisible(bool isVisible)
         }
 
 
+private void ApplyWeaponVisual()
+        {
+            CacheReferences();
+
+            bool useShotgun = weaponConfig != null && weaponConfig.Presentation == WeaponPresentation.Shotgun;
+            bool useRifle = weaponConfig != null && weaponConfig.Presentation == WeaponPresentation.AssaultRifle;
+
+            if (rifleVisual != null)
+            {
+                rifleVisual.SetActive(useRifle);
+            }
+
+            if (shotgunVisual != null)
+            {
+                shotgunVisual.SetActive(useShotgun);
+            }
+        }
+
+        private Transform ResolveWeaponMuzzle()
+        {
+            return weaponConfig != null && weaponConfig.Presentation == WeaponPresentation.Shotgun
+                ? shotgunMuzzle
+                : rifleMuzzle;
+        }
+
 private void ResolveTargetPlayer()
         {
             if (_targetPlayer != null && !_targetPlayer.Health.IsDepleted)
@@ -1054,7 +1090,7 @@ private void ResolveTargetPlayer()
             _potRegistry = FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
         }
 
-        private void CacheReferences()
+private void CacheReferences()
         {
             body ??= GetComponent<Rigidbody2D>();
             bodyCollider ??= GetComponent<Collider2D>();
@@ -1064,8 +1100,33 @@ private void ResolveTargetPlayer()
             rangedAttackController ??= GetComponent<RangedAttackController>();
             animationBridge ??= GetComponent<CharacterAnimationBridge>();
 
-                        aimTelegraph ??= GetComponent<LineRenderer>();
-if (visualRoot == null)
+            if (aimTelegraph == null)
+            {
+                aimTelegraph = GetComponent<LineRenderer>();
+            }
+
+            Transform hand = transform.Find("VisualRoot/SM_Chr_Soldier_Male_02/Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R");
+            if (rifleVisual == null)
+            {
+                rifleVisual = hand?.Find("SM_Wep_Preset_A_Rifle_01")?.gameObject;
+            }
+
+            if (shotgunVisual == null)
+            {
+                shotgunVisual = hand?.Find("MilitaryShotgunVisual")?.gameObject;
+            }
+
+            if (rifleMuzzle == null && rifleVisual != null)
+            {
+                rifleMuzzle = rifleVisual.transform.Find("Muzzle");
+            }
+
+            if (shotgunMuzzle == null && shotgunVisual != null)
+            {
+                shotgunMuzzle = shotgunVisual.transform.Find("Muzzle");
+            }
+
+            if (visualRoot == null)
             {
                 Transform child = transform.Find("VisualRoot");
                 visualRoot = child != null ? child : transform;

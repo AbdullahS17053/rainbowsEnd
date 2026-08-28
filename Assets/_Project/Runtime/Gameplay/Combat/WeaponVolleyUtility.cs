@@ -26,5 +26,16 @@ namespace RainbowsEnd.Gameplay.Combat
             float offsetDegrees = CalculateProjectileOffsetDegrees(projectileIndex, projectileCount, volleySpreadDegrees);
             return WeaponSpreadUtility.ApplySpread(normalizedBaseDirection, offsetDegrees);
         }
+
+        public static bool ShouldRenderTracer(int projectileIndex, int projectileCount, bool isFirearm)
+        {
+            if (!isFirearm || projectileCount <= 1)
+            {
+                return true;
+            }
+
+            return projectileCount != 6 || projectileIndex == 1 || projectileIndex == 4;
+        }
+
     }
 }

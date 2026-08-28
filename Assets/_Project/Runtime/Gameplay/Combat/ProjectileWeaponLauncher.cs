@@ -10,6 +10,10 @@ namespace RainbowsEnd.Gameplay.Combat
     public sealed class ProjectileWeaponLauncher : MonoBehaviour
     {
         [SerializeField] private string poolObjectName = "ArrowProjectilePool";
+
+        private static readonly System.Collections.Generic.List<ParticleSystem> MuzzleParticles =
+            new System.Collections.Generic.List<ParticleSystem>();
+
         [SerializeField] private PrefabPool projectilePool;
 
         public void Configure(PrefabPool pool)
@@ -52,7 +56,11 @@ namespace RainbowsEnd.Gameplay.Combat
                     instigator,
                     impactFeedbackSpawner,
                     damageOverride,
-                    rangeOverride))
+                    rangeOverride,
+                    WeaponVolleyUtility.ShouldRenderTracer(
+                        index,
+                        projectileCount,
+                        weaponConfig.IsFirearm)))
                 {
                     launchedCount++;
                 }
@@ -86,7 +94,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 instigator,
                 impactFeedbackSpawner,
                 damageOverride,
-                rangeOverride);
+                rangeOverride,
+                true);
         }
 
         private bool LaunchResolved(
@@ -98,7 +107,8 @@ namespace RainbowsEnd.Gameplay.Combat
             Object instigator,
             WeaponImpactFeedbackSpawner impactFeedbackSpawner,
             float damageOverride,
-            float rangeOverride)
+            float rangeOverride,
+            bool renderTracer)
         {
             if (weaponConfig == null || projectilePool == null)
             {
@@ -124,7 +134,8 @@ namespace RainbowsEnd.Gameplay.Combat
                 instigator,
                 impactFeedbackSpawner,
                 damageOverride,
-                rangeOverride);
+                rangeOverride,
+                renderTracer);
             return true;
         }
 
@@ -145,6 +156,28 @@ namespace RainbowsEnd.Gameplay.Combat
             }
 
             return projectilePool != null;
+        }
+
+        public static void PlayMuzzleFeedback(Transform muzzleTransform)
+        {
+            if (muzzleTransform == null)
+            {
+                return;
+            }
+
+            MuzzleParticles.Clear();
+            muzzleTransform.GetComponentsInChildren<ParticleSystem>(true, MuzzleParticles);
+            for (int index = 0; index < MuzzleParticles.Count; index++)
+            {
+                ParticleSystem particleSystem = MuzzleParticles[index];
+                if (particleSystem == null)
+                {
+                    continue;
+                }
+
+                particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                particleSystem.Play(true);
+            }
         }
     }
 }
