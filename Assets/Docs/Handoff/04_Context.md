@@ -206,6 +206,8 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 - `Assets/_Project/Runtime/Gameplay/World/CoverBlocker.cs`: cover collider and nearest-block query used by combat LOS checks
 - `Assets/_Project/Runtime/Gameplay/World/ConcealmentZone.cs`: trigger-volume authoring for concealment spaces
 - `Assets/_Project/Runtime/Gameplay/Player/PlayerAimResolver.cs`: perspective-camera pointer aiming by ray/XY-plane intersection, plus controller deadzone handling
+- `Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs`: owns player concealment alpha, post-shot reveal, one-second stun, two-second recovery veil, action permissions, and stun/reset presentation.
+- `Assets/_Project/Art/Animators/PlayerFeedback.controller` and `Assets/_Project/Prefabs/PF_Player.prefab`: player-only Stunned/StandUp animation flow plus inactive `StunFeedback` stars child; shared `Player.controller` remains unchanged.
 
 ## Follow-up architecture refinements
 - Assets/_Project/Runtime/Systems/Pooling/PrefabPool.cs now uses UnityEngine.Pool.ObjectPool internally instead of a custom queue while keeping the project's existing pool API stable
@@ -241,7 +243,7 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 
 ## Client clarifications
 - The game is level-based, with room for more levels to be added later
-- The player is downed for 3 seconds when HP reaches zero
+- The player enters a 1-second stun and then a 2-second recovery veil when HP reaches zero
 - Game over should be driven by pot-loss conditions rather than immediate player death
 - Star ratings should be driven by how many pots are banked in the home tree
 - The game should present in landscape
@@ -249,8 +251,8 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 ## Approved player-state terminology
 - **Recovery veil**: the two-second, post-stun player state after a health depletion. It restores the player to full health, makes them invulnerable and 35% opaque, and disables firing. Picking up a pot restores full visibility only; it does not end the remaining invulnerability or firing lockout. Movement and aiming remain available; the pot interaction and upgrade menu are the only enabled interactions. The opacity is configurable.
 - **Concealed player**: a player inside a ConcealmentZone who is not carrying a pot. They are 35% opaque (configurable). Firing makes them visible for the configurable reveal window (default 0.25 seconds); held fire keeps renewing that window. This feature changes presentation only; enemy targeting is unchanged.
-- **Stun presentation**: a health depletion plays `Stunned.fbx` with `StunnedCirclingStarsSimple`, then `Stand Up.fbx` as the recovery veil begins.
-- **Timing authority**: gameplay timing takes priority over source clip length. The one-second stun and two-second recovery veil are configurable values; the player-only Animator will trim or accelerate the imported clips to fit them.
+- **Stun presentation**: a health depletion uses the player-only `PlayerFeedback.controller`, plays `Stunned.fbx` with `StunnedCirclingStarsSimple`, then `Stand Up.fbx` as the recovery veil begins.
+- **Timing authority**: gameplay timing takes priority over source clip length. The one-second stun and two-second recovery veil are configurable values; the player-only Animator accelerates the imported clips to fit the authored gameplay timing.
 
 ## Known ambiguities
 - Tilt-shift is a visual target, not an early production blocker

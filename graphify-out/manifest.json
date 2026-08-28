@@ -715,9 +715,9 @@
     "semantic_hash": "405d4a52fde03dcdf2be6f1bc10cd3d5"
   },
   "Assets/_Project/Runtime/Core/Common/Health.cs": {
-    "mtime": 1784570619.8998277,
-    "ast_hash": "2f48d00315f4bdc2c2706b6f088ca81e",
-    "semantic_hash": "2f48d00315f4bdc2c2706b6f088ca81e"
+    "mtime": 1787922578.624657,
+    "ast_hash": "b6ed926f3c3083934eda33f57f1e1a7d",
+    "semantic_hash": "b6ed926f3c3083934eda33f57f1e1a7d"
   },
   "Assets/_Project/Runtime/Core/Common/HealthStageFeedbackPresenter.cs": {
     "mtime": 1784570619.9008276,
@@ -755,9 +755,9 @@
     "semantic_hash": "3c5f3ec2ddc92fb9a7c010f5bd540899"
   },
   "Assets/_Project/Runtime/Core/Config/PlayerConfig.cs": {
-    "mtime": 1784570619.9093845,
-    "ast_hash": "432350de3ebaf6e7926e79ec1ebc3c95",
-    "semantic_hash": "432350de3ebaf6e7926e79ec1ebc3c95"
+    "mtime": 1787921334.822,
+    "ast_hash": "139ad2a8725a7c7a1144a682f39d3bd7",
+    "semantic_hash": "139ad2a8725a7c7a1144a682f39d3bd7"
   },
   "Assets/_Project/Runtime/Core/Config/PortalConfig.cs": {
     "mtime": 1787823068.821182,
@@ -835,9 +835,9 @@
     "semantic_hash": "e7a17d4b84b5a4be1eeb25a1ca233537"
   },
   "Assets/_Project/Runtime/Gameplay/Combat/WeaponController.cs": {
-    "mtime": 1787747049.2890923,
-    "ast_hash": "24ea1eaad79618754812dfeb29326122",
-    "semantic_hash": "24ea1eaad79618754812dfeb29326122"
+    "mtime": 1787926922.555,
+    "ast_hash": "c2f1f4fe1b737d499acdb6a8a69a3d8b",
+    "semantic_hash": "c2f1f4fe1b737d499acdb6a8a69a3d8b"
   },
   "Assets/_Project/Runtime/Gameplay/Combat/WeaponHitResult.cs": {
     "mtime": 1784570619.9265616,
@@ -922,7 +922,7 @@
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs": {
     "mtime": 1787916930.4215043,
     "ast_hash": "d722af407223615e1da8b60770a0f51d",
-    "semantic_hash": ""
+    "semantic_hash": "d722af407223615e1da8b60770a0f51d"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs": {
     "mtime": 1784570619.9411304,
@@ -975,14 +975,14 @@
     "semantic_hash": "92f3b28a8603c6bf8d25160c678339a3"
   },
   "Assets/_Project/Runtime/Gameplay/Player/PlayerPotCarryController.cs": {
-    "mtime": 1787754374.238,
-    "ast_hash": "58ef46d2bed43b79133e4bdf2a0ccb9d",
-    "semantic_hash": "58ef46d2bed43b79133e4bdf2a0ccb9d"
+    "mtime": 1787926909.267,
+    "ast_hash": "c0f7516d6990f0fddb1687be2697df4f",
+    "semantic_hash": "c0f7516d6990f0fddb1687be2697df4f"
   },
   "Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs": {
-    "mtime": 1784570619.9532661,
-    "ast_hash": "863574ff73b83742fd7c8d8104002797",
-    "semantic_hash": "863574ff73b83742fd7c8d8104002797"
+    "mtime": 1787929773.634,
+    "ast_hash": "2e999b0577f347ed5b22a1f1b6c3965a",
+    "semantic_hash": "2e999b0577f347ed5b22a1f1b6c3965a"
   },
   "Assets/_Project/Runtime/Gameplay/Player/PlayerUpgradeRuntime.cs": {
     "mtime": 1787746965.568,
@@ -1030,19 +1030,19 @@
     "semantic_hash": "bfdbe9b8b9cf711dce446afa02501cab"
   },
   "Assets/_Project/Runtime/Gameplay/Shop/ShopController.cs": {
-    "mtime": 1787820349.196,
-    "ast_hash": "1ead1e3c0a63f25fcebdea75c11a5199",
-    "semantic_hash": "1ead1e3c0a63f25fcebdea75c11a5199"
+    "mtime": 1787921552.534,
+    "ast_hash": "eafa2f3f9faee98217a9f7748b17c048",
+    "semantic_hash": "eafa2f3f9faee98217a9f7748b17c048"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PlayerPortalController.cs": {
-    "mtime": 1784570619.9653342,
-    "ast_hash": "00e4336d05e57743b59a364fbdc09c7f",
-    "semantic_hash": "00e4336d05e57743b59a364fbdc09c7f"
+    "mtime": 1787921507.878,
+    "ast_hash": "24559a0d3a4b3ada8073dec08ef5c031",
+    "semantic_hash": "24559a0d3a4b3ada8073dec08ef5c031"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalInstance.cs": {
-    "mtime": 1787823140.0769672,
-    "ast_hash": "871d8ea896e9bad719c106c799ded8f9",
-    "semantic_hash": "871d8ea896e9bad719c106c799ded8f9"
+    "mtime": 1787921524.352,
+    "ast_hash": "7fc3dfda50a7ba94eb7e32dc9b2b4adf",
+    "semantic_hash": "7fc3dfda50a7ba94eb7e32dc9b2b4adf"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs": {
     "mtime": 1784570619.9670818,
@@ -1192,7 +1192,7 @@
   "Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs": {
     "mtime": 1787917316.7448702,
     "ast_hash": "7af0643c50776de8621593c61e8ff603",
-    "semantic_hash": ""
+    "semantic_hash": "7af0643c50776de8621593c61e8ff603"
   },
   "Assets/_Project/Tests/EditMode/Player/PlayerAimResolverTests.cs": {
     "mtime": 1784570620.0199547,
@@ -18407,7 +18407,7 @@
   "Assets/_Project/Tests/EditMode/Enemies/TravellerControllerTests.cs": {
     "mtime": 1787916974.3021903,
     "ast_hash": "553593ecd2a8302185906b1af52b3bfc",
-    "semantic_hash": ""
+    "semantic_hash": "553593ecd2a8302185906b1af52b3bfc"
   },
   "Assets/Docs/Handoff/25_Tutorial_Portal_Feedback_Plan.md": {
     "mtime": 1787819333.0496826,
@@ -18513,5 +18513,25 @@
     "mtime": 1787919876.7294977,
     "ast_hash": "8dad4f5a0f2cabdf6d9bc75913b2f06b",
     "semantic_hash": ""
+  },
+  "Assets/_Project/Tests/EditMode/HealthTests.cs": {
+    "mtime": 1787921784.369,
+    "ast_hash": "48ceb9b5d8a6901bb38853a8c66ac59a",
+    "semantic_hash": "48ceb9b5d8a6901bb38853a8c66ac59a"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerFeedbackAnimationTests.cs": {
+    "mtime": 1787929114.49,
+    "ast_hash": "b749e828b4b5c135ad1fba64bb836459",
+    "semantic_hash": "b749e828b4b5c135ad1fba64bb836459"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerPresentationTests.cs": {
+    "mtime": 1787927223.109,
+    "ast_hash": "603c6c0ccb684a7aef78e0b39973c9b4",
+    "semantic_hash": "603c6c0ccb684a7aef78e0b39973c9b4"
+  },
+  "Assets/_Project/Tests/EditMode/Player/PlayerRootTests.cs": {
+    "mtime": 1787922234.196,
+    "ast_hash": "9223ff188b89cbe93a984a53df0097cb",
+    "semantic_hash": "9223ff188b89cbe93a984a53df0097cb"
   }
 }

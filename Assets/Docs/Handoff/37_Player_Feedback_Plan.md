@@ -1,6 +1,6 @@
 # Player Feedback Implementation Plan
 
-Status: Phase 3 complete; Phase 4 pending
+Status: Phase 4 complete
 
 ## Client request
 
@@ -259,6 +259,14 @@ Prove the final behavior in play, preserve tuning ownership, and update future-a
 
 Revert only the player-feedback code, prefab/controller, config, test, and documentation changes as one feature slice. Keep unrelated working-tree changes intact.
 
+### Phase 4 Recap (2026-08-28)
+
+- Focused player feedback/recovery tests passed `6/6` with `0` failures and `0` skipped. The final full EditMode suite passed `125/125` with `0` failures and `0` skipped.
+- Unity MCP final state: instance `rainbowsEnd@8545bd2c`, active scene `Assets/_Project/Scenes/MainArena_3D.unity`, Play Mode stopped, editor idle, and not compiling.
+- The user completed the manual smoke pass and reported the visual behavior as working, including concealment, firing/reveal, pot carry, stun/recovery, permissions, and expiry/early pickup scenarios.
+- Inspector tuning was verified by applying distinct temporary values to all five `SO_Player_Default` fields and restoring the approved defaults: `1`, `2`, `0.35`, `0.35`, and `0.25`.
+- The post-test Console contained only the existing Unity Test Framework prebuild/result/postbuild messages and the normal test-results save log; no compiler or gameplay error was introduced.
+- Incremental Graphify refresh completed in code-only mode because this environment has no LLM API key for the changed image/document assets. Final graph: `4,570` nodes, `8,165` edges, and `302` communities; the regenerated `graph.html` and `GRAPH_REPORT.md` are current. A read-only integrity check found `0` missing endpoints and `0` self-loops. Graphify also reported its existing shared-C#-namespace node-collision warnings; these are graph-model limitations, not Unity compile/runtime errors. Unity serialized assets such as prefabs, ScriptableObjects, and Animator controllers are not standalone code-graph nodes.
 ## Explicitly deferred
 
 - Enemy AI awareness, target loss, aggro reset, or firing rules based on player concealment.
