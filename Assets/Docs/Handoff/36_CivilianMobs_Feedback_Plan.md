@@ -79,6 +79,47 @@ Confirm live civilian setup, existing economy correctness, clip/rig compatibilit
 
 No implementation exists; retain Phase 0 notes only.
 
+### Phase 0 Recap - 2026-08-28
+
+#### Verified Unity baseline
+
+- Unity instance: `rainbowsEnd@8545bd2c`, Unity `6000.0.67f1`, Windows Editor.
+- Active scene: `Assets/_Project/Scenes/MainArena_3D.unity`.
+- Editor returned to idle Edit Mode after the observation; no compilation or domain reload was pending.
+- The active `EnemySpawner` references `SO_Enemy_Traveller_Default`, `SO_Wave_Default`, `SO_Economy_Default`, `TravellerPool`, `GoldPickupPool`, and `SpawnPointsRoot`.
+- `RunDirector` references the same wave config, all three faction spawners, `PotRegistry`, and `RunOutcomePanel`.
+- `TravellerPool` uses `PF_Traveller`, prewarms `6`, and has max size `64`. `GoldPickupPool` uses `PF_GoldPickup`, prewarms `6`, and has max size `64`. Existing police and military pools each prewarm `2` with max size `64`.
+- `SpawnPointsRoot` has the existing player/unicorn/Pot markers, four enemy edge markers (`North`, `South`, `East`, `West`), and the Fae tree marker.
+
+#### Current civilian setup
+
+- `PF_Traveller` currently contains the existing Rigidbody2D, CircleCollider2D, Health, PotDrain, TravellerController, and CharacterAnimationBridge components.
+- The traveller visual resolves the shared `Assets/_Project/Art/Animators/Player.controller`; no civilian-only controller, theft label, or bag child exists yet.
+- `Player.controller` currently exposes `Speed` and `Fire`, with `Idle`, `Walk`, and `Shoot` states. It remains shared and is unchanged.
+- `SO_Enemy_Traveller_Default` is still `MoveSpeed 2.5`, `FleeSpeedMultiplier 1.5`, `StealRate 1`, `StealCapacity 10`, `EngagementRange 50`, `TargetRefreshSeconds 0.25`, `SeparationRadius 2`, and `SeparationStrength 1`.
+- `SO_Wave_Default` civilian totals remain `3 / 5 / 4 / 5 / 6`; serialized start delays, intervals, concurrency caps, police totals, and military totals remain unchanged.
+
+#### Economy observation
+
+A runtime-only observation stored `20` gold through the existing Pot API. The result was `PotController.StoredGold 20`, `PotRegistry.TotalStoredGoldValue 20`, and HUD source `20`, with no home-tree deposit path involved. After a civilian reached the Pot, the result was `Pot 19.566`, registry `19.566`, and that civilian's `PotDrain.StolenGold 0.434`; the values sum back to the original `20`. This confirms the current direct drain and live-HUD source are already aligned. No scene or asset was saved from this observation.
+
+#### Animation and bag inspection
+
+- `Run_1.fbx` imports as Humanoid with no importer warnings reported by Unity MCP. Its actual embedded clip is named `mixamo.com`, length `0.733333` seconds at `30` FPS, and currently reports `isLooping false`.
+- `Carry.fbx` imports as Humanoid with no importer warnings reported by Unity MCP. Its actual embedded clip is also named `mixamo.com`, length `1.266667` seconds at `30` FPS, and currently reports `isLooping false`.
+- The traveller skeleton exposes stable `Hand_L`, `Hand_R`, `Spine_03`, and `Head` paths. The candidate `SM_Prop_Bag_Explorer_01` is a visual mesh with bounds approximately `0.61 x 0.54 x 0.26`; it includes an enabled MeshCollider and should therefore have collision disabled when used as a carried visual. Its exact hand/arm local transform remains a Phase 2 prefab-preview check.
+- The existing Pot `GoldLabel` remains the style reference: world-space TextMeshPro, centered, yellow, and positioned above the object.
+
+#### Automated and Console baseline
+
+- Focused EditMode run passed `28/28` tests across PotDrain, traveller target selection, PotRegistry, RunWaveController, and PrefabPool coverage.
+- Unity Console contained only the Test Framework setup/result-save messages (`IPrebuildSetup`, `Saving results`, and `IPostBuildCleanup`); no compile error or civilian gameplay exception was reported.
+- Temporary Phase 0 screenshots were removed after inspection. No code, scene, prefab, ScriptableObject, Animator controller, or package asset was changed.
+
+#### Phase 0 result
+
+Phase 0 acceptance criteria are met. Phase 1 can begin with the existing Pot drain as the sole economy source, the confirmed prefab/pool wiring, and the two imported clips queued for civilian-controller setup. The only deliberate follow-up from this baseline is the Phase 2 visual preview that establishes the final bag hand/arm transform and disables the candidate prop collider.
+
 ## Phase 1 - Theft display and verified live gold deduction
 
 ### Goal
@@ -114,6 +155,28 @@ Make each stealing/fleeing civilian visibly account for the same Pot Gold that t
 ### Rollback
 
 Remove the `TheftLabel` child and its `TravellerController` reference/refresh code together. The original drain and economy systems require no restoration.
+
+### Phase 1 Recap - 2026-08-28
+
+#### Implemented
+
+- Added the prefab-owned `TheftLabel` child to `Assets/_Project/Prefabs/PF_Traveller.prefab` at local position `(0, 1.1, 0)`. It is inactive by default, uses world-space TextMeshPro, centered yellow text, font size `3.5`, and the established `g` suffix style.
+- Added the serialized `TextMeshPro theftLabel` reference and pooled-lifecycle projection to `Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs`.
+- The label reads only `PotDrain.StolenGold`, shows cumulative whole gold only during `Draining` or `Fleeing`, updates only when the displayed integer changes, and clears on `Configure`, `Activate`, `OnSpawned`, `OnDespawned`, `OnDisable`, death, edge despawn, and non-stealing/empty transitions.
+- Kept `PotDrain`, `PotController`, `PotRegistry`, `EconomyHudPresenter`, `EconomyState`, home-tree logic, shop spending, and death gold-pickup ownership unchanged. No second deduction or currency source was added.
+- Added `Assets/_Project/Tests/EditMode/Enemies/TravellerControllerTests.cs` covering sub-whole hiding, cumulative whole-value display, draining/fleeing visibility, despawn reset, re-spawn reset, and `PotDrain.StolenGold` reset.
+
+#### Verification
+
+- Unity MCP prefab-stage inspection confirmed the saved `PF_Traveller` root references the `TheftLabel` TextMeshPro component and the child remains inactive on the asset.
+- Focused EditMode run passed **29/29** tests: PotDrain, traveller label lifecycle, traveller targeting, PotRegistry, RunWaveController, and PrefabPool.
+- Relevant regression run passed **39/39** tests: the same coverage plus RunDirector, HUD formatting, and shop upgrade runtime tests.
+- Unity returned to idle Edit Mode with no compilation errors and an empty Console error/warning query after clearing the tool-generated setup messages.
+- A play-mode start/stop smoke check completed without gameplay Console errors. The scene did not produce an active traveller during that short observation, so the live drain visual remains covered by the focused lifecycle test and serialized prefab inspection.
+
+#### Phase 1 result
+
+Phase 1 acceptance criteria are met. The civilian theft number is now a pooled, prefab-owned projection of the existing live Pot drain, with no duplicate economy subtraction. Phase 2 can add the carried-Pot chase and loot-escape presentation without changing this ownership.
 
 ## Phase 2 - Carried-Pot chase, loot escape, and visible animation
 
@@ -154,6 +217,26 @@ Replace civilian sliding with appropriate Humanoid motion and make a successful 
 
 Restore `PF_Traveller` to the original `Player.controller`, remove the project-owned controller/bag child and traveller animation flags, and set MoveSpeed back to `2.5`. Keep Phase 1's independent theft display if desired.
 
+#### Phase 2 implementation update
+
+- Created project-owned `Assets/_Project/Art/Animators/Civilian.controller` by duplicating `Player.controller`. It preserves `Speed`, `Fire`, Idle, Walk, and Shoot, and adds only `RunToCarriedPot` and `CarryLoot` boolean transitions.
+- Configured `Assets/_Project/Art/Animators/Run_1.fbx` and `Assets/_Project/Art/Animators/Carry.fbx` as looping Humanoid clips. The controller uses the embedded `mixamo.com` clip from each source asset.
+- Extended `Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs` with pooled presentation state: `RunToCarriedPot` is selected only while Seeking a carried Pot; `CarryLoot` and the bag are selected only while Fleeing with positive `PotDrain.StolenGold`. All lifecycle, death, and edge-return paths clear both.
+- Updated `Assets/_Project/Prefabs/PF_Traveller.prefab` to use `Civilian.controller`, disable root motion, and add one inactive nested `SM_Prop_Rubbish_Bag_01` under the stable right-hand bone. Its serialized local transform now matches the approved Inspector reference: position `(0.13, 0.187, 0.133)`, rotation `(0, 0, 0)`, and scale `(1, 1, 1)`. Its MeshCollider is disabled and the `TravellerController` owns its active state.
+- Updated `Assets/_Project/ScriptableObjects/Defaults/SO_Enemy_Traveller_Default.asset` MoveSpeed from `2.5` to `3.0`; FleeSpeedMultiplier remains `1.5`.
+- Extended `Assets/_Project/Tests/EditMode/Enemies/TravellerControllerTests.cs` with carried-Pot presentation, positive-theft bag activation, and despawn reset coverage.
+- Corrected the two boolean-driven Any State transitions in `Civilian.controller`: their default self-reentry restarted `Run_1`/`Carry` every frame at frame zero. `RunToCarriedPot` and `CarryLoot` now disallow self-transition; the existing player, police, and military controllers are untouched.
+- Added looping `Pick.fbx` as the civilian-only Draining state, driven by the pooled TravellerController state. Replaced the Walk-state motion with `Run_1.fbx` in Civilian, Police, and Military controllers only; Player.controller remains unchanged.
+
+#### Phase 2 verification status
+
+- Focused TravellerController run passed **2/2** tests.
+- Relevant movement, targeting, Pot carry/drop, Pot drain, Pot registry/placement/harvest, pooling, and wave regression run passed **41/41** tests.
+- Unity MCP re-opened the saved prefab and confirmed `Civilian.controller`, four Animator parameters, `applyRootMotion: false`, TravellerController references, inactive bag, and disabled bag MeshCollider.
+- The carried visual uses SM_Prop_Rubbish_Bag_01 with the approved local transform and disabled collider.
+- A Play-mode Animator check confirmed the civilian enters Pick with its clip advancing; all three enemy Walk states resolve to Run_1, while Player.controller still resolves to its original walk clip.
+- A play-mode Animator verification confirmed `RunToCarriedPot` enters and its normalized time advances from `0.000` to `0.273` after the self-reentry correction. Full visual confirmation of Run_1 cadence, hand placement, and Carry escape remains a manual smoke-test item before closing Phase 2.
+
 ## Phase 3 - Civilian wave pressure with existing stagger
 
 ### Goal
@@ -189,6 +272,25 @@ Increase civilian totals without changing the proven wave scheduler or creating 
 
 Restore only the traveller counts in `SO_Wave_Default` to `3/5/4/5/6`; leave `RunWaveController`, other faction totals, and shared scheduling untouched.
 
+### Phase 3 Recap - 2026-08-28
+
+#### Implemented
+
+- Updated only `Assets/_Project/ScriptableObjects/Defaults/SO_Wave_Default.asset` traveller counts to Waves 1-5 = `6 / 8 / 7 / 8 / 9`.
+- Extended `Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs` so the existing default-wave asset test asserts both approved police totals and the approved traveller totals.
+- Kept every start delay, spawn interval, concurrency cap, police/military total, spawn point, pool, and scheduler implementation unchanged.
+
+#### Verification
+
+- `RunWaveControllerTests` and `PrefabPoolTests` passed **11/11** EditMode tests. This retains interval gating, concurrency stall/resume, round-robin faction order, default authored counts, and pool rent/return coverage.
+- Serialized inspection confirmed traveller/police/military totals of `6/0/0`, `8/0/0`, `7/3/2`, `8/4/3`, and `9/5/4`; intervals remain `1.8/1.6/1.5/1.3/1.2` seconds and concurrency remains `3/4/5/6/7`.
+- `TravellerPool` remains prewarm `6`, max `64`. The highest authored concurrency is only `7`, so no pool adjustment is justified before playtesting.
+- Unity Console contained only the known Test Framework setup/result-save/cleanup messages and no feature error.
+
+#### Phase 3 result
+
+Phase 3 implementation and automated verification are complete. Manual Waves 1-5 crowd-pressure validation remains a Phase 4 smoke-test item.
+
 ## Phase 4 - Regression, documentation, and handoff
 
 ### Goal
@@ -222,6 +324,22 @@ Prove the complete civilian feature in the live run loop and leave it documented
 2. Keep `CONTEXT.md` limited to confirmed gameplay vocabulary: Civilian Theft Display, Civilian Carried-Pot Chase, Civilian Loot Escape, Civilian Chase Pace, and Civilian Wave Totals.
 3. Refresh Graphify incrementally after implementation. Verify the graph connects `TravellerController`, `PotDrain`, `PotController`, `PotRegistry`, `EconomyHudPresenter`, `CharacterAnimationBridge`, `Civilian.controller`, `PF_Traveller`, `EnemySpawner`, `RunWaveController`, and `SO_Wave_Default`.
 4. Inspect the exact diff and preserve unrelated user work. Checkpoint only this feature's code/assets/tests/docs when requested.
+
+### Phase 4 Recap - 2026-08-28
+
+#### Final verification
+
+- The user completed the manual civilian smoke test and confirmed the animation behavior was working, including the Run_1 chase and Carry escape flow.
+- Focused civilian and wave tests passed **12/12**.
+- Wave scheduler and pooling regression tests passed **11/11**.
+- Full EditMode suite passed **119/119**, with no feature regressions or unrelated baseline failures.
+- Final Unity inspection confirmed the authored civilian totals `6/8/7/8/9`, existing stagger intervals/caps, TravellerPool prewarm `6`/max `64`, `PF_Traveller` presentation references, `Civilian.controller`, and the approved rubbish-bag transform.
+- Unity returned to idle Edit Mode with compilation complete. The Console was cleared after verification and returned **0** error/warning entries; the preceding entries were only the known Test Framework setup/result-save/cleanup messages.
+- Graphify incremental code refresh completed: **4,642 nodes**, **8,126 edges**, **329 communities**. The graph diagnostic found **0** dangling, missing-endpoint, or collapsed edges; it reported **4** self-loops for awareness. The current graph contains the handoff document and the core runtime links; Unity-only asset names such as `PF_Traveller` and `Civilian.controller` are not represented as standalone Graphify AST nodes.
+
+#### Phase 4 result
+
+Phase 4 is complete. The Civilian Mobs feature is ready for the next client feature, with the documented implementation, automated coverage, user-confirmed smoke test, and refreshed Graphify reference preserved.
 
 ## Explicitly deferred
 

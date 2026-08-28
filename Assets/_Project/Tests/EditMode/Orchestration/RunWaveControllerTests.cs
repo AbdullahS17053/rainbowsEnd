@@ -243,7 +243,7 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
 
 
         [Test]
-        public void DefaultWaveAssetUsesApprovedPoliceTotals()
+        public void DefaultWaveAssetUsesApprovedFactionTotalsals()
         {
             WaveConfig waveConfig = AssetDatabase.LoadAssetAtPath<WaveConfig>(
                 "Assets/_Project/ScriptableObjects/Defaults/SO_Wave_Default.asset");
@@ -260,6 +260,16 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
                     waveConfig.Waves[4].PoliceCount
                 },
                 Is.EqualTo(new[] { 0, 0, 3, 4, 5 }));
+            Assert.That(
+                new[]
+                {
+                    waveConfig.Waves[0].TravellerCount,
+                    waveConfig.Waves[1].TravellerCount,
+                    waveConfig.Waves[2].TravellerCount,
+                    waveConfig.Waves[3].TravellerCount,
+                    waveConfig.Waves[4].TravellerCount
+                },
+                Is.EqualTo(new[] { 6, 8, 7, 8, 9 }));
         }
 }
 }

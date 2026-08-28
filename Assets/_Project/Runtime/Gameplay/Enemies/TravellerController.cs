@@ -1,3 +1,4 @@
+using TMPro;
 using System.Collections.Generic;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
@@ -31,6 +32,10 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private SpriteRenderer visualRenderer;
         [SerializeField] private Color roamingColor = new Color(0.88f, 0.45f, 0.24f, 1f);
         [SerializeField] private Color drainingColor = new Color(0.95f, 0.33f, 0.24f, 1f);
+        [SerializeField] private TextMeshPro theftLabel;
+        [SerializeField] private Animator animator;
+        [SerializeField] private GameObject carriedBag;
+
 
         private readonly List<PotController> _candidatePots = new List<PotController>();
         private readonly List<TravellerTargetCandidate> _candidateTargets = new List<TravellerTargetCandidate>();
@@ -55,6 +60,10 @@ namespace RainbowsEnd.Gameplay.Enemies
         private Vector2[] _currentPath;
         private int _currentWaypointIndex;
         private float _pathRefreshTimer;
+        private int _displayedStolenGold = -1;
+        private bool _hasRunToCarriedPotParameter;
+        private bool _hasCarryLootParameter;
+        private bool _hasPickParameter;
 
         public FactionId FactionId => FactionId.Civilian;
 
@@ -85,6 +94,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheReferences();
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
+            ClearTheftLabel();
+            ResetPresentation();
             CacheBaseColor(forceRefresh: true);
             ApplyVisualState(isDraining: false);
         }
@@ -113,6 +124,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
             potDrain?.ResetStolenGold();
+            ClearTheftLabel();
+            ResetPresentation();
             if (health != null && config != null)
             {
                 health.Initialize(config.MaxHealth);
@@ -137,6 +150,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             _arenaBounds = null;
             _isPatroling = false;
             potDrain?.ResetStolenGold();
+            ClearTheftLabel();
+            ResetPresentation();
             ApplyVisualState(isDraining: false);
         }
 
@@ -163,8 +178,65 @@ namespace RainbowsEnd.Gameplay.Enemies
             _currentPath = null;
             _currentWaypointIndex = 0;
             _pathRefreshTimer = 0f;
+            ClearTheftLabel();
+            ResetPresentation();
             ApplyVisualState(isDraining: false);
         }
+
+        private void RefreshTheftLabel()
+        {
+            if (theftLabel == null)
+            {
+                return;
+            }
+
+            int wholeStolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
+            bool isStealing = _currentState == TravellerState.Draining || _currentState == TravellerState.Fleeing;
+            if (!isStealing || wholeStolenGold < 1)
+            {
+                if (_displayedStolenGold != -1 || theftLabel.gameObject.activeSelf)
+                {
+                    ClearTheftLabel();
+                }
+
+                return;
+            }
+
+            if (_displayedStolenGold != wholeStolenGold)
+            {
+                theftLabel.text = $"{wholeStolenGold}g";
+                _displayedStolenGold = wholeStolenGold;
+            }
+
+            if (!theftLabel.gameObject.activeSelf)
+            {
+                theftLabel.gameObject.SetActive(true);
+            }
+        }
+
+
+        private void ClearTheftLabel()
+        {
+            _displayedStolenGold = -1;
+            if (theftLabel == null)
+            {
+                return;
+            }
+
+            theftLabel.text = string.Empty;
+            if (theftLabel.gameObject.activeSelf)
+            {
+                theftLabel.gameObject.SetActive(false);
+            }
+        }
+
+
+        private void OnDisable()
+        {
+            ClearTheftLabel();
+            ResetPresentation();
+        }
+
 
         private void Reset()
         {
@@ -180,6 +252,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             potDrain?.Configure(this, bodyCollider);
             CacheBaseColor(forceRefresh: true);
             ApplyVisualState(isDraining: false);
+            ResetPresentation();
         }
 
         private void Awake()
@@ -195,6 +268,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             CacheBaseColor(forceRefresh: true);
             ApplyVisualState(isDraining: false);
+            ResetPresentation();
         }
 
         private void Update()
@@ -217,6 +291,9 @@ namespace RainbowsEnd.Gameplay.Enemies
                     TickFleeing();
                     break;
             }
+
+            RefreshTheftLabel();
+            RefreshPresentation();
         }
 
         private void TickSeeking()
@@ -319,6 +396,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         private void DespawnFleeing()
         {
             RecordSuccessfulTheftEscape();
+            ClearTheftLabel();
+            ResetPresentation();
             if (body != null)
             {
                 body.linearVelocity = Vector2.zero;
@@ -442,6 +521,11 @@ namespace RainbowsEnd.Gameplay.Enemies
             bodyCollider ??= GetComponent<CircleCollider2D>();
             health ??= GetComponent<Health>();
             potDrain ??= GetComponent<PotDrain>();
+            theftLabel ??= GetComponentInChildren<TextMeshPro>(true);
+            animator ??= GetComponentInChildren<Animator>(true);
+            _hasRunToCarriedPotParameter = HasAnimatorParameter("RunToCarriedPot");
+            _hasCarryLootParameter = HasAnimatorParameter("CarryLoot");
+            _hasPickParameter = HasAnimatorParameter("Pick");
             if (visualRenderer == null)
             {
                 visualRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -680,6 +764,8 @@ namespace RainbowsEnd.Gameplay.Enemies
                 body.linearVelocity = Vector2.zero;
             }
 
+            ClearTheftLabel();
+            ResetPresentation();
             int stolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
             int pocketChange = Mathf.Max(0, _goldDropAmount);
             int totalDrop = pocketChange + stolenGold;
@@ -724,5 +810,96 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             _potRegistry = FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
         }
+        private bool ShouldRunToCarriedPot()
+        {
+            return _currentState == TravellerState.Seeking
+                && _currentTarget != null
+                && _currentTarget.IsCarried;
+        }
+
+        private bool ShouldCarryLoot()
+        {
+            return _currentState == TravellerState.Fleeing
+                && potDrain != null
+                && potDrain.StolenGold > 0f;
+        }
+
+        private bool ShouldPick()
+        {
+            return _currentState == TravellerState.Draining;
+        }
+
+        private bool HasAnimatorParameter(string parameterName)
+        {
+            if (animator == null)
+            {
+                return false;
+            }
+
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+            {
+                if (parameter.name == parameterName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void RefreshPresentation()
+        {
+            bool runToCarriedPot = ShouldRunToCarriedPot();
+            bool carryLoot = ShouldCarryLoot();
+            bool pick = ShouldPick();
+
+            if (animator != null)
+            {
+                if (_hasRunToCarriedPotParameter)
+                {
+                    animator.SetBool("RunToCarriedPot", runToCarriedPot);
+                }
+
+                if (_hasCarryLootParameter)
+                {
+                    animator.SetBool("CarryLoot", carryLoot);
+                }
+                if (_hasPickParameter)
+                {
+                    animator.SetBool("Pick", pick);
+                }
+            }
+
+            if (carriedBag != null && carriedBag.activeSelf != carryLoot)
+            {
+                carriedBag.SetActive(carryLoot);
+            }
+        }
+
+        private void ResetPresentation()
+        {
+            if (animator != null)
+            {
+                if (_hasRunToCarriedPotParameter)
+                {
+                    animator.SetBool("RunToCarriedPot", false);
+                }
+
+                if (_hasCarryLootParameter)
+                {
+                    animator.SetBool("CarryLoot", false);
+                }
+                if (_hasPickParameter)
+                {
+                    animator.SetBool("Pick", false);
+                }
+            }
+
+            if (carriedBag != null && carriedBag.activeSelf)
+            {
+                carriedBag.SetActive(false);
+            }
+        }
+
     }
 }

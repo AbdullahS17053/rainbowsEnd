@@ -920,9 +920,9 @@
     "semantic_hash": "567ee48a3bffd25781864b05817cb270"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerController.cs": {
-    "mtime": 1787774316.5489542,
-    "ast_hash": "0b158b010e0e5d4e1b53beedbd9b3a32",
-    "semantic_hash": "0b158b010e0e5d4e1b53beedbd9b3a32"
+    "mtime": 1787916930.4215043,
+    "ast_hash": "d722af407223615e1da8b60770a0f51d",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/TravellerTargetSelectionUtility.cs": {
     "mtime": 1784570619.9411304,
@@ -1190,9 +1190,9 @@
     "semantic_hash": "82f340109e574c9ae8eca625393e95d2"
   },
   "Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs": {
-    "mtime": 1787904253.856,
-    "ast_hash": "06b91660aa2ee07bb4248d6a06408d33",
-    "semantic_hash": "06b91660aa2ee07bb4248d6a06408d33"
+    "mtime": 1787917316.7448702,
+    "ast_hash": "7af0643c50776de8621593c61e8ff603",
+    "semantic_hash": ""
   },
   "Assets/_Project/Tests/EditMode/Player/PlayerAimResolverTests.cs": {
     "mtime": 1784570620.0199547,
@@ -1970,8 +1970,8 @@
     "semantic_hash": ""
   },
   "CONTEXT.md": {
-    "mtime": 1787761709.7797623,
-    "ast_hash": "f70780d5c190d5f4d37c00887c3ab432",
+    "mtime": 1787908523.2202473,
+    "ast_hash": "cd705006fa7dc36b11613bc6cbb1d74d",
     "semantic_hash": ""
   },
   "ProjectSettings/ProjectVersion.txt": {
@@ -18403,5 +18403,110 @@
     "mtime": 1787901787.774,
     "ast_hash": "fe9de951833f90b079140a6e75e145e0",
     "semantic_hash": "fe9de951833f90b079140a6e75e145e0"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/TravellerControllerTests.cs": {
+    "mtime": 1787916974.3021903,
+    "ast_hash": "553593ecd2a8302185906b1af52b3bfc",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/25_Tutorial_Portal_Feedback_Plan.md": {
+    "mtime": 1787819333.0496826,
+    "ast_hash": "dd60e7dfb5531dd84fce81e630f037e5",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/26_Tutorial_Portal_Phase0_Recap.md": {
+    "mtime": 1787819333.0517116,
+    "ast_hash": "38e6e7b4ec923869d9985800e0c73e5e",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/27_Tutorial_Portal_Phase1_Recap.md": {
+    "mtime": 1787820769.9647295,
+    "ast_hash": "67f077d80b6abaffb61ca6394c6c170b",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/28_Tutorial_Portal_Phase2_Recap.md": {
+    "mtime": 1787821969.6702929,
+    "ast_hash": "5c7737144a2e22bd2556bf54f0a9aa27",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/29_Tutorial_Portal_Phase3_Recap.md": {
+    "mtime": 1787823366.6443455,
+    "ast_hash": "4b8237f5c619491369dde0a0f19139dc",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/30_Tutorial_Portal_Phase4_Recap.md": {
+    "mtime": 1787823984.5498931,
+    "ast_hash": "847b03eef5f2f5801a39b42590103b4f",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/31_Tutorial_OptOut_Click_Fix_Recap.md": {
+    "mtime": 1787824573.0072796,
+    "ast_hash": "cfa046e3b214a1b3a1184554c60115ff",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/32_RainbowTrail_Pooling_Recheck_Plan.md": {
+    "mtime": 1787828123.8228364,
+    "ast_hash": "de97d8d18820f6f36bc4f11a2aa69c82",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/33_RainbowTrail_Pooling_Implementation_Recap.md": {
+    "mtime": 1787828123.8263443,
+    "ast_hash": "6964095999343c44b17073d92631a8b0",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/34_MilitaryMobs_Feedback_Plan.md": {
+    "mtime": 1787845588.8413079,
+    "ast_hash": "ddd83959005422347f4191992ada5c0d",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Feedback_Plan.md": {
+    "mtime": 1787900920.52527,
+    "ast_hash": "d05a0c992229620d00f0f410d827f20b",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Phase0_Addendum.md": {
+    "mtime": 1787901368.6760623,
+    "ast_hash": "2752f716c1a6248d8db64fae142fcf2b",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Phase1_Recap.md": {
+    "mtime": 1787902392.8377779,
+    "ast_hash": "f3c6e0cb0aad4591ab19f1861e3cc6e7",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Phase2_Recap.md": {
+    "mtime": 1787903197.162704,
+    "ast_hash": "ff1eb795bfc0218ebf4a3768371efc91",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Phase3_Recap.md": {
+    "mtime": 1787905345.5862072,
+    "ast_hash": "477a898c07ce8e08b9b4d3f59225649c",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/35_PoliceMobs_Phase4_Recap.md": {
+    "mtime": 1787905370.2801025,
+    "ast_hash": "3534fb0e880ba40d060f28a3be36e183",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/36_CivilianMobs_Feedback_Plan.md": {
+    "mtime": 1787917423.8944325,
+    "ast_hash": "fc69956f959f657781b9d2e18d3ae588",
+    "semantic_hash": ""
+  },
+  "Assets/Screenshots/Phase2_Police_Combat_Check.png": {
+    "mtime": 1787903080.028966,
+    "ast_hash": "b18987d401f9c7b65610fa370f940a2b",
+    "semantic_hash": ""
+  },
+  "Assets/Screenshots/screenshot-20260827-123049.png": {
+    "mtime": 1787815849.3751957,
+    "ast_hash": "77e077c90c5c7743664b29f102cd8f4f",
+    "semantic_hash": ""
+  },
+  "Assets/Screenshots/screenshot-20260827-123155.png": {
+    "mtime": 1787815916.110288,
+    "ast_hash": "ea350727ecc148bdf1e022b9a4a02c8a",
+    "semantic_hash": ""
   }
 }
