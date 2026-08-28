@@ -487,7 +487,7 @@ private void TickAimHold(Vector2 direction, bool canShoot)
                 this);
             if (fireSucceeded)
             {
-                animationBridge?.TriggerFire();
+                animationBridge?.TriggerFire(lockFacing: true);
             }
 
             _combatPhase = PoliceCombatCycleUtility.ResolveAimHold(

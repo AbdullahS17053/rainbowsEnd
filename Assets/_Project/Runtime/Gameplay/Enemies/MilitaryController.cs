@@ -676,8 +676,8 @@ private void TickPoliceStyleCombat()
 
             if (rangedAttackController.TryFire(transform.position, direction, 0f, this))
             {
+                animationBridge?.TriggerFire(lockFacing: true);
                 _shotsInBurst++;
-                animationBridge?.TriggerFire();
                 if (_shotsInBurst >= ResolveBurstShotCount())
                 {
                     BeginReposition();

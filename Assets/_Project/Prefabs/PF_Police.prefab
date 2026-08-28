@@ -227,7 +227,7 @@ MonoBehaviour:
   body: {fileID: 6511329115813671945}
   animator: {fileID: 9158319711073352091}
   speedParameter: Speed
-  visualRoot: {fileID: 9105054966571095603}
+  visualRoot: {fileID: 1190858358286248415}
   faceMovementDirection: 0
   rotationSmoothing: 12
 --- !u!1 &6158047140947478005
