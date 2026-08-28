@@ -16,7 +16,8 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private Rigidbody2D body;
         [SerializeField] private Collider2D bodyCollider;
         [SerializeField] private SpriteRenderer visualRenderer;
-        [SerializeField] private RainbowTrailEmitter trailEmitter;
+                [SerializeField] private RainbowTrailEmitter trailEmitter;
+        [SerializeField] private LineRenderer potWarningLine;
 
         private ArenaBoundsAuthoring _arenaBounds;
         private Vector2 _targetPoint;
@@ -48,6 +49,12 @@ namespace RainbowsEnd.Gameplay.Unicorn
             ConfigureBody();
         }
 
+public void NotifyTeleported()
+        {
+            trailEmitter?.NotifyUnicornTeleported();
+        }
+
+
         private void Reset()
         {
             CacheReferences();
@@ -72,6 +79,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
         {
             if (config == null || body == null)
             {
+                HidePotWarning();
                 return;
             }
 
@@ -98,6 +106,8 @@ namespace RainbowsEnd.Gameplay.Unicorn
             {
                 transform.up = delta.normalized;
             }
+
+            UpdatePotWarning();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -117,6 +127,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             body ??= GetComponent<Rigidbody2D>();
             bodyCollider ??= GetComponent<Collider2D>();
             trailEmitter ??= GetComponent<RainbowTrailEmitter>();
+            potWarningLine ??= GetComponent<LineRenderer>();
 
             if (visualRenderer == null)
             {
@@ -230,6 +241,126 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
         }
 
+        private void UpdatePotWarning()
+        {
+            if (potWarningLine == null)
+            {
+                return;
+            }
+
+            Vector2 origin = body != null ? body.position : (Vector2)transform.position;
+            Vector2 delta = _targetPoint - origin;
+            if (delta.sqrMagnitude <= 0.0001f)
+            {
+                HidePotWarning();
+                return;
+            }
+
+            Vector2 direction = delta.normalized;
+            float maxDistance = delta.magnitude;
+            float nearestDistance = maxDistance;
+            float unicornRadius = bodyCollider != null
+                ? Mathf.Max(bodyCollider.bounds.extents.x, bodyCollider.bounds.extents.y)
+                : 0.4f;
+            bool foundThreat = false;
+
+            PotController[] pots = FindObjectsOfType<PotController>(true);
+            for (int index = 0; index < pots.Length; index++)
+            {
+                PotController pot = pots[index];
+                if (pot == null || pot.IsDestroyed || !pot.gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+
+                float impactDistance;
+                if (!TryGetPotImpactDistance(pot, origin, direction, maxDistance, unicornRadius, out impactDistance))
+                {
+                    continue;
+                }
+
+                if (impactDistance < nearestDistance)
+                {
+                    nearestDistance = impactDistance;
+                    foundThreat = true;
+                }
+            }
+
+            if (!foundThreat)
+            {
+                HidePotWarning();
+                return;
+            }
+
+            potWarningLine.positionCount = 2;
+            potWarningLine.SetPosition(0, origin);
+            potWarningLine.SetPosition(1, origin + direction * nearestDistance);
+            potWarningLine.enabled = true;
+        }
+
+        private bool TryGetPotImpactDistance(
+            PotController pot,
+            Vector2 origin,
+            Vector2 direction,
+            float maxDistance,
+            float unicornRadius,
+            out float impactDistance)
+        {
+            impactDistance = 0f;
+            Collider2D potCollider = pot.GetComponent<Collider2D>();
+            if (potCollider == null)
+            {
+                return false;
+            }
+
+            Vector2 potCenter;
+            float potRadius;
+            CircleCollider2D circle = potCollider as CircleCollider2D;
+            if (circle != null)
+            {
+                float scale = Mathf.Max(Mathf.Abs(circle.transform.lossyScale.x), Mathf.Abs(circle.transform.lossyScale.y));
+                potCenter = circle.transform.TransformPoint(circle.offset);
+                potRadius = circle.radius * scale;
+            }
+            else
+            {
+                if (!potCollider.enabled)
+                {
+                    return false;
+                }
+
+                Bounds bounds = potCollider.bounds;
+                potCenter = bounds.center;
+                potRadius = Mathf.Max(bounds.extents.x, bounds.extents.y);
+            }
+
+            float combinedRadius = potRadius + unicornRadius;
+            float projectedDistance = Vector2.Dot(potCenter - origin, direction);
+            if (projectedDistance < -combinedRadius || projectedDistance > maxDistance + combinedRadius)
+            {
+                return false;
+            }
+
+            Vector2 closestPoint = origin + direction * Mathf.Clamp(projectedDistance, 0f, maxDistance);
+            float lateralDistance = Vector2.Distance(potCenter, closestPoint);
+            if (lateralDistance > combinedRadius)
+            {
+                return false;
+            }
+
+            float alongLine = Mathf.Sqrt(Mathf.Max(0f, combinedRadius * combinedRadius - lateralDistance * lateralDistance));
+            impactDistance = Mathf.Max(0f, projectedDistance - alongLine);
+            return impactDistance <= maxDistance;
+        }
+
+        private void HidePotWarning()
+        {
+            if (potWarningLine != null)
+            {
+                potWarningLine.enabled = false;
+            }
+        }
+
         private void TryDestroyPot(Collider2D candidate)
         {
             if (candidate == null)
@@ -238,6 +369,12 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
 
             PotController pot = candidate.GetComponentInParent<PotController>();
+            if (pot == null)
+            {
+                PlayerRoot player = candidate.GetComponentInParent<PlayerRoot>();
+                pot = player != null ? player.PotCarryController?.CarriedPot : null;
+            }
+
             pot?.DestroyByUnicorn(this);
         }
 
@@ -249,7 +386,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
 
             PlayerRoot player = candidate.GetComponentInParent<PlayerRoot>();
-            if (player == null)
+            if (player == null || player.IsCarryingPot)
             {
                 return;
             }

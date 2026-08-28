@@ -780,9 +780,9 @@
     "semantic_hash": "4e1d903218b03edd41b358a53b1080b0"
   },
   "Assets/_Project/Runtime/Core/Config/UnicornConfig.cs": {
-    "mtime": 1787827218.426,
-    "ast_hash": "2f670b7e3064c7a3838b5b92ab4d8164",
-    "semantic_hash": "2f670b7e3064c7a3838b5b92ab4d8164"
+    "mtime": 1787934784.218,
+    "ast_hash": "56260ea08c5735cd47a8e95bec595a0c",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Core/Config/WaveConfig.cs": {
     "mtime": 1787844906.314,
@@ -980,9 +980,9 @@
     "semantic_hash": "c0f7516d6990f0fddb1687be2697df4f"
   },
   "Assets/_Project/Runtime/Gameplay/Player/PlayerRoot.cs": {
-    "mtime": 1787929773.634,
-    "ast_hash": "2e999b0577f347ed5b22a1f1b6c3965a",
-    "semantic_hash": "2e999b0577f347ed5b22a1f1b6c3965a"
+    "mtime": 1787934724.867,
+    "ast_hash": "4080e5708b47291785626eddb8a0de70",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Player/PlayerUpgradeRuntime.cs": {
     "mtime": 1787746965.568,
@@ -1040,9 +1040,9 @@
     "semantic_hash": "24559a0d3a4b3ada8073dec08ef5c031"
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalInstance.cs": {
-    "mtime": 1787921524.352,
-    "ast_hash": "7fc3dfda50a7ba94eb7e32dc9b2b4adf",
-    "semantic_hash": "7fc3dfda50a7ba94eb7e32dc9b2b4adf"
+    "mtime": 1787936253.732,
+    "ast_hash": "efed5dafab14af4a14b5576418725e3f",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Spells/PortalRegistry.cs": {
     "mtime": 1784570619.9670818,
@@ -1050,24 +1050,24 @@
     "semantic_hash": "a95d300605b0186bae855010ced96580"
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailEmitter.cs": {
-    "mtime": 1787827826.456,
-    "ast_hash": "1e6f6087744e071a5d7b34c4586782e0",
-    "semantic_hash": "1e6f6087744e071a5d7b34c4586782e0"
+    "mtime": 1787936357.441,
+    "ast_hash": "dcad7681ad61d565a1d503c9851a18b3",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/RainbowTrailSegment.cs": {
-    "mtime": 1787827934.49,
-    "ast_hash": "51b5c55080779cd271093b77fca57a96",
-    "semantic_hash": "51b5c55080779cd271093b77fca57a96"
+    "mtime": 1787936165.82,
+    "ast_hash": "5a9990186c34bf19f965f86652cff0c7",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/UnicornController.cs": {
-    "mtime": 1784570619.9715917,
-    "ast_hash": "c680fe8b4a992474643713e8bc519524",
-    "semantic_hash": "c680fe8b4a992474643713e8bc519524"
+    "mtime": 1787936221.839,
+    "ast_hash": "0cfd021f55edea0f86531e53bcfce64f",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/Unicorn/UnicornRoamingUtility.cs": {
-    "mtime": 1784570619.9715917,
-    "ast_hash": "70e5527b6af00b6b37b2c6981a171cf9",
-    "semantic_hash": "70e5527b6af00b6b37b2c6981a171cf9"
+    "mtime": 1787937126.614,
+    "ast_hash": "b80b7ac1bb49020ee5983fb3fb023d65",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Gameplay/World/ArenaBoundsAuthoring.cs": {
     "mtime": 1784570619.9730983,
@@ -1270,9 +1270,9 @@
     "semantic_hash": "944e83f873430109289b2c98f294cea8"
   },
   "Assets/_Project/Tests/EditMode/Unicorn/UnicornRoamingUtilityTests.cs": {
-    "mtime": 1784570620.0362556,
-    "ast_hash": "4e9d57cd4aa40cd741a1821adda4f642",
-    "semantic_hash": "4e9d57cd4aa40cd741a1821adda4f642"
+    "mtime": 1787937223.749,
+    "ast_hash": "e9b40c62f4e32d1e005ce14a7b93dbc7",
+    "semantic_hash": ""
   },
   "Packages/manifest.json": {
     "mtime": 1787724065.965794,
@@ -1725,8 +1725,8 @@
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/04_Context.md": {
-    "mtime": 1787919876.7284982,
-    "ast_hash": "452a1a0c36662c383bf0e5a30c8cf2dc",
+    "mtime": 1787933060.251772,
+    "ast_hash": "9cee816b95b7f454ee01d4505a723e3f",
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/05_AssetIntegration_Plan.md": {
@@ -18330,9 +18330,9 @@
     "semantic_hash": "3f1d8b0b48d9ca74c3f42f776602bef2"
   },
   "Assets/_Project/Tests/EditMode/Unicorn/RainbowTrailSegmentTests.cs": {
-    "mtime": 1787827444.457,
-    "ast_hash": "eee80332744462ccbe9beedfd13ea67f",
-    "semantic_hash": "eee80332744462ccbe9beedfd13ea67f"
+    "mtime": 1787936376.337,
+    "ast_hash": "116af5d8a85b78190c17a724b0d7c0da",
+    "semantic_hash": ""
   },
   "Assets/_Project/Runtime/Core/Config/MilitaryMobConfig.cs": {
     "mtime": 1787844173.802,
@@ -18510,8 +18510,8 @@
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/37_Player_Feedback_Plan.md": {
-    "mtime": 1787919876.7294977,
-    "ast_hash": "8dad4f5a0f2cabdf6d9bc75913b2f06b",
+    "mtime": 1787931619.2347777,
+    "ast_hash": "da66c24af3ee82c484ebcd8654468d1e",
     "semantic_hash": ""
   },
   "Assets/_Project/Tests/EditMode/HealthTests.cs": {
@@ -18530,8 +18530,38 @@
     "semantic_hash": "603c6c0ccb684a7aef78e0b39973c9b4"
   },
   "Assets/_Project/Tests/EditMode/Player/PlayerRootTests.cs": {
-    "mtime": 1787922234.196,
-    "ast_hash": "9223ff188b89cbe93a984a53df0097cb",
-    "semantic_hash": "9223ff188b89cbe93a984a53df0097cb"
+    "mtime": 1787935689.555,
+    "ast_hash": "ea4a98c46ca813341ef1c52f5ae125d8",
+    "semantic_hash": ""
+  },
+  "Assets/_Project/Tests/EditMode/Unicorn/UnicornControllerTests.cs": {
+    "mtime": 1787935361.402,
+    "ast_hash": "1370fbb0f82b70cb45ae80f1d148d716",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/38_Unicorn_Feedback_Plan.md": {
+    "mtime": 1787937355.8847227,
+    "ast_hash": "2087275f3305bf369e7481d93aa09d3b",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/39_Unicorn_Phase0_Recap.md": {
+    "mtime": 1787934150.5471065,
+    "ast_hash": "62d9f55e9f8e6fbf4d5f8a4100591e46",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/40_Unicorn_Phase1_Recap.md": {
+    "mtime": 1787935618.9950316,
+    "ast_hash": "e2b17be46d24f0e34a6358ec13db60e7",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/41_Unicorn_Phase2_Recap.md": {
+    "mtime": 1787936857.3792362,
+    "ast_hash": "167cd326c484238aaf5a434116998956",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/42_Unicorn_Phase3_Recap.md": {
+    "mtime": 1787937355.8862333,
+    "ast_hash": "20196d70fc83d083b3575fc693413e2b",
+    "semantic_hash": ""
   }
 }

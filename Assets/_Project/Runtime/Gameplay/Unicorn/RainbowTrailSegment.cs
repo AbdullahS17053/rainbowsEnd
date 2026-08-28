@@ -7,13 +7,17 @@ namespace RainbowsEnd.Gameplay.Unicorn
     public sealed class RainbowTrailSegment : MonoBehaviour, IPoolable
     {
         [SerializeField] private SpriteRenderer visualRenderer;
-
+        [SerializeField] private Transform floatingVisual;
+        [SerializeField, Min(0f)] private float floatAmplitude = 0.04f;
+        [SerializeField, Min(0f)] private float floatFrequency = 2.5f;
         private static readonly List<RainbowTrailSegment> ActiveSegments = new List<RainbowTrailSegment>();
         private static readonly Dictionary<Vector2Int, RainbowTrailSegment> ActiveSegmentsByCell = new Dictionary<Vector2Int, RainbowTrailSegment>();
 
 
         private Color _baseColor = Color.white;
         private bool _hasBaseColor;
+        private Vector3 _floatingVisualBaseLocalPosition;
+        private bool _hasFloatingVisualBasePosition;
         private PrefabPool _owningPool;
         private Vector2Int _cell;
         private bool _hasCell;
@@ -93,28 +97,49 @@ namespace RainbowsEnd.Gameplay.Unicorn
             ActiveSegments.Remove(this);
         }
 
-        private void Reset()
+private void Update()
         {
-            CacheReferences(refreshBaseColor: true);
+            if (floatingVisual == null || !_hasFloatingVisualBasePosition)
+            {
+                return;
+            }
+
+            Vector3 localPosition = _floatingVisualBaseLocalPosition;
+            localPosition.z += Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
+            floatingVisual.localPosition = localPosition;
         }
 
-        private void OnValidate()
+
+private void Reset()
         {
-            CacheReferences(refreshBaseColor: true);
+            CacheReferences(refreshBaseColor: true, refreshFloatBasePosition: true);
         }
 
-        private void Awake()
+private void OnValidate()
         {
-            CacheReferences(refreshBaseColor: true);
+            CacheReferences(refreshBaseColor: true, refreshFloatBasePosition: true);
         }
 
-        private void CacheReferences(bool refreshBaseColor = false)
+private void Awake()
+        {
+            CacheReferences(refreshBaseColor: true, refreshFloatBasePosition: true);
+        }
+
+private void CacheReferences(bool refreshBaseColor = false, bool refreshFloatBasePosition = false)
         {
             visualRenderer ??= GetComponent<SpriteRenderer>();
+            floatingVisual ??= transform.Find("FX_RainbowGlow_02");
+
             if (visualRenderer != null && (refreshBaseColor || !_hasBaseColor))
             {
                 _baseColor = visualRenderer.color;
                 _hasBaseColor = true;
+            }
+
+            if (floatingVisual != null && (refreshFloatBasePosition || !_hasFloatingVisualBasePosition))
+            {
+                _floatingVisualBaseLocalPosition = floatingVisual.localPosition;
+                _hasFloatingVisualBasePosition = true;
             }
         }
 
@@ -130,8 +155,13 @@ namespace RainbowsEnd.Gameplay.Unicorn
             visualRenderer.color = color;
         }
 
-        private void ResetState()
+private void ResetState()
         {
+            if (floatingVisual != null && _hasFloatingVisualBasePosition)
+            {
+                floatingVisual.localPosition = _floatingVisualBaseLocalPosition;
+            }
+
             _owningPool = null;
             SpawnTimestampSeconds = 0f;
             _cell = default;

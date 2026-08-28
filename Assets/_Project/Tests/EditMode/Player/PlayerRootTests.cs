@@ -122,5 +122,25 @@ private void SetPrivateField(string fieldName, object value)
             field.SetValue(_playerRoot, value);
         }
 
-    }
+
+
+        [Test]
+        public void Daze_ShowsStarsUntilDazeRecovers()
+        {
+            GameObject stars = new GameObject("Stars");
+            stars.transform.SetParent(_playerObject.transform);
+            stars.SetActive(false);
+            SetPrivateField("stunnedStars", stars);
+
+            _playerRoot.ApplyKnockbackAndDaze(Vector2.up, 0f, 1f);
+
+            Assert.That(_playerRoot.IsDazed, Is.True);
+            Assert.That(stars.activeSelf, Is.True);
+
+            InvokePrivate("RecoverFromDazedState");
+
+            Assert.That(_playerRoot.IsDazed, Is.False);
+            Assert.That(stars.activeSelf, Is.False);
+        }
+}
 }

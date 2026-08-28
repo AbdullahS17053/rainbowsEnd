@@ -602,6 +602,11 @@ namespace RainbowsEnd.Gameplay.Player
             _knockbackTween = null;
             _isDazed = false;
             _dazedTimerSeconds = 0f;
+            if (stunnedStars != null)
+            {
+                stunnedStars.SetActive(false);
+            }
+
             ApplyDazeEnabledState(true);
         }
 
@@ -623,6 +628,11 @@ namespace RainbowsEnd.Gameplay.Player
 
             _isDazed = true;
             _dazedTimerSeconds = dazeDurationSeconds;
+            if (stunnedStars != null)
+            {
+                stunnedStars.SetActive(true);
+            }
+
             ApplyDazeEnabledState(false);
 
             if (body != null)

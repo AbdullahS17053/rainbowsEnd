@@ -15,6 +15,18 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
         }
 
         [Test]
+        public void SelectNextBoundarySide_TopAlwaysReturnsBottom()
+        {
+            float[] randomValues = { 0f, 0.49f, 0.5f, 0.99f, 1f };
+            for (int index = 0; index < randomValues.Length; index++)
+            {
+                Assert.That(
+                    UnicornRoamingUtility.SelectNextBoundarySide(ArenaBoundarySide.Top, randomValues[index]),
+                    Is.EqualTo(ArenaBoundarySide.Bottom));
+            }
+        }
+
+        [Test]
         public void SelectBoundaryTarget_ReturnsPointOnRequestedSide()
         {
             Rect bounds = new Rect(-9f, -5f, 18f, 10f);

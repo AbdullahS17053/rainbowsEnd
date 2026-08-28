@@ -1068,24 +1068,17 @@
     ],
     "20": [
       "assets_project_editor_phase10portalsetup",
-      "assets_project_editor_phase1coresetup",
-      "assets_project_runtime_gameplay_combat_rangedattackcontroller",
       "assets_project_runtime_gameplay_combat_weaponcontroller",
       "assets_project_runtime_gameplay_combat_weaponcontroller_rainbowsend_gameplay_combat_firecontrolmode",
       "assets_project_runtime_gameplay_player_playerinputactionnames",
       "assets_project_runtime_gameplay_player_playerinputactionnames_cs_string",
       "assets_project_runtime_gameplay_player_playerinputactionnames_rainbowsend_gameplay_player_playerinputactionnames",
-      "assets_project_runtime_gameplay_player_playerroot",
-      "assets_project_runtime_gameplay_player_playerroot_cs_color",
-      "assets_project_runtime_gameplay_player_playerroot_rainbowsend_gameplay_player_renderercolortarget",
       "assets_project_runtime_gameplay_player_playerupgraderuntime",
       "assets_project_runtime_gameplay_player_playerweaponinventory",
       "assets_project_runtime_gameplay_shop_shopcontroller",
       "assets_project_runtime_gameplay_spells_playerportalcontroller",
       "assets_project_runtime_gameplay_spells_portalinstance",
       "assets_project_runtime_gameplay_spells_portalregistry",
-      "assets_project_tests_editmode_economy_economystatetests",
-      "assets_project_tests_editmode_economy_economystatetests_rainbowsend_tests_editmode_economy_economystatetests",
       "assets_project_tests_editmode_player_playeraimresolvertests",
       "assets_project_tests_editmode_player_playerfeedbackanimationtests",
       "assets_project_tests_editmode_player_playermovementutilitytests",
@@ -1096,12 +1089,10 @@
       "assets_project_tests_editmode_spells_portalregistrytests",
       "csharp_namespace:1e027f2b620e27ca",
       "csharp_namespace:340e2b785d3a9f91",
-      "csharp_namespace:3920b9d042a45e13",
       "csharp_namespace:d338df363e6765a1",
       "csharp_namespace:dfefb5e3116bd3b9",
       "csharp_namespace:e9c0157dc5e893b0",
-      "csharp_namespace:ed95e2cfa6b12782",
-      "renderer"
+      "csharp_namespace:ed95e2cfa6b12782"
     ],
     "21": [
       "assets_project_runtime_core_config_policemobconfig",
@@ -1306,16 +1297,15 @@
       "assets_project_editor_phase13militarysetup_rainbowsend_editor_phase13militarysetup_wiremilitarytorundirector"
     ],
     "27": [
+      "assets_project_runtime_core_common_iteamaffiliation",
+      "assets_project_runtime_core_common_iteamaffiliation_rainbowsend_core_common_iteamaffiliation",
+      "assets_project_tests_editmode_combat_weaponhitutilitytests",
+      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_friendlytarget",
+      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_testdamageable",
+      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_testdamageable_restore",
       "assets_project_tests_editmode_prefabpooltests_rainbowsend_tests_editmode_testpoolable",
       "assets_project_tests_editmode_prefabpooltests_rainbowsend_tests_editmode_testpoolable_ondespawned",
       "assets_project_tests_editmode_prefabpooltests_rainbowsend_tests_editmode_testpoolable_onspawned",
-      "assets_synty_pnb_core_scripts_weathercontrol",
-      "assets_synty_pnb_core_scripts_weathercontrol_cs_float",
-      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol",
-      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_ondrawgizmos",
-      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_start",
-      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_update",
-      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_updateshaderglobals",
       "assets_synty_polygongeneric_scripts_generic_simplerotate",
       "assets_synty_polygongeneric_scripts_generic_simplerotate_cs_bool",
       "assets_synty_polygongeneric_scripts_generic_simplerotate_cs_float",
@@ -1372,6 +1362,7 @@
     "29": [
       "assets_project_editor_phase11shopsetup",
       "assets_project_editor_phase12levelorchestrationsetup",
+      "assets_project_editor_phase13militarysetup",
       "assets_project_runtime_gameplay_orchestration_rundirector",
       "assets_project_runtime_ui_economyhudpresenter",
       "assets_project_runtime_ui_runoutcomepresenter",
@@ -1403,11 +1394,7 @@
     "30": [
       "assets_project_editor_phase9policecombatsetup_rainbowsend_editor_phase9policecombatsetup_createorupdatesceneplayer",
       "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_configure",
-      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_cs_string",
-      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner",
       "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner_configure",
-      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner_resolvepool",
-      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner_spawn",
       "assets_project_runtime_systems_pooling_prefabpool",
       "assets_project_runtime_systems_pooling_prefabpool_cs_bool",
       "assets_project_runtime_systems_pooling_prefabpool_cs_gameobject",
@@ -1668,31 +1655,27 @@
       "packages_packages_lock_json_com_unity_modules_ui"
     ],
     "39": [
+      "assets_project_editor_phase14policeloadoutsetup",
+      "assets_project_editor_phase1coresetup",
       "assets_project_editor_phase2arenasetup",
       "assets_project_editor_phase3playersetup",
       "assets_project_editor_phase4combatsetup",
-      "assets_project_editor_phase5unicornsetup",
       "assets_project_editor_phase6potsetup",
       "assets_project_editor_phase7enemysetup",
       "assets_project_editor_phase8worldrulessetup",
-      "assets_project_runtime_gameplay_combat_weaponhitutility",
-      "assets_project_runtime_gameplay_enemies_potdrain",
+      "assets_project_editor_phase9policecombatsetup",
+      "assets_project_runtime_gameplay_enemies_militarycontroller",
+      "assets_project_runtime_gameplay_enemies_militarycontroller_rainbowsend_gameplay_enemies_militarycombatphase",
+      "assets_project_runtime_gameplay_enemies_policecontroller",
       "assets_project_runtime_gameplay_pots_potcontroller",
-      "assets_project_runtime_gameplay_pots_pottrailcapturesensor",
-      "assets_project_runtime_gameplay_unicorn_rainbowtrailemitter",
-      "assets_project_runtime_gameplay_unicorn_rainbowtrailsegment",
-      "assets_project_runtime_gameplay_unicorn_unicorncontroller",
-      "assets_project_tests_editmode_pots_potcontrollercarrytests",
-      "assets_project_tests_editmode_pots_potharveststatetests",
+      "assets_project_tests_editmode_economy_economystatetests",
+      "assets_project_tests_editmode_economy_economystatetests_rainbowsend_tests_editmode_economy_economystatetests",
       "assets_project_tests_editmode_pots_potplacementtests",
-      "assets_project_tests_editmode_pots_potregistrytests",
-      "assets_project_tests_editmode_pots_pottrailcapturesensortests",
+      "csharp_namespace:3920b9d042a45e13",
+      "csharp_namespace:4931723f44ad127e",
       "csharp_namespace:4e5d325c548ea83c",
-      "csharp_namespace:570f59e07d1e8ff9",
       "csharp_namespace:6afe5acaec87a7e3",
       "csharp_namespace:6c8052c899fa1536",
-      "csharp_namespace:bf00ac94af531c14",
-      "csharp_namespace:ea8095dfe98be8b4",
       "csharp_namespace:fe7d1f5e54340be7"
     ],
     "40": [
@@ -1882,8 +1865,6 @@
       "assets_project_tests_editmode_pots_potregistrytests_rainbowsend_tests_editmode_pots_potregistrytests_setharvesting"
     ],
     "47": [
-      "assets_project_runtime_gameplay_combat_weaponruntimestate",
-      "assets_project_runtime_gameplay_pots_potharveststate",
       "assets_project_tests_editmode_countdowntimertests",
       "assets_project_tests_editmode_healthstatetests",
       "assets_project_tests_editmode_healthtests",
@@ -1904,7 +1885,6 @@
       "assets_project_tests_editmode_scenenamestests_rainbowsend_tests_editmode_scenenamestests_bootscenename_isstable",
       "assets_project_tests_editmode_scenenamestests_rainbowsend_tests_editmode_scenenamestests_mainarenascenename_isstable",
       "assets_project_tests_editmode_serviceregistrytests",
-      "csharp_namespace:835077fc0da126c4",
       "csharp_namespace:cf54cfdabc4d1b4a"
     ],
     "48": [
@@ -2157,6 +2137,17 @@
       "assets_project_runtime_gameplay_orchestration_rundirector_rainbowsend_gameplay_orchestration_rundirector_tryspawnmilitary"
     ],
     "58": [
+      "assets_project_runtime_core_common_factionid",
+      "assets_project_runtime_core_common_factionid_rainbowsend_core_common_factionid",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_collider2d",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_object",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_string",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_vector2",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launch",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launchresolved",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launchvolley",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_resolvepool",
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_cs_collider2d",
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_cs_float",
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_cs_object",
@@ -2168,17 +2159,10 @@
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_rainbowsend_gameplay_combat_rangedattackcontroller_resolvemuzzleoffset",
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_rainbowsend_gameplay_combat_rangedattackcontroller_tick",
       "assets_project_runtime_gameplay_combat_rangedattackcontroller_rainbowsend_gameplay_combat_rangedattackcontroller_tryfire",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_assignconfig",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_configure",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_reset",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_tick",
-      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_tryconsumeshot",
-      "assets_project_tests_editmode_combat_weaponruntimestatetests_cs_test",
-      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests",
-      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_assignconfig_withoutreset_preservescurrentcooldown",
-      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_tryconsumeshot_enforcesconfiguredcooldown",
-      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_tryconsumeshot_usesprovidedcooldownoverride"
+      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_cs_string",
+      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner",
+      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner_resolvepool",
+      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner_rainbowsend_gameplay_combat_weaponimpactfeedbackspawner_spawn"
     ],
     "59": [
       "assets_project_runtime_gameplay_enemies_militarycontroller_cs_bool",
@@ -2228,27 +2212,25 @@
       "assets_plugins_demigiant_dotween_modules_dotweenmodulephysics2d_dg_tweening_dotweenmodulephysics2d_dorotate"
     ],
     "61": [
-      "assets_project_editor_phase13militarysetup",
-      "assets_project_editor_phase14policeloadoutsetup",
-      "assets_project_editor_phase9policecombatsetup",
       "assets_project_runtime_gameplay_combat_arrowprojectile",
       "assets_project_runtime_gameplay_combat_combatimpacteffect",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher",
+      "assets_project_runtime_gameplay_combat_rangedattackcontroller",
       "assets_project_runtime_gameplay_combat_weaponhitresult",
-      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner",
       "assets_project_runtime_gameplay_combat_weaponpickup",
-      "assets_project_runtime_gameplay_enemies_militarycontroller",
-      "assets_project_runtime_gameplay_enemies_militarycontroller_rainbowsend_gameplay_enemies_militarycombatphase",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate",
       "assets_project_runtime_gameplay_enemies_militaryspawner",
-      "assets_project_runtime_gameplay_enemies_policecontroller",
       "assets_project_runtime_gameplay_enemies_policespawner",
+      "assets_project_runtime_gameplay_player_playerroot",
+      "assets_project_runtime_gameplay_player_playerroot_cs_color",
+      "assets_project_runtime_gameplay_player_playerroot_rainbowsend_gameplay_player_renderercolortarget",
+      "assets_project_runtime_gameplay_pots_potharveststate",
       "assets_project_tests_editmode_combat_weaponautofiretargetingutilitytests",
       "assets_project_tests_editmode_combat_weaponruntimestatetests",
       "assets_project_tests_editmode_combat_weaponspreadutilitytests",
-      "csharp_namespace:4931723f44ad127e",
-      "csharp_namespace:b0cb752ec7db9692",
+      "csharp_namespace:835077fc0da126c4",
       "csharp_namespace:c1a27ba0a6b17386",
-      "csharp_namespace:f36eb8f97bee0791"
+      "csharp_namespace:f36eb8f97bee0791",
+      "renderer"
     ],
     "62": [
       "assets_project_runtime_gameplay_pots_potcontroller_rainbowsend_gameplay_pots_potcontroller_destroybyunicorn",
@@ -2689,8 +2671,6 @@
       "assets_project_editor_phase13militarysetup_rainbowsend_editor_phase13militarysetup_setprojectconfigregistrymilitary",
       "assets_project_runtime_core_config_actorconfigbase",
       "assets_project_runtime_core_config_actorconfigbase_rainbowsend_core_config_actorconfigbase",
-      "assets_project_runtime_core_config_economyconfig",
-      "assets_project_runtime_core_config_economyconfig_rainbowsend_core_config_economyconfig",
       "assets_project_runtime_core_config_enemyconfig",
       "assets_project_runtime_core_config_enemyconfig_rainbowsend_core_config_enemyconfig",
       "assets_project_runtime_core_config_portalconfig",
@@ -2924,23 +2904,17 @@
       "assets_plugins_demigiant_dotween_modules_dotweenmoduleuitoolkit_dg_tweening_dotweenmoduleuitoolkit_doshake"
     ],
     "94": [
-      "assets_project_runtime_core_common_factionid",
-      "assets_project_runtime_core_common_factionid_rainbowsend_core_common_factionid",
-      "assets_project_runtime_core_common_iteamaffiliation",
-      "assets_project_runtime_core_common_iteamaffiliation_rainbowsend_core_common_iteamaffiliation",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_collider2d",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_object",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_string",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_cs_vector2",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launch",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launchresolved",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_launchvolley",
-      "assets_project_runtime_gameplay_combat_projectileweaponlauncher_rainbowsend_gameplay_combat_projectileweaponlauncher_resolvepool",
-      "assets_project_tests_editmode_combat_weaponhitutilitytests",
-      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_friendlytarget",
-      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_testdamageable",
-      "assets_project_tests_editmode_combat_weaponhitutilitytests_rainbowsend_tests_editmode_combat_testdamageable_restore"
+      "assets_project_runtime_gameplay_combat_weaponhitutility",
+      "assets_project_runtime_gameplay_enemies_goldpickup",
+      "assets_project_runtime_gameplay_enemies_potdrain",
+      "assets_project_runtime_gameplay_pots_potregistry",
+      "assets_project_runtime_gameplay_pots_pottrailcapturesensor",
+      "assets_project_tests_editmode_pots_potcontrollercarrytests",
+      "assets_project_tests_editmode_pots_potharveststatetests",
+      "assets_project_tests_editmode_pots_potregistrytests",
+      "assets_project_tests_editmode_pots_pottrailcapturesensortests",
+      "csharp_namespace:bf00ac94af531c14",
+      "csharp_namespace:ea8095dfe98be8b4"
     ],
     "95": [
       "assets_synty_pnb_core_shaders_interfaceoverrides_editor_syntypanneropaque_customgui",
@@ -3250,20 +3224,26 @@
     ],
     "112": [
       "assets_project_editor_phase0projectsetup",
+      "assets_project_editor_phase5unicornsetup",
       "assets_project_runtime_core_bootstrap_gamebootstrap",
       "assets_project_runtime_core_bootstrap_projectcontext",
       "assets_project_runtime_core_scenemanagement_arenascenecontext",
       "assets_project_runtime_core_scenemanagement_scenenames",
       "assets_project_runtime_core_scenemanagement_scenenames_cs_string",
       "assets_project_runtime_core_scenemanagement_scenenames_rainbowsend_core_scenemanagement_scenenames",
+      "assets_project_runtime_gameplay_combat_projectileweaponlauncher",
+      "assets_project_runtime_gameplay_combat_weaponimpactfeedbackspawner",
       "assets_project_runtime_gameplay_enemies_enemyspawner",
-      "assets_project_runtime_gameplay_enemies_goldpickup",
       "assets_project_runtime_gameplay_player_playeraimcontroller",
       "assets_project_runtime_gameplay_player_playermovementcontroller",
-      "assets_project_runtime_gameplay_pots_potregistry",
+      "assets_project_runtime_gameplay_unicorn_rainbowtrailemitter",
+      "assets_project_runtime_gameplay_unicorn_rainbowtrailsegment",
+      "assets_project_runtime_gameplay_unicorn_unicorncontroller",
       "assets_project_runtime_systems_economy_economystate",
+      "csharp_namespace:570f59e07d1e8ff9",
       "csharp_namespace:6184288f17ae9bfd",
-      "csharp_namespace:a6a5c8cba281ec39"
+      "csharp_namespace:a6a5c8cba281ec39",
+      "csharp_namespace:b0cb752ec7db9692"
     ],
     "113": [
       "assets_project_editor_phase0projectsetup_cs_gameobject",
@@ -3933,6 +3913,8 @@
       "assets_project_runtime_gameplay_player_playermovementcontroller_rainbowsend_gameplay_player_playermovementcontroller_resolvearenabounds"
     ],
     "156": [
+      "assets_project_runtime_core_config_economyconfig",
+      "assets_project_runtime_core_config_economyconfig_rainbowsend_core_config_economyconfig",
       "assets_project_runtime_systems_economy_economystate_cs_hashset",
       "assets_project_runtime_systems_economy_economystate_cs_object",
       "assets_project_runtime_systems_economy_economystate_rainbowsend_systems_economy_economystate",
@@ -5169,6 +5151,28 @@
     ],
     "299": [
       "rainbowsend"
+    ],
+    "300": [
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_assignconfig",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_configure",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_reset",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_tick",
+      "assets_project_runtime_gameplay_combat_weaponruntimestate_rainbowsend_gameplay_combat_weaponruntimestate_tryconsumeshot",
+      "assets_project_tests_editmode_combat_weaponruntimestatetests_cs_test",
+      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests",
+      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_assignconfig_withoutreset_preservescurrentcooldown",
+      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_tryconsumeshot_enforcesconfiguredcooldown",
+      "assets_project_tests_editmode_combat_weaponruntimestatetests_rainbowsend_tests_editmode_combat_weaponruntimestatetests_tryconsumeshot_usesprovidedcooldownoverride"
+    ],
+    "301": [
+      "assets_synty_pnb_core_scripts_weathercontrol",
+      "assets_synty_pnb_core_scripts_weathercontrol_cs_float",
+      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol",
+      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_ondrawgizmos",
+      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_start",
+      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_update",
+      "assets_synty_pnb_core_scripts_weathercontrol_weathercontrol_updateshaderglobals"
     ]
   },
   "cohesion": {
@@ -5192,17 +5196,17 @@
     "17": 0.05555555555555555,
     "18": 0.06825396825396825,
     "19": 0.12100840336134454,
-    "20": 0.09243697478991597,
+    "20": 0.13846153846153847,
     "21": 0.11260504201680673,
     "22": 0.058823529411764705,
     "23": 0.09462365591397849,
     "24": 0.09885057471264368,
     "25": 0.11264367816091954,
     "26": 0.15402298850574714,
-    "27": 0.07126436781609195,
+    "27": 0.07389162561576355,
     "28": 0.06896551724137931,
-    "29": 0.10837438423645321,
-    "30": 0.12561576354679804,
+    "29": 0.10344827586206896,
+    "30": 0.14333333333333334,
     "31": 0.07389162561576355,
     "32": 0.09523809523809523,
     "33": 0.07671957671957672,
@@ -5211,7 +5215,7 @@
     "36": 0.14245014245014245,
     "37": 0.14245014245014245,
     "38": 0.07692307692307693,
-    "39": 0.1723076923076923,
+    "39": 0.16883116883116883,
     "40": 0.08,
     "41": 0.11333333333333333,
     "42": 0.13,
@@ -5219,7 +5223,7 @@
     "44": 0.08333333333333333,
     "45": 0.2028985507246377,
     "46": 0.16304347826086957,
-    "47": 0.09057971014492754,
+    "47": 0.10476190476190476,
     "48": 0.15942028985507245,
     "49": 0.17028985507246377,
     "50": 0.09782608695652174,
@@ -5230,10 +5234,10 @@
     "55": 0.19480519480519481,
     "56": 0.24675324675324675,
     "57": 0.14285714285714285,
-    "58": 0.17316017316017315,
+    "58": 0.15076923076923077,
     "59": 0.13852813852813853,
     "60": 0.20952380952380953,
-    "61": 0.1619047619047619,
+    "61": 0.12280701754385964,
     "62": 0.3142857142857143,
     "63": 0.1761904761904762,
     "64": 0.09523809523809523,
@@ -5254,7 +5258,7 @@
     "79": 0.19298245614035087,
     "80": 0.1695906432748538,
     "81": 0.2807017543859649,
-    "82": 0.1895424836601307,
+    "82": 0.20833333333333334,
     "83": 0.1895424836601307,
     "84": 0.22875816993464052,
     "85": 0.1830065359477124,
@@ -5266,7 +5270,7 @@
     "91": 0.27450980392156865,
     "92": 0.25735294117647056,
     "93": 0.2867647058823529,
-    "94": 0.22794117647058823,
+    "94": 0.23636363636363636,
     "95": 0.2647058823529412,
     "96": 0.2647058823529412,
     "97": 0.125,
@@ -5284,7 +5288,7 @@
     "109": 0.125,
     "110": 0.2,
     "111": 0.1523809523809524,
-    "112": 0.17142857142857143,
+    "112": 0.16666666666666666,
     "113": 0.21904761904761905,
     "114": 0.20952380952380953,
     "115": 0.18095238095238095,
@@ -5328,7 +5332,7 @@
     "153": 0.2727272727272727,
     "154": 0.21212121212121213,
     "155": 0.30303030303030304,
-    "156": 0.24242424242424243,
+    "156": 0.2087912087912088,
     "157": 0.21212121212121213,
     "158": 0.21212121212121213,
     "159": 0.19696969696969696,
@@ -5471,7 +5475,9 @@
     "296": 1.0,
     "297": 1.0,
     "298": 1.0,
-    "299": 1.0
+    "299": 1.0,
+    "300": 0.4,
+    "301": 0.38095238095238093
   },
   "gods": [
     {
@@ -5582,8 +5588,41 @@
       "why": "bridges separate communities"
     }
   ],
-  "tokens": {
-    "input": 0,
-    "output": 0
-  }
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `MilitaryController` connect `MilitaryController` to `Health`, `PlayerRoot`, `.TickCarrierEscaping`, `PotController`, `WeaponPickup`, `.TickPoliceStyleCombat`, `.TickStealing`, `MonoBehaviour`, `PrefabPool`, `RainbowsEnd.Core.Common`, `MilitarySpawner`, `FactionId`, `WeaponConfig`, `IPoolable`, `EnemyConfig`, `PotRegistry`, `ArenaBoundsAuthoring`, `.GetNearestBlockDistance`, `CharacterAnimationBridge`?",
+      "why": "High betweenness centrality (0.044) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `PlayerRoot` connect `PlayerRoot` to `TravellerController`, `Health`, `WeaponController`, `ShopController`, `PlayerUpgradeRuntime`, `MonoBehaviour`, `PlayerPortalController`, `PotControllerCarryTests`, `PlayerMovementController`, `PotController`, `TutorialSequenceController`, `PlayerPotCarryController`, `PoliceController`, `PlayerAimController`, `MilitaryController`, `RainbowsEnd.Gameplay.Combat`, `PlayerPresentationTests`?",
+      "why": "High betweenness centrality (0.041) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `PrefabPool` connect `PrefabPool` to `Health`, `WeaponController`, `PortalInstance`, `PoliceController`, `WeaponPickup`, `.TickPoliceStyleCombat`, `Phase13MilitarySetup`, `MonoBehaviour`, `GoldPickup`, `Phase10PortalSetup`, `RainbowTrailEmitter`, `MilitarySpawner`, `FactionId`, `MilitaryController`, `Phase5UnicornSetup`, `WeaponConfig`, `IPoolable`, `EnemySpawner`, `RainbowTrailSegment`, `ArrowProjectile`?",
+      "why": "High betweenness centrality (0.040) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `OnLifeEnd`, `spaceEnum`, `DOTweenCYInstruction` to the rest of the system?",
+      "why": "682 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `TravellerController` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06378378378378378 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Health` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `WeaponController` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.05859969558599695 - nodes in this community are weakly interconnected."
+    }
+  ]
 }

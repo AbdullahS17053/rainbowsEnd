@@ -21,5 +21,7 @@ MonoBehaviour:
   <BoundaryCornerPadding>k__BackingField: 1
   <TrailSpawnIntervalSeconds>k__BackingField: 0.1
   <TrailCellSizeWorldUnits>k__BackingField: 0.32
+  <BounceAngleMinDegrees>k__BackingField: 45
+  <BounceAngleMaxDegrees>k__BackingField: 135
   <PlayerKnockbackDistance>k__BackingField: 1
-  <PlayerDazeDurationSeconds>k__BackingField: 1.5
+  <PlayerDazeDurationSeconds>k__BackingField: 0.5

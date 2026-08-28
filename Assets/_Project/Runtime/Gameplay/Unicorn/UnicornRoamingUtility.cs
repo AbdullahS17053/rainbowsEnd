@@ -88,7 +88,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             return anyHit;
         }
 
-        public static ArenaBoundarySide SelectNextBoundarySide(ArenaBoundarySide? previousSide, float randomValue)
+public static ArenaBoundarySide SelectNextBoundarySide(ArenaBoundarySide? previousSide, float randomValue)
         {
             float clampedRandom = Mathf.Clamp01(randomValue);
             if (!previousSide.HasValue)
@@ -102,9 +102,13 @@ namespace RainbowsEnd.Gameplay.Unicorn
                             : ArenaBoundarySide.Left;
             }
 
+            if (previousSide.Value == ArenaBoundarySide.Top)
+            {
+                return ArenaBoundarySide.Bottom;
+            }
+
             return previousSide.Value switch
             {
-                ArenaBoundarySide.Top => clampedRandom < 0.5f ? ArenaBoundarySide.Bottom : clampedRandom < 0.75f ? ArenaBoundarySide.Left : ArenaBoundarySide.Right,
                 ArenaBoundarySide.Right => clampedRandom < 0.5f ? ArenaBoundarySide.Left : clampedRandom < 0.75f ? ArenaBoundarySide.Top : ArenaBoundarySide.Bottom,
                 ArenaBoundarySide.Bottom => clampedRandom < 0.5f ? ArenaBoundarySide.Top : clampedRandom < 0.75f ? ArenaBoundarySide.Left : ArenaBoundarySide.Right,
                 _ => clampedRandom < 0.5f ? ArenaBoundarySide.Right : clampedRandom < 0.75f ? ArenaBoundarySide.Top : ArenaBoundarySide.Bottom

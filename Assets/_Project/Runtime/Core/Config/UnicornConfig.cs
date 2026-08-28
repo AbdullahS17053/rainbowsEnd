@@ -25,6 +25,6 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float PlayerKnockbackDistance { get; private set; } = 2f;
 
-        [field: SerializeField] [field: Min(0f)] public float PlayerDazeDurationSeconds { get; private set; } = 0.75f;
+                [field: SerializeField] [field: Min(0f)] public float PlayerDazeDurationSeconds { get; private set; } = 0.5f;
     }
 }

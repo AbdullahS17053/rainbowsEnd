@@ -87,7 +87,7 @@ namespace RainbowsEnd.Gameplay.Spells
             UpdatePortalVfx();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+private void OnTriggerEnter2D(Collider2D other)
         {
             if (_pairedPortal == null || _portalConfig == null)
             {
@@ -111,6 +111,9 @@ namespace RainbowsEnd.Gameplay.Spells
             Vector2 exitPosition = (Vector2)_pairedPortal.transform.position + exitDirection * _portalConfig.ExitOffsetDistance;
 
             TeleportTarget(targetRoot.transform, targetBody, exitPosition);
+
+            UnicornController teleportedUnicorn = targetRoot as UnicornController;
+            teleportedUnicorn?.NotifyTeleported();
 
             float lockoutUntil = Time.time + Mathf.Max(0f, _portalConfig.ReentryLockoutSeconds);
             SetLockout(targetId, lockoutUntil);

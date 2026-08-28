@@ -34,6 +34,16 @@ namespace RainbowsEnd.Gameplay.Unicorn
             _trailStartTime = Time.time;
         }
 
+public void NotifyUnicornTeleported()
+        {
+            _spawnCooldown = 0f;
+            if (unicornController?.Config != null && ResolvePool())
+            {
+                SpawnTrailSegment();
+            }
+        }
+
+
         private void Reset()
         {
             unicornController ??= GetComponent<UnicornController>();

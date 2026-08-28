@@ -254,6 +254,19 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 - **Stun presentation**: a health depletion uses the player-only `PlayerFeedback.controller`, plays `Stunned.fbx` with `StunnedCirclingStarsSimple`, then `Stand Up.fbx` as the recovery veil begins.
 - **Timing authority**: gameplay timing takes priority over source clip length. The one-second stun and two-second recovery veil are configurable values; the player-only Animator accelerates the imported clips to fit the authored gameplay timing.
 
+## Approved unicorn-state terminology
+- **Pot-impact warning**: A thin red projected line from the unicorn to its current target, shown only while that route intersects a vulnerable pot, whether grounded or carried. _Avoid_: pot marker, hit indicator.
+
+- **Pot-carry immunity**: A player carrying a pot ignores unicorn knockback and daze; the carried pot remains vulnerable to unicorn contact. _Avoid_: unicorn invulnerability, pot immunity.
+
+- **Trail float**: A subtle vertical bob applied only to a Rainbow Trail segment's visual child; the segment's pooled root and 2D capture collider remain fixed. _Avoid_: moving trail gameplay, floating collider.
+
+- **Portal trail continuity**: Unicorn portal traversal retains the active trail and begins normal trail emission at the exit point without resetting trail age. _Avoid_: trail restart, portal bridge.
+
+- **Cross-map return**: After reaching the arena's top edge, the unicorn's next roaming target is on the bottom edge, preserving whole-map traversal without upper-area loops. _Avoid_: top-third exclusion, dead zone.
+
+- **Unicorn daze**: The short player-control lock caused by a unicorn impact when the player is not carrying a pot. It includes a one-unit knockback, a half-second duration, and spinning-star feedback. _Avoid_: player downed state, recovery veil.
+
 ## Known ambiguities
 - Tilt-shift is a visual target, not an early production blocker
 - Remaining Post-MVP scope (more spells, status effects, traps) remains deferred
