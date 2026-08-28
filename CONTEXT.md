@@ -137,3 +137,25 @@ _Avoid_: Per-shot loadout roll, mismatched weapon pickup
 **Police Death Drop**:
 A police mob has one 33% chance on death to create exactly one reward: its matching weapon with ammo or 10 Pot Gold. The other 67% creates no reward.
 _Avoid_: Guaranteed drop, combined weapon-and-gold drop, ammo-only pickup
+
+## Civilian Mobs
+
+**Civilian Theft Display**:
+The cumulative whole Pot Gold a civilian has drained during its current life, shown above that civilian while it steals and flees. It resets when the pooled civilian is reused.
+_Avoid_: Per-tick floating damage number, permanent lifetime theft total
+
+**Civilian Carried-Pot Chase**:
+When a civilian targets a Pot of Gold carried by the player, it uses the imported `Run_1` animation to visibly run after that Pot. Reaching the Pot retains the normal gold-drain interaction and does not damage, knock back, or grab the player.
+_Avoid_: Player tackle attack, a separate civilian grab state, idle slide
+
+**Civilian Loot Escape**:
+A civilian that has stolen Pot Gold flees with the imported `Carry` animation and one visible bag prop held in its raised hands. Civilians that stole nothing never show the bag; the bag and animation state reset when the pooled civilian is reused.
+_Avoid_: A dropped bag reward, a bag on non-thieves, persistent pooled bag state
+
+**Civilian Chase Pace**:
+Civilian movement speed is 3.0 world units per second; its existing 1.5 flee multiplier remains in effect for escape.
+_Avoid_: Per-state hard-coded speed, a changed flee multiplier
+
+**Civilian Wave Totals**:
+The five run waves spawn 6, 8, 7, 8, and 9 civilians respectively. Existing intervals, concurrency caps, edge spawn points, and mixed-enemy rotation control their stagger.
+_Avoid_: A simultaneous civilian burst, a separate civilian scheduling system
