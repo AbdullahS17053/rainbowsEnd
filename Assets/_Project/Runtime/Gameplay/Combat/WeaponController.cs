@@ -191,6 +191,7 @@ namespace RainbowsEnd.Gameplay.Combat
                 ResolveDamage(),
                 rangeOverride: ResolveTargetingRange());
 
+            playerRoot?.NotifyShotFired();
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
 
             animationBridge?.TriggerFire();
@@ -396,7 +397,7 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private bool ShouldAttemptFire()
         {
-            if (playerRoot != null && playerRoot.IsCarryingPot)
+            if (playerRoot != null && !playerRoot.CanFire)
             {
                 return false;
             }

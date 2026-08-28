@@ -246,6 +246,12 @@ Rainbow's End is a single-screen tactical shooter presented through a perspectiv
 - Star ratings should be driven by how many pots are banked in the home tree
 - The game should present in landscape
 
+## Approved player-state terminology
+- **Recovery veil**: the two-second, post-stun player state after a health depletion. It restores the player to full health, makes them invulnerable and 35% opaque, and disables firing. Picking up a pot restores full visibility only; it does not end the remaining invulnerability or firing lockout. Movement and aiming remain available; the pot interaction and upgrade menu are the only enabled interactions. The opacity is configurable.
+- **Concealed player**: a player inside a ConcealmentZone who is not carrying a pot. They are 35% opaque (configurable). Firing makes them visible for the configurable reveal window (default 0.25 seconds); held fire keeps renewing that window. This feature changes presentation only; enemy targeting is unchanged.
+- **Stun presentation**: a health depletion plays `Stunned.fbx` with `StunnedCirclingStarsSimple`, then `Stand Up.fbx` as the recovery veil begins.
+- **Timing authority**: gameplay timing takes priority over source clip length. The one-second stun and two-second recovery veil are configurable values; the player-only Animator will trim or accelerate the imported clips to fit them.
+
 ## Known ambiguities
 - Tilt-shift is a visual target, not an early production blocker
 - Remaining Post-MVP scope (more spells, status effects, traps) remains deferred

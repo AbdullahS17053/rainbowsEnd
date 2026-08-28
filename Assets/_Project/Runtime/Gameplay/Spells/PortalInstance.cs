@@ -184,7 +184,7 @@ namespace RainbowsEnd.Gameplay.Spells
             }
 
             PlayerRoot playerRoot = other.GetComponentInParent<PlayerRoot>();
-            if (playerRoot != null && !playerRoot.IsDisabled)
+            if (playerRoot != null && playerRoot.CanUsePortals)
             {
                 targetRoot = playerRoot;
                 targetBody = playerRoot.Body;

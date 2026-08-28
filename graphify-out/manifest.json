@@ -1725,8 +1725,8 @@
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/04_Context.md": {
-    "mtime": 1787739595.7314367,
-    "ast_hash": "10c7a65b3c52b0613e18fa53126934c8",
+    "mtime": 1787919876.7284982,
+    "ast_hash": "452a1a0c36662c383bf0e5a30c8cf2dc",
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/05_AssetIntegration_Plan.md": {
@@ -18490,8 +18490,8 @@
     "semantic_hash": ""
   },
   "Assets/Docs/Handoff/36_CivilianMobs_Feedback_Plan.md": {
-    "mtime": 1787917423.8944325,
-    "ast_hash": "fc69956f959f657781b9d2e18d3ae588",
+    "mtime": 1787918588.0588129,
+    "ast_hash": "b6578f162ddd2053c0792a1f6786cd71",
     "semantic_hash": ""
   },
   "Assets/Screenshots/Phase2_Police_Combat_Check.png": {
@@ -18507,6 +18507,11 @@
   "Assets/Screenshots/screenshot-20260827-123155.png": {
     "mtime": 1787815916.110288,
     "ast_hash": "ea350727ecc148bdf1e022b9a4a02c8a",
+    "semantic_hash": ""
+  },
+  "Assets/Docs/Handoff/37_Player_Feedback_Plan.md": {
+    "mtime": 1787919876.7294977,
+    "ast_hash": "8dad4f5a0f2cabdf6d9bc75913b2f06b",
     "semantic_hash": ""
   }
 }

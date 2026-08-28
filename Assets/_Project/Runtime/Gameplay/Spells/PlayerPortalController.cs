@@ -40,7 +40,7 @@ namespace RainbowsEnd.Gameplay.Spells
         {
             _cooldownTimer.Tick(Time.deltaTime);
 
-            if (playerRoot == null || playerRoot.IsDisabled || inputReader == null || !inputReader.CastPortalPressedThisFrame)
+            if (playerRoot == null || !playerRoot.CanUsePortals || inputReader == null || !inputReader.CastPortalPressedThisFrame)
             {
                 return;
             }

@@ -17,4 +17,8 @@ MonoBehaviour:
   <Acceleration>k__BackingField: 25
   <InteractionRadius>k__BackingField: 1.25
   <AimTurnSpeed>k__BackingField: 540
-  <DownedDurationSeconds>k__BackingField: 3
+  <StunDurationSeconds>k__BackingField: 1
+  <RecoveryVeilDurationSeconds>k__BackingField: 2
+  <ConcealedOpacity>k__BackingField: 0.35
+  <RecoveryVeilOpacity>k__BackingField: 0.35
+  <ConcealmentRevealDurationSeconds>k__BackingField: 0.25

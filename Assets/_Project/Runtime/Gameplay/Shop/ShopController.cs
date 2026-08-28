@@ -213,6 +213,7 @@ private void Update()
             return shopConfig != null
                 && panelPresenter != null
                 && playerRoot != null
+                && playerRoot.CanOpenUpgradeMenu
                 && inputReader != null
                 && upgradeRuntime != null
                 && potRegistry != null

@@ -527,11 +527,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: f226abd6a27bf574aa256f17d080864a, type: 2}
     - target: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tTransform
-        'Eyebrows'\n\tTransform 'Eyes'\n\tTransform 'Eyebrows'\n\tTransform 'Eyes'\n\tFrom
-        animation clip 'A_POLY_GBL_Walk_F_Neut'"
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 95212195555453550, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 137667525925474164, guid: 5b920fc901e2cd945beaebdb578e5b09, type: 3}
       propertyPath: m_CastShadows

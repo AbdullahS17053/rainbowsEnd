@@ -42,7 +42,7 @@ namespace RainbowsEnd.Gameplay.Player
 
         private void Update()
         {
-            if (playerRoot == null || inputReader == null)
+            if (playerRoot == null || !playerRoot.CanInteractWithPot || inputReader == null)
             {
                 return;
             }
@@ -102,6 +102,7 @@ namespace RainbowsEnd.Gameplay.Player
 
             _carriedPot = nearestPot;
             _carriedPot.SetCarriedWorldPosition(ResolveCarryAnchor(ResolveCarryDistance()));
+            playerRoot.RefreshVisualState();
         }
 
         private void DropCarriedPot()
@@ -120,6 +121,7 @@ namespace RainbowsEnd.Gameplay.Player
 
             _carriedPot = null;
             potToDrop.Drop(dropPosition);
+            playerRoot.RefreshVisualState();
         }
 
         private PotController ResolveNearestPickupPot()

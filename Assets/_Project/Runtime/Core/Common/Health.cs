@@ -8,6 +8,8 @@ namespace RainbowsEnd.Core.Common
         [SerializeField] [Min(0.01f)] private float initialMaxHealth = 1f;
 
         private readonly HealthState _state = new HealthState();
+
+        private bool _isInvulnerable;
         private bool _isInitialized;
 
         public event Action<DamageResult> Damaged;
@@ -41,6 +43,8 @@ namespace RainbowsEnd.Core.Common
             }
         }
 
+        public bool IsInvulnerable => _isInvulnerable;
+
         private void Awake()
         {
             Initialize(initialMaxHealth);
@@ -48,6 +52,7 @@ namespace RainbowsEnd.Core.Common
 
         public void Initialize(float maxHealth)
         {
+            _isInvulnerable = false;
             initialMaxHealth = Mathf.Max(0.01f, maxHealth);
             _state.Initialize(initialMaxHealth);
             _isInitialized = true;
@@ -56,6 +61,11 @@ namespace RainbowsEnd.Core.Common
         public DamageResult ApplyDamage(in DamageInfo damageInfo)
         {
             EnsureInitialized();
+
+            if (_isInvulnerable)
+            {
+                return new DamageResult(0f, _state.CurrentHealth, _state.NormalizedHealth, _state.IsDepleted);
+            }
 
             DamageResult result = _state.ApplyDamage(damageInfo.Amount);
             if (result.AppliedAmount <= 0f)
@@ -73,6 +83,10 @@ namespace RainbowsEnd.Core.Common
             return result;
         }
 
+        public void SetInvulnerable(bool isInvulnerable)
+        {
+            _isInvulnerable = isInvulnerable;
+        }
         public float Restore(float amount)
         {
             EnsureInitialized();

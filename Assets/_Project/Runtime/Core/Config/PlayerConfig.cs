@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RainbowsEnd.Core.Config
 {
@@ -11,6 +12,14 @@ namespace RainbowsEnd.Core.Config
 
         [field: SerializeField] [field: Min(0f)] public float AimTurnSpeed { get; private set; } = 540f;
 
-        [field: SerializeField] [field: Min(0f)] public float DownedDurationSeconds { get; private set; } = 3f;
+        [field: SerializeField] [field: Min(0f)] [field: FormerlySerializedAs("DownedDurationSeconds")] public float StunDurationSeconds { get; private set; } = 1f;
+
+        [field: SerializeField] [field: Min(0f)] public float RecoveryVeilDurationSeconds { get; private set; } = 2f;
+
+        [field: SerializeField] [field: Range(0f, 1f)] public float ConcealedOpacity { get; private set; } = 0.35f;
+
+        [field: SerializeField] [field: Range(0f, 1f)] public float RecoveryVeilOpacity { get; private set; } = 0.35f;
+
+        [field: SerializeField] [field: Min(0f)] public float ConcealmentRevealDurationSeconds { get; private set; } = 0.25f;
     }
 }

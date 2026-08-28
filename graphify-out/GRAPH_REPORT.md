@@ -1,16 +1,16 @@
 # Graph Report - rainbowsEnd  (2026-08-28)
 
 ## Corpus Check
-- 332 files · ~24,218,440 words
+- 333 files · ~24,221,780 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4642 nodes · 8126 edges · 329 communities (284 shown, 45 thin omitted)
+- 4685 nodes · 8168 edges · 316 communities (271 shown, 45 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 363 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0b05fcf6`
+- Built from commit: `20151db6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -204,6 +204,7 @@
 - Pot of Gold Feedback — Phase 3 Recap
 - Pot of Gold Feedback — Phase 4 Recap
 - Rainbow's End — UI Counters Phase 0 Recap
+- ETFXLightFade
 - .CreateOrUpdateSceneObjects
 - .ShouldUsePistol
 - ConcealmentZone
@@ -223,9 +224,9 @@
 - UI Counters Feedback - Phase 2 Recap
 - ADR-0002: Pot Gold Is the Run Currency
 - ETFXRotation
+- .FireShot
 - NavMeshPathfinder
 - .GetSnapToPositionToBringChildIntoView
-- SampleScrollRectSelectableListItem
 - SampleSelectedObjectActivator
 - SampleToggleObjectActivator
 - SampleScrollUV
@@ -237,9 +238,7 @@
 - Rainbow's End MVP Build Plan
 - Upgrade Screen Feedback — Phase 3 Recap
 - Upgrade Screen Feedback — Phase 4 Recap
-- EnemySeparationUtility
 - .SelectBestCandidateIndex
-- .Configure_ResetsRunStatistics
 - UI Counters Feedback - Phase 1 Recap
 - com.unity.modules.terrain
 - .GetCell
@@ -264,7 +263,6 @@
 - com.unity.modules.director
 - com.unity.modules.particlesystem
 - com.unity.modules.terrainphysics
-- com.unity.modules.unityanalytics
 - com.unity.modules.vehicles
 - com.unity.modules.video
 - com.unity.multiplayer.center
@@ -283,18 +281,14 @@
 - com.unity.modules.unitywebrequestaudio
 - com.unity.shadergraph
 - com.unity.test-framework
-- SerializedProperty
 - TextAlignmentOptions
 - TextMeshProUGUI
-- Button
-- SerializedProperty
 - TextAlignmentOptions
 - TextMeshProUGUI
 - Action
 - SerializedObject
 - Sprite
 - Sprite
-- IReadOnlyList
 - ArenaBoundsAuthoring
 - bool
 - CharacterAnimationBridge
@@ -313,7 +307,6 @@
 - Rigidbody2D
 - SpriteRenderer
 - Transform
-- Vector2
 - WeaponConfig
 - WeaponImpactFeedbackSpawner
 - HashSet
@@ -321,21 +314,17 @@
 - bool
 - CharacterAnimationBridge
 - Collider2D
-- FactionId
-- float
 - Health
 - PlayerRoot
 - PoliceSpawner
 - ProjectileWeaponLauncher
 - RangedAttackController
-- Rigidbody2D
 - SpriteRenderer
 - Vector2
 - WeaponImpactFeedbackSpawner
 - HashSet
 - List
 - CircleCollider2D
-- Rect
 - bool
 - TextMeshPro
 - SetUp
@@ -369,18 +358,18 @@
 ## Import Cycles
 - None detected.
 
-## Communities (329 total, 45 thin omitted)
+## Communities (316 total, 45 thin omitted)
 
 ### Community 0 - "TravellerController"
-Cohesion: 0.09
-Nodes (13): Animator, bool, CircleCollider2D, Color, float, GameObject, int, List (+5 more)
+Cohesion: 0.06
+Nodes (24): CircleCollider2D, float, List, PotDrain, Animator, bool, CircleCollider2D, Color (+16 more)
 
 ### Community 1 - "polygonShaderTransparent_UI"
 Cohesion: 0.07
-Nodes (32): Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, SyntyGlacier_customGUI, bool (+24 more)
+Nodes (32): bool, Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, SyntyFoliage_customGUI (+24 more)
 
 ### Community 2 - "UnicornController"
-Cohesion: 0.19
+Cohesion: 0.21
 Nodes (7): Collider2D, float, Rigidbody2D, SpriteRenderer, Vector2, UnicornController, Collision2D
 
 ### Community 3 - "DOTweenModuleUI"
@@ -396,15 +385,15 @@ Cohesion: 0.15
 Nodes (9): Action, GameObject, MenuItem, Scene, SerializedObject, Sprite, string, Transform (+1 more)
 
 ### Community 6 - "MilitaryController"
-Cohesion: 0.11
-Nodes (12): bool, Collider2D, float, int, Rigidbody2D, SpriteRenderer, Transform, MilitaryController (+4 more)
+Cohesion: 0.08
+Nodes (17): Collider2D, Vector2, EnemySeparationUtility, bool, Collider2D, float, int, Rigidbody2D (+9 more)
 
 ### Community 7 - "TutorialSequenceController"
-Cohesion: 0.10
-Nodes (15): GameObject, string, TMP_Text, Toggle, TutorialPromptView, bool, string, TutorialSequenceController (+7 more)
+Cohesion: 0.07
+Nodes (20): GameObject, string, TMP_Text, Toggle, TutorialPromptView, bool, string, TutorialSequenceController (+12 more)
 
 ### Community 8 - "PotController"
-Cohesion: 0.12
+Cohesion: 0.11
 Nodes (11): bool, Collider2D, Color, float, GameObject, HashSet, Object, Rigidbody2D (+3 more)
 
 ### Community 9 - "SamplePlayerAnimationController"
@@ -412,24 +401,24 @@ Cohesion: 0.07
 Nodes (13): AnimationState, AnimationCurve, Animator, bool, float, int, LayerMask, List (+5 more)
 
 ### Community 10 - "MilitarySpawner"
-Cohesion: 0.18
-Nodes (5): HashSet, int, List, Transform, MilitarySpawner
+Cohesion: 0.14
+Nodes (7): Color, MilitaryMobConfig, HashSet, int, List, Transform, MilitarySpawner
 
 ### Community 11 - "Phase2ArenaSetup"
-Cohesion: 0.25
-Nodes (9): Color, GameObject, MenuItem, Scene, Sprite, string, Transform, Vector3 (+1 more)
+Cohesion: 0.06
+Nodes (30): GameObject, InputAction, MenuItem, string, Transform, Phase0ProjectSetup, Color, GameObject (+22 more)
 
 ### Community 12 - "UIParticleSystem"
 Cohesion: 0.05
 Nodes (30): Dictionary, Shader, ShaderLibrary, bool, Canvas, float, Material, Rect (+22 more)
 
 ### Community 13 - "PotDrainFeedbackPresenter"
-Cohesion: 0.18
-Nodes (10): Color, GameObject, HashSet, List, MenuItem, Scene, Sprite, string (+2 more)
+Cohesion: 0.16
+Nodes (11): Color, GameObject, HashSet, List, MenuItem, Scene, Sprite, string (+3 more)
 
 ### Community 14 - "Health"
-Cohesion: 0.05
-Nodes (26): Object, Vector2, DamageInfo, DamageResult, bool, float, Health, bool (+18 more)
+Cohesion: 0.17
+Nodes (6): bool, float, Health, HealthState, Test, HealthStateTests
 
 ### Community 15 - "@GBL_Controls"
 Cohesion: 0.08
@@ -444,24 +433,24 @@ Cohesion: 0.06
 Nodes (40): dependencies, depth, source, version, dependencies, depth, source, version (+32 more)
 
 ### Community 18 - "RainbowsEnd.Core.Config"
-Cohesion: 0.50
-Nodes (3): MenuItem, string, Phase15PoliceRewardsSetup
+Cohesion: 0.14
+Nodes (8): MenuItem, string, Phase15PoliceRewardsSetup, EconomyStateTests, RainbowsEnd.Tests.EditMode.Economy, RainbowsEnd.Systems.Economy, RainbowsEnd.Core.Config, RainbowsEnd.Editor
 
 ### Community 19 - "WeaponController"
-Cohesion: 0.10
-Nodes (11): bool, Color, float, int, List, Material, MeshRenderer, WeaponController (+3 more)
+Cohesion: 0.05
+Nodes (26): IReadOnlyList, Vector2, WeaponAutoFireTargetingUtility, bool, Color, float, int, List (+18 more)
 
 ### Community 20 - "WeaponConfig"
-Cohesion: 0.16
-Nodes (8): WeaponConfig, Collider2D, Object, string, Vector2, ProjectileWeaponLauncher, string, WeaponImpactFeedbackSpawner
+Cohesion: 0.17
+Nodes (12): Collider2D, Object, string, Vector2, ProjectileWeaponLauncher, Collider2D, float, Object (+4 more)
 
 ### Community 21 - "PoliceController"
 Cohesion: 0.13
 Nodes (10): bool, Collider2D, float, GameObject, int, Rigidbody2D, SpriteRenderer, Transform (+2 more)
 
 ### Community 22 - "RainbowsEnd.Core.Common"
-Cohesion: 0.13
-Nodes (11): FireControlMode, MilitaryCombatPhase, RainbowsEnd.Core.Animation, RainbowsEnd.Systems.Economy, RainbowsEnd.Gameplay.World, RainbowsEnd.Core.Common, RainbowsEnd.Systems.Pooling, RainbowsEnd.Gameplay.Combat (+3 more)
+Cohesion: 0.20
+Nodes (6): FireControlMode, MilitaryCombatPhase, RainbowsEnd.Core.Animation, RainbowsEnd.Core.Common, RainbowsEnd.Gameplay.Combat, RainbowsEnd.Tests.EditMode.Combat
 
 ### Community 23 - "TMP_FrameRateCounter"
 Cohesion: 0.07
@@ -469,7 +458,7 @@ Nodes (23): Camera, float, int, string, TextMeshPro, Transform, FpsCounterAnchor
 
 ### Community 24 - "Rainbow's End Project Context"
 Cohesion: 0.06
-Nodes (34): Agreed planning decisions, Client clarifications, Core systems map, Current implementation refinements, Current repository state (2026-08-26), Follow-up architecture refinements, Graphify reference (2026-08-26), Handoff usage order (+26 more)
+Nodes (35): Agreed planning decisions, Approved player-state terminology, Client clarifications, Core systems map, Current implementation refinements, Current repository state (2026-08-26), Follow-up architecture refinements, Graphify reference (2026-08-26) (+27 more)
 
 ### Community 25 - "Tween"
 Cohesion: 0.12
@@ -480,8 +469,8 @@ Cohesion: 0.13
 Nodes (13): AudioSource, bool, Collider, float, GameObject, IEnumerator, int, List (+5 more)
 
 ### Community 28 - "PortalInstance"
-Cohesion: 0.14
-Nodes (10): Collider2D, Component, Dictionary, GameObject, int, Object, Rigidbody2D, Transform (+2 more)
+Cohesion: 0.07
+Nodes (21): Collider2D, Component, Dictionary, GameObject, int, Object, Rigidbody2D, Transform (+13 more)
 
 ### Community 29 - "dependencies"
 Cohesion: 0.07
@@ -500,8 +489,8 @@ Cohesion: 0.10
 Nodes (13): bool, IEnumerator, string, GameBootstrap, IReadOnlyServiceRegistry, bool, GameObject, string (+5 more)
 
 ### Community 33 - "PlayerPortalController"
-Cohesion: 0.10
-Nodes (10): CountdownTimer, float, CombatImpactEffect, PotHarvestState, PotHarvestStatus, PotHarvestUtility, Test, CountdownTimerTests (+2 more)
+Cohesion: 0.12
+Nodes (9): CountdownTimer, float, CombatImpactEffect, PotHarvestState, PotHarvestStatus, Test, CountdownTimerTests, Test (+1 more)
 
 ### Community 34 - "ShopController"
 Cohesion: 0.21
@@ -516,12 +505,12 @@ Cohesion: 0.08
 Nodes (28): com.unity.modules.subsystems, dependencies, depth, source, version, dependencies, depth, source (+20 more)
 
 ### Community 37 - "RainbowsEnd.Gameplay.Enemies"
-Cohesion: 0.12
+Cohesion: 0.13
 Nodes (8): MilitaryBurstUtility, MilitaryCombatPriorityUtility, Test, MilitaryBurstUtilityTests, Test, MilitaryCombatPriorityUtilityTests, RainbowsEnd.Tests.EditMode.Enemies, RainbowsEnd.Gameplay.Enemies
 
 ### Community 38 - "PortalRegistry"
-Cohesion: 0.12
-Nodes (11): IReadOnlyList, List, Object, string, Vector2, PortalRegistry, GameObject, SetUp (+3 more)
+Cohesion: 0.05
+Nodes (38): Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Approved decisions, Automated verification, Automated verification (+30 more)
 
 ### Community 39 - "Rainbow's End Upgrade Screen Feedback Plan"
 Cohesion: 0.06
@@ -532,15 +521,15 @@ Cohesion: 0.05
 Nodes (39): Acceptance criteria, Acceptance criteria, Acceptance criteria, Asset and code steps, Automated verification, Automated verification, Client feedback in scope, Code steps (+31 more)
 
 ### Community 41 - "Phase4CombatSetup"
-Cohesion: 0.26
-Nodes (7): GameObject, MenuItem, Scene, Sprite, string, Transform, Phase4CombatSetup
+Cohesion: 0.17
+Nodes (8): GameObject, MenuItem, Scene, Sprite, string, Transform, Phase4CombatSetup, WeaponConfig
 
 ### Community 42 - "PlayerRoot"
 Cohesion: 0.14
-Nodes (10): bool, Collider2D, float, InputActionAsset, Rigidbody2D, SpriteRenderer, Transform, Tween (+2 more)
+Nodes (10): PlayerConfig, bool, Collider2D, float, InputActionAsset, Rigidbody2D, SpriteRenderer, Transform (+2 more)
 
 ### Community 43 - "PrefabPool"
-Cohesion: 0.15
+Cohesion: 0.14
 Nodes (9): bool, GameObject, int, Quaternion, Transform, Vector3, PrefabPool, Test (+1 more)
 
 ### Community 44 - "com.unity.test-framework"
@@ -556,8 +545,8 @@ Cohesion: 0.20
 Nodes (15): Color, Path, PathMode, PathOptions, PathType, Quaternion, Rigidbody, Sequence (+7 more)
 
 ### Community 47 - "Phase12LevelOrchestrationSetup"
-Cohesion: 0.21
-Nodes (7): GameObject, MenuItem, Scene, SerializedProperty, string, Phase12LevelOrchestrationSetup, WaveConfig
+Cohesion: 0.14
+Nodes (12): Button, Color, GameObject, MenuItem, Scene, SerializedProperty, string, TextAlignmentOptions (+4 more)
 
 ### Community 48 - "TMP_TextSelector_B"
 Cohesion: 0.10
@@ -588,12 +577,12 @@ Cohesion: 0.09
 Nodes (21): Client clarifications, Naming conventions, Phase 0: Project Bootstrap, Phase 10: Portal System as First Spell, Phase 11: Shop and Upgrade Loop, Phase 12: Level Orchestration and Run Outcome, Phase 13: MVP Polish and Stability, Phase 1: Core Architecture Skeleton (+13 more)
 
 ### Community 55 - "RainbowsEnd.Gameplay.Pots"
-Cohesion: 0.15
-Nodes (8): RainbowsEnd.Tests.EditMode.Orchestration, RainbowsEnd.UI, RainbowsEnd.Gameplay.Shop, RainbowsEnd.Gameplay.Orchestration, RainbowsEnd.Tests.EditMode.UI, TMPro, RainbowsEnd.Tests.EditMode.Spells, RainbowsEnd.Gameplay.Spells
+Cohesion: 0.14
+Nodes (8): string, PlayerInputActionNames, RainbowsEnd.Tests.EditMode.Shop, RainbowsEnd.Gameplay.Player, RainbowsEnd.UI, RainbowsEnd.Gameplay.Shop, RainbowsEnd.Tests.EditMode.UI, TMPro
 
 ### Community 56 - ".ResolveAimDirection"
-Cohesion: 0.11
-Nodes (9): string, PlayerInputActionNames, Vector2, PlayerMovementUtility, Test, PlayerMovementUtilityTests, RainbowsEnd.Tests.EditMode.Shop, RainbowsEnd.Gameplay.Player (+1 more)
+Cohesion: 0.20
+Nodes (5): Vector2, PlayerMovementUtility, Test, PlayerMovementUtilityTests, RainbowsEnd.Tests.EditMode.Player
 
 ### Community 57 - "TMPro"
 Cohesion: 0.29
@@ -612,8 +601,8 @@ Cohesion: 0.19
 Nodes (5): bool, RunDirector, RunOutcome, Test, RunDirectorTests
 
 ### Community 61 - "Synty.Interface.FantasyMenus.Samples"
-Cohesion: 0.10
-Nodes (10): GameObject, SampleButtonDescriptions, bool, Selectable, SampleDefaultSelectable, Button, SampleUIButtonInput, SampleURL (+2 more)
+Cohesion: 0.09
+Nodes (14): Button, SampleUIButtonInput, SampleURL, bool, float, Generic_SimpleRotate, bool, float (+6 more)
 
 ### Community 62 - "com.unity.modules.physics"
 Cohesion: 0.10
@@ -628,7 +617,7 @@ Cohesion: 0.19
 Nodes (5): AudioSource, FloatOptions, TweenerCore, DOTweenModuleAudio, AudioMixer
 
 ### Community 65 - ".DOLocalPath"
-Cohesion: 0.23
+Cohesion: 0.21
 Nodes (13): Color, FloatOptions, Path, PathMode, PathOptions, PathType, Rigidbody2D, Sequence (+5 more)
 
 ### Community 66 - ".TryResolveHit"
@@ -636,15 +625,15 @@ Cohesion: 0.05
 Nodes (43): Acceptance criteria, Acceptance criteria, Acceptance criteria, Acceptance criteria, Approved decisions, Automated verification, Automated verification, Client request (+35 more)
 
 ### Community 67 - "PoliceSpawner"
-Cohesion: 0.20
-Nodes (5): HashSet, int, List, Transform, PoliceSpawner
+Cohesion: 0.16
+Nodes (6): PoliceMobConfig, HashSet, int, List, Transform, PoliceSpawner
 
 ### Community 68 - "PlayerPotCarryController"
 Cohesion: 0.18
 Nodes (4): float, Vector2, PlayerPotCarryController, Vector2
 
 ### Community 69 - "RainbowTrailSegment"
-Cohesion: 0.20
+Cohesion: 0.19
 Nodes (7): bool, Color, Dictionary, List, SpriteRenderer, Vector2Int, RainbowTrailSegment
 
 ### Community 70 - "RunWaveControllerTests"
@@ -656,8 +645,8 @@ Cohesion: 0.15
 Nodes (9): bool, Camera, float, GameObject, int, Transform, Vector2, Vector3 (+1 more)
 
 ### Community 72 - "SyntyFoliage_customGUI"
-Cohesion: 0.29
-Nodes (8): bool, Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, SyntyFoliage_customGUI
+Cohesion: 0.28
+Nodes (8): bool, Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, polygonShader_UI
 
 ### Community 73 - "SyntyWater_customGUI"
 Cohesion: 0.28
@@ -684,15 +673,15 @@ Cohesion: 0.27
 Nodes (4): MenuItem, SerializedProperty, string, Phase11ShopSetup
 
 ### Community 79 - "Phase7EnemySetup"
-Cohesion: 0.19
-Nodes (9): Color, GameObject, MenuItem, Scene, Sprite, string, Transform, Phase7EnemySetup (+1 more)
+Cohesion: 0.23
+Nodes (8): Color, GameObject, MenuItem, Scene, Sprite, string, Transform, Phase7EnemySetup
 
 ### Community 80 - "ShopUpgradeDefinition"
-Cohesion: 0.13
+Cohesion: 0.11
 Nodes (14): float, int, string, ShopConfig, ShopUpgradeDefinition, ShopUpgradeEffectType, float, int (+6 more)
 
 ### Community 81 - "RainbowsEnd.Core.Utilities"
-Cohesion: 0.12
+Cohesion: 0.10
 Nodes (7): PrefabPoolTests, Test, ProjectConfigRegistryTests, Test, SceneNamesTests, RainbowsEnd.Core.Utilities, RainbowsEnd.Tests.EditMode
 
 ### Community 82 - "EnemySpawner"
@@ -704,8 +693,8 @@ Cohesion: 0.23
 Nodes (5): Button, GameObject, string, TMP_Text, RunOutcomePresenter
 
 ### Community 84 - "ArenaBoundsAuthoring"
-Cohesion: 0.22
-Nodes (6): Rect, Vector2, ArenaBoundsAuthoring, Test, ArenaBoundsAuthoringTests, RainbowsEnd.Tests.EditMode.Scene
+Cohesion: 0.18
+Nodes (7): Vector2, Rect, Vector2, ArenaBoundsAuthoring, Test, ArenaBoundsAuthoringTests, RainbowsEnd.Tests.EditMode.Scene
 
 ### Community 85 - "PotRegistryTests"
 Cohesion: 0.21
@@ -729,11 +718,11 @@ Nodes (9): FloatOptions, ShakeRandomnessMode, Tweener, TweenerCore, Vector2, Vec
 
 ### Community 91 - "PotConfig"
 Cohesion: 0.20
-Nodes (8): ActorConfigBase, EnemyConfig, PlayerConfig, Color, PortalConfig, PotConfig, ProjectConfigRegistry, ScriptableObject
+Nodes (9): ActorConfigBase, EconomyConfig, EnemyConfig, Color, PortalConfig, ProjectConfigRegistry, UnicornConfig, WaveConfig (+1 more)
 
 ### Community 92 - "SyntyPannerTransparent_customGUI"
-Cohesion: 0.26
-Nodes (8): bool, Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, SyntyPannerTransparent_customGUI
+Cohesion: 0.23
+Nodes (7): Collider2D, Component, Object, Vector2, WeaponHitUtility, Test, WeaponHitUtilityTests
 
 ### Community 93 - "Decisions"
 Cohesion: 0.12
@@ -756,8 +745,8 @@ Cohesion: 0.21
 Nodes (8): GameObject, InputActionAsset, MenuItem, Scene, Sprite, string, Transform, Phase3PlayerSetup
 
 ### Community 98 - "PlayerWeaponInventory"
-Cohesion: 0.08
-Nodes (17): bool, int, PlayerWeaponInventory, string, TMP_Text, RunStatusHudPresenter, GameObject, SetUp (+9 more)
+Cohesion: 0.11
+Nodes (13): bool, int, PlayerWeaponInventory, GameObject, SetUp, TearDown, Test, PlayerWeaponInventoryTests (+5 more)
 
 ### Community 99 - "SampleSettingsArray"
 Cohesion: 0.19
@@ -792,35 +781,35 @@ Cohesion: 0.16
 Nodes (8): Animator, bool, float, Quaternion, Rigidbody2D, string, Transform, CharacterAnimationBridge
 
 ### Community 107 - "DamageInfo"
-Cohesion: 0.11
-Nodes (13): FactionId, ITeamAffiliation, Collider2D, float, Object, Vector2, RangedAttackController, FriendlyTarget (+5 more)
+Cohesion: 0.14
+Nodes (9): Object, Vector2, DamageInfo, DamageResult, FactionId, IDamageable, ITeamAffiliation, FriendlyTarget (+1 more)
 
 ### Community 108 - "ArrowProjectile"
-Cohesion: 0.13
-Nodes (10): bool, Collider2D, float, LayerMask, Object, RaycastHit2D, Vector2, ArrowProjectile (+2 more)
+Cohesion: 0.21
+Nodes (8): bool, Collider2D, float, LayerMask, Object, RaycastHit2D, Vector2, ArrowProjectile
 
 ### Community 109 - "PlayerUpgradeRuntime"
 Cohesion: 0.08
 Nodes (25): Acceptance criteria, Acceptance criteria, Acceptance criteria, Automated verification, Code steps, Corrected conclusion, Decision gate, Explicitly deferred (+17 more)
 
 ### Community 110 - "WeaponPickup"
-Cohesion: 0.29
-Nodes (4): Collider2D, int, WeaponConfig, WeaponPickup
+Cohesion: 0.15
+Nodes (6): Collider2D, int, WeaponConfig, WeaponPickup, IPoolable, TestPoolable
 
 ### Community 111 - ".ApplySpread"
-Cohesion: 0.18
-Nodes (6): Vector2, WeaponSpreadUtility, Vector2, WeaponVolleyUtility, Test, WeaponSpreadUtilityTests
+Cohesion: 0.26
+Nodes (8): bool, Dictionary, GUIStyle, int, MaterialEditor, MaterialProperty, string, SyntyPannerOpaque_customGUI
 
 ### Community 112 - "PotDrain"
-Cohesion: 0.16
-Nodes (6): CircleCollider2D, float, List, PotDrain, Test, PotDrainTests
+Cohesion: 0.26
+Nodes (4): string, TMP_Text, RunStatusHudPresenter, TestCase
 
 ### Community 113 - "PotControllerCarryTests"
 Cohesion: 0.18
 Nodes (7): CircleCollider2D, GameObject, Rigidbody2D, SetUp, TearDown, Test, PotControllerCarryTests
 
 ### Community 114 - "DG.Tweening"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (7): bool, DOTweenModuleUtils, PlaymodeStateChanged(), Preserver(), DG.Tweening, PlayModeStateChange, Preserve
 
 ### Community 115 - "PoliceCombatCycleUtility"
@@ -832,12 +821,12 @@ Cohesion: 0.22
 Nodes (3): float, string, RainbowTrailEmitter
 
 ### Community 117 - "RunStatusHudPresenter"
-Cohesion: 0.22
-Nodes (8): GameObject, MenuItem, Scene, Sprite, string, Transform, Phase5UnicornSetup, UnicornConfig
+Cohesion: 0.27
+Nodes (5): bool, Color, float, SpriteRenderer, HealthStageFeedbackPresenter
 
 ### Community 118 - "RunStatusHudPresenterTests"
-Cohesion: 0.17
-Nodes (8): MenuItem, Object, Scene, SerializedObject, string, Phase14PoliceLoadoutSetup, PoliceMobConfig, RuntimeAnimatorController
+Cohesion: 0.19
+Nodes (7): MenuItem, Object, Scene, SerializedObject, string, Phase14PoliceLoadoutSetup, RuntimeAnimatorController
 
 ### Community 119 - "SampleSceneLoader"
 Cohesion: 0.19
@@ -860,8 +849,8 @@ Cohesion: 0.24
 Nodes (8): Color, ColorOptions, Gradient, Sequence, SpriteRenderer, Tweener, TweenerCore, DOTweenModuleSprite
 
 ### Community 124 - ".SelectNearestTargetIndex"
-Cohesion: 0.28
-Nodes (5): IReadOnlyList, Vector2, WeaponAutoFireTargetingUtility, Test, WeaponAutoFireTargetingUtilityTests
+Cohesion: 0.32
+Nodes (3): Test, UnicornRoamingUtilityTests, RainbowsEnd.Tests.EditMode.Unicorn
 
 ### Community 125 - ".ResolveRewardKind"
 Cohesion: 0.31
@@ -968,12 +957,8 @@ Cohesion: 0.18
 Nodes (10): Asset Integration (3D visual upgrade), Completion rules, Current status (as of 2026-08-26), Next recap template, Open decisions and assumptions, Phase tracker, Progress log, Rainbow's End Progress Tracker (+2 more)
 
 ### Community 151 - ".Configure"
-Cohesion: 0.24
-Nodes (6): Rect, Vector2, ArenaBoundarySide, UnicornRoamingUtility, Test, UnicornRoamingUtilityTests
-
-### Community 152 - "PortalRegistryTests"
-Cohesion: 0.22
-Nodes (6): GameObject, InputAction, MenuItem, string, Transform, Phase0ProjectSetup
+Cohesion: 0.31
+Nodes (4): Rect, Vector2, ArenaBoundarySide, UnicornRoamingUtility
 
 ### Community 153 - "SampleToggleHelper"
 Cohesion: 0.25
@@ -1084,7 +1069,7 @@ Cohesion: 0.23
 Nodes (6): bool, Color, float, SpriteRenderer, Vector3, PotDrainFeedbackPresenter
 
 ### Community 180 - "ShopPanelPresenter"
-Cohesion: 0.23
+Cohesion: 0.24
 Nodes (4): Scene, GameObject, TMP_Text, ShopPanelPresenter
 
 ### Community 181 - "TravellerTargetSelectionUtilityTests"
@@ -1122,6 +1107,14 @@ Nodes (7): Implemented, Next phase, Not changed, Pot of Gold Feedback — Phase 
 ### Community 189 - "Rainbow's End — UI Counters Phase 0 Recap"
 Cohesion: 0.25
 Nodes (7): Active scene and editor checkpoint, Agreed HUD layout checkpoint, Live scene targets, Rainbow's End — UI Counters Phase 0 Recap, Runtime/pooling sources confirmed, Synty assets selected for reuse, Verification and rollback
+
+### Community 190 - "ETFXLightFade"
+Cohesion: 0.29
+Nodes (3): bool, Selectable, SampleDefaultSelectable
+
+### Community 191 - ".CreateOrUpdateSceneObjects"
+Cohesion: 0.67
+Nodes (3): Collider2D, Vector2, WeaponHitResult
 
 ### Community 192 - ".ShouldUsePistol"
 Cohesion: 0.39
@@ -1196,16 +1189,12 @@ Cohesion: 0.29
 Nodes (4): Vector3, ETFXRotation, spaceEnum, spaceEnum
 
 ### Community 211 - "NavMeshPathfinder"
-Cohesion: 0.27
+Cohesion: 0.28
 Nodes (4): float, Vector2, NavMeshPathfinder, NavMeshPath
 
 ### Community 212 - ".GetSnapToPositionToBringChildIntoView"
-Cohesion: 0.43
-Nodes (4): RectTransform, ScrollRect, Vector3, ScrollRectExtensions
-
-### Community 213 - "SampleScrollRectSelectableListItem"
-Cohesion: 0.29
-Nodes (4): bool, ScrollRect, Selectable, SampleScrollRectSelectableListItem
+Cohesion: 0.11
+Nodes (11): GameObject, SampleButtonDescriptions, RectTransform, ScrollRect, Vector3, ScrollRectExtensions, bool, ScrollRect (+3 more)
 
 ### Community 214 - "SampleSelectedObjectActivator"
 Cohesion: 0.38
@@ -1247,17 +1236,9 @@ Nodes (5): Implemented, Next phase boundary, Scope, Upgrade Screen Feedback — 
 Cohesion: 0.33
 Nodes (5): Remaining manual check, Runtime changes, Scope, Upgrade Screen Feedback — Phase 4 Recap, Verification
 
-### Community 225 - "EnemySeparationUtility"
-Cohesion: 0.21
-Nodes (4): Collider2D, Vector2, EnemySeparationUtility, ContactFilter2D
-
 ### Community 226 - ".SelectBestCandidateIndex"
-Cohesion: 0.23
+Cohesion: 0.29
 Nodes (3): Collider2D, float, GoldPickup
-
-### Community 227 - ".Configure_ResetsRunStatistics"
-Cohesion: 0.24
-Nodes (5): GameObject, SetUp, TearDown, Test, TutorialSequenceTests
 
 ### Community 228 - "UI Counters Feedback - Phase 1 Recap"
 Cohesion: 0.40
@@ -1288,8 +1269,8 @@ Cohesion: 0.40
 Nodes (5): dependencies, depth, source, version, com.unity.modules.umbra
 
 ### Community 236 - "SceneNames.cs"
-Cohesion: 0.20
-Nodes (4): string, SceneNames, RainbowsEnd.Core.Bootstrap, RainbowsEnd.Core.SceneManagement
+Cohesion: 0.13
+Nodes (9): string, SceneNames, RainbowsEnd.Gameplay.Unicorn, RainbowsEnd.Core.Bootstrap, RainbowsEnd.Gameplay.World, RainbowsEnd.Core.SceneManagement, RainbowsEnd.Systems.Pooling, RainbowsEnd.Tests.EditMode.Spells (+1 more)
 
 ### Community 237 - "PlayerInputActionNames.cs"
 Cohesion: 0.24
@@ -1298,10 +1279,6 @@ Nodes (7): bool, float, GameObject, Rigidbody, Transform, ETFXProjectileScript, 
 ### Community 239 - "Rainbow's End Gameplay Context"
 Cohesion: 0.29
 Nodes (6): Civilian Mobs, Military Mobs, Onboarding, Police Mobs, Pot of Gold Feedback, Rainbow's End Gameplay Context
-
-### Community 252 - "com.unity.modules.unityanalytics"
-Cohesion: 0.40
-Nodes (3): WeaponRuntimeState, Test, WeaponRuntimeStateTests
 
 ### Community 254 - "com.unity.modules.video"
 Cohesion: 0.20
@@ -1315,10 +1292,6 @@ Nodes (9): Acceptance, Automated verification, Files changed, Goal, Implemented,
 Cohesion: 0.20
 Nodes (9): Acceptance, Automated verification, Files changed in Phase 4, Goal, Live Unity MCP acceptance checks, Manual/client smoke-test note, Phase boundary, Preserved behavior (+1 more)
 
-### Community 271 - "SerializedProperty"
-Cohesion: 0.29
-Nodes (4): Camera, Transform, ArenaSceneContext, FaeTreeAnchor
-
 ### Community 272 - "TextAlignmentOptions"
 Cohesion: 0.24
 Nodes (6): Camera, Vector2, Vector3, PlayerAimResolver, Test, PlayerAimResolverTests
@@ -1326,14 +1299,6 @@ Nodes (6): Camera, Vector2, Vector3, PlayerAimResolver, Test, PlayerAimResolverT
 ### Community 273 - "TextMeshProUGUI"
 Cohesion: 0.33
 Nodes (3): float, Vector2, PlayerPortalController
-
-### Community 274 - "Button"
-Cohesion: 0.33
-Nodes (6): Button, Color, TextAlignmentOptions, TextMeshProUGUI, Transform, Vector2
-
-### Community 275 - "SerializedProperty"
-Cohesion: 0.36
-Nodes (3): Component, Test, TravellerControllerTests
 
 ### Community 276 - "TextAlignmentOptions"
 Cohesion: 0.22
@@ -1358,10 +1323,6 @@ Nodes (7): Changed paths, Phase 4 handoff, Police Mobs — Phase 3 Recap, Reward
 ### Community 281 - "Sprite"
 Cohesion: 0.25
 Nodes (7): Approved decisions, Civilian Mobs Feedback Implementation Plan, Client request, Existing implementation facts, Explicitly deferred, Guardrails, Target design and ownership
-
-### Community 282 - "IReadOnlyList"
-Cohesion: 0.29
-Nodes (4): SpawnPointKind, int, string, SpawnPointMarker
 
 ### Community 283 - "ArenaBoundsAuthoring"
 Cohesion: 0.29
@@ -1435,10 +1396,6 @@ Nodes (6): Code steps, Editor steps, Goal, Phase I — Combat Projectile Visual 
 Cohesion: 0.33
 Nodes (6): Code steps, Editor steps, Goal, Phase J — HUD Element Swap (Gold Counter), Rollback, Verification checklist
 
-### Community 301 - "Vector2"
-Cohesion: 0.24
-Nodes (3): Color, MilitaryMobConfig, Vector2
-
 ### Community 302 - "WeaponConfig"
 Cohesion: 0.33
 Nodes (6): Code steps (optional), Editor steps, Goal, Phase F — Enemy 3D Swaps, Rollback, Verification checklist
@@ -1456,8 +1413,8 @@ Cohesion: 0.33
 Nodes (5): Completion, Console note, Final verification, Handoff records, Police Mobs - Phase 4 Recap
 
 ### Community 306 - "bool"
-Cohesion: 0.33
-Nodes (6): Completion criteria, Goal, Handoff steps, Phase 4 - Regression, documentation, and handoff, Required automated checks, Required manual smoke test
+Cohesion: 0.22
+Nodes (9): Completion criteria, Final verification, Goal, Handoff steps, Phase 4 Recap - 2026-08-28, Phase 4 - Regression, documentation, and handoff, Phase 4 result, Required automated checks (+1 more)
 
 ### Community 307 - "CharacterAnimationBridge"
 Cohesion: 0.40
@@ -1466,14 +1423,6 @@ Nodes (5): Acceptance criteria, Goal, Phase 0 — Snapshot the live military bas
 ### Community 308 - "Collider2D"
 Cohesion: 0.40
 Nodes (5): Acceptance criteria, Goal, Phase 0 - Baseline and asset-wiring snapshot, Rollback, Steps
-
-### Community 309 - "FactionId"
-Cohesion: 0.40
-Nodes (3): bool, float, Generic_SimpleTranslate
-
-### Community 310 - "float"
-Cohesion: 0.40
-Nodes (3): TextMeshProUGUI, DropdownSample, TMP_Dropdown
 
 ### Community 311 - "Health"
 Cohesion: 0.40
@@ -1491,29 +1440,25 @@ Nodes (3): Conventions used in this plan, Current implementation snapshot (2026-
 Cohesion: 0.50
 Nodes (4): Configuration ownership, Guardrails, Runtime responsibilities, Target design
 
-### Community 329 - "RainbowsEnd.Gameplay.Unicorn"
-Cohesion: 0.18
-Nodes (4): RainbowsEnd.Gameplay.Unicorn, RainbowsEnd.Tests.EditMode.Pots, RainbowsEnd.Tests.EditMode.Unicorn, RainbowsEnd.Gameplay.Pots
-
 ## Knowledge Gaps
-- **950 isolated node(s):** `OnLifeEnd`, `spaceEnum`, `DOTweenCYInstruction`, `AnimationState`, `GaitState` (+945 more)
+- **985 isolated node(s):** `OnLifeEnd`, `spaceEnum`, `DOTweenCYInstruction`, `AnimationState`, `GaitState` (+980 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `DG.Tweening` connect `DG.Tweening` to `DOTweenModuleUI`, `Tween`, `DOTweenModuleSprite`, `RainbowsEnd.Core.Common`?**
-  _High betweenness centrality (0.070) - this node is a cross-community bridge._
-- **Why does `PlayerRoot` connect `PlayerRoot` to `MilitaryController`, `TutorialSequenceController`, `PotController`, `PlayerAimController`, `PlayerInputReader`, `PlayerMovementController`, `Health`, `TextMeshProUGUI`, `WeaponController`, `WeaponConfig`, `PoliceController`, `RainbowsEnd.Core.Common`, `ShopController`, `ShopPanelPresenter`, `PlayerPotCarryController`, `ShopUpgradeDefinition`, `PotConfig`, `PlayerWeaponInventory`, `DamageInfo`, `PotControllerCarryTests`?**
+- **Why does `DG.Tweening` connect `DG.Tweening` to `.DOLocalPath`, `DOTweenModuleUI`, `SceneNames.cs`, `Tween`, `DOTweenModuleSprite`?**
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+- **Why does `PlayerRoot` connect `PlayerRoot` to `MilitaryController`, `TutorialSequenceController`, `PotController`, `PlayerAimController`, `PlayerInputReader`, `PlayerMovementController`, `Phase2ArenaSetup`, `Health`, `TextMeshProUGUI`, `WeaponController`, `PoliceController`, `ShopController`, `Phase4CombatSetup`, `Synty.Interface.FantasyMenus.Samples`, `PlayerPotCarryController`, `ShopUpgradeDefinition`, `ArenaBoundsAuthoring`, `PlayerWeaponInventory`, `DamageInfo`, `SceneNames.cs`, `PotControllerCarryTests`?**
   _High betweenness centrality (0.058) - this node is a cross-community bridge._
-- **Why does `MilitaryController` connect `MilitaryController` to `EnemySeparationUtility`, `.SelectBestCandidateIndex`, `PotController`, `CharacterAnimationBridge`, `DamageInfo`, `PrefabPool`, `Vector2`, `Health`, `MilitarySpawner`, `PlayerRoot`, `ArrowProjectile`, `WeaponConfig`, `PotRegistryTests`, `RainbowsEnd.Core.Common`, `ArenaBoundsAuthoring`, `PotConfig`?**
+- **Why does `MilitaryController` connect `MilitaryController` to `PotController`, `Phase4CombatSetup`, `CharacterAnimationBridge`, `DamageInfo`, `MilitarySpawner`, `PrefabPool`, `Health`, `PlayerRoot`, `WeaponPickup`, `WeaponConfig`, `PotRegistryTests`, `RainbowsEnd.Core.Common`, `ArenaBoundsAuthoring`, `PotConfig`, `Synty.Interface.FantasyMenus.Samples`?**
   _High betweenness centrality (0.043) - this node is a cross-community bridge._
 - **What connects `OnLifeEnd`, `spaceEnum`, `DOTweenCYInstruction` to the rest of the system?**
-  _950 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _985 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `TravellerController` be split into smaller, more focused modules?**
-  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05612694681163679 - nodes in this community are weakly interconnected._
 - **Should `polygonShaderTransparent_UI` be split into smaller, more focused modules?**
-  _Cohesion score 0.06634615384615385 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0675990675990676 - nodes in this community are weakly interconnected._
 - **Should `DOTweenModuleUI` be split into smaller, more focused modules?**
   _Cohesion score 0.08961748633879782 - nodes in this community are weakly interconnected._
