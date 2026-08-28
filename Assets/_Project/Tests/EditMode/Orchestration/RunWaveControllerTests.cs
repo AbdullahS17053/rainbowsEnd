@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using NUnit.Framework;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Orchestration;
@@ -238,6 +239,27 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
                 RunSpawnType.Police,
                 RunSpawnType.Military
             }));
+        }
+
+
+        [Test]
+        public void DefaultWaveAssetUsesApprovedPoliceTotals()
+        {
+            WaveConfig waveConfig = AssetDatabase.LoadAssetAtPath<WaveConfig>(
+                "Assets/_Project/ScriptableObjects/Defaults/SO_Wave_Default.asset");
+
+            Assert.That(waveConfig, Is.Not.Null);
+            Assert.That(waveConfig.Waves, Has.Length.GreaterThanOrEqualTo(5));
+            Assert.That(
+                new[]
+                {
+                    waveConfig.Waves[0].PoliceCount,
+                    waveConfig.Waves[1].PoliceCount,
+                    waveConfig.Waves[2].PoliceCount,
+                    waveConfig.Waves[3].PoliceCount,
+                    waveConfig.Waves[4].PoliceCount
+                },
+                Is.EqualTo(new[] { 0, 0, 3, 4, 5 }));
         }
 }
 }

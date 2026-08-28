@@ -407479,6 +407479,8 @@ MonoBehaviour:
   projectilePool: {fileID: 421679962}
   impactPool: {fileID: 7592605}
   weaponPickupPool: {fileID: 473080701}
+  policeMobConfig: {fileID: 11400000, guid: 600a285a6d375724b9971500840e95ff, type: 2}
+  goldPickupPool: {fileID: 530009630}
 --- !u!4 &845831894
 Transform:
   m_ObjectHideFlags: 0

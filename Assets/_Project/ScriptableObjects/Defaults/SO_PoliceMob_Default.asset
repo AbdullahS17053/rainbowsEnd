@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0366205046c4b6e4b8fea5c90a7d598d, type: 3}
+  m_Name: SO_PoliceMob_Default
+  m_EditorClassIdentifier: 
+  <PistolWeapon>k__BackingField: {fileID: 11400000, guid: 8ceb9dab0ead367459bdec5f1133a0e0, type: 2}
+  <ShotgunWeapon>k__BackingField: {fileID: 11400000, guid: 3eaf0e7883e1a044c9c20de87c6df133, type: 2}
+  <PistolChance>k__BackingField: 0.5
+  <AimHoldSeconds>k__BackingField: 0.25
+  <RepositionSeconds>k__BackingField: 0.75
+  <DeathDropChance>k__BackingField: 0.33
+  <WeaponRewardChance>k__BackingField: 0.5
+  <PistolDropAmmo>k__BackingField: 12
+  <ShotgunDropAmmo>k__BackingField: 6
+  <GoldDropAmount>k__BackingField: 10

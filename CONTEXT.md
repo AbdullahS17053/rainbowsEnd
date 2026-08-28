@@ -123,3 +123,17 @@ _Avoid_: Continuous military fire, three-projectile volley
 **Military Aim Telegraph**:
 A non-damaging red aim line appears for 0.35 seconds before a military burst begins.
 _Avoid_: Hitscan laser, permanent laser sight
+
+## Police Mobs
+
+**Police Combat Cycle**:
+A police mob approaches the player, pauses to aim, fires one normal weapon action, then repositions before repeating. Police do not fire while moving.
+_Avoid_: Continuous stationary fire, sliding fire
+
+**Police Loadout**:
+Each police mob receives one permanent pistol or shotgun loadout when spawned. Its held weapon and any weapon reward match that loadout.
+_Avoid_: Per-shot loadout roll, mismatched weapon pickup
+
+**Police Death Drop**:
+A police mob has one 33% chance on death to create exactly one reward: its matching weapon with ammo or 10 Pot Gold. The other 67% creates no reward.
+_Avoid_: Guaranteed drop, combined weapon-and-gold drop, ammo-only pickup

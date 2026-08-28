@@ -30,14 +30,22 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private WeaponImpactFeedbackSpawner impactFeedbackSpawner;
         [SerializeField] private RangedAttackController rangedAttackController;
         [SerializeField] private CharacterAnimationBridge animationBridge;
+        [SerializeField] private GameObject pistolVisual;
+        [SerializeField] private GameObject shotgunVisual;
 
         private PrefabPool _owningPool;
         private PrefabPool _weaponPickupPool;
+        private PrefabPool _goldPickupPool;
         private PoliceSpawner _owningSpawner;
         private WeaponConfig _dropWeaponConfig;
         private int _dropAmmoCount;
         private PlayerRoot _targetPlayer;
         private bool _deathHandled;
+        private bool _usesShotgun;
+        private PoliceMobConfig _policeMobConfig;
+        private PoliceCombatPhase _combatPhase;
+        private float _combatPhaseTimer;
+        private int _repositionSign = 1;
         private Vector2[] _currentPath;
         private int _currentWaypointIndex;
         private float _pathRefreshTimer;
@@ -81,11 +89,64 @@ namespace RainbowsEnd.Gameplay.Enemies
             WeaponConfig dropWeaponConfig,
             int dropAmmoCount)
         {
+            Activate(
+                owningSpawner,
+                owningPool,
+                weaponPickupPool,
+                goldPickupPool: null,
+                enemyConfig,
+                policeWeaponConfig,
+                dropWeaponConfig,
+                dropAmmoCount,
+                useShotgun: false,
+                policeMobConfig: null);
+        }
+
+        public void Activate(
+            PoliceSpawner owningSpawner,
+            PrefabPool owningPool,
+            PrefabPool weaponPickupPool,
+            EnemyConfig enemyConfig,
+            WeaponConfig policeWeaponConfig,
+            WeaponConfig dropWeaponConfig,
+            int dropAmmoCount,
+            bool useShotgun,
+            PoliceMobConfig policeMobConfig)
+        {
+            Activate(
+                owningSpawner,
+                owningPool,
+                weaponPickupPool,
+                goldPickupPool: null,
+                enemyConfig,
+                policeWeaponConfig,
+                dropWeaponConfig,
+                dropAmmoCount,
+                useShotgun,
+                policeMobConfig);
+        }
+
+        public void Activate(
+            PoliceSpawner owningSpawner,
+            PrefabPool owningPool,
+            PrefabPool weaponPickupPool,
+            PrefabPool goldPickupPool,
+            EnemyConfig enemyConfig,
+            WeaponConfig policeWeaponConfig,
+            WeaponConfig dropWeaponConfig,
+            int dropAmmoCount,
+            bool useShotgun,
+            PoliceMobConfig policeMobConfig)
+        {
             _owningSpawner = owningSpawner;
             _owningPool = owningPool;
             _weaponPickupPool = weaponPickupPool;
+            _goldPickupPool = goldPickupPool;
             _dropWeaponConfig = dropWeaponConfig;
             _dropAmmoCount = Mathf.Max(0, dropAmmoCount);
+            _usesShotgun = useShotgun;
+            _policeMobConfig = policeMobConfig;
+            ResetCombatCycle();
             _deathHandled = false;
 
             if (enemyConfig != null)
@@ -103,6 +164,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                 health.Initialize(config.MaxHealth);
             }
 
+            ApplyWeaponVisual(_usesShotgun);
             body.linearVelocity = Vector2.zero;
             rangedAttackController.Configure(projectileLauncher, impactFeedbackSpawner, weaponConfig, FactionId, bodyCollider);
         }
@@ -112,26 +174,32 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheReferences();
             _owningPool = null;
             _weaponPickupPool = null;
+            _goldPickupPool = null;
+            _owningSpawner = null;
+            _policeMobConfig = null;
+            _dropWeaponConfig = null;
+            _dropAmmoCount = 0;
+            _usesShotgun = false;
+            _targetPlayer = null;
+            _deathHandled = false;
+            ResetCombatCycle();
+            ApplyWeaponVisual(false);
+        }
+
+        public void OnDespawned()
+        {
+            _owningPool = null;
+            _weaponPickupPool = null;
+            _goldPickupPool = null;
             _owningSpawner = null;
             _dropWeaponConfig = null;
             _dropAmmoCount = 0;
             _targetPlayer = null;
             _deathHandled = false;
-            _currentPath = null;
-            _currentWaypointIndex = 0;
-            _pathRefreshTimer = 0f;
-            body.linearVelocity = Vector2.zero;
-        }
-
-        public void OnDespawned()
-        {
-            _owningSpawner = null;
-            _targetPlayer = null;
-            _deathHandled = false;
-            _currentPath = null;
-            _currentWaypointIndex = 0;
-            _pathRefreshTimer = 0f;
-            body.linearVelocity = Vector2.zero;
+            _policeMobConfig = null;
+            _usesShotgun = false;
+            ResetCombatCycle();
+            ApplyWeaponVisual(false);
         }
 
         private void Reset()
@@ -154,7 +222,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
         }
 
-        private void Update()
+private void Update()
         {
             rangedAttackController.Tick(Time.deltaTime);
 
@@ -164,95 +232,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            ResolveTargetPlayer();
-
-            Vector2 separation = EnemySeparationUtility.CalculateSeparation(
-                transform.position,
-                bodyCollider,
-                config != null ? config.SeparationRadius : 0.6f,
-                config != null ? config.SeparationStrength : 2f);
-
-            if (_targetPlayer == null || config == null || weaponConfig == null)
-            {
-                body.linearVelocity = separation;
-                return;
-            }
-
-            Vector2 toTarget = _targetPlayer.transform.position - transform.position;
-            float distanceToTarget = toTarget.magnitude;
-            float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
-            if (distanceToTarget > engagementRange)
-            {
-                body.linearVelocity = separation;
-                return;
-            }
-
-            float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
-            Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : Vector2.zero;
-
-            Vector2 targetVelocity;
-            if (distanceToTarget > preferredRange)
-            {
-                _pathRefreshTimer -= Time.deltaTime;
-                if (_currentPath == null || _pathRefreshTimer <= 0f)
-                {
-                    if (NavMeshPathfinder.TryGetPath(transform.position, _targetPlayer.transform.position, out Vector2[] newPath))
-                    {
-                        _currentPath = newPath;
-                        _currentWaypointIndex = 0;
-                    }
-
-                    _pathRefreshTimer = 0.5f;
-                }
-
-                Vector2 moveDir = Vector2.zero;
-                if (_currentPath != null)
-                {
-                    moveDir = NavMeshPathfinder.GetSteeringDirection(transform.position, _currentPath, ref _currentWaypointIndex);
-                }
-
-                if (moveDir == Vector2.zero)
-                {
-                    moveDir = direction;
-                }
-
-                targetVelocity = moveDir * config.MoveSpeed;
-            }
-            else
-            {
-                targetVelocity = Vector2.zero;
-            }
-
-            Vector2 combinedVelocity = targetVelocity + separation;
-            if (combinedVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
-            {
-                combinedVelocity = combinedVelocity.normalized * config.MoveSpeed;
-            }
-
-            body.linearVelocity = combinedVelocity;
-
-            if (visualRoot != null && direction.sqrMagnitude > 0f)
-            {
-                visualRoot.up = direction;
-            }
-
-            if (_currentPath != null)
-            {
-                for (int i = 0; i < _currentPath.Length - 1; i++)
-                {
-                    Debug.DrawLine(_currentPath[i], _currentPath[i + 1], Color.cyan);
-                }
-            }
-
-            if (distanceToTarget <= weaponConfig.Range
-                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget
-                && !_targetPlayer.IsDisabled)
-            {
-                if (rangedAttackController.TryFire(transform.position, direction, 0f, this))
-                {
-                    animationBridge?.TriggerFire();
-                }
-            }
+            TickPoliceCombat();
         }
 
         private void HandleDeath()
@@ -264,7 +244,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             _deathHandled = true;
             RecordKill();
-            SpawnWeaponPickup();
+            SpawnDeathReward();
             _owningSpawner?.NotifyPoliceDespawned(this);
 
             PrefabPool owningPool = _owningPool;
@@ -291,6 +271,54 @@ namespace RainbowsEnd.Gameplay.Enemies
             runDirector?.RecordKill();
         }
 
+        private void SpawnDeathReward()
+        {
+            bool weaponAvailable = _weaponPickupPool != null
+                && _dropWeaponConfig != null
+                && _dropAmmoCount > 0;
+            int goldAmount = _policeMobConfig != null
+                ? Mathf.Max(0, _policeMobConfig.GoldDropAmount)
+                : 10;
+            bool goldAvailable = _goldPickupPool != null && goldAmount > 0;
+
+            PoliceDeathRewardKind rewardKind =
+                PoliceDeathRewardUtility.ResolveRewardKind(
+                    Random.value,
+                    Random.value,
+                    _policeMobConfig != null ? _policeMobConfig.DeathDropChance : 0.33f,
+                    _policeMobConfig != null ? _policeMobConfig.WeaponRewardChance : 0.5f,
+                    weaponAvailable,
+                    goldAvailable);
+
+            switch (rewardKind)
+            {
+                case PoliceDeathRewardKind.Weapon:
+                    SpawnWeaponPickup();
+                    break;
+                case PoliceDeathRewardKind.Gold:
+                    SpawnGoldPickup(goldAmount);
+                    break;
+            }
+        }
+
+        private void SpawnGoldPickup(int goldAmount)
+        {
+            if (_goldPickupPool == null || goldAmount <= 0)
+            {
+                return;
+            }
+
+            GoldPickup goldPickup = _goldPickupPool.Rent<GoldPickup>(
+                transform.position,
+                Quaternion.identity);
+            if (goldPickup == null)
+            {
+                return;
+            }
+
+            goldPickup.Activate(_goldPickupPool, goldAmount);
+        }
+
         private void SpawnWeaponPickup()
         {
             if (_weaponPickupPool == null || _dropWeaponConfig == null || _dropAmmoCount <= 0)
@@ -307,6 +335,19 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             pickup.Activate(_weaponPickupPool, _dropWeaponConfig, _dropAmmoCount);
+        }
+
+        private void ApplyWeaponVisual(bool useShotgun)
+        {
+            if (pistolVisual != null)
+            {
+                pistolVisual.SetActive(!useShotgun);
+            }
+
+            if (shotgunVisual != null)
+            {
+                shotgunVisual.SetActive(useShotgun);
+            }
         }
 
         private void ResolveTargetPlayer()
@@ -340,5 +381,253 @@ namespace RainbowsEnd.Gameplay.Enemies
                 visualRenderer = visualRoot.GetComponent<SpriteRenderer>();
             }
         }
-    }
+
+
+private void BeginReposition()
+        {
+            _combatPhase = PoliceCombatPhase.Reposition;
+            _combatPhaseTimer = _policeMobConfig != null
+                ? Mathf.Max(0f, _policeMobConfig.RepositionSeconds)
+                : 0.75f;
+            _repositionSign = PoliceCombatCycleUtility.ResolveRepositionSign(Random.value);
+        }
+
+
+private void BeginAimHold()
+        {
+            _combatPhase = PoliceCombatPhase.AimHold;
+            _combatPhaseTimer = _policeMobConfig != null
+                ? Mathf.Max(0f, _policeMobConfig.AimHoldSeconds)
+                : 0.25f;
+        }
+
+
+private void ResetCombatCycle()
+        {
+            _combatPhase = PoliceCombatPhase.Approach;
+            _combatPhaseTimer = 0f;
+            _repositionSign = 1;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+            }
+        }
+
+
+private void TickReposition(Vector2 direction, Vector2 separation)
+        {
+            float moveSpeed = Mathf.Max(0f, config.MoveSpeed);
+            Vector2 strafeDirection = new Vector2(-direction.y, direction.x) * _repositionSign;
+            Vector2 combinedVelocity = strafeDirection * moveSpeed + separation;
+            if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
+            {
+                combinedVelocity = combinedVelocity.normalized * moveSpeed;
+            }
+
+            body.linearVelocity = combinedVelocity;
+            if (visualRoot != null && combinedVelocity.sqrMagnitude > 0.001f)
+            {
+                visualRoot.up = combinedVelocity.normalized;
+            }
+
+            _combatPhaseTimer -= Time.deltaTime;
+            _combatPhase = PoliceCombatCycleUtility.ResolveReposition(
+                _combatPhaseTimer,
+                true);
+            if (_combatPhase == PoliceCombatPhase.Approach)
+            {
+                ResetCombatCycle();
+            }
+        }
+
+
+private void TickAimHold(Vector2 direction, bool canShoot)
+        {
+            body.linearVelocity = Vector2.zero;
+            if (visualRoot != null && direction.sqrMagnitude > 0.001f)
+            {
+                visualRoot.up = direction;
+            }
+
+            if (!canShoot)
+            {
+                ResetCombatCycle();
+                return;
+            }
+
+            _combatPhaseTimer -= Time.deltaTime;
+            if (_combatPhaseTimer > 0f)
+            {
+                return;
+            }
+
+            bool fireSucceeded = rangedAttackController.TryFire(
+                transform.position,
+                direction,
+                0f,
+                this);
+            if (fireSucceeded)
+            {
+                animationBridge?.TriggerFire();
+            }
+
+            _combatPhase = PoliceCombatCycleUtility.ResolveAimHold(
+                0f,
+                true,
+                fireSucceeded);
+            if (_combatPhase == PoliceCombatPhase.Reposition)
+            {
+                BeginReposition();
+            }
+        }
+
+
+private void TickApproach(
+            float distanceToTarget,
+            float preferredRange,
+            Vector2 direction,
+            bool hasLineOfSight,
+            bool canShoot,
+            Vector2 separation)
+        {
+            if (PoliceCombatCycleUtility.ShouldBeginAimHold(
+                distanceToTarget,
+                preferredRange,
+                canShoot))
+            {
+                body.linearVelocity = Vector2.zero;
+                if (visualRoot != null)
+                {
+                    visualRoot.up = direction;
+                }
+
+                BeginAimHold();
+                return;
+            }
+
+            bool shouldMove = distanceToTarget > preferredRange || !hasLineOfSight;
+            Vector2 moveDirection = Vector2.zero;
+            if (shouldMove)
+            {
+                _pathRefreshTimer -= Time.deltaTime;
+                if (_currentPath == null || _pathRefreshTimer <= 0f)
+                {
+                    if (NavMeshPathfinder.TryGetPath(
+                        transform.position,
+                        _targetPlayer.transform.position,
+                        out Vector2[] newPath))
+                    {
+                        _currentPath = newPath;
+                        _currentWaypointIndex = 0;
+                    }
+
+                    _pathRefreshTimer = 0.5f;
+                }
+
+                if (_currentPath != null)
+                {
+                    moveDirection = NavMeshPathfinder.GetSteeringDirection(
+                        transform.position,
+                        _currentPath,
+                        ref _currentWaypointIndex);
+                }
+
+                if (moveDirection == Vector2.zero)
+                {
+                    moveDirection = direction;
+                }
+            }
+
+            float moveSpeed = Mathf.Max(0f, config.MoveSpeed);
+            Vector2 combinedVelocity = moveDirection * moveSpeed + separation;
+            if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
+            {
+                combinedVelocity = combinedVelocity.normalized * moveSpeed;
+            }
+
+            body.linearVelocity = combinedVelocity;
+
+            if (visualRoot != null)
+            {
+                Vector2 facingDirection = moveDirection.sqrMagnitude > 0.001f
+                    ? moveDirection
+                    : direction;
+                if (facingDirection.sqrMagnitude > 0.001f)
+                {
+                    visualRoot.up = facingDirection;
+                }
+            }
+
+            if (_currentPath != null)
+            {
+                for (int index = 0; index < _currentPath.Length - 1; index++)
+                {
+                    Debug.DrawLine(_currentPath[index], _currentPath[index + 1], Color.cyan);
+                }
+            }
+        }
+
+
+private void TickPoliceCombat()
+        {
+            ResolveTargetPlayer();
+
+            Vector2 separation = EnemySeparationUtility.CalculateSeparation(
+                transform.position,
+                bodyCollider,
+                config != null ? config.SeparationRadius : 0.6f,
+                config != null ? config.SeparationStrength : 2f);
+
+            if (_targetPlayer == null
+                || _targetPlayer.IsDisabled
+                || config == null
+                || weaponConfig == null)
+            {
+                ResetCombatCycle();
+                body.linearVelocity = separation;
+                return;
+            }
+
+            Vector2 toTarget = _targetPlayer.transform.position - transform.position;
+            float distanceToTarget = toTarget.magnitude;
+            float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
+            if (distanceToTarget > engagementRange)
+            {
+                ResetCombatCycle();
+                body.linearVelocity = separation;
+                return;
+            }
+
+            float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
+            Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : (Vector2)transform.up;
+            bool hasLineOfSight = distanceToTarget <= 0.001f
+                || CoverBlocker.GetNearestBlockDistance(
+                    transform.position,
+                    direction,
+                    Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget;
+            bool canShoot = distanceToTarget <= weaponConfig.Range && hasLineOfSight;
+
+            switch (_combatPhase)
+            {
+                case PoliceCombatPhase.AimHold:
+                    TickAimHold(direction, canShoot);
+                    return;
+                case PoliceCombatPhase.Reposition:
+                    TickReposition(direction, separation);
+                    return;
+                default:
+                    TickApproach(
+                        distanceToTarget,
+                        preferredRange,
+                        direction,
+                        hasLineOfSight,
+                        canShoot,
+                        separation);
+                    return;
+            }
+        }
+}
 }

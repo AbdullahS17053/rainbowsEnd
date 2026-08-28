@@ -22,6 +22,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private PrefabPool projectilePool;
         [SerializeField] private PrefabPool impactPool;
         [SerializeField] private PrefabPool weaponPickupPool;
+        [SerializeField] private PoliceMobConfig policeMobConfig;
+        [SerializeField] private PrefabPool goldPickupPool;
 
         private readonly List<SpawnPointMarker> _enemySpawnPoints = new List<SpawnPointMarker>();
         private readonly HashSet<int> _activePoliceIds = new HashSet<int>();
@@ -98,7 +100,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheSpawnPoints();
         }
 
-        private bool SpawnPolice(int spawnIndex)
+private bool SpawnPolice(int spawnIndex)
         {
             if (!CanSpawnMorePolice())
             {
@@ -121,13 +123,33 @@ namespace RainbowsEnd.Gameplay.Enemies
             weaponLauncher?.Configure(projectilePool);
             feedbackSpawner?.Configure(impactPool);
 
-            ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount);
-            policeController.Activate(this, policePool, weaponPickupPool, policeConfig, policeWeaponConfig, dropWeaponConfig, dropAmmoCount);
+            ResolveLoadout(
+                out WeaponConfig assignedWeaponConfig,
+                out WeaponConfig dropWeaponConfig,
+                out int dropAmmoCount,
+                out bool useShotgun);
+            if (assignedWeaponConfig == null)
+            {
+                policePool.Return(policeInstance);
+                return false;
+            }
+
+            policeController.Activate(
+                this,
+                policePool,
+                weaponPickupPool,
+                goldPickupPool,
+                policeConfig,
+                assignedWeaponConfig,
+                dropWeaponConfig,
+                dropAmmoCount,
+                useShotgun,
+                policeMobConfig);
             NotifyPoliceSpawned(policeController);
             return true;
         }
 
-        private void ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount)
+private void ResolveWeaponDrop(out WeaponConfig dropWeaponConfig, out int dropAmmoCount)
         {
             if (EnemyDropSelectionUtility.TrySelectWeaponDrop(weaponDropOptions, Random.value, out dropWeaponConfig, out dropAmmoCount))
             {
@@ -136,6 +158,37 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             dropWeaponConfig = legacyDropWeaponConfig;
             dropAmmoCount = dropWeaponConfig != null ? Mathf.Max(0, legacyDropAmmoCount) : 0;
+        }
+
+        private void ResolveLoadout(
+            out WeaponConfig assignedWeaponConfig,
+            out WeaponConfig dropWeaponConfig,
+            out int dropAmmoCount,
+            out bool useShotgun)
+        {
+            if (policeMobConfig == null)
+            {
+                assignedWeaponConfig = policeWeaponConfig;
+                ResolveWeaponDrop(out dropWeaponConfig, out dropAmmoCount);
+                useShotgun = false;
+                return;
+            }
+
+            bool hasPistol = policeMobConfig.PistolWeapon != null;
+            bool hasShotgun = policeMobConfig.ShotgunWeapon != null;
+            useShotgun = !PoliceLoadoutSelectionUtility.ShouldUsePistol(
+                Random.value,
+                policeMobConfig.PistolChance,
+                hasPistol,
+                hasShotgun);
+
+            assignedWeaponConfig = useShotgun
+                ? policeMobConfig.ShotgunWeapon
+                : policeMobConfig.PistolWeapon;
+            dropWeaponConfig = assignedWeaponConfig;
+            dropAmmoCount = useShotgun
+                ? Mathf.Max(0, policeMobConfig.ShotgunDropAmmo)
+                : Mathf.Max(0, policeMobConfig.PistolDropAmmo);
         }
 
         private void CacheSpawnPoints()
@@ -158,10 +211,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             _enemySpawnPoints.Sort((left, right) => left.Order.CompareTo(right.Order));
         }
 
-        private bool CanSpawnMorePolice()
+private bool CanSpawnMorePolice()
         {
+            bool hasWeaponConfig = policeMobConfig != null
+                ? policeMobConfig.PistolWeapon != null || policeMobConfig.ShotgunWeapon != null
+                : policeWeaponConfig != null;
+
             return policeConfig != null
-                && policeWeaponConfig != null
+                && hasWeaponConfig
                 && policePool != null
                 && _enemySpawnPoints.Count > 0;
         }

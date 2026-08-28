@@ -905,14 +905,14 @@
     "semantic_hash": "c97242fc86bb8493db39ae2377f8c8c4"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/PoliceController.cs": {
-    "mtime": 1787774410.7447166,
-    "ast_hash": "34100157a8a13f2e41d2d5229b596ca2",
-    "semantic_hash": "34100157a8a13f2e41d2d5229b596ca2"
+    "mtime": 1787903989.518,
+    "ast_hash": "68e2df26ebef61876dab6fe87b4c2cd0",
+    "semantic_hash": "68e2df26ebef61876dab6fe87b4c2cd0"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/PoliceSpawner.cs": {
-    "mtime": 1784570619.939128,
-    "ast_hash": "6e2f31caef16c561f67e01c7d84abf56",
-    "semantic_hash": "6e2f31caef16c561f67e01c7d84abf56"
+    "mtime": 1787904007.552,
+    "ast_hash": "1bc755f9fd85a8bd89235c1586bea6e5",
+    "semantic_hash": "1bc755f9fd85a8bd89235c1586bea6e5"
   },
   "Assets/_Project/Runtime/Gameplay/Enemies/PotDrain.cs": {
     "mtime": 1785060914.9957328,
@@ -1190,9 +1190,9 @@
     "semantic_hash": "82f340109e574c9ae8eca625393e95d2"
   },
   "Assets/_Project/Tests/EditMode/Orchestration/RunWaveControllerTests.cs": {
-    "mtime": 1787845968.070706,
-    "ast_hash": "27923597111005cd5246615c3eb8c738",
-    "semantic_hash": "27923597111005cd5246615c3eb8c738"
+    "mtime": 1787904253.856,
+    "ast_hash": "06b91660aa2ee07bb4248d6a06408d33",
+    "semantic_hash": "06b91660aa2ee07bb4248d6a06408d33"
   },
   "Assets/_Project/Tests/EditMode/Player/PlayerAimResolverTests.cs": {
     "mtime": 1784570620.0199547,
@@ -1295,9 +1295,9 @@
     "semantic_hash": "3620a2b0a1c79cc4ae4b6b6ad599ff4d"
   },
   "rainbowsEnd.slnx": {
-    "mtime": 1787725257.1707551,
-    "ast_hash": "5385f2cfde1647d42cff198f1af93be8",
-    "semantic_hash": "5385f2cfde1647d42cff198f1af93be8"
+    "mtime": 1787904034.6588597,
+    "ast_hash": "122e1bf5bcd495e38bcee59ef460e30b",
+    "semantic_hash": "122e1bf5bcd495e38bcee59ef460e30b"
   },
   "Assets/Epic Toon FX/Sound/etfx_explosion_acid.wav": {
     "mtime": 1721672554.0,
@@ -18358,5 +18358,50 @@
     "mtime": 1787848375.671,
     "ast_hash": "1b9846390ab98a9c90b41299146337d8",
     "semantic_hash": "1b9846390ab98a9c90b41299146337d8"
+  },
+  "Assets/_Project/Editor/Phase14PoliceLoadoutSetup.cs": {
+    "mtime": 1787902183.96,
+    "ast_hash": "380ee5b0879d72fad555f9885c319d1f",
+    "semantic_hash": "380ee5b0879d72fad555f9885c319d1f"
+  },
+  "Assets/_Project/Editor/Phase15PoliceRewardsSetup.cs": {
+    "mtime": 1787904034.388,
+    "ast_hash": "6979244c70d090892c30ef12e5566b3d",
+    "semantic_hash": "6979244c70d090892c30ef12e5566b3d"
+  },
+  "Assets/_Project/Runtime/Core/Config/PoliceMobConfig.cs": {
+    "mtime": 1787901627.077,
+    "ast_hash": "6f43f7a438fcdb9089404c603960c13d",
+    "semantic_hash": "6f43f7a438fcdb9089404c603960c13d"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PoliceCombatCycleUtility.cs": {
+    "mtime": 1787902622.061,
+    "ast_hash": "932450a2cfa88186163cecc9c9f78466",
+    "semantic_hash": "932450a2cfa88186163cecc9c9f78466"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PoliceDeathRewardUtility.cs": {
+    "mtime": 1787903758.598,
+    "ast_hash": "c468da2c71f91ad5d913c54429a6fd3e",
+    "semantic_hash": "c468da2c71f91ad5d913c54429a6fd3e"
+  },
+  "Assets/_Project/Runtime/Gameplay/Enemies/PoliceLoadoutSelectionUtility.cs": {
+    "mtime": 1787901770.872,
+    "ast_hash": "f369c51fbca0585dc0bf9c4be7d08e0f",
+    "semantic_hash": "f369c51fbca0585dc0bf9c4be7d08e0f"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/PoliceCombatCycleUtilityTests.cs": {
+    "mtime": 1787902650.851,
+    "ast_hash": "466c251d46d1d5c46086b1f86cc6130f",
+    "semantic_hash": "466c251d46d1d5c46086b1f86cc6130f"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/PoliceDeathRewardUtilityTests.cs": {
+    "mtime": 1787903774.166,
+    "ast_hash": "53c9c65046333720def5773e38ecf21d",
+    "semantic_hash": "53c9c65046333720def5773e38ecf21d"
+  },
+  "Assets/_Project/Tests/EditMode/Enemies/PoliceLoadoutSelectionUtilityTests.cs": {
+    "mtime": 1787901787.774,
+    "ast_hash": "fe9de951833f90b079140a6e75e145e0",
+    "semantic_hash": "fe9de951833f90b079140a6e75e145e0"
   }
 }
