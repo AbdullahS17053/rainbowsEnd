@@ -337,6 +337,13 @@ private void TickStealing()
                 _currentWaypointIndex = 0;
                 _pathRefreshTimer = 0f;
             }
+            if (!_targetPotWasConcealed && !HasEnoughMilitaryForStandardCarry())
+            {
+                _stealTargetPot = null;
+                _currentState = MilitaryState.Combat;
+                body.linearVelocity = Vector2.zero;
+                return;
+            }
 
             PotController targetPot = _stealTargetPot;
             Vector2 toTarget = (Vector2)targetPot.transform.position - body.position;
@@ -694,18 +701,10 @@ private bool ShouldSwitchToStealing()
                 return false;
             }
 
-            if (IsPotInConcealment(targetPot))
-            {
-                return true;
-            }
-
-            int requiredMobCount = _militaryMobConfig != null
-                ? Mathf.Max(1, _militaryMobConfig.StandardCarryMobCount)
-                : 2;
-            return _owningSpawner != null && _owningSpawner.ActiveMilitaryCount >= requiredMobCount;
+            return IsPotInConcealment(targetPot) || HasEnoughMilitaryForStandardCarry();
         }
 
-        private PotController ResolveNearestStealablePot()
+private PotController ResolveNearestStealablePot()
         {
             ResolvePotRegistry();
 
@@ -714,7 +713,9 @@ private bool ShouldSwitchToStealing()
                 : FindObjectsByType<PotController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
             PotController bestPot = null;
+            PotController bestWaitingPot = null;
             float bestDistanceSquared = float.MaxValue;
+            float bestWaitingDistanceSquared = float.MaxValue;
             Vector2 position = transform.position;
 
             for (int index = 0; index < pots.Count; index++)
@@ -726,6 +727,12 @@ private bool ShouldSwitchToStealing()
                 }
 
                 float distSq = ((Vector2)pot.transform.position - position).sqrMagnitude;
+                if (HasWaitingMilitaryAt(pot) && distSq < bestWaitingDistanceSquared)
+                {
+                    bestWaitingPot = pot;
+                    bestWaitingDistanceSquared = distSq;
+                }
+
                 if (distSq < bestDistanceSquared)
                 {
                     bestPot = pot;
@@ -733,8 +740,47 @@ private bool ShouldSwitchToStealing()
                 }
             }
 
-            return bestPot;
+            return bestWaitingPot != null ? bestWaitingPot : bestPot;
         }
+
+private bool HasWaitingMilitaryAt(PotController pot)
+        {
+            MilitaryController[] allMilitary = FindObjectsByType<MilitaryController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            for (int index = 0; index < allMilitary.Length; index++)
+            {
+                MilitaryController candidate = allMilitary[index];
+                if (candidate != this
+                    && candidate._currentState == MilitaryState.Stealing
+                    && candidate._carriedPot == null
+                    && candidate._stealTargetPot == pot
+                    && candidate.Health != null
+                    && !candidate.Health.IsDepleted)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool HasEnoughMilitaryForStandardCarry()
+        {
+            int requiredMobCount = _militaryMobConfig != null
+                ? Mathf.Max(1, _militaryMobConfig.StandardCarryMobCount)
+                : 2;
+            int activeMobCount = 0;
+            MilitaryController[] allMilitary = FindObjectsByType<MilitaryController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            for (int index = 0; index < allMilitary.Length; index++)
+            {
+                if (allMilitary[index].Health != null && !allMilitary[index].Health.IsDepleted)
+                {
+                    activeMobCount++;
+                }
+            }
+
+            return activeMobCount >= requiredMobCount;
+        }
+
 
 private MilitaryController FindCarrier(PotController pot)
         {
@@ -899,7 +945,8 @@ private MilitaryController FindCarryPartner(PotController pot, bool forAssembly 
                     continue;
                 }
 
-                if (((Vector2)candidate.transform.position - (Vector2)transform.position).sqrMagnitude <= partnerRadiusSquared)
+                Vector2 assemblyPoint = forAssembly ? (Vector2)pot.transform.position : (Vector2)transform.position;
+                if (((Vector2)candidate.transform.position - assemblyPoint).sqrMagnitude <= partnerRadiusSquared)
                 {
                     return candidate;
                 }
