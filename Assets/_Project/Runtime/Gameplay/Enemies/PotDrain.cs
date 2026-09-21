@@ -13,6 +13,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         private readonly List<PotController> _overlappingPots = new List<PotController>();
         private PotController _lastResolvedPot;
         private float _stolenGold;
+        private float _accumulatedDrain;
 
         public PotController CurrentPot { get; private set; }
 
@@ -39,6 +40,15 @@ namespace RainbowsEnd.Gameplay.Enemies
             float stolen = CurrentPot.DrainGold(drainGoldPerSecond * Mathf.Max(0f, deltaTime));
             _stolenGold += stolen;
             IsDraining = stolen > 0f;
+
+            _accumulatedDrain += stolen;
+            if (_accumulatedDrain >= 1f)
+            {
+                int disp = Mathf.FloorToInt(_accumulatedDrain);
+                _accumulatedDrain -= disp;
+                UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(CurrentPot.transform.position + new Vector3(0f, 0.5f, 0f), disp, isGain: false);
+            }
+
             return stolen > 0f;
         }
 

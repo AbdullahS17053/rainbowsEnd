@@ -60,6 +60,10 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             ResolvePotRegistry();
             float acceptedGold = _potRegistry != null ? _potRegistry.StoreGold(_goldAmount) : 0f;
+            if (acceptedGold > 0.001f)
+            {
+                UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(transform.position, Mathf.FloorToInt(acceptedGold), isGain: true);
+            }
             _goldAmount -= acceptedGold;
             if (_goldAmount > 0.0001f)
             {

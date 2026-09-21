@@ -133,6 +133,8 @@ private void Update()
                 return false;
             }
 
+            UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(transform.position, definition.Cost, isGain: false);
+
             if (definition.EffectType == ShopUpgradeEffectType.PotPurchase2
                 || definition.EffectType == ShopUpgradeEffectType.PotPurchase3)
             {

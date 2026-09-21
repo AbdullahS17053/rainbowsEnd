@@ -18,6 +18,7 @@ namespace RainbowsEnd.Gameplay.Player
         private float _weaponCooldownReduction;
         private float _weaponSpreadReduction;
         private float _weaponRangeBonus;
+        private float _projectileSpeedBonus;
 
         public event Action Changed;
 
@@ -30,6 +31,12 @@ namespace RainbowsEnd.Gameplay.Player
         public float WeaponSpreadMultiplier => Mathf.Max(MinimumSpreadMultiplier, 1f - Mathf.Max(0f, _weaponSpreadReduction));
 
         public float WeaponRangeBonus => Mathf.Max(0f, _weaponRangeBonus);
+
+        public bool HasCloverOnPotPickup => GetPurchasedLevel(ShopUpgradeEffectType.CloverOnPotPickup) > 0;
+
+        public bool HasUnicornFaeBoltSlow => GetPurchasedLevel(ShopUpgradeEffectType.UnicornFaeBoltSlow) > 0;
+
+        public float ProjectileSpeedMultiplier => 1f + Mathf.Max(0f, _projectileSpeedBonus);
 
         private void Reset()
         {
@@ -93,6 +100,7 @@ namespace RainbowsEnd.Gameplay.Player
             _weaponCooldownReduction = 0f;
             _weaponSpreadReduction = 0f;
             _weaponRangeBonus = 0f;
+            _projectileSpeedBonus = 0f;
             Changed?.Invoke();
         }
 
@@ -115,6 +123,11 @@ namespace RainbowsEnd.Gameplay.Player
         public float ResolveWeaponRange(float baseRange)
         {
             return Mathf.Max(0f, baseRange) + WeaponRangeBonus;
+        }
+
+        public float ResolveProjectileSpeed(float baseSpeed)
+        {
+            return Mathf.Max(0.01f, baseSpeed * ProjectileSpeedMultiplier);
         }
 
         private void CacheReferences()
@@ -158,6 +171,10 @@ namespace RainbowsEnd.Gameplay.Player
                 case ShopUpgradeEffectType.PotPurchase2:
                 case ShopUpgradeEffectType.PotPurchase3:
                     _potsPurchased++;
+                    break;
+
+                case ShopUpgradeEffectType.ProjectileSpeed:
+                    _projectileSpeedBonus += valuePerPurchase;
                     break;
             }
         }

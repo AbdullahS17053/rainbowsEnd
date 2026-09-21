@@ -95,7 +95,13 @@ namespace RainbowsEnd.Gameplay.Player
         private void TryPickUpNearestPot()
         {
             PotController nearestPot = ResolveNearestPickupPot();
-            if (nearestPot == null || !nearestPot.TryPickUp(playerRoot))
+            if (nearestPot == null)
+            {
+                return;
+            }
+
+            Vector2 previousPos = nearestPot.transform.position;
+            if (!nearestPot.TryPickUp(playerRoot))
             {
                 return;
             }
@@ -103,6 +109,12 @@ namespace RainbowsEnd.Gameplay.Player
             _carriedPot = nearestPot;
             _carriedPot.SetCarriedWorldPosition(ResolveCarryAnchor(ResolveCarryDistance()));
             playerRoot.RefreshVisualState();
+
+            PlayerUpgradeRuntime upgradeRuntime = playerRoot != null ? playerRoot.GetComponent<PlayerUpgradeRuntime>() : null;
+            if (upgradeRuntime != null && upgradeRuntime.HasCloverOnPotPickup && Random.value <= 0.10f)
+            {
+                RainbowsEnd.Gameplay.World.CloverPatch.Spawn(previousPos);
+            }
         }
 
         private void DropCarriedPot()

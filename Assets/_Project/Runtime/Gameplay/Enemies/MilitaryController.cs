@@ -176,6 +176,14 @@ public void OnSpawned()
             _weaponPickupPool = null;
             _goldPickupPool = null;
             _owningSpawner = null;
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = true;
+            }
+            if (body != null)
+            {
+                body.simulated = true;
+            }
             _militaryMobConfig = null;
             _dropWeaponConfig = null;
             _dropAmmoCount = 0;
@@ -542,14 +550,30 @@ private void TickPoliceStyleCombat()
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
-            if (_targetPlayer == null || config == null || weaponConfig == null)
+            Vector3 targetPosition;
+            if (PlayerDecoy.ActiveDecoy != null)
+            {
+                targetPosition = PlayerDecoy.ActiveDecoy.transform.position;
+            }
+            else if (_targetPlayer != null && !_targetPlayer.IsDisabled && (!_targetPlayer.IsConcealed || _targetPlayer.IsCarryingPot))
+            {
+                targetPosition = _targetPlayer.transform.position;
+            }
+            else
             {
                 ResetBurstState();
                 body.linearVelocity = separation;
                 return;
             }
 
-            Vector2 toTarget = _targetPlayer.transform.position - transform.position;
+            if (config == null || weaponConfig == null)
+            {
+                ResetBurstState();
+                body.linearVelocity = separation;
+                return;
+            }
+
+            Vector2 toTarget = (Vector2)targetPosition - (Vector2)transform.position;
             float distanceToTarget = toTarget.magnitude;
             float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
             if (distanceToTarget > engagementRange)
@@ -559,19 +583,24 @@ private void TickPoliceStyleCombat()
                 return;
             }
 
+            float currentMoveSpeed = config.MoveSpeed;
+            if (TerrainZone.IsInForest(transform.position))
+            {
+                currentMoveSpeed *= 0.90f;
+            }
+
             float preferredRange = Mathf.Clamp(weaponConfig.Range * 0.7f, 2f, engagementRange);
             Vector2 direction = distanceToTarget > 0.001f ? toTarget / distanceToTarget : (Vector2)transform.up;
             bool canShoot = distanceToTarget <= weaponConfig.Range
-                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget
-                && !_targetPlayer.IsDisabled;
+                && CoverBlocker.GetNearestBlockDistance(transform.position, direction, Mathf.Min(distanceToTarget, weaponConfig.Range)) >= distanceToTarget;
 
             if (_combatPhase == MilitaryCombatPhase.Repositioning)
             {
                 Vector2 strafeDirection = new Vector2(-direction.y, direction.x) * _strafeSign;
-                Vector2 repositionVelocity = strafeDirection * config.MoveSpeed + separation;
-                if (repositionVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
+                Vector2 repositionVelocity = strafeDirection * currentMoveSpeed + separation;
+                if (repositionVelocity.sqrMagnitude > currentMoveSpeed * currentMoveSpeed)
                 {
-                    repositionVelocity = repositionVelocity.normalized * config.MoveSpeed;
+                    repositionVelocity = repositionVelocity.normalized * currentMoveSpeed;
                 }
 
                 body.linearVelocity = repositionVelocity;
@@ -598,7 +627,7 @@ private void TickPoliceStyleCombat()
                 _pathRefreshTimer -= Time.deltaTime;
                 if (_currentPath == null || _pathRefreshTimer <= 0f)
                 {
-                    if (NavMeshPathfinder.TryGetPath(transform.position, _targetPlayer.transform.position, out Vector2[] newPath))
+                    if (NavMeshPathfinder.TryGetPath(transform.position, targetPosition, out Vector2[] newPath))
                     {
                         _currentPath = newPath;
                         _currentWaypointIndex = 0;
@@ -618,7 +647,7 @@ private void TickPoliceStyleCombat()
                     moveDir = direction;
                 }
 
-                targetVelocity = moveDir * config.MoveSpeed;
+                targetVelocity = moveDir * currentMoveSpeed;
             }
             else
             {
@@ -626,9 +655,9 @@ private void TickPoliceStyleCombat()
             }
 
             Vector2 combinedVelocity = targetVelocity + separation;
-            if (combinedVelocity.sqrMagnitude > config.MoveSpeed * config.MoveSpeed)
+            if (combinedVelocity.sqrMagnitude > currentMoveSpeed * currentMoveSpeed)
             {
-                combinedVelocity = combinedVelocity.normalized * config.MoveSpeed;
+                combinedVelocity = combinedVelocity.normalized * currentMoveSpeed;
             }
 
             body.linearVelocity = combinedVelocity;
@@ -800,7 +829,7 @@ private MilitaryController FindCarrier(PotController pot)
             return null;
         }
 
-private void HandleDeath()
+        private void HandleDeath()
         {
             if (_deathHandled)
             {
@@ -828,18 +857,32 @@ private void HandleDeath()
                 SpawnGoldPickup();
             }
 
-            _owningSpawner?.NotifyMilitaryDespawned(this);
+            if (body != null)
+            {
+                body.linearVelocity = Vector2.zero;
+                body.simulated = false;
+            }
 
-            PrefabPool owningPool = _owningPool;
-            _owningPool = null;
-            if (owningPool != null)
+            if (bodyCollider != null)
             {
-                owningPool.Return(gameObject);
+                bodyCollider.enabled = false;
             }
-            else
+
+            CombatFeedbackController.DelayedDespawn(this, () =>
             {
-                gameObject.SetActive(false);
-            }
+                _owningSpawner?.NotifyMilitaryDespawned(this);
+
+                PrefabPool owningPool = _owningPool;
+                _owningPool = null;
+                if (owningPool != null)
+                {
+                    owningPool.Return(gameObject);
+                }
+                else
+                {
+                    gameObject.SetActive(false);
+                }
+            }, 3.0f);
         }
 
         private void RecordKill()

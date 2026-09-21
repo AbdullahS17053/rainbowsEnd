@@ -1,4 +1,5 @@
 using RainbowsEnd.Core.Bootstrap;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using TMPro;
 using UnityEngine;
@@ -8,10 +9,14 @@ namespace RainbowsEnd.UI
     public sealed class EconomyHudPresenter : MonoBehaviour
     {
         [SerializeField] private PotRegistry potRegistry;
+        [SerializeField] private PlayerWallet playerWallet;
         [SerializeField] private TMP_Text goldText;
-        [SerializeField] private string labelPrefix = "Gold: ";
+        [SerializeField] private TMP_Text bankedGoldText;
+        [SerializeField] private TMP_Text potGoldText;
+        [SerializeField] private string labelPrefix = "Banked: ";
 
-        private int _lastDisplayedGold = int.MinValue;
+        private int _lastBankedGold = int.MinValue;
+        private int _lastPotGold = int.MinValue;
 
         private void Awake()
         {
@@ -32,9 +37,16 @@ namespace RainbowsEnd.UI
 
         public void Configure(PotRegistry registry, TMP_Text label)
         {
+            Configure(registry, null, label);
+        }
+
+        public void Configure(PotRegistry registry, PlayerWallet wallet, TMP_Text label)
+        {
             potRegistry = registry;
+            playerWallet = wallet;
             goldText = label;
-            _lastDisplayedGold = int.MinValue;
+            _lastBankedGold = int.MinValue;
+            _lastPotGold = int.MinValue;
             RefreshLabel();
         }
 
@@ -47,23 +59,36 @@ namespace RainbowsEnd.UI
             }
 
             potRegistry ??= FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
+            playerWallet ??= FindFirstObjectByType<PlayerWallet>(FindObjectsInactive.Include);
         }
 
         private void RefreshLabel()
         {
-            if (goldText == null)
+            int bankedGold = playerWallet != null ? playerWallet.SpendableGold : 0;
+            int potGold = potRegistry != null ? potRegistry.TotalStoredGold : 0;
+
+            if (bankedGold == _lastBankedGold && potGold == _lastPotGold)
             {
                 return;
             }
 
-            int displayedGold = potRegistry != null ? potRegistry.TotalStoredGold : 0;
-            if (displayedGold == _lastDisplayedGold)
+            _lastBankedGold = bankedGold;
+            _lastPotGold = potGold;
+
+            if (bankedGoldText != null)
             {
-                return;
+                bankedGoldText.text = $"Banked: {bankedGold}";
             }
 
-            _lastDisplayedGold = displayedGold;
-            goldText.text = $"{labelPrefix}{displayedGold}";
+            if (potGoldText != null)
+            {
+                potGoldText.text = $"Pots: {potGold}";
+            }
+
+            if (goldText != null && goldText != bankedGoldText && goldText != potGoldText)
+            {
+                goldText.text = $"{labelPrefix}{bankedGold}  |  Pots: {potGold}";
+            }
         }
     }
 }

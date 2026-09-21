@@ -11,6 +11,14 @@ using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Pots
 {
+    public enum PotGoldTier
+    {
+        Empty = 0,
+        PartiallyFull = 1,
+        Full = 2,
+        Overflowing = 3
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     public sealed class PotController : MonoBehaviour, ITeamAffiliation
     {
@@ -28,6 +36,17 @@ namespace RainbowsEnd.Gameplay.Pots
         [SerializeField] private GameObject potGlow;
         [SerializeField] private GameObject harvestFlair;
         [SerializeField] private GameObject unicornImpactBurstPrefab;
+        [SerializeField] private GameObject partiallyFullVisual;
+        [SerializeField] private GameObject fullVisual;
+        [SerializeField] private GameObject overflowingVisual;
+        [SerializeField] private GameObject goldPileFloorVisual;
+        [SerializeField] private GameObject fireworksVFX;
+        [SerializeField] private GameObject rainbowFlareVFX;
+        [SerializeField] private GameObject shimmerVFX;
+
+        public event System.Action<PotController> HarvestStarted;
+        public event System.Action<PotController, float> GoldHarvestTick;
+        public event System.Action<PotController, int> GoldBanked;
 
         private readonly PotHarvestState _harvestState = new PotHarvestState();
         private readonly HashSet<int> _activeDrainerIds = new HashSet<int>();
@@ -63,6 +82,68 @@ namespace RainbowsEnd.Gameplay.Pots
         public bool HasGold => _storedGold > 0.001f;
 
         public bool HasGoldOrHarvesting => HasGold || _harvestState.Status == PotHarvestStatus.Harvesting;
+
+        public PotGoldTier CurrentGoldTier
+        {
+            get
+            {
+                if (_storedGold >= 25f) return PotGoldTier.Overflowing;
+                if (_storedGold >= 10f) return PotGoldTier.Full;
+                if (_storedGold >= 1f) return PotGoldTier.PartiallyFull;
+                return PotGoldTier.Empty;
+            }
+        }
+
+        public PotGoldTier GoldTier => CurrentGoldTier;
+
+        public void AddStoredGold(float amount)
+        {
+            if (amount <= 0f) return;
+            _storedGold += amount;
+            UpdateGoldLabel();
+            ApplyVisualState();
+        }
+
+        public float GetProximitySaturationRadius()
+        {
+            float potWidth = bodyCollider != null ? bodyCollider.bounds.size.x : 1f;
+            return CurrentGoldTier switch
+            {
+                PotGoldTier.PartiallyFull => potWidth * 1f,
+                PotGoldTier.Full => potWidth * 2f,
+                PotGoldTier.Overflowing => potWidth * 3f,
+                _ => 0f
+            };
+        }
+
+        public float GetProximitySaturationBoost()
+        {
+            return CurrentGoldTier switch
+            {
+                PotGoldTier.PartiallyFull => 0.04f,
+                PotGoldTier.Full => 0.07f,
+                PotGoldTier.Overflowing => 0.10f, // up to 110%
+                _ => 0f
+            };
+        }
+
+        public int BankAllGold()
+        {
+            if (IsDestroyed || _storedGold <= 0.001f)
+            {
+                return 0;
+            }
+
+            int banked = Mathf.FloorToInt(_storedGold);
+            if (banked > 0)
+            {
+                _storedGold = Mathf.Max(0f, _storedGold - banked);
+                UpdateGoldLabel();
+                ApplyVisualState();
+                GoldBanked?.Invoke(this, banked);
+            }
+            return banked;
+        }
 
         public void Configure(
             PotConfig potConfig,
@@ -197,6 +278,8 @@ namespace RainbowsEnd.Gameplay.Pots
                     _trailEmitter?.ClearAllTrail();
 
                     _harvestConsumed = true;
+                    TriggerHarvestFlair();
+                    HarvestStarted?.Invoke(this);
                 }
             }
             else
@@ -214,8 +297,11 @@ namespace RainbowsEnd.Gameplay.Pots
             {
                 _economyState.SetHarvesterActive(this, _harvestState.Status == PotHarvestStatus.Harvesting);
                 float generatedGold = _harvestState.GenerateGold(Time.deltaTime, _economyState.CurrentHarvestMultiplier);
-                TryStoreGold(generatedGold);
-
+                float stored = TryStoreGold(generatedGold);
+                if (stored > 0.001f)
+                {
+                    GoldHarvestTick?.Invoke(this, stored);
+                }
             }
 
             ApplyVisualState();
@@ -622,7 +708,52 @@ namespace RainbowsEnd.Gameplay.Pots
                 harvestFlair.SetActive(showHarvestFlair);
             }
 
+            if (shimmerVFX != null)
+            {
+                bool showShimmer = !isUnavailable && HasGold;
+                if (shimmerVFX.activeSelf != showShimmer)
+                {
+                    shimmerVFX.SetActive(showShimmer);
+                }
+            }
+
+            PotGoldTier tier = CurrentGoldTier;
+            if (partiallyFullVisual != null)
+            {
+                partiallyFullVisual.SetActive(!isUnavailable && tier == PotGoldTier.PartiallyFull);
+            }
+
+            if (fullVisual != null)
+            {
+                fullVisual.SetActive(!isUnavailable && tier == PotGoldTier.Full);
+            }
+
+            if (overflowingVisual != null)
+            {
+                overflowingVisual.SetActive(!isUnavailable && tier == PotGoldTier.Overflowing);
+            }
+
+            if (goldPileFloorVisual != null)
+            {
+                goldPileFloorVisual.SetActive(!isUnavailable && tier == PotGoldTier.Overflowing);
+            }
+
             drainFeedbackPresenter?.SetVisible(!IsDestroyed && IsBeingDrained);
+        }
+
+        private void TriggerHarvestFlair()
+        {
+            if (fireworksVFX != null)
+            {
+                fireworksVFX.SetActive(false);
+                fireworksVFX.SetActive(true);
+            }
+
+            if (rainbowFlareVFX != null)
+            {
+                rainbowFlareVFX.SetActive(false);
+                rainbowFlareVFX.SetActive(true);
+            }
         }
 
         private void EnsureGoldLabel()
@@ -640,6 +771,11 @@ namespace RainbowsEnd.Gameplay.Pots
                 {
                     return;
                 }
+            }
+
+            if (!Application.isPlaying)
+            {
+                return;
             }
 
             GameObject labelObj = new GameObject("GoldLabel");

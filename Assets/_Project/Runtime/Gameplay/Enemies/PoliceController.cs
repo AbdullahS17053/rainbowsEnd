@@ -180,6 +180,14 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void OnSpawned()
         {
             CacheReferences();
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = true;
+            }
+            if (body != null)
+            {
+                body.simulated = true;
+            }
             _owningPool = null;
             _weaponPickupPool = null;
             _goldPickupPool = null;
@@ -253,18 +261,33 @@ private void Update()
             _deathHandled = true;
             RecordKill();
             SpawnDeathReward();
-            _owningSpawner?.NotifyPoliceDespawned(this);
 
-            PrefabPool owningPool = _owningPool;
-            _owningPool = null;
-            if (owningPool != null)
+            if (body != null)
             {
-                owningPool.Return(gameObject);
+                body.linearVelocity = Vector2.zero;
+                body.simulated = false;
             }
-            else
+
+            if (bodyCollider != null)
             {
-                gameObject.SetActive(false);
+                bodyCollider.enabled = false;
             }
+
+            CombatFeedbackController.DelayedDespawn(this, () =>
+            {
+                _owningSpawner?.NotifyPoliceDespawned(this);
+
+                PrefabPool owningPool = _owningPool;
+                _owningPool = null;
+                if (owningPool != null)
+                {
+                    owningPool.Return(gameObject);
+                }
+                else
+                {
+                    gameObject.SetActive(false);
+                }
+            }, 3.0f);
         }
 
         private void RecordKill()
@@ -436,6 +459,10 @@ private void ResetCombatCycle()
 private void TickReposition(Vector2 direction, Vector2 separation)
         {
             float moveSpeed = Mathf.Max(0f, config.MoveSpeed);
+            if (TerrainZone.IsInForest(transform.position))
+            {
+                moveSpeed *= 0.90f;
+            }
             Vector2 strafeDirection = new Vector2(-direction.y, direction.x) * _repositionSign;
             Vector2 combinedVelocity = strafeDirection * moveSpeed + separation;
             if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
@@ -558,6 +585,10 @@ private void TickApproach(
             }
 
             float moveSpeed = Mathf.Max(0f, config.MoveSpeed);
+            if (TerrainZone.IsInForest(transform.position))
+            {
+                moveSpeed *= 0.90f;
+            }
             Vector2 combinedVelocity = moveDirection * moveSpeed + separation;
             if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
             {
@@ -597,17 +628,30 @@ private void TickPoliceCombat()
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
-            if (_targetPlayer == null
-                || _targetPlayer.IsDisabled
-                || config == null
-                || weaponConfig == null)
+            Vector3 targetPosition;
+            if (PlayerDecoy.ActiveDecoy != null)
+            {
+                targetPosition = PlayerDecoy.ActiveDecoy.transform.position;
+            }
+            else if (_targetPlayer != null && !_targetPlayer.IsDisabled && (!_targetPlayer.IsConcealed || _targetPlayer.IsCarryingPot))
+            {
+                targetPosition = _targetPlayer.transform.position;
+            }
+            else
             {
                 ResetCombatCycle();
                 body.linearVelocity = separation;
                 return;
             }
 
-            Vector2 toTarget = _targetPlayer.transform.position - transform.position;
+            if (config == null || weaponConfig == null)
+            {
+                ResetCombatCycle();
+                body.linearVelocity = separation;
+                return;
+            }
+
+            Vector2 toTarget = targetPosition - transform.position;
             float distanceToTarget = toTarget.magnitude;
             float engagementRange = Mathf.Max(0.5f, config.EngagementRange);
             if (distanceToTarget > engagementRange)

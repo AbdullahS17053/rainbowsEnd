@@ -60,6 +60,17 @@ namespace RainbowsEnd.Gameplay.Combat
         private float _resolvedAutoFireConeDegrees;
         private int _resolvedPostureFrame = -1;
 
+        [Header("Recoil & Presentation Juice")]
+        [SerializeField] private float firearmScaleMultiplier = 1.35f;
+        [SerializeField] private float recoilKickDistance = 0.15f;
+        [SerializeField] private float recoilRecoverySpeed = 16f;
+
+        private Vector3 _pistolBaseLocalPos;
+        private Vector3 _shotgunBaseLocalPos;
+        private Vector3 _assaultRifleBaseLocalPos;
+        private Vector3 _faeBoltBaseLocalPos;
+        private float _currentRecoilKick;
+
         public WeaponConfig WeaponConfig => weaponConfig;
 
         public float CurrentSpreadOffsetDegrees { get; private set; }
@@ -100,9 +111,64 @@ namespace RainbowsEnd.Gameplay.Combat
         private void Awake()
         {
             CacheReferences();
+            CacheVisualBasesAndScale();
             ResolveDefaults();
             weaponInventory?.ConfigureDefaultWeapon(weaponConfig);
             _runtimeState.Configure(weaponConfig);
+        }
+
+        private void CacheVisualBasesAndScale()
+        {
+            if (pistolVisual != null)
+            {
+                _pistolBaseLocalPos = pistolVisual.transform.localPosition;
+                pistolVisual.transform.localScale = Vector3.one * firearmScaleMultiplier;
+            }
+            if (shotgunVisual != null)
+            {
+                _shotgunBaseLocalPos = shotgunVisual.transform.localPosition;
+                shotgunVisual.transform.localScale = Vector3.one * firearmScaleMultiplier;
+            }
+            if (assaultRifleVisual != null)
+            {
+                _assaultRifleBaseLocalPos = assaultRifleVisual.transform.localPosition;
+                assaultRifleVisual.transform.localScale = Vector3.one * firearmScaleMultiplier;
+            }
+            if (faeBoltMuzzle != null)
+            {
+                _faeBoltBaseLocalPos = faeBoltMuzzle.localPosition;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (_currentRecoilKick > 0.0005f)
+            {
+                _currentRecoilKick = Mathf.MoveTowards(_currentRecoilKick, 0f, Time.deltaTime * recoilRecoverySpeed);
+            }
+            else
+            {
+                _currentRecoilKick = 0f;
+            }
+
+            ApplyRecoilOffset();
+        }
+
+        private void ApplyRecoilOffset()
+        {
+            Vector3 recoilOffset = -Vector3.forward * _currentRecoilKick;
+            if (pistolVisual != null && pistolVisual.activeSelf)
+            {
+                pistolVisual.transform.localPosition = _pistolBaseLocalPos + recoilOffset;
+            }
+            if (shotgunVisual != null && shotgunVisual.activeSelf)
+            {
+                shotgunVisual.transform.localPosition = _shotgunBaseLocalPos + recoilOffset;
+            }
+            if (assaultRifleVisual != null && assaultRifleVisual.activeSelf)
+            {
+                assaultRifleVisual.transform.localPosition = _assaultRifleBaseLocalPos + recoilOffset;
+            }
         }
 
         private void OnDisable()
@@ -214,10 +280,49 @@ private void FireShot(Vector2 baseAimDirection)
                 ProjectileWeaponLauncher.PlayMuzzleFeedback(muzzle);
             }
 
+            ApplyRecoilFeedback();
             playerRoot?.NotifyShotFired();
             Debug.DrawRay(origin, fireDirection * 0.75f, Color.white, 0.15f);
 
             animationBridge?.TriggerFire();
+        }
+
+        private void ApplyRecoilFeedback()
+        {
+            float kick = recoilKickDistance;
+            float shakeIntensity = 0.08f;
+            float shakeDuration = 0.08f;
+
+            if (weaponConfig != null)
+            {
+                switch (weaponConfig.Presentation)
+                {
+                    case WeaponPresentation.Shotgun:
+                        kick *= 1.8f;
+                        shakeIntensity = 0.22f;
+                        shakeDuration = 0.14f;
+                        break;
+                    case WeaponPresentation.AssaultRifle:
+                        kick *= 1.1f;
+                        shakeIntensity = 0.1f;
+                        shakeDuration = 0.07f;
+                        break;
+                    case WeaponPresentation.Pistol:
+                        kick *= 1.2f;
+                        shakeIntensity = 0.12f;
+                        shakeDuration = 0.09f;
+                        break;
+                    case WeaponPresentation.FaeBolt:
+                    default:
+                        kick *= 0.6f;
+                        shakeIntensity = 0.04f;
+                        shakeDuration = 0.05f;
+                        break;
+                }
+            }
+
+            _currentRecoilKick = kick;
+            CombatFeedbackController.Instance?.PlayScreenShake(shakeIntensity, shakeDuration);
         }
 
 private void CacheReferences()

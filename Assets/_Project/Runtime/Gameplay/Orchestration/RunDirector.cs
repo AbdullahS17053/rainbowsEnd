@@ -108,7 +108,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
             outcomePresenter?.Hide();
         }
 
-        public void RecordKill()
+        public void RecordKill(Vector3 enemyPosition = default)
         {
             if (_reportedOutcome != RunOutcome.None)
             {
@@ -116,6 +116,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
             }
 
             KillCount++;
+            Combat.KillstreakManager.Instance?.RegisterKill(enemyPosition);
         }
 
         public void RecordSuccessfulTheftEscape()

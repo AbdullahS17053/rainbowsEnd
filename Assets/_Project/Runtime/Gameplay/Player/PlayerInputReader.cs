@@ -15,6 +15,7 @@ namespace RainbowsEnd.Gameplay.Player
         private InputAction _interactAction;
         private InputAction _shopInteractAction;
         private InputAction _castPortalAction;
+        private InputAction _drinkGoldAction;
         private InputAction _pauseAction;
 
         public Vector2 MoveInput => _moveAction?.ReadValue<Vector2>() ?? Vector2.zero;
@@ -32,6 +33,12 @@ namespace RainbowsEnd.Gameplay.Player
         public bool ShopInteractPressedThisFrame => _shopInteractAction?.WasPerformedThisFrame() ?? false;
 
         public bool CastPortalPressedThisFrame => _castPortalAction?.WasPerformedThisFrame() ?? false;
+
+        public bool DrinkGoldHeld => (_drinkGoldAction != null && _drinkGoldAction.IsPressed())
+            || (Keyboard.current != null && Keyboard.current.rKey.isPressed);
+
+        public bool DrinkGoldPressedThisFrame => (_drinkGoldAction != null && _drinkGoldAction.WasPerformedThisFrame())
+            || (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame);
 
         public bool PausePressedThisFrame => _pauseAction?.WasPerformedThisFrame() ?? false;
 
@@ -77,6 +84,7 @@ namespace RainbowsEnd.Gameplay.Player
             _interactAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Interact, false);
             _shopInteractAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.ShopInteract, false);
             _castPortalAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.CastPortal, false);
+            _drinkGoldAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.DrinkGold, false);
             _pauseAction = _gameplayActionMap?.FindAction(PlayerInputActionNames.Pause, false);
         }
     }

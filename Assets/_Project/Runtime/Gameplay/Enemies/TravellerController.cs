@@ -139,6 +139,14 @@ namespace RainbowsEnd.Gameplay.Enemies
         {
             CacheReferences();
             ConfigureBody();
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = true;
+            }
+            if (body != null)
+            {
+                body.simulated = true;
+            }
             CacheBaseColor(forceRefresh: true);
             _currentTarget = null;
             _goldDropAmount = 0;
@@ -355,6 +363,14 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
+            if (TerrainZone.IsInForest(body.position))
+            {
+                fleeSpeed *= 0.90f;
+            }
+            float stolenGold = potDrain != null ? potDrain.StolenGold : 0f;
+            float carryWeightFactor = 1f / (1f + (stolenGold * 0.05f));
+            fleeSpeed *= carryWeightFactor;
+
             Vector2 separation = EnemySeparationUtility.CalculateSeparation(
                 body.position,
                 bodyCollider,
@@ -605,6 +621,10 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             float moveSpeed = config != null ? Mathf.Max(0f, config.MoveSpeed) : 0f;
+            if (TerrainZone.IsInForest(body.position))
+            {
+                moveSpeed *= 0.90f;
+            }
             Vector2 separation = EnemySeparationUtility.CalculateSeparation(
                 body.position,
                 bodyCollider,
@@ -736,7 +756,9 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             Color targetColor = isDraining
                 ? drainingColor
-                : (_hasBaseColor ? _baseColor : roamingColor);
+                : (_currentState == TravellerState.Fleeing
+                    ? new Color(1f, 0.28f, 0.28f, 1f) // Red/thermal fleeing cue
+                    : (_hasBaseColor ? _baseColor : roamingColor));
 
             visualRenderer.color = targetColor;
         }
@@ -762,6 +784,12 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (body != null)
             {
                 body.linearVelocity = Vector2.zero;
+                body.simulated = false;
+            }
+
+            if (bodyCollider != null)
+            {
+                bodyCollider.enabled = false;
             }
 
             ClearTheftLabel();
@@ -774,14 +802,18 @@ namespace RainbowsEnd.Gameplay.Enemies
                 SpawnGoldPickup(totalDrop);
             }
 
-            if (_owningPool != null)
+            // Mobs remain on the map for 3 seconds following death
+            RainbowsEnd.Gameplay.Combat.CombatFeedbackController.DelayedDespawn(this, () =>
             {
-                _owningPool.Return(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+                if (_owningPool != null)
+                {
+                    _owningPool.Return(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }, 3.0f);
         }
 
         private void SpawnGoldPickup(int goldAmount)
@@ -878,7 +910,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void ResetPresentation()
         {
-            if (animator != null)
+            if (animator != null && animator.runtimeAnimatorController != null)
             {
                 if (_hasRunToCarriedPotParameter)
                 {

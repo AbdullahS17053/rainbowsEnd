@@ -25,6 +25,20 @@ namespace RainbowsEnd.Gameplay.Unicorn
         private float _retargetCooldown;
         private ArenaBoundarySide? _currentTargetSide;
 
+        private bool _isGrazing;
+        private float _grazeTimer;
+        private float _faeSlowTimer;
+        private float _faeSlowMultiplier = 0.5f;
+        private float _hoofStepTimer;
+        private int _hoofColorIndex;
+        private static readonly Color[] HoofColors = new Color[]
+        {
+            new Color(1f, 0.25f, 0.35f, 0.8f),
+            new Color(0.2f, 0.9f, 0.4f, 0.8f),
+            new Color(0.2f, 0.6f, 1f, 0.8f),
+            new Color(1f, 0.85f, 0.2f, 0.8f)
+        };
+
         public FactionId FactionId => FactionId.Unicorn;
 
         public UnicornConfig Config => config;
@@ -83,6 +97,18 @@ public void NotifyTeleported()
                 return;
             }
 
+            if (_isGrazing)
+            {
+                _grazeTimer -= Time.fixedDeltaTime;
+                if (_grazeTimer <= 0f)
+                {
+                    _isGrazing = false;
+                }
+                _currentVelocity = Vector2.zero;
+                HidePotWarning();
+                return;
+            }
+
             AcquireArenaBounds();
             _retargetCooldown = Mathf.Max(0f, _retargetCooldown - Time.fixedDeltaTime);
 
@@ -92,7 +118,19 @@ public void NotifyTeleported()
                 ChooseNextTarget();
             }
 
-            Vector2 nextPosition = UnicornRoamingUtility.MoveTowards(currentPosition, _targetPoint, config.MoveSpeed, Time.fixedDeltaTime);
+            float currentSpeed = config.MoveSpeed;
+            if (TerrainZone.IsInForest(currentPosition))
+            {
+                currentSpeed *= 0.90f;
+            }
+
+            if (_faeSlowTimer > 0f)
+            {
+                _faeSlowTimer -= Time.fixedDeltaTime;
+                currentSpeed *= _faeSlowMultiplier;
+            }
+
+            Vector2 nextPosition = UnicornRoamingUtility.MoveTowards(currentPosition, _targetPoint, currentSpeed, Time.fixedDeltaTime);
             if (_arenaBounds != null)
             {
                 nextPosition = _arenaBounds.Clamp(nextPosition);
@@ -108,6 +146,66 @@ public void NotifyTeleported()
             }
 
             UpdatePotWarning();
+            UpdateHoofSparklesNearPlayer(currentPosition);
+        }
+
+        public void TriggerGraze(float durationSeconds = 3.0f)
+        {
+            _isGrazing = true;
+            _grazeTimer = durationSeconds;
+            _currentVelocity = Vector2.zero;
+            HidePotWarning();
+        }
+
+        public void ApplyFaeBoltSlow(float duration = 2.0f, float slowMultiplier = 0.5f)
+        {
+            _faeSlowTimer = Mathf.Max(_faeSlowTimer, duration);
+            _faeSlowMultiplier = slowMultiplier;
+        }
+
+        private void UpdateHoofSparklesNearPlayer(Vector2 unicornPosition)
+        {
+            PlayerRoot player = FindFirstObjectByType<PlayerRoot>();
+            if (player == null) return;
+
+            Vector2 playerPos = player.Body != null ? player.Body.position : (Vector2)player.transform.position;
+            if (Vector2.Distance(unicornPosition, playerPos) > 4.5f) return;
+
+            _hoofStepTimer += Time.fixedDeltaTime;
+            if (_hoofStepTimer >= 0.22f)
+            {
+                _hoofStepTimer = 0f;
+                SpawnHoofCircle(unicornPosition, HoofColors[_hoofColorIndex % HoofColors.Length]);
+                _hoofColorIndex++;
+            }
+        }
+
+        private void SpawnHoofCircle(Vector2 position, Color color)
+        {
+            GameObject hoofObj = new GameObject("HoofCircle");
+            hoofObj.transform.position = position;
+
+            LineRenderer lr = hoofObj.AddComponent<LineRenderer>();
+            lr.useWorldSpace = true;
+            lr.startWidth = 0.04f;
+            lr.endWidth = 0.01f;
+            lr.loop = true;
+            lr.sortingOrder = 3;
+            lr.material = new Material(Shader.Find("Sprites/Default"));
+            lr.startColor = color;
+            lr.endColor = color;
+
+            int segments = 12;
+            lr.positionCount = segments + 1;
+            float r = 0.18f;
+            Vector3 center = position;
+            for (int i = 0; i <= segments; i++)
+            {
+                float angle = (i / (float)segments) * Mathf.PI * 2f;
+                lr.SetPosition(i, center + new Vector3(Mathf.Cos(angle) * r, Mathf.Sin(angle) * r, 0f));
+            }
+
+            Destroy(hoofObj, 0.75f);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -295,6 +393,12 @@ public void NotifyTeleported()
             potWarningLine.positionCount = 2;
             potWarningLine.SetPosition(0, origin);
             potWarningLine.SetPosition(1, origin + direction * nearestDistance);
+            Color purplePulse = Color.Lerp(
+                new Color(0.65f, 0.1f, 0.95f, 0.95f),
+                new Color(1f, 0.35f, 1f, 1f),
+                Mathf.PingPong(Time.time * 8f, 1f));
+            potWarningLine.startColor = purplePulse;
+            potWarningLine.endColor = purplePulse;
             potWarningLine.enabled = true;
         }
 

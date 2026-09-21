@@ -394,6 +394,11 @@ namespace RainbowsEnd.Gameplay.Player
         private bool ResolveIsInConcealmentZone()
         {
             Vector2 position = body != null ? body.position : (Vector2)transform.position;
+            if (TerrainZone.IsConcealed(position))
+            {
+                return true;
+            }
+
             for (int index = 0; index < _concealmentZones.Length; index++)
             {
                 ConcealmentZone zone = _concealmentZones[index];
@@ -550,6 +555,7 @@ namespace RainbowsEnd.Gameplay.Player
             _downedTimerSeconds = config != null ? Mathf.Max(0f, config.StunDurationSeconds) : 0f;
             PlayStunFeedback();
             ApplyPlayerEnabledState(false);
+            PlayerDecoy.Spawn(transform.position, visualRenderer != null ? visualRenderer.sprite : null);
 
             if (_downedTimerSeconds <= 0f)
             {
@@ -564,6 +570,7 @@ namespace RainbowsEnd.Gameplay.Player
                 return;
             }
 
+            PlayerDecoy.ActiveDecoy?.Dismiss();
             health?.ResetToFull();
             health?.SetInvulnerable(true);
             _isDowned = false;

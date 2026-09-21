@@ -1,5 +1,7 @@
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
+using RainbowsEnd.Gameplay.Player;
+using RainbowsEnd.Gameplay.Unicorn;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
 
@@ -105,7 +107,32 @@ namespace RainbowsEnd.Gameplay.Combat
                 RaycastHit2D hit = _hits[index];
                 if (!WeaponHitUtility.TryResolveHit(hit.collider, _ignoredCollider, _sourceFaction, _damage, hit.point, hit.normal, _instigator, out WeaponHitResult hitResult))
                 {
+                    if (_weaponConfig != null && _weaponConfig.Presentation == WeaponPresentation.FaeBolt)
+                    {
+                        UnicornController unicorn = hit.collider.GetComponentInParent<UnicornController>();
+                        if (unicorn != null)
+                        {
+                            PlayerUpgradeRuntime upgrade = (_instigator as Component)?.GetComponentInParent<PlayerUpgradeRuntime>();
+                            if (upgrade != null && upgrade.HasUnicornFaeBoltSlow)
+                            {
+                                unicorn.ApplyFaeBoltSlow(2.5f, 0.5f);
+                            }
+                        }
+                    }
                     continue;
+                }
+
+                if (_weaponConfig != null && _weaponConfig.Presentation == WeaponPresentation.FaeBolt)
+                {
+                    UnicornController unicorn = hit.collider.GetComponentInParent<UnicornController>();
+                    if (unicorn != null)
+                    {
+                        PlayerUpgradeRuntime upgrade = (_instigator as Component)?.GetComponentInParent<PlayerUpgradeRuntime>();
+                        if (upgrade != null && upgrade.HasUnicornFaeBoltSlow)
+                        {
+                            unicorn.ApplyFaeBoltSlow(2.5f, 0.5f);
+                        }
+                    }
                 }
 
                 transform.position = hit.point;
@@ -125,12 +152,17 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private float ResolveSpeed()
         {
-            if (_weaponConfig != null && _weaponConfig.ProjectileSpeed > 0f)
+            float speed = (_weaponConfig != null && _weaponConfig.ProjectileSpeed > 0f)
+                ? _weaponConfig.ProjectileSpeed
+                : fallbackSpeed;
+
+            PlayerUpgradeRuntime upgrade = (_instigator as Component)?.GetComponentInParent<PlayerUpgradeRuntime>();
+            if (upgrade != null)
             {
-                return _weaponConfig.ProjectileSpeed;
+                speed = upgrade.ResolveProjectileSpeed(speed);
             }
 
-            return fallbackSpeed;
+            return speed;
         }
 
         private void ReturnToPool()

@@ -10,8 +10,10 @@ namespace RainbowsEnd.Core.Config
         WeaponAccuracy = 2,
         PotPurchase2 = 3,
         PotPurchase3 = 4,
-        WeaponRange = 5
-        
+        WeaponRange = 5,
+        CloverOnPotPickup = 6,
+        UnicornFaeBoltSlow = 7,
+        ProjectileSpeed = 8
     }
 
     [Serializable]
