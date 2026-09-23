@@ -1,3 +1,4 @@
+using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
@@ -16,8 +17,14 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private Rigidbody2D body;
         [SerializeField] private Collider2D bodyCollider;
         [SerializeField] private SpriteRenderer visualRenderer;
-                [SerializeField] private RainbowTrailEmitter trailEmitter;
+        [SerializeField] private RainbowTrailEmitter trailEmitter;
         [SerializeField] private LineRenderer potWarningLine;
+
+        [Header("Audio")]
+        [SerializeField] private AudioCueSO spawnCue;
+
+        public AudioCueSO SpawnCue => spawnCue;
+        public void ConfigureSpawnCue(AudioCueSO cue) => spawnCue = cue;
 
         private ArenaBoundsAuthoring _arenaBounds;
         private Vector2 _targetPoint;
@@ -87,6 +94,10 @@ public void NotifyTeleported()
             ResolveDefaults();
             ConfigureBody();
             ChooseNextTarget();
+            if (spawnCue != null)
+            {
+                AudioManager.Instance?.PlayCue(spawnCue, transform.position);
+            }
         }
 
         private void FixedUpdate()

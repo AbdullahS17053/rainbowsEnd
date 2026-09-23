@@ -33,7 +33,29 @@ namespace RainbowsEnd.Audio
         private int _spatialSourceIndex;
         private int _globalSourceIndex;
 
-        public static AudioManager Instance => _instance;
+        public static AudioManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindFirstObjectByType<AudioManager>();
+                    if (_instance == null)
+                    {
+                        GameObject go = new GameObject("AudioManager");
+                        _instance = go.AddComponent<AudioManager>();
+                        if (Application.isPlaying)
+                        {
+                            DontDestroyOnLoad(go);
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private AudioListener _audioListener;
+        private RainbowsEnd.Gameplay.Player.PlayerRoot _playerRoot;
 
         private void Awake()
         {
@@ -44,8 +66,62 @@ namespace RainbowsEnd.Audio
             }
 
             _instance = this;
+            AudioListener.volume = 1f;
+            AudioListener.pause = false;
+            EnsureAudioListener();
             InitializeSources();
             StartAmbientLoop();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateListenerPosition();
+        }
+
+        public void EnsureAudioListener()
+        {
+            if (_audioListener == null)
+            {
+                _audioListener = FindFirstObjectByType<AudioListener>();
+                if (_audioListener == null)
+                {
+                    GameObject listenerObj = new GameObject("GroundAudioListener");
+                    listenerObj.transform.SetParent(transform, false);
+                    _audioListener = listenerObj.AddComponent<AudioListener>();
+                }
+            }
+        }
+
+        private void UpdateListenerPosition()
+        {
+            EnsureAudioListener();
+            if (_audioListener == null) return;
+
+            if (_playerRoot == null)
+            {
+                _playerRoot = FindFirstObjectByType<RainbowsEnd.Gameplay.Player.PlayerRoot>();
+            }
+
+            Vector3 groundPos;
+            if (_playerRoot != null)
+            {
+                groundPos = _playerRoot.transform.position;
+            }
+            else if (Camera.main != null)
+            {
+                groundPos = Camera.main.transform.position;
+                groundPos.z = 0f;
+            }
+            else
+            {
+                groundPos = Vector3.zero;
+            }
+
+            // Only reposition our dedicated GroundAudioListener
+            if (_audioListener.transform.parent == transform || _audioListener.gameObject.name == "GroundAudioListener")
+            {
+                _audioListener.transform.position = groundPos;
+            }
         }
 
         private void Start()
@@ -59,6 +135,11 @@ namespace RainbowsEnd.Audio
 
         private void InitializeSources()
         {
+            if (_playerActionSources.Count > 0)
+            {
+                return;
+            }
+
             // Ambient source
             if (ambientSource == null)
             {
@@ -81,13 +162,17 @@ namespace RainbowsEnd.Audio
                 _playerActionSources.Add(src);
             }
 
-            // Spatial pool
+            // Spatial pool (tuned for top-down perspective)
             for (int i = 0; i < spatialPoolSize; i++)
             {
                 GameObject obj = new GameObject($"SpatialSource_{i}");
                 obj.transform.SetParent(transform, false);
                 AudioSource src = obj.AddComponent<AudioSource>();
-                src.spatialBlend = 0.8f;
+                src.spatialBlend = 0.35f; // Hybrid 2D/3D: gives stereo panning without getting muted by top-down camera height
+                src.rolloffMode = AudioRolloffMode.Linear;
+                src.minDistance = 8f; // Full volume across immediate combat zone
+                src.maxDistance = 50f; // Audible across entire top-down arena
+                src.dopplerLevel = 0f;
                 src.playOnAwake = false;
                 _spatialSources.Add(src);
             }
@@ -98,7 +183,7 @@ namespace RainbowsEnd.Audio
                 GameObject obj = new GameObject($"GlobalPrioritySource_{i}");
                 obj.transform.SetParent(transform, false);
                 AudioSource src = obj.AddComponent<AudioSource>();
-                src.spatialBlend = 0f;
+                src.spatialBlend = 0f; // Pure 2D
                 src.playOnAwake = false;
                 _globalSources.Add(src);
             }
@@ -118,7 +203,9 @@ namespace RainbowsEnd.Audio
 
         public void PlayPlayerAction(AudioClip clip, float volume = 1f, float pitch = 1f)
         {
-            if (clip == null || _playerActionSources.Count == 0) return;
+            if (clip == null) return;
+            EnsureAudioListener();
+            if (_playerActionSources.Count == 0) return;
 
             AudioSource src = _playerActionSources[_playerSourceIndex % _playerActionSources.Count];
             _playerSourceIndex++;
@@ -130,7 +217,9 @@ namespace RainbowsEnd.Audio
 
         public void PlaySpatialGated(AudioClip clip, Vector2 worldPosition, float volume = 1f, float pitch = 1f)
         {
-            if (clip == null || _spatialSources.Count == 0) return;
+            if (clip == null) return;
+            EnsureAudioListener();
+            if (_spatialSources.Count == 0) return;
 
             _hearingService ??= AudioHearingRadiusService.Instance;
             if (_hearingService != null)
@@ -145,7 +234,7 @@ namespace RainbowsEnd.Audio
             AudioSource src = _spatialSources[_spatialSourceIndex % _spatialSources.Count];
             _spatialSourceIndex++;
 
-            src.transform.position = (Vector3)worldPosition;
+            src.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0f);
             src.pitch = pitch;
             src.volume = volume * spatialVolume;
             src.PlayOneShot(clip);
@@ -153,7 +242,9 @@ namespace RainbowsEnd.Audio
 
         public void PlayGlobalPriority(AudioClip clip, float volume = 1f, float pitch = 1f)
         {
-            if (clip == null || _globalSources.Count == 0) return;
+            if (clip == null) return;
+            EnsureAudioListener();
+            if (_globalSources.Count == 0) return;
 
             AudioSource src = _globalSources[_globalSourceIndex % _globalSources.Count];
             _globalSourceIndex++;

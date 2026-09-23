@@ -133,6 +133,7 @@ MonoBehaviour:
   visualRenderer: {fileID: 7374968990903425562}
   trailEmitter: {fileID: 3136934611503951398}
   potWarningLine: {fileID: 7310344738799674955}
+  spawnCue: {fileID: 11400000, guid: a1000000000000000000000000000010, type: 2}
 --- !u!120 &7310344738799674955
 LineRenderer:
   serializedVersion: 3

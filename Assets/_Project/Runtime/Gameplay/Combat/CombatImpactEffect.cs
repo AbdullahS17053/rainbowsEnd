@@ -1,3 +1,4 @@
+using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Utilities;
 using RainbowsEnd.Systems.Pooling;
 using UnityEngine;
@@ -7,6 +8,12 @@ namespace RainbowsEnd.Gameplay.Combat
     public sealed class CombatImpactEffect : MonoBehaviour, IPoolable
     {
         [SerializeField] [Min(0.01f)] private float defaultLifetimeSeconds = 0.12f;
+
+        [Header("Audio")]
+        [SerializeField] private AudioCueSO impactCue;
+
+        public AudioCueSO ImpactCue => impactCue;
+        public void ConfigureImpactCue(AudioCueSO cue) => impactCue = cue;
 
         private readonly CountdownTimer _lifetimeTimer = new CountdownTimer();
 
@@ -22,6 +29,10 @@ namespace RainbowsEnd.Gameplay.Combat
             _owningPool = owningPool;
             transform.localScale = Vector3.one * Mathf.Max(0.01f, uniformScale);
             ApplyPresentation(isMagic);
+            if (impactCue != null)
+            {
+                AudioManager.Instance?.PlayCue(impactCue, transform.position);
+            }
             _lifetimeTimer.Start(Mathf.Max(0.01f, lifetimeSeconds > 0f ? lifetimeSeconds : defaultLifetimeSeconds));
         }
 

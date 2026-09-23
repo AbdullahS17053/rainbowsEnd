@@ -1,3 +1,4 @@
+using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Animation;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
@@ -45,6 +46,12 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] private GameObject shotgunVisual;
         [SerializeField] private GameObject assaultRifleVisual;
         [SerializeField] private CharacterAnimationBridge animationBridge;
+
+        [Header("Audio")]
+        [SerializeField] private AudioCueSO fireCue;
+
+        public AudioCueSO FireCue => fireCue;
+        public void ConfigureFireCue(AudioCueSO cue) => fireCue = cue;
 
         private readonly System.Collections.Generic.List<Vector2> _targetCandidatePositions = new System.Collections.Generic.List<Vector2>();
         private readonly WeaponRuntimeState _runtimeState = new WeaponRuntimeState();
@@ -278,6 +285,10 @@ private void FireShot(Vector2 baseAimDirection)
             if (launchedCount > 0)
             {
                 ProjectileWeaponLauncher.PlayMuzzleFeedback(muzzle);
+                if (fireCue != null)
+                {
+                    AudioManager.Instance?.PlayCue(fireCue, origin);
+                }
             }
 
             ApplyRecoilFeedback();

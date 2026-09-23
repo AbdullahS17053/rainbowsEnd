@@ -1,4 +1,5 @@
 using System;
+using RainbowsEnd.Audio;
 using RainbowsEnd.Gameplay.Pots;
 using UnityEngine;
 
@@ -14,10 +15,22 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] [Min(0.5f)] private float channelDurationSeconds = 2.0f;
         [SerializeField] [Min(0.5f)] private float maxInteractionDistance = 1.5f;
 
-        [Header("Audio")]
+        [Header("Audio (AudioCueSO Preferred)")]
+        [SerializeField] private AudioCueSO bankingChantCue;
+        [SerializeField] private AudioCueSO bankingCompleteCue;
+        [SerializeField] private AudioCueSO coughSputterCue;
+
+        [Header("Audio Clips (Fallback)")]
         [SerializeField] private AudioClip bankingChantClip;
         [SerializeField] private AudioClip bankingCompleteClip;
         [SerializeField] private AudioClip coughSputterClip;
+
+        public void ConfigureAudioCues(AudioCueSO chant, AudioCueSO complete, AudioCueSO cough)
+        {
+            if (chant != null) bankingChantCue = chant;
+            if (complete != null) bankingCompleteCue = complete;
+            if (cough != null) coughSputterCue = cough;
+        }
 
         private PotController _targetPot;
         private float _currentChannelTime;
@@ -121,7 +134,14 @@ namespace RainbowsEnd.Gameplay.Player
             _currentChannelTime = 0f;
             _bankingStartPosition = playerRoot.Body != null ? playerRoot.Body.position : (Vector2)transform.position;
 
-            RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(bankingChantClip, 0.8f);
+            if (bankingChantCue != null)
+            {
+                RainbowsEnd.Audio.AudioManager.Instance?.PlayCue(bankingChantCue, _bankingStartPosition);
+            }
+            else if (bankingChantClip != null)
+            {
+                RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(bankingChantClip, 0.8f);
+            }
             BankingStarted?.Invoke(_targetPot);
             BankingProgress?.Invoke(_targetPot, 0f);
         }
@@ -183,7 +203,14 @@ namespace RainbowsEnd.Gameplay.Player
             _targetPot = null;
             _currentChannelTime = 0f;
 
-            RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(bankingCompleteClip, 1.0f);
+            if (bankingCompleteCue != null)
+            {
+                RainbowsEnd.Audio.AudioManager.Instance?.PlayCue(bankingCompleteCue, completedPot.transform.position);
+            }
+            else if (bankingCompleteClip != null)
+            {
+                RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(bankingCompleteClip, 1.0f);
+            }
             BankingCompleted?.Invoke(completedPot, goldBanked);
         }
 
@@ -201,7 +228,14 @@ namespace RainbowsEnd.Gameplay.Player
 
             if (interrupted)
             {
-                RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(coughSputterClip, 0.9f);
+                if (coughSputterCue != null)
+                {
+                    RainbowsEnd.Audio.AudioManager.Instance?.PlayCue(coughSputterCue, transform.position);
+                }
+                else if (coughSputterClip != null)
+                {
+                    RainbowsEnd.Audio.AudioManager.Instance?.PlayPlayerAction(coughSputterClip, 0.9f);
+                }
                 BankingInterrupted?.Invoke(interruptedPot);
             }
         }

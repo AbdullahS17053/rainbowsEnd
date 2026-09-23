@@ -296,6 +296,7 @@ MonoBehaviour:
   shotgunVisual: {fileID: 0}
   assaultRifleVisual: {fileID: 0}
   animationBridge: {fileID: 3213909539828360754}
+  fireCue: {fileID: 11400000, guid: a1000000000000000000000000000001, type: 2}
   firearmScaleMultiplier: 1.35
   recoilKickDistance: 0.15
   recoilRecoverySpeed: 16

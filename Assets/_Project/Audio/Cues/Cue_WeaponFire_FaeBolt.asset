@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d640da541bb6834ba1204f6e5e6cbcf, type: 3}
+  m_Name: Cue_WeaponFire_FaeBolt
+  m_EditorClassIdentifier: 
+  layer: 2
+  clips:
+  - {fileID: 8300000, guid: 101106cd810615041bb13f121e59a2d7, type: 3}
+  - {fileID: 8300000, guid: 08ef3735b9527d54ab97d0e9fc9d505d, type: 3}
+  - {fileID: 8300000, guid: 282f2e6fd1d7d854d8e2258943dbdcb1, type: 3}
+  volume: 0.85
+  pitchRange: {x: 0.92, y: 1.08}
+  bypassEarshot: 0

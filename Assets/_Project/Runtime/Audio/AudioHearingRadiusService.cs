@@ -7,9 +7,10 @@ namespace RainbowsEnd.Audio
     {
         private static AudioHearingRadiusService _instance;
 
-        [SerializeField] private float minHearingRadius = 2.5f;
-        [SerializeField] private float maxHearingRadius = 7.0f;
-        [SerializeField] private float falloffMargin = 1.0f;
+        [Header("Top-Down Hearing Settings")]
+        [SerializeField] private float minHearingRadius = 16.0f;
+        [SerializeField] private float maxHearingRadius = 36.0f;
+        [SerializeField] private float falloffMargin = 12.0f;
 
         private PlayerRoot _player;
 
@@ -55,19 +56,20 @@ namespace RainbowsEnd.Audio
             if (distance <= CurrentHearingRadius)
             {
                 float normalizedDist = distance / Mathf.Max(CurrentHearingRadius, 0.01f);
-                volumeScale = Mathf.Clamp01(1f - (normalizedDist * 0.4f)); // clear inside hearing bubble
+                volumeScale = Mathf.Clamp(1f - (normalizedDist * 0.35f), 0.65f, 1f);
                 return true;
             }
 
             if (distance <= CurrentHearingRadius + falloffMargin)
             {
                 float falloffT = (distance - CurrentHearingRadius) / Mathf.Max(falloffMargin, 0.01f);
-                volumeScale = Mathf.Lerp(0.6f, 0f, falloffT);
+                volumeScale = Mathf.Lerp(0.65f, 0.35f, falloffT);
                 return true;
             }
 
-            volumeScale = 0f;
-            return false;
+            // Outside margin: subtle audible presence across the arena
+            volumeScale = 0.35f;
+            return true;
         }
 
         private void OnDrawGizmosSelected()

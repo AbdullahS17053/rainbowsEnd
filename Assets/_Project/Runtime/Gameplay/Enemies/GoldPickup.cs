@@ -1,3 +1,4 @@
+using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
@@ -10,6 +11,12 @@ namespace RainbowsEnd.Gameplay.Enemies
     public sealed class GoldPickup : MonoBehaviour, IPoolable
     {
         [SerializeField] private Collider2D triggerCollider;
+
+        [Header("Audio")]
+        [SerializeField] private AudioCueSO pickupCue;
+
+        public AudioCueSO PickupCue => pickupCue;
+        public void ConfigurePickupCue(AudioCueSO cue) => pickupCue = cue;
 
         private PotRegistry _potRegistry;
         private PrefabPool _owningPool;
@@ -63,6 +70,10 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (acceptedGold > 0.001f)
             {
                 UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(transform.position, Mathf.FloorToInt(acceptedGold), isGain: true);
+                if (pickupCue != null)
+                {
+                    AudioManager.Instance?.PlayCue(pickupCue, transform.position);
+                }
             }
             _goldAmount -= acceptedGold;
             if (_goldAmount > 0.0001f)

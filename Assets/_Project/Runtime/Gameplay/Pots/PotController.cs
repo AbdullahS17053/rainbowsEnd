@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
@@ -44,6 +45,11 @@ namespace RainbowsEnd.Gameplay.Pots
         [SerializeField] private GameObject rainbowFlareVFX;
         [SerializeField] private GameObject shimmerVFX;
 
+        [Header("Audio")]
+        [SerializeField] private AudioCueSO harvestStartCue;
+        [SerializeField] private AudioCueSO goldBankedCue;
+        [SerializeField] private AudioCueSO tierUpgradeCue;
+
         public event System.Action<PotController> HarvestStarted;
         public event System.Action<PotController, float> GoldHarvestTick;
         public event System.Action<PotController, int> GoldBanked;
@@ -58,6 +64,7 @@ namespace RainbowsEnd.Gameplay.Pots
         private bool _hasIdleColor;
         private bool _isRegisteredWithPotRegistry;
         private float _storedGold;
+        private PotGoldTier _lastPlayedGoldTier = PotGoldTier.Empty;
         private RainbowTrailEmitter _trailEmitter;
         private bool _harvestConsumed;
 
@@ -140,6 +147,10 @@ namespace RainbowsEnd.Gameplay.Pots
                 _storedGold = Mathf.Max(0f, _storedGold - banked);
                 UpdateGoldLabel();
                 ApplyVisualState();
+                if (goldBankedCue != null)
+                {
+                    AudioManager.Instance?.PlayCue(goldBankedCue, transform.position);
+                }
                 GoldBanked?.Invoke(this, banked);
             }
             return banked;
@@ -168,6 +179,47 @@ namespace RainbowsEnd.Gameplay.Pots
             CacheIdleColor(forceRefresh: true);
             ApplyVisualState();
         }
+
+        public void ConfigureVisuals(
+            GameObject partiallyFull,
+            GameObject full,
+            GameObject overflowing,
+            GameObject goldPileFloor,
+            GameObject fireworks = null,
+            GameObject rainbowFlare = null,
+            GameObject shimmer = null)
+        {
+            partiallyFullVisual = partiallyFull;
+            fullVisual = full;
+            overflowingVisual = overflowing;
+            goldPileFloorVisual = goldPileFloor;
+            if (fireworks != null) fireworksVFX = fireworks;
+            if (rainbowFlare != null) rainbowFlareVFX = rainbowFlare;
+            if (shimmer != null) shimmerVFX = shimmer;
+            ApplyVisualState();
+        }
+
+        public void ConfigureAudio(
+            AudioCueSO harvestStart,
+            AudioCueSO goldBanked,
+            AudioCueSO tierUpgrade)
+        {
+            if (harvestStart != null) harvestStartCue = harvestStart;
+            if (goldBanked != null) goldBankedCue = goldBanked;
+            if (tierUpgrade != null) tierUpgradeCue = tierUpgrade;
+        }
+
+        public AudioCueSO HarvestStartCue => harvestStartCue;
+        public AudioCueSO GoldBankedCue => goldBankedCue;
+        public AudioCueSO TierUpgradeCue => tierUpgradeCue;
+
+        public GameObject PartiallyFullVisual => partiallyFullVisual;
+        public GameObject FullVisual => fullVisual;
+        public GameObject OverflowingVisual => overflowingVisual;
+        public GameObject GoldPileFloorVisual => goldPileFloorVisual;
+        public GameObject FireworksVFX => fireworksVFX;
+        public GameObject RainbowFlareVFX => rainbowFlareVFX;
+        public GameObject ShimmerVFX => shimmerVFX;
 
         private void Reset()
         {
@@ -718,6 +770,12 @@ namespace RainbowsEnd.Gameplay.Pots
             }
 
             PotGoldTier tier = CurrentGoldTier;
+            if (tier > _lastPlayedGoldTier && !isUnavailable && tierUpgradeCue != null)
+            {
+                AudioManager.Instance?.PlayCue(tierUpgradeCue, transform.position);
+            }
+            _lastPlayedGoldTier = tier;
+
             if (partiallyFullVisual != null)
             {
                 partiallyFullVisual.SetActive(!isUnavailable && tier == PotGoldTier.PartiallyFull);
@@ -743,6 +801,11 @@ namespace RainbowsEnd.Gameplay.Pots
 
         private void TriggerHarvestFlair()
         {
+            if (harvestStartCue != null)
+            {
+                AudioManager.Instance?.PlayCue(harvestStartCue, transform.position);
+            }
+
             if (fireworksVFX != null)
             {
                 fireworksVFX.SetActive(false);
