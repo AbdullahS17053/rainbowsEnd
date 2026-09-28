@@ -1,6 +1,7 @@
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Enemies;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.UI;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         [SerializeField] private MilitarySpawner militarySpawner;
         [SerializeField] private PotRegistry potRegistry;
         [SerializeField] private RunOutcomePresenter outcomePresenter;
+        [SerializeField] private PlayerWallet playerWallet;
         [SerializeField] private bool startRunOnEnable = true;
         [SerializeField] private bool freezeTimeOnOutcome = true;
 
@@ -41,12 +43,28 @@ namespace RainbowsEnd.Gameplay.Orchestration
             PotRegistry registry,
             RunOutcomePresenter presenter)
         {
+            Configure(config, travellerSpawner, rangedPoliceSpawner, rangedMilitarySpawner, registry, presenter, null);
+        }
+
+        public void Configure(
+            WaveConfig config,
+            EnemySpawner travellerSpawner,
+            PoliceSpawner rangedPoliceSpawner,
+            MilitarySpawner rangedMilitarySpawner,
+            PotRegistry registry,
+            RunOutcomePresenter presenter,
+            PlayerWallet wallet)
+        {
             waveConfig = config;
             enemySpawner = travellerSpawner;
             policeSpawner = rangedPoliceSpawner;
             militarySpawner = rangedMilitarySpawner;
             potRegistry = registry;
             outcomePresenter = presenter;
+            if (wallet != null)
+            {
+                playerWallet = wallet;
+            }
             InitializeRun();
         }
 
@@ -155,6 +173,13 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
             potRegistry ??= FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
             outcomePresenter ??= FindFirstObjectByType<RunOutcomePresenter>(FindObjectsInactive.Include);
+
+            if (playerWallet == null && ProjectContext.Instance?.Services.TryGet(out PlayerWallet wallet) == true)
+            {
+                playerWallet = wallet;
+            }
+
+            playerWallet ??= FindFirstObjectByType<PlayerWallet>(FindObjectsInactive.Include);
         }
 
         private int ResolveActivePotCount()
@@ -211,13 +236,41 @@ namespace RainbowsEnd.Gameplay.Orchestration
             return militarySpawner != null && militarySpawner.TrySpawnMilitary();
         }
 
+        public const int ScorePerKill = 100;
+        public const int ScorePerGold = 50;
+        public const int ScorePerCompletedWave = 500;
+
+        public int CurrentScore => CalculateScore(
+            KillCount,
+            ResolveCurrentGold(),
+            _waveController != null ? _waveController.CompletedWaveCount : 0);
+
+        public static int CalculateScore(int kills, int gold, int completedWaves)
+        {
+            return Mathf.Max(0, (kills * ScorePerKill) + (gold * ScorePerGold) + (completedWaves * ScorePerCompletedWave));
+        }
+
+        private int ResolveCurrentGold()
+        {
+            int potGold = potRegistry != null ? potRegistry.TotalStoredGold : 0;
+            int bankedGold = playerWallet != null ? playerWallet.TotalGoldEarned : 0;
+            return Mathf.Max(0, potGold + bankedGold);
+        }
+
+        private int ResolveScore()
+        {
+            return CurrentScore;
+        }
+
         private void ReportOutcome(RunOutcome outcome)
         {
             _reportedOutcome = outcome;
+            int score = ResolveScore();
             outcomePresenter?.Show(
                 outcome,
                 _waveController != null ? _waveController.CompletedWaveCount : 0,
-                _waveController != null ? _waveController.TotalWaveCount : 0);
+                _waveController != null ? _waveController.TotalWaveCount : 0,
+                score);
 
             if (freezeTimeOnOutcome)
             {

@@ -58,5 +58,36 @@ namespace RainbowsEnd.Tests.EditMode.Orchestration
                 Object.DestroyImmediate(directorObject);
             }
         }
+
+        [Test]
+        public void Configure_AcceptsOptionalPlayerWallet()
+        {
+            GameObject directorObject = new GameObject("RunDirector");
+            RunDirector director = directorObject.AddComponent<RunDirector>();
+            GameObject walletObject = new GameObject("PlayerWallet");
+            RainbowsEnd.Gameplay.Player.PlayerWallet wallet = walletObject.AddComponent<RainbowsEnd.Gameplay.Player.PlayerWallet>();
+
+            try
+            {
+                director.Configure(null, null, null, null, null, null, wallet);
+                Assert.That(director, Is.Not.Null);
+            }
+            finally
+            {
+                Object.DestroyImmediate(walletObject);
+                Object.DestroyImmediate(directorObject);
+            }
+        }
+
+        [TestCase(0, 0, 0, 0)]
+        [TestCase(1, 0, 0, 100)]
+        [TestCase(0, 2, 0, 100)]
+        [TestCase(0, 0, 1, 500)]
+        [TestCase(10, 20, 3, 3500)]
+        public void CalculateScore_ComputesHybridScoreCorrectly(int kills, int gold, int waves, int expectedScore)
+        {
+            int score = RunDirector.CalculateScore(kills, gold, waves);
+            Assert.That(score, Is.EqualTo(expectedScore));
+        }
     }
 }

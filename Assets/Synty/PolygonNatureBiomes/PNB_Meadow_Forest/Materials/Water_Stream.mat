@@ -208,7 +208,7 @@ Material:
     - _CausticsColor: {r: 0.7529412, g: 0.7333333, b: 0.6509804, a: 0}
     - _Caustics_Color: {r: 1, g: 0.97889644, b: 0.8156863, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Deep_Color: {r: 0.14117648, g: 0.3372549, b: 0.16470589, a: 1}
+    - _Deep_Color: {r: 0.14117648, g: 0.24305376, b: 0.3372549, a: 1}
     - _Depth_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Distant_Water_Color: {r: 0, g: 0.17334907, b: 0.33962262, a: 1}
     - _Distortion_Direction: {r: 1, g: 1, b: 0, a: 0}
@@ -224,7 +224,7 @@ Material:
     - _Scrolling_Texture_Direction: {r: 0.03, g: 0.22, b: 0, a: 0}
     - _Scrolling_Texture_Tiling: {r: 1.28, g: 2.95, b: 0, a: 0}
     - _Scrolling_Texture_Tint: {r: 1, g: 1, b: 1, a: 0}
-    - _Shallow_Color: {r: 0.47450984, g: 0.5411765, b: 0.27450982, a: 1}
+    - _Shallow_Color: {r: 0.27450982, g: 0.5411765, b: 0.5335771, a: 1}
     - _Shore_Foam_Color_Tint: {r: 0.6171057, g: 0.6981132, b: 0.56310076, a: 1}
     - _Shore_Foam_Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
     - _Shore_Glow_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -236,7 +236,7 @@ Material:
     - _Specular_Color: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling_Amount: {r: 1, g: 1, b: 0, a: 0}
     - _Top_Scroll_Color: {r: 0.37121746, g: 0.7245609, b: 0.8113207, a: 0}
-    - _Very_Deep_Color: {r: 0.14901961, g: 0.20784315, b: 0.121568635, a: 1}
+    - _Very_Deep_Color: {r: 0.12156863, g: 0.20302606, b: 0.20784314, a: 1}
     - _Water_Deep_Color: {r: 0.19340093, g: 0.519, b: 0.49027064, a: 0}
     - _Water_Far_Color: {r: 0.2117647, g: 0.5921569, b: 0.6509804, a: 1}
     - _Water_Near_Color: {r: 0.09411765, g: 0.227451, b: 0.3019608, a: 1}

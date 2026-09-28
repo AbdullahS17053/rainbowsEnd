@@ -169,9 +169,10 @@ public void Activate(
             ConfigureAimTelegraph();
         }
 
-public void OnSpawned()
+        public void OnSpawned()
         {
             CacheReferences();
+            animationBridge?.ResetDeath();
             _owningPool = null;
             _weaponPickupPool = null;
             _goldPickupPool = null;
@@ -868,6 +869,8 @@ private MilitaryController FindCarrier(PotController pot)
                 bodyCollider.enabled = false;
             }
 
+            animationBridge?.TriggerDeath();
+
             CombatFeedbackController.DelayedDespawn(this, () =>
             {
                 _owningSpawner?.NotifyMilitaryDespawned(this);
@@ -1000,21 +1003,18 @@ private MilitaryController FindCarryPartner(PotController pot, bool forAssembly 
 
         private bool IsPotInConcealment(PotController pot)
         {
-            if (pot == null)
+            if (pot == null || pot.IsCarried)
             {
                 return false;
             }
 
-            ConcealmentZone[] zones = FindObjectsByType<ConcealmentZone>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-            for (int index = 0; index < zones.Length; index++)
+            Vector2 position = pot.transform.position;
+            if (TerrainZone.IsConcealed(position))
             {
-                if (zones[index] != null && zones[index].Contains(pot.transform.position))
-                {
-                    return true;
-                }
+                return true;
             }
 
-            return false;
+            return ConcealmentZone.IsConcealed(position);
         }
 
         private void BreakMilitaryCarry()

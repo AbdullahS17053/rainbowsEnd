@@ -26,19 +26,24 @@ namespace RainbowsEnd.Gameplay.World
         public Collider2D ZoneCollider => zoneCollider;
         public float ForestSpeedMultiplier => forestSpeedMultiplier;
 
-        public static bool IsConcealed(Vector2 position)
+        public static bool IsConcealed(Vector2 position, Collider2D actorCollider = null)
         {
             for (int i = 0; i < ActiveZones.Count; i++)
             {
                 TerrainZone zone = ActiveZones[i];
                 if (zone == null || !zone.gameObject.activeInHierarchy) continue;
                 if ((zone.terrainType == TerrainType.Forest || zone.terrainType == TerrainType.TallGrass)
-                    && zone.Contains(position))
+                    && (zone.Contains(position) || (actorCollider != null && zone.Overlaps(actorCollider))))
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public bool Overlaps(Collider2D collider)
+        {
+            return zoneCollider != null && collider != null && zoneCollider.IsTouching(collider);
         }
 
         public static bool IsInForest(Vector2 position)

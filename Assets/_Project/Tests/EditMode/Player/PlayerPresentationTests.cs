@@ -70,10 +70,15 @@ namespace RainbowsEnd.Tests.EditMode.Player
             Assert.That(_visualMaterial.GetColor(Shader.PropertyToID("_Color")).a, Is.EqualTo(1f).Within(0.001f));
 
             _playerRoot.NotifyShotFired();
+            Assert.That(_playerRoot.IsConcealed, Is.False);
             Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(1f).Within(0.001f));
             Assert.That(ReadRendererAlpha(), Is.EqualTo(1f).Within(0.001f));
 
             SetPrivateField(_playerRoot, "_concealmentRevealTimerSeconds", 0f);
+            _playerRoot.RefreshVisualState();
+            Assert.That(_playerRoot.IsConcealed, Is.True);
+            Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(_config.ConcealedOpacity).Within(0.001f));
+
             _health.ApplyDamage(new DamageInfo(20f, FactionId.Military, Vector2.zero));
             SetPrivateField(_playerRoot, "_downedTimerSeconds", 0f);
             InvokePrivate(_playerRoot, "Update");
@@ -85,6 +90,27 @@ namespace RainbowsEnd.Tests.EditMode.Player
             _playerRoot.NotifyShotFired();
             Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(1f).Within(0.001f));
             Assert.That(ReadRendererAlpha(), Is.EqualTo(1f).Within(0.001f));
+        }
+
+        [Test]
+        public void Firing_LosesConcealmentAndRegainsItWhenStopping()
+        {
+            _playerRoot.RefreshVisualState();
+            Assert.That(_playerRoot.IsConcealed, Is.True);
+            Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(_config.ConcealedOpacity).Within(0.001f));
+
+            // Fire shot -> loses translucence and concealment
+            _playerRoot.NotifyShotFired();
+            Assert.That(_playerRoot.IsConcealed, Is.False);
+            Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(1f).Within(0.001f));
+
+            // Tick time down to simulate stopping firing
+            SetPrivateField(_playerRoot, "_concealmentRevealTimerSeconds", 0f);
+            _playerRoot.RefreshVisualState();
+
+            // Regains translucence and concealment
+            Assert.That(_playerRoot.IsConcealed, Is.True);
+            Assert.That(_playerRoot.CurrentVisualOpacity, Is.EqualTo(_config.ConcealedOpacity).Within(0.001f));
         }
 
         private float ReadRendererAlpha()

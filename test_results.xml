@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="138" result="Failed(Child)" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.5378856">
+  <test-suite type="TestSuite" id="1000" name="rainbowsEnd" fullname="rainbowsEnd" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.537886" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1185" name="RainbowsEnd.EditModeTests.dll" fullname="D:/Gaming/RainbowsEnd/rainbowsEnd/Library/ScriptAssemblies/RainbowsEnd.EditModeTests.dll" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.523398" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="11872" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1186" name="RainbowsEnd" fullname="RainbowsEnd" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.522468" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1187" name="Tests" fullname="RainbowsEnd.Tests" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.521758" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1188" name="EditMode" fullname="RainbowsEnd.Tests.EditMode" runstate="Runnable" testcasecount="138" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.521139" total="138" passed="137" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestSuite" id="1200" name="Animation" fullname="RainbowsEnd.Tests.EditMode.Animation" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.045512" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1183" name="CharacterAnimationBridgeTests" fullname="RainbowsEnd.Tests.EditMode.Animation.CharacterAnimationBridgeTests" classname="RainbowsEnd.Tests.EditMode.Animation.CharacterAnimationBridgeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.043934" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1184" name="LocomotionSampling_RunsInLateUpdate" fullname="RainbowsEnd.Tests.EditMode.Animation.CharacterAnimationBridgeTests.LocomotionSampling_RunsInLateUpdate" methodname="LocomotionSampling_RunsInLateUpdate" classname="RainbowsEnd.Tests.EditMode.Animation.CharacterAnimationBridgeTests" runstate="Runnable" seed="782621495" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.021616" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1199" name="Combat" fullname="RainbowsEnd.Tests.EditMode.Combat" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.047925" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1159" name="WeaponAutoFireTargetingUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.014801" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1161" name="IsWithinCone_ReturnsFalseForTargetOutsideCone" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests.IsWithinCone_ReturnsFalseForTargetOutsideCone" methodname="IsWithinCone_ReturnsFalseForTargetOutsideCone" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" seed="726251032" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001624" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1162" name="IsWithinCone_ReturnsFalseForTargetOutsideRange" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests.IsWithinCone_ReturnsFalseForTargetOutsideRange" methodname="IsWithinCone_ReturnsFalseForTargetOutsideRange" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" seed="1215795849" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000286" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1160" name="IsWithinCone_ReturnsTrueForTargetInsideConeAndRange" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests.IsWithinCone_ReturnsTrueForTargetInsideConeAndRange" methodname="IsWithinCone_ReturnsTrueForTargetInsideConeAndRange" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" seed="326041631" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000519" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1164" name="SelectNearestTargetIndex_ReturnsMinusOneWhenNoTargetFitsCone" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests.SelectNearestTargetIndex_ReturnsMinusOneWhenNoTargetFitsCone" methodname="SelectNearestTargetIndex_ReturnsMinusOneWhenNoTargetFitsCone" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" seed="2026105970" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.009269" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1163" name="SelectNearestTargetIndex_ReturnsNearestTargetWithinCone" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests.SelectNearestTargetIndex_ReturnsNearestTargetWithinCone" methodname="SelectNearestTargetIndex_ReturnsNearestTargetWithinCone" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponAutoFireTargetingUtilityTests" runstate="Runnable" seed="1759165814" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000840" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1165" name="WeaponHitUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.014463" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1168" name="IsValidDamageableTarget_ReturnsFalseForFriendlyTarget" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests.IsValidDamageableTarget_ReturnsFalseForFriendlyTarget" methodname="IsValidDamageableTarget_ReturnsFalseForFriendlyTarget" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" seed="936021151" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002611" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1169" name="IsValidDamageableTarget_ReturnsTrueForHostileDamageable" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests.IsValidDamageableTarget_ReturnsTrueForHostileDamageable" methodname="IsValidDamageableTarget_ReturnsTrueForHostileDamageable" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" seed="1867485708" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001673" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1167" name="TryResolveHit_AppliesDamageToOpposingDamageable" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests.TryResolveHit_AppliesDamageToOpposingDamageable" methodname="TryResolveHit_AppliesDamageToOpposingDamageable" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" seed="1219759644" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002266" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1166" name="TryResolveHit_IgnoresFriendlyTargets" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests.TryResolveHit_IgnoresFriendlyTargets" methodname="TryResolveHit_IgnoresFriendlyTargets" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" seed="524204947" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000571" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1170" name="TryResolveHit_IgnoresNonDamageableTriggerVolumes" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests.TryResolveHit_IgnoresNonDamageableTriggerVolumes" methodname="TryResolveHit_IgnoresNonDamageableTriggerVolumes" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponHitUtilityTests" runstate="Runnable" seed="1758654028" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004658" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1171" name="WeaponRuntimeStateTests" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.012498" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1173" name="AssignConfig_WithoutReset_PreservesCurrentCooldown" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests.AssignConfig_WithoutReset_PreservesCurrentCooldown" methodname="AssignConfig_WithoutReset_PreservesCurrentCooldown" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" seed="357082820" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001640" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1175" name="ResolveFireOrigin_UsesAuthoredTransformWhenPresent" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests.ResolveFireOrigin_UsesAuthoredTransformWhenPresent" methodname="ResolveFireOrigin_UsesAuthoredTransformWhenPresent" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" seed="96044666" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004585" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1176" name="ResolveFireOrigin_UsesOffsetFallbackWhenMissing" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests.ResolveFireOrigin_UsesOffsetFallbackWhenMissing" methodname="ResolveFireOrigin_UsesOffsetFallbackWhenMissing" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" seed="1550595970" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000959" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1172" name="TryConsumeShot_EnforcesConfiguredCooldown" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests.TryConsumeShot_EnforcesConfiguredCooldown" methodname="TryConsumeShot_EnforcesConfiguredCooldown" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" seed="822428285" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000693" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1174" name="TryConsumeShot_UsesProvidedCooldownOverride" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests.TryConsumeShot_UsesProvidedCooldownOverride" methodname="TryConsumeShot_UsesProvidedCooldownOverride" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponRuntimeStateTests" runstate="Runnable" seed="948105112" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000789" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1177" name="WeaponSpreadUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004807" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1180" name="ApplySpread_RotatesDirectionByOffsetDegrees" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests.ApplySpread_RotatesDirectionByOffsetDegrees" methodname="ApplySpread_RotatesDirectionByOffsetDegrees" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" seed="346531372" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001105" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1179" name="CalculateSpreadOffsetDegrees_UsesMaximumSpreadWhenMoving" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests.CalculateSpreadOffsetDegrees_UsesMaximumSpreadWhenMoving" methodname="CalculateSpreadOffsetDegrees_UsesMaximumSpreadWhenMoving" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" seed="1354259051" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000309" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1178" name="CalculateSpreadOffsetDegrees_UsesMinimumSpreadWhenStandingStill" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests.CalculateSpreadOffsetDegrees_UsesMinimumSpreadWhenStandingStill" methodname="CalculateSpreadOffsetDegrees_UsesMinimumSpreadWhenStandingStill" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" seed="1137263031" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000201" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1182" name="PlayerWeaponPosture_UsesStationaryAtThresholdAndHipFireAboveThreshold" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests.PlayerWeaponPosture_UsesStationaryAtThresholdAndHipFireAboveThreshold" methodname="PlayerWeaponPosture_UsesStationaryAtThresholdAndHipFireAboveThreshold" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" seed="777137473" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000643" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1181" name="ShouldRenderTracer_PreservesSingleFirearmAndSelectsTwoShotgunRepresentatives" fullname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests.ShouldRenderTracer_PreservesSingleFirearmAndSelectsTwoShotgunRepresentatives" methodname="ShouldRenderTracer_PreservesSingleFirearmAndSelectsTwoShotgunRepresentatives" classname="RainbowsEnd.Tests.EditMode.Combat.WeaponSpreadUtilityTests" runstate="Runnable" seed="1636340740" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000376" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1001" name="CountdownTimerTests" fullname="RainbowsEnd.Tests.EditMode.CountdownTimerTests" classname="RainbowsEnd.Tests.EditMode.CountdownTimerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002044" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1002" name="Start_SetsDurationAndBeginsRunning" fullname="RainbowsEnd.Tests.EditMode.CountdownTimerTests.Start_SetsDurationAndBeginsRunning" methodname="Start_SetsDurationAndBeginsRunning" classname="RainbowsEnd.Tests.EditMode.CountdownTimerTests" runstate="Runnable" seed="1025777455" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000479" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="Tick_CompletesTimer_WhenDurationExpires" fullname="RainbowsEnd.Tests.EditMode.CountdownTimerTests.Tick_CompletesTimer_WhenDurationExpires" methodname="Tick_CompletesTimer_WhenDurationExpires" classname="RainbowsEnd.Tests.EditMode.CountdownTimerTests" runstate="Runnable" seed="547211148" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000422" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestSuite" id="1198" name="Economy" fullname="RainbowsEnd.Tests.EditMode.Economy" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004747" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1157" name="EconomyStateTests" fullname="RainbowsEnd.Tests.EditMode.Economy.EconomyStateTests" classname="RainbowsEnd.Tests.EditMode.Economy.EconomyStateTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003948" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1158" name="ActiveHarvesterCount_UpdatesCurrentHarvestMultiplier" fullname="RainbowsEnd.Tests.EditMode.Economy.EconomyStateTests.ActiveHarvesterCount_UpdatesCurrentHarvestMultiplier" methodname="ActiveHarvesterCount_UpdatesCurrentHarvestMultiplier" classname="RainbowsEnd.Tests.EditMode.Economy.EconomyStateTests" runstate="Runnable" seed="918562950" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002432" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1197" name="Enemies" fullname="RainbowsEnd.Tests.EditMode.Enemies" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.122933" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1114" name="EnemyDropSelectionUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.014955" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1116" name="SelectGoldAmount_UsesRollAcrossValidEntries" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests.SelectGoldAmount_UsesRollAcrossValidEntries" methodname="SelectGoldAmount_UsesRollAcrossValidEntries" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" seed="1865637710" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.006246" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1115" name="SelectGoldDropIndex_SkipsInvalidEntries" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests.SelectGoldDropIndex_SkipsInvalidEntries" methodname="SelectGoldDropIndex_SkipsInvalidEntries" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" seed="460091737" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000876" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1119" name="SelectMilitaryDropType_UsesOneExclusiveRewardRoll" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests.SelectMilitaryDropType_UsesOneExclusiveRewardRoll" methodname="SelectMilitaryDropType_UsesOneExclusiveRewardRoll" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" seed="1968822289" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000920" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1117" name="TrySelectWeaponDrop_ReturnsConfiguredWeaponAndAmmo" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests.TrySelectWeaponDrop_ReturnsConfiguredWeaponAndAmmo" methodname="TrySelectWeaponDrop_ReturnsConfiguredWeaponAndAmmo" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" seed="1737101460" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001990" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1118" name="TrySelectWeaponDrop_ReturnsFalseWhenNoValidOptionsExist" fullname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests.TrySelectWeaponDrop_ReturnsFalseWhenNoValidOptionsExist" methodname="TrySelectWeaponDrop_ReturnsFalseWhenNoValidOptionsExist" classname="RainbowsEnd.Tests.EditMode.Enemies.EnemyDropSelectionUtilityTests" runstate="Runnable" seed="1093707881" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001549" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1120" name="MilitaryBurstUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryBurstUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryBurstUtilityTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001627" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1121" name="ShouldStartTelegraph_OnlyOnceBeforeEachBurst" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryBurstUtilityTests.ShouldStartTelegraph_OnlyOnceBeforeEachBurst" methodname="ShouldStartTelegraph_OnlyOnceBeforeEachBurst" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryBurstUtilityTests" runstate="Runnable" seed="1415823085" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000435" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1122" name="MilitaryCarryCoordinationTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCarryCoordinationTests" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCarryCoordinationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.009957" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1123" name="Militaries_JoinWaitingPot_AssembleAroundPot_AndAbandonWithoutPartner" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCarryCoordinationTests.Militaries_JoinWaitingPot_AssembleAroundPot_AndAbandonWithoutPartner" methodname="Militaries_JoinWaitingPot_AssembleAroundPot_AndAbandonWithoutPartner" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCarryCoordinationTests" runstate="Runnable" seed="1306060924" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.008803" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1124" name="MilitaryCombatPriorityUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCombatPriorityUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCombatPriorityUtilityTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001857" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1125" name="ShouldPrioritizeCombat_OnlyForClearTargetWithinWeaponRange" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCombatPriorityUtilityTests.ShouldPrioritizeCombat_OnlyForClearTargetWithinWeaponRange" methodname="ShouldPrioritizeCombat_OnlyForClearTargetWithinWeaponRange" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryCombatPriorityUtilityTests" runstate="Runnable" seed="478253655" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000399" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1126" name="MilitaryPrefabReferenceTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryPrefabReferenceTests" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryPrefabReferenceTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.037439" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1127" name="WeaponAnchors_AreAssigned" fullname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryPrefabReferenceTests.WeaponAnchors_AreAssigned" methodname="WeaponAnchors_AreAssigned" classname="RainbowsEnd.Tests.EditMode.Enemies.MilitaryPrefabReferenceTests" runstate="Runnable" seed="1055094776" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.036504" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1128" name="PoliceCombatCycleUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004609" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1130" name="AimHoldWaitsForTimerAndRetriesFailedFire" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests.AimHoldWaitsForTimerAndRetriesFailedFire" methodname="AimHoldWaitsForTimerAndRetriesFailedFire" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" runstate="Runnable" seed="994461298" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000929" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1129" name="ApproachOnlyBeginsAimHoldAtPreferredRangeWithLineOfSight" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests.ApproachOnlyBeginsAimHoldAtPreferredRangeWithLineOfSight" methodname="ApproachOnlyBeginsAimHoldAtPreferredRangeWithLineOfSight" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" runstate="Runnable" seed="1231749912" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000357" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1132" name="RepositionDirectionUsesOneBoundarySafeRoll" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests.RepositionDirectionUsesOneBoundarySafeRoll" methodname="RepositionDirectionUsesOneBoundarySafeRoll" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" runstate="Runnable" seed="669536275" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000284" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1131" name="RepositionEndsOnlyAfterItsTimerAndResetsOnInterruption" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests.RepositionEndsOnlyAfterItsTimerAndResetsOnInterruption" methodname="RepositionEndsOnlyAfterItsTimerAndResetsOnInterruption" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceCombatCycleUtilityTests" runstate="Runnable" seed="49849474" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000310" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1133" name="PoliceDeathRewardUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.012031" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1135" name="DropBoundaryReturnsNoReward" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.DropBoundaryReturnsNoReward" methodname="DropBoundaryReturnsNoReward" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="1157448658" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000546" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1138" name="GoldIsFallbackWhenWeaponIsUnavailable" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.GoldIsFallbackWhenWeaponIsUnavailable" methodname="GoldIsFallbackWhenWeaponIsUnavailable" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="786406880" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000201" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1139" name="MissingPoolsReturnNoReward" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.MissingPoolsReturnNoReward" methodname="MissingPoolsReturnNoReward" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="1712107942" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000169" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1136" name="SuccessfulRollUsesGoldAtOrAboveWeaponBoundary" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.SuccessfulRollUsesGoldAtOrAboveWeaponBoundary" methodname="SuccessfulRollUsesGoldAtOrAboveWeaponBoundary" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="550084183" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000162" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1134" name="SuccessfulRollUsesWeaponBelowBranchBoundary" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.SuccessfulRollUsesWeaponBelowBranchBoundary" methodname="SuccessfulRollUsesWeaponBelowBranchBoundary" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="334096581" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000159" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1137" name="WeaponIsFallbackWhenGoldIsUnavailable" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests.WeaponIsFallbackWhenGoldIsUnavailable" methodname="WeaponIsFallbackWhenGoldIsUnavailable" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceDeathRewardUtilityTests" runstate="Runnable" seed="1008917367" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000173" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1140" name="PoliceLoadoutSelectionUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002283" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1141" name="SelectsPistolBelowConfiguredHalfBoundary" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests.SelectsPistolBelowConfiguredHalfBoundary" methodname="SelectsPistolBelowConfiguredHalfBoundary" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests" runstate="Runnable" seed="648449571" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000466" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1142" name="SelectsShotgunAtOrAboveConfiguredHalfBoundary" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests.SelectsShotgunAtOrAboveConfiguredHalfBoundary" methodname="SelectsShotgunAtOrAboveConfiguredHalfBoundary" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests" runstate="Runnable" seed="394717898" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000253" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1143" name="UsesAvailableLoadoutWhenOtherWeaponIsMissing" fullname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests.UsesAvailableLoadoutWhenOtherWeaponIsMissing" methodname="UsesAvailableLoadoutWhenOtherWeaponIsMissing" classname="RainbowsEnd.Tests.EditMode.Enemies.PoliceLoadoutSelectionUtilityTests" runstate="Runnable" seed="1978713253" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000213" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1144" name="PotDrainTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.PotDrainTests" classname="RainbowsEnd.Tests.EditMode.Enemies.PotDrainTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.012251" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1145" name="Tick_DrainsGoldWhenOverlappingIdlePot" fullname="RainbowsEnd.Tests.EditMode.Enemies.PotDrainTests.Tick_DrainsGoldWhenOverlappingIdlePot" methodname="Tick_DrainsGoldWhenOverlappingIdlePot" classname="RainbowsEnd.Tests.EditMode.Enemies.PotDrainTests" runstate="Runnable" seed="697670507" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.011311" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1146" name="TravellerControllerTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.017910" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1148" name="Presentation_UsesCarriedPotRunAndLootCarryBag_AndResetsOnDespawn" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests.Presentation_UsesCarriedPotRunAndLootCarryBag_AndResetsOnDespawn" methodname="Presentation_UsesCarriedPotRunAndLootCarryBag_AndResetsOnDespawn" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests" runstate="Runnable" seed="631009776" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004138" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1147" name="TheftLabel_ShowsWholeStolenGoldWhileStealing_AndClearsOnDespawn" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests.TheftLabel_ShowsWholeStolenGoldWhileStealing_AndClearsOnDespawn" methodname="TheftLabel_ShowsWholeStolenGoldWhileStealing_AndClearsOnDespawn" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerControllerTests" runstate="Runnable" seed="1071045472" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.012327" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1149" name="TravellerTargetSelectionUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.005439" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1155" name="SelectBestCandidateIndex_ExcludesPotsWithNoGoldAndNotHarvesting" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_ExcludesPotsWithNoGoldAndNotHarvesting" methodname="SelectBestCandidateIndex_ExcludesPotsWithNoGoldAndNotHarvesting" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="2095576113" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001102" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1154" name="SelectBestCandidateIndex_PrefersGoldPotOverEmptyHarvestingPot" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_PrefersGoldPotOverEmptyHarvestingPot" methodname="SelectBestCandidateIndex_PrefersGoldPotOverEmptyHarvestingPot" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="774268320" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000358" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1156" name="SelectBestCandidateIndex_PrefersHarvestingAndGoldOverHarvestingOnly" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_PrefersHarvestingAndGoldOverHarvestingOnly" methodname="SelectBestCandidateIndex_PrefersHarvestingAndGoldOverHarvestingOnly" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="222622465" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000300" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1150" name="SelectBestCandidateIndex_PrefersHarvestingPotOverCloserIdlePot" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_PrefersHarvestingPotOverCloserIdlePot" methodname="SelectBestCandidateIndex_PrefersHarvestingPotOverCloserIdlePot" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="2108788772" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000273" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1152" name="SelectBestCandidateIndex_ReturnsMinusOneWhenAllTargetsAreOutOfRange" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_ReturnsMinusOneWhenAllTargetsAreOutOfRange" methodname="SelectBestCandidateIndex_ReturnsMinusOneWhenAllTargetsAreOutOfRange" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="2013039374" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000288" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1153" name="SelectBestCandidateIndex_ReturnsMinusOneWhenThereAreNoCandidates" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_ReturnsMinusOneWhenThereAreNoCandidates" methodname="SelectBestCandidateIndex_ReturnsMinusOneWhenThereAreNoCandidates" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="84791263" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000201" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1151" name="SelectBestCandidateIndex_SelectsNearestGoldPotWhenNoPotIsHarvesting" fullname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests.SelectBestCandidateIndex_SelectsNearestGoldPotWhenNoPotIsHarvesting" methodname="SelectBestCandidateIndex_SelectsNearestGoldPotWhenNoPotIsHarvesting" classname="RainbowsEnd.Tests.EditMode.Enemies.TravellerTargetSelectionUtilityTests" runstate="Runnable" seed="912621590" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000274" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1004" name="HealthStateTests" fullname="RainbowsEnd.Tests.EditMode.HealthStateTests" classname="RainbowsEnd.Tests.EditMode.HealthStateTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003320" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1006" name="ApplyDamage_ClampsToZeroAndMarksDepleted" fullname="RainbowsEnd.Tests.EditMode.HealthStateTests.ApplyDamage_ClampsToZeroAndMarksDepleted" methodname="ApplyDamage_ClampsToZeroAndMarksDepleted" classname="RainbowsEnd.Tests.EditMode.HealthStateTests" runstate="Runnable" seed="1088942667" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000738" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="Initialize_SetsCurrentHealthToMax" fullname="RainbowsEnd.Tests.EditMode.HealthStateTests.Initialize_SetsCurrentHealthToMax" methodname="Initialize_SetsCurrentHealthToMax" classname="RainbowsEnd.Tests.EditMode.HealthStateTests" runstate="Runnable" seed="561730029" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000458" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="Restore_DoesNotExceedMaxHealth" fullname="RainbowsEnd.Tests.EditMode.HealthStateTests.Restore_DoesNotExceedMaxHealth" methodname="Restore_DoesNotExceedMaxHealth" classname="RainbowsEnd.Tests.EditMode.HealthStateTests" runstate="Runnable" seed="2093957465" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000685" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1008" name="HealthTests" fullname="RainbowsEnd.Tests.EditMode.HealthTests" classname="RainbowsEnd.Tests.EditMode.HealthTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002230" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1009" name="Invulnerability_BlocksDamageUntilCleared" fullname="RainbowsEnd.Tests.EditMode.HealthTests.Invulnerability_BlocksDamageUntilCleared" methodname="Invulnerability_BlocksDamageUntilCleared" classname="RainbowsEnd.Tests.EditMode.HealthTests" runstate="Runnable" seed="1667852773" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001294" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestSuite" id="1196" name="Orchestration" fullname="RainbowsEnd.Tests.EditMode.Orchestration" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.024738" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1100" name="RunDirectorTests" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.008693" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1101" name="Configure_ResetsRunStatistics" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests.Configure_ResetsRunStatistics" methodname="Configure_ResetsRunStatistics" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests" runstate="Runnable" seed="1758130293" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003026" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1102" name="RecordStatistics_AccumulateOneAtATime" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests.RecordStatistics_AccumulateOneAtATime" methodname="RecordStatistics_AccumulateOneAtATime" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunDirectorTests" runstate="Runnable" seed="1162025130" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004605" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1103" name="RunWaveControllerTests" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.014960" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1113" name="DefaultWaveAssetUsesApprovedFactionTotalsals" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.DefaultWaveAssetUsesApprovedFactionTotalsals" methodname="DefaultWaveAssetUsesApprovedFactionTotalsals" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="437398944" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003676" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1109" name="Tick_AdvancesToNextWave_AfterSpawnedEnemiesClear" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_AdvancesToNextWave_AfterSpawnedEnemiesClear" methodname="Tick_AdvancesToNextWave_AfterSpawnedEnemiesClear" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="654373471" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003078" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1106" name="Tick_AlternatesMixedWave_TravellerFirst" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_AlternatesMixedWave_TravellerFirst" methodname="Tick_AlternatesMixedWave_TravellerFirst" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="1804086171" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001864" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1105" name="Tick_DoesNotSpawn_WhenNoPotHasGoldOrHarvesting" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_DoesNotSpawn_WhenNoPotHasGoldOrHarvesting" methodname="Tick_DoesNotSpawn_WhenNoPotHasGoldOrHarvesting" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="663586502" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000700" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1111" name="Tick_PotLossWins_WhenFinalWaveWouldAlsoComplete" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_PotLossWins_WhenFinalWaveWouldAlsoComplete" methodname="Tick_PotLossWins_WhenFinalWaveWouldAlsoComplete" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="1562020194" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000554" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1110" name="Tick_ReturnsLose_WhenAllPotsAreDestroyed" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_ReturnsLose_WhenAllPotsAreDestroyed" methodname="Tick_ReturnsLose_WhenAllPotsAreDestroyed" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="639279297" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000386" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1112" name="Tick_RotatesTravellerPoliceMilitary_WhenAllTypesRemain" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_RotatesTravellerPoliceMilitary_WhenAllTypesRemain" methodname="Tick_RotatesTravellerPoliceMilitary_WhenAllTypesRemain" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="674547614" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000629" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1104" name="Tick_SpawnsExactCounts_ForConfiguredWave" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_SpawnsExactCounts_ForConfiguredWave" methodname="Tick_SpawnsExactCounts_ForConfiguredWave" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="1076585070" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000403" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1107" name="Tick_StallsSpawning_WhenAtMaxConcurrentEnemies" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_StallsSpawning_WhenAtMaxConcurrentEnemies" methodname="Tick_StallsSpawning_WhenAtMaxConcurrentEnemies" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="1996308868" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000572" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1108" name="Tick_WaitsForActiveEnemiesToClear_BeforeWin" fullname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests.Tick_WaitsForActiveEnemiesToClear_BeforeWin" methodname="Tick_WaitsForActiveEnemiesToClear_BeforeWin" classname="RainbowsEnd.Tests.EditMode.Orchestration.RunWaveControllerTests" runstate="Runnable" seed="1019784314" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000502" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1195" name="Player" fullname="RainbowsEnd.Tests.EditMode.Player" runstate="Runnable" testcasecount="12" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.103590" total="12" passed="11" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="TestFixture" id="1082" name="PlayerAimResolverTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003797" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1084" name="ResolveAimDirection_ReturnsFallback_WhenControllerAimIsInsideDeadzone" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests.ResolveAimDirection_ReturnsFallback_WhenControllerAimIsInsideDeadzone" methodname="ResolveAimDirection_ReturnsFallback_WhenControllerAimIsInsideDeadzone" classname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests" runstate="Runnable" seed="518756395" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001501" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1083" name="ResolveAimDirection_UsesControllerAim_WhenNotPointerInput" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests.ResolveAimDirection_UsesControllerAim_WhenNotPointerInput" methodname="ResolveAimDirection_UsesControllerAim_WhenNotPointerInput" classname="RainbowsEnd.Tests.EditMode.Player.PlayerAimResolverTests" runstate="Runnable" seed="1703419883" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001222" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1085" name="PlayerFeedbackAnimationTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.057954" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1086" name="PlayerFeedbackController_ContainsPlayerOnlyStunRecoveryFlow" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests.PlayerFeedbackController_ContainsPlayerOnlyStunRecoveryFlow" methodname="PlayerFeedbackController_ContainsPlayerOnlyStunRecoveryFlow" classname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests" runstate="Runnable" seed="314899979" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.019914" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1087" name="PlayerPrefab_UsesFeedbackControllerAndInactiveStars" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests.PlayerPrefab_UsesFeedbackControllerAndInactiveStars" methodname="PlayerPrefab_UsesFeedbackControllerAndInactiveStars" classname="RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests" runstate="Runnable" seed="1927900121" result="Failed" label="Error" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.036770" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+                    <stack-trace><![CDATA[  at RainbowsEnd.Tests.EditMode.Player.PlayerFeedbackAnimationTests.PlayerPrefab_UsesFeedbackControllerAndInactiveStars () [0x0000b] in D:\Gaming\RainbowsEnd\rainbowsEnd\Assets\_Project\Tests\EditMode\Player\PlayerFeedbackAnimationTests.cs:65 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 ]]></stack-trace>
+                  </failure>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1088" name="PlayerMovementUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003218" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1089" name="MoveTowards_AdvancesVelocityByAccelerationStep" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests.MoveTowards_AdvancesVelocityByAccelerationStep" methodname="MoveTowards_AdvancesVelocityByAccelerationStep" classname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests" runstate="Runnable" seed="1022994107" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000819" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1090" name="MoveTowards_ReturnsCurrentVelocity_WhenStepIsZero" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests.MoveTowards_ReturnsCurrentVelocity_WhenStepIsZero" methodname="MoveTowards_ReturnsCurrentVelocity_WhenStepIsZero" classname="RainbowsEnd.Tests.EditMode.Player.PlayerMovementUtilityTests" runstate="Runnable" seed="1508432089" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000572" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1091" name="PlayerPresentationTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerPresentationTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerPresentationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.020864" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1092" name="Presentation_UsesConcealmentRevealAndRecoveryPrecedence" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerPresentationTests.Presentation_UsesConcealmentRevealAndRecoveryPrecedence" methodname="Presentation_UsesConcealmentRevealAndRecoveryPrecedence" classname="RainbowsEnd.Tests.EditMode.Player.PlayerPresentationTests" runstate="Runnable" seed="819174963" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.019865" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1093" name="PlayerRootTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.011554" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1096" name="Daze_ShowsStarsUntilDazeRecovers" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests.Daze_ShowsStarsUntilDazeRecovers" methodname="Daze_ShowsStarsUntilDazeRecovers" classname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests" runstate="Runnable" seed="1149010002" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002404" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1094" name="Depletion_StunsThenRecoversAndRestoresDamage" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests.Depletion_StunsThenRecoversAndRestoresDamage" methodname="Depletion_StunsThenRecoversAndRestoresDamage" classname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests" runstate="Runnable" seed="805219932" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004789" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1095" name="Disable_ClearsRecoveryProtection" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests.Disable_ClearsRecoveryProtection" methodname="Disable_ClearsRecoveryProtection" classname="RainbowsEnd.Tests.EditMode.Player.PlayerRootTests" runstate="Runnable" seed="936286601" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002177" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1097" name="PlayerWeaponInventoryTests" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests" classname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004953" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1099" name="ConsumeTemporaryShot_RevertsToDefaultWeaponWhenAmmoEnds" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests.ConsumeTemporaryShot_RevertsToDefaultWeaponWhenAmmoEnds" methodname="ConsumeTemporaryShot_RevertsToDefaultWeaponWhenAmmoEnds" classname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests" runstate="Runnable" seed="1289111965" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001827" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1098" name="EquipTemporaryWeapon_SetsActiveWeaponAndCooldownReset" fullname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests.EquipTemporaryWeapon_SetsActiveWeaponAndCooldownReset" methodname="EquipTemporaryWeapon_SetsActiveWeaponAndCooldownReset" classname="RainbowsEnd.Tests.EditMode.Player.PlayerWeaponInventoryTests" runstate="Runnable" seed="2068225513" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001267" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1194" name="Pots" fullname="RainbowsEnd.Tests.EditMode.Pots" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.045195" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1057" name="PotControllerCarryTests" fullname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests" classname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.007435" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1059" name="Drop_ReenablesWorldInteractionAndMovesPot" fullname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests.Drop_ReenablesWorldInteractionAndMovesPot" methodname="Drop_ReenablesWorldInteractionAndMovesPot" classname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests" runstate="Runnable" seed="1810582206" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003997" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1058" name="TryPickUp_DisablesWorldInteractionAndMarksPotCarried" fullname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests.TryPickUp_DisablesWorldInteractionAndMarksPotCarried" methodname="TryPickUp_DisablesWorldInteractionAndMarksPotCarried" classname="RainbowsEnd.Tests.EditMode.Pots.PotControllerCarryTests" runstate="Runnable" seed="1865785714" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001919" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1060" name="PotHarvestStateTests" fullname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" classname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.005762" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1061" name="CaptureTrail_ThenGenerateGold_UsesHarvestMultiplier" fullname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests.CaptureTrail_ThenGenerateGold_UsesHarvestMultiplier" methodname="CaptureTrail_ThenGenerateGold_UsesHarvestMultiplier" classname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" runstate="Runnable" seed="527160697" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001720" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="InterruptedHarvest_ResumesWhenTrailIsStillPresentAndMovementStops" fullname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests.InterruptedHarvest_ResumesWhenTrailIsStillPresentAndMovementStops" methodname="InterruptedHarvest_ResumesWhenTrailIsStillPresentAndMovementStops" classname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" runstate="Runnable" seed="366484232" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000421" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="MovingPastCancelDelay_InterruptsHarvest" fullname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests.MovingPastCancelDelay_InterruptsHarvest" methodname="MovingPastCancelDelay_InterruptsHarvest" classname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" runstate="Runnable" seed="2079666596" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000529" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="ReleaseTrail_StopsHarvestAndReturnsIdle" fullname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests.ReleaseTrail_StopsHarvestAndReturnsIdle" methodname="ReleaseTrail_StopsHarvestAndReturnsIdle" classname="RainbowsEnd.Tests.EditMode.Pots.PotHarvestStateTests" runstate="Runnable" seed="1594751243" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000528" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1065" name="PotPlacementTests" fullname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests" classname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.007423" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1067" name="CanDropAt_AcceptsCandidateOutsideCover" fullname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests.CanDropAt_AcceptsCandidateOutsideCover" methodname="CanDropAt_AcceptsCandidateOutsideCover" classname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests" runstate="Runnable" seed="1809999631" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003639" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1068" name="CanDropAt_IgnoresTriggerWithoutMovementBlockingCover" fullname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests.CanDropAt_IgnoresTriggerWithoutMovementBlockingCover" methodname="CanDropAt_IgnoresTriggerWithoutMovementBlockingCover" classname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests" runstate="Runnable" seed="1160317037" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001003" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="CanDropAt_RejectsMovementBlockingCover" fullname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests.CanDropAt_RejectsMovementBlockingCover" methodname="CanDropAt_RejectsMovementBlockingCover" classname="RainbowsEnd.Tests.EditMode.Pots.PotPlacementTests" runstate="Runnable" seed="2026385056" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001330" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1069" name="PotRegistryTests" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.016383" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1070" name="ActivePotCount_ExcludesDestroyedPots" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.ActivePotCount_ExcludesDestroyedPots" methodname="ActivePotCount_ExcludesDestroyedPots" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="1489371062" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002285" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1075" name="DestroyedPotsAreIgnoredForGoldOperations" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.DestroyedPotsAreIgnoredForGoldOperations" methodname="DestroyedPotsAreIgnoredForGoldOperations" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="631499604" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001927" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1077" name="HasAnyGoldOrHarvestingPot_ReturnsFalse_WhenAllPotsEmptyAndIdle" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.HasAnyGoldOrHarvestingPot_ReturnsFalse_WhenAllPotsEmptyAndIdle" methodname="HasAnyGoldOrHarvestingPot_ReturnsFalse_WhenAllPotsEmptyAndIdle" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="2143468663" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001449" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1078" name="HasHarvestingPot_ReturnsTrueOnlyForLiveUncarriedHarvestingPot" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.HasHarvestingPot_ReturnsTrueOnlyForLiveUncarriedHarvestingPot" methodname="HasHarvestingPot_ReturnsTrueOnlyForLiveUncarriedHarvestingPot" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="1394951028" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001497" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1074" name="StoreGold_FillsOldestCapacityBeforeNewerPots" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.StoreGold_FillsOldestCapacityBeforeNewerPots" methodname="StoreGold_FillsOldestCapacityBeforeNewerPots" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="957338423" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001284" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1071" name="TotalStoredGold_FloorsCombinedFractionalValue" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.TotalStoredGold_FloorsCombinedFractionalValue" methodname="TotalStoredGold_FloorsCombinedFractionalValue" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="1394917657" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000977" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1076" name="TotalStoredGold_ReturnsZero_WhenAllPotsEmpty" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.TotalStoredGold_ReturnsZero_WhenAllPotsEmpty" methodname="TotalStoredGold_ReturnsZero_WhenAllPotsEmpty" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="2028245226" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000744" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1072" name="TrySpendGold_UsesOldestRegisteredPotFirst" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.TrySpendGold_UsesOldestRegisteredPotFirst" methodname="TrySpendGold_UsesOldestRegisteredPotFirst" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="1070786397" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001333" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1073" name="TrySpendGold_WhenInsufficientLeavesPotsUnchanged" fullname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests.TrySpendGold_WhenInsufficientLeavesPotsUnchanged" methodname="TrySpendGold_WhenInsufficientLeavesPotsUnchanged" classname="RainbowsEnd.Tests.EditMode.Pots.PotRegistryTests" runstate="Runnable" seed="98609976" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001256" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1079" name="PotTrailCaptureSensorTests" fullname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests" classname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.006056" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1080" name="TryGetOldestOverlappingTrailTimestamp_ReturnsFalse_WhenTrailIsOutsideRadius" fullname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests.TryGetOldestOverlappingTrailTimestamp_ReturnsFalse_WhenTrailIsOutsideRadius" methodname="TryGetOldestOverlappingTrailTimestamp_ReturnsFalse_WhenTrailIsOutsideRadius" classname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests" runstate="Runnable" seed="1248534428" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003179" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1081" name="TryGetOldestOverlappingTrailTimestamp_ReturnsOldestTimestampInsideRadius" fullname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests.TryGetOldestOverlappingTrailTimestamp_ReturnsOldestTimestampInsideRadius" methodname="TryGetOldestOverlappingTrailTimestamp_ReturnsOldestTimestampInsideRadius" classname="RainbowsEnd.Tests.EditMode.Pots.PotTrailCaptureSensorTests" runstate="Runnable" seed="1467012866" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001336" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1010" name="PrefabPoolTests" fullname="RainbowsEnd.Tests.EditMode.PrefabPoolTests" classname="RainbowsEnd.Tests.EditMode.PrefabPoolTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.005170" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1011" name="RentAndReturn_ReusesSameInstance_AndFiresPoolableCallbacks" fullname="RainbowsEnd.Tests.EditMode.PrefabPoolTests.RentAndReturn_ReusesSameInstance_AndFiresPoolableCallbacks" methodname="RentAndReturn_ReusesSameInstance_AndFiresPoolableCallbacks" classname="RainbowsEnd.Tests.EditMode.PrefabPoolTests" runstate="Runnable" seed="895956254" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003881" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1012" name="ProjectConfigRegistryTests" fullname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests" classname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003438" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1014" name="Configure_AssignsAllCoreReferences" fullname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests.Configure_AssignsAllCoreReferences" methodname="Configure_AssignsAllCoreReferences" classname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests" runstate="Runnable" seed="1186050642" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001601" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="HasCoreReferences_IsFalse_WhenRegistryIsEmpty" fullname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests.HasCoreReferences_IsFalse_WhenRegistryIsEmpty" methodname="HasCoreReferences_IsFalse_WhenRegistryIsEmpty" classname="RainbowsEnd.Tests.EditMode.ProjectConfigRegistryTests" runstate="Runnable" seed="323541634" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000291" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestSuite" id="1193" name="Scene" fullname="RainbowsEnd.Tests.EditMode.Scene" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.005077" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1054" name="ArenaBoundsAuthoringTests" fullname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests" classname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004224" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1055" name="Clamp_KeepsPointInsideConfiguredBounds" fullname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests.Clamp_KeepsPointInsideConfiguredBounds" methodname="Clamp_KeepsPointInsideConfiguredBounds" classname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests" runstate="Runnable" seed="2139091557" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001081" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1056" name="Contains_ReflectsConfiguredWorldRect" fullname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests.Contains_ReflectsConfiguredWorldRect" methodname="Contains_ReflectsConfiguredWorldRect" classname="RainbowsEnd.Tests.EditMode.Scene.ArenaBoundsAuthoringTests" runstate="Runnable" seed="1168098166" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002079" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1015" name="SceneNamesTests" fullname="RainbowsEnd.Tests.EditMode.SceneNamesTests" classname="RainbowsEnd.Tests.EditMode.SceneNamesTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002240" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1016" name="BootSceneName_IsStable" fullname="RainbowsEnd.Tests.EditMode.SceneNamesTests.BootSceneName_IsStable" methodname="BootSceneName_IsStable" classname="RainbowsEnd.Tests.EditMode.SceneNamesTests" runstate="Runnable" seed="1948655140" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000249" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="MainArenaSceneName_IsStable" fullname="RainbowsEnd.Tests.EditMode.SceneNamesTests.MainArenaSceneName_IsStable" methodname="MainArenaSceneName_IsStable" classname="RainbowsEnd.Tests.EditMode.SceneNamesTests" runstate="Runnable" seed="1569820386" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000188" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1018" name="ServiceRegistryTests" fullname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests" classname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004714" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1020" name="Register_DuplicateWithoutReplace_Throws" fullname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests.Register_DuplicateWithoutReplace_Throws" methodname="Register_DuplicateWithoutReplace_Throws" classname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests" runstate="Runnable" seed="732675213" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002719" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="Register_ThenGet_ReturnsSameInstance" fullname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests.Register_ThenGet_ReturnsSameInstance" methodname="Register_ThenGet_ReturnsSameInstance" classname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests" runstate="Runnable" seed="1881402152" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000505" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="TryGet_MissingService_ReturnsFalse" fullname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests.TryGet_MissingService_ReturnsFalse" methodname="TryGet_MissingService_ReturnsFalse" classname="RainbowsEnd.Tests.EditMode.ServiceRegistryTests" runstate="Runnable" seed="1870208562" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000245" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestSuite" id="1192" name="Shop" fullname="RainbowsEnd.Tests.EditMode.Shop" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.014369" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1051" name="PlayerUpgradeRuntimeTests" fullname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests" classname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.013798" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1052" name="ApplyPurchase_UpdatesResolvedWeaponStats" fullname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests.ApplyPurchase_UpdatesResolvedWeaponStats" methodname="ApplyPurchase_UpdatesResolvedWeaponStats" classname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests" runstate="Runnable" seed="1006745162" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.010509" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1053" name="CanPurchase_BlocksPurchasesBeyondConfiguredMax" fullname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests.CanPurchase_BlocksPurchasesBeyondConfiguredMax" methodname="CanPurchase_BlocksPurchasesBeyondConfiguredMax" classname="RainbowsEnd.Tests.EditMode.Shop.PlayerUpgradeRuntimeTests" runstate="Runnable" seed="576576920" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001164" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1191" name="Spells" fullname="RainbowsEnd.Tests.EditMode.Spells" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.013806" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1048" name="PortalRegistryTests" fullname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests" classname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.012876" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1050" name="TryPlacePortal_AppliesWorldEntryRadiusToScaledTrigger" fullname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests.TryPlacePortal_AppliesWorldEntryRadiusToScaledTrigger" methodname="TryPlacePortal_AppliesWorldEntryRadiusToScaledTrigger" classname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests" runstate="Runnable" seed="1120174752" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.006146" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1049" name="TryPlacePortal_PairsTwoPortalsAndReplacesOldestOnThirdPlacement" fullname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests.TryPlacePortal_PairsTwoPortalsAndReplacesOldestOnThirdPlacement" methodname="TryPlacePortal_PairsTwoPortalsAndReplacesOldestOnThirdPlacement" classname="RainbowsEnd.Tests.EditMode.Spells.PortalRegistryTests" runstate="Runnable" seed="1225858426" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004967" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1190" name="UI" fullname="RainbowsEnd.Tests.EditMode.UI" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.027189" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1035" name="RunStatusHudPresenterTests" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.010754" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1041" name="FormatAmmo_ShowsInfinityWithoutTemporaryWeapon" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatAmmo_ShowsInfinityWithoutTemporaryWeapon" methodname="FormatAmmo_ShowsInfinityWithoutTemporaryWeapon" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="702148319" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001091" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1042" name="FormatAmmo_ShowsRemainingTemporaryShots" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatAmmo_ShowsRemainingTemporaryShots" methodname="FormatAmmo_ShowsRemainingTemporaryShots" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="207051040" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000818" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-suite type="ParameterizedMethod" id="1040" name="FormatTime_UsesWholeMinutesAndSeconds" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatTime_UsesWholeMinutesAndSeconds" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.006762" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                  <properties />
+                  <test-case id="1036" name="FormatTime_UsesWholeMinutesAndSeconds(0.0f,&quot;Time: 00:00&quot;)" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatTime_UsesWholeMinutesAndSeconds(0.0f,&quot;Time: 00:00&quot;)" methodname="FormatTime_UsesWholeMinutesAndSeconds" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="1257061321" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003688" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1037" name="FormatTime_UsesWholeMinutesAndSeconds(59.9f,&quot;Time: 00:59&quot;)" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatTime_UsesWholeMinutesAndSeconds(59.9f,&quot;Time: 00:59&quot;)" methodname="FormatTime_UsesWholeMinutesAndSeconds" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="97270412" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000449" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1038" name="FormatTime_UsesWholeMinutesAndSeconds(60.0f,&quot;Time: 01:00&quot;)" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatTime_UsesWholeMinutesAndSeconds(60.0f,&quot;Time: 01:00&quot;)" methodname="FormatTime_UsesWholeMinutesAndSeconds" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="275774378" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000369" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                  <test-case id="1039" name="FormatTime_UsesWholeMinutesAndSeconds(3661.0f,&quot;Time: 61:01&quot;)" fullname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests.FormatTime_UsesWholeMinutesAndSeconds(3661.0f,&quot;Time: 61:01&quot;)" methodname="FormatTime_UsesWholeMinutesAndSeconds" classname="RainbowsEnd.Tests.EditMode.UI.RunStatusHudPresenterTests" runstate="Runnable" seed="1558433027" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000679" asserts="0">
+                    <properties>
+                      <property name="retryIteration" value="0" />
+                      <property name="repeatIteration" value="0" />
+                    </properties>
+                  </test-case>
+                </test-suite>
+              </test-suite>
+              <test-suite type="TestFixture" id="1043" name="TutorialSequenceTests" fullname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" classname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.015366" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1046" name="OptOut_IsPersistedAndSuppressesNewControllerRuns" fullname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests.OptOut_IsPersistedAndSuppressesNewControllerRuns" methodname="OptOut_IsPersistedAndSuppressesNewControllerRuns" classname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" runstate="Runnable" seed="1813921522" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.004833" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1044" name="Sequence_AdvancesOnlyInApprovedOrder" fullname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests.Sequence_AdvancesOnlyInApprovedOrder" methodname="Sequence_AdvancesOnlyInApprovedOrder" classname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" runstate="Runnable" seed="195064868" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001102" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1045" name="Sequence_ResetStartsAtFirstStepWithoutPersistingProgress" fullname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests.Sequence_ResetStartsAtFirstStepWithoutPersistingProgress" methodname="Sequence_ResetStartsAtFirstStepWithoutPersistingProgress" classname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" runstate="Runnable" seed="438575422" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000477" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1047" name="ShopController_IsShopOpenTracksOpenCloseAndDisable" fullname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests.ShopController_IsShopOpenTracksOpenCloseAndDisable" methodname="ShopController_IsShopOpenTracksOpenCloseAndDisable" classname="RainbowsEnd.Tests.EditMode.UI.TutorialSequenceTests" runstate="Runnable" seed="32718523" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.005549" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1189" name="Unicorn" fullname="RainbowsEnd.Tests.EditMode.Unicorn" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.040331" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1022" name="RainbowTrailSegmentTests" fullname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" classname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.010946" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1023" name="GetCell_UsesStableWorldBoundaries" fullname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests.GetCell_UsesStableWorldBoundaries" methodname="GetCell_UsesStableWorldBoundaries" classname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" runstate="Runnable" seed="2141986177" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.002032" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1024" name="IsCellOccupied_ClearsAfterTrailReturn" fullname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests.IsCellOccupied_ClearsAfterTrailReturn" methodname="IsCellOccupied_ClearsAfterTrailReturn" classname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" runstate="Runnable" seed="1390421257" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.003768" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1026" name="NotifyUnicornTeleported_PreservesTrailAgeAndExistingCells" fullname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests.NotifyUnicornTeleported_PreservesTrailAgeAndExistingCells" methodname="NotifyUnicornTeleported_PreservesTrailAgeAndExistingCells" classname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" runstate="Runnable" seed="1489181050" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001378" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1025" name="OnDespawned_RestoresAuthoredFloatingVisualPosition" fullname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests.OnDespawned_RestoresAuthoredFloatingVisualPosition" methodname="OnDespawned_RestoresAuthoredFloatingVisualPosition" classname="RainbowsEnd.Tests.EditMode.Unicorn.RainbowTrailSegmentTests" runstate="Runnable" seed="348646016" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.001860" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1027" name="UnicornControllerTests" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.022175" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1028" name="PlayerCollision_StunsOnlyWhenNotCarryingPot" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests.PlayerCollision_StunsOnlyWhenNotCarryingPot" methodname="PlayerCollision_StunsOnlyWhenNotCarryingPot" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests" runstate="Runnable" seed="1717475177" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.011693" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1029" name="PotWarningLine_UsesActualPotGeometryEvenWhenColliderDisabled" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests.PotWarningLine_UsesActualPotGeometryEvenWhenColliderDisabled" methodname="PotWarningLine_UsesActualPotGeometryEvenWhenColliderDisabled" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornControllerTests" runstate="Runnable" seed="1206280358" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.008941" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1030" name="UnicornRoamingUtilityTests" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.006035" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1034" name="MoveTowards_AdvancesBySpeedAndDeltaTime" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests.MoveTowards_AdvancesBySpeedAndDeltaTime" methodname="MoveTowards_AdvancesBySpeedAndDeltaTime" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" runstate="Runnable" seed="1462668905" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000881" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1033" name="SelectBoundaryTarget_ReturnsPointOnRequestedSide" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests.SelectBoundaryTarget_ReturnsPointOnRequestedSide" methodname="SelectBoundaryTarget_ReturnsPointOnRequestedSide" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" runstate="Runnable" seed="197460430" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000682" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1031" name="SelectNextBoundarySide_DoesNotRepeatSameSide" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests.SelectNextBoundarySide_DoesNotRepeatSameSide" methodname="SelectNextBoundarySide_DoesNotRepeatSameSide" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" runstate="Runnable" seed="1989616341" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000709" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1032" name="SelectNextBoundarySide_TopAlwaysReturnsBottom" fullname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests.SelectNextBoundarySide_TopAlwaysReturnsBottom" methodname="SelectNextBoundarySide_TopAlwaysReturnsBottom" classname="RainbowsEnd.Tests.EditMode.Unicorn.UnicornRoamingUtilityTests" runstate="Runnable" seed="895414426" result="Passed" start-time="2026-09-27 08:47:01Z" end-time="2026-09-27 08:47:01Z" duration="0.000328" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/Users/Hadi pc/AppData/LocalLow/DefaultCompany/rainbowsEnd\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

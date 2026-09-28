@@ -180,6 +180,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void OnSpawned()
         {
             CacheReferences();
+            animationBridge?.ResetDeath();
             if (bodyCollider != null)
             {
                 bodyCollider.enabled = true;
@@ -272,6 +273,8 @@ private void Update()
             {
                 bodyCollider.enabled = false;
             }
+
+            animationBridge?.TriggerDeath();
 
             CombatFeedbackController.DelayedDespawn(this, () =>
             {

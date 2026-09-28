@@ -2,6 +2,7 @@ using System.Reflection;
 using NUnit.Framework;
 using RainbowsEnd.Core.Common;
 using RainbowsEnd.Core.Config;
+using RainbowsEnd.Gameplay.Combat;
 using RainbowsEnd.Gameplay.Player;
 using UnityEngine;
 
@@ -142,5 +143,26 @@ private void SetPrivateField(string fieldName, object value)
             Assert.That(_playerRoot.IsDazed, Is.False);
             Assert.That(stars.activeSelf, Is.False);
         }
-}
+
+        [Test]
+        public void Damage_TriggersCombatFeedbackScreenShake()
+        {
+            GameObject feedbackObject = new GameObject("CombatFeedback");
+            Camera camera = feedbackObject.AddComponent<Camera>();
+            CombatFeedbackController feedback = feedbackObject.AddComponent<CombatFeedbackController>();
+
+            try
+            {
+                DamageInfo damage = new DamageInfo(2f, FactionId.Military, Vector2.zero);
+                DamageResult result = _health.ApplyDamage(damage);
+
+                Assert.That(result.AppliedAmount, Is.EqualTo(2f));
+                Assert.That(CombatFeedbackController.Instance, Is.Not.Null);
+            }
+            finally
+            {
+                Object.DestroyImmediate(feedbackObject);
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ using System.IO;
 using RainbowsEnd.Core.Config;
 using RainbowsEnd.Gameplay.Enemies;
 using RainbowsEnd.Gameplay.Orchestration;
+using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.UI;
 using TMPro;
@@ -70,7 +71,7 @@ namespace RainbowsEnd.Editor
             EditorUtility.SetDirty(waveConfig);
         }
 
-private static void SetWaveDefinition(
+        private static void SetWaveDefinition(
             SerializedProperty waveProperty,
             string waveName,
             float startDelaySeconds,
@@ -120,6 +121,7 @@ private static void SetWaveDefinition(
             EnemySpawner enemySpawner = Object.FindFirstObjectByType<EnemySpawner>(FindObjectsInactive.Include);
             PoliceSpawner policeSpawner = Object.FindFirstObjectByType<PoliceSpawner>(FindObjectsInactive.Include);
             PotRegistry potRegistry = Object.FindFirstObjectByType<PotRegistry>(FindObjectsInactive.Include);
+            PlayerWallet playerWallet = Object.FindFirstObjectByType<PlayerWallet>(FindObjectsInactive.Include);
             RunOutcomePresenter outcomePresenter = EnsureOutcomeUi(uiRoot.transform);
             if (outcomePresenter == null)
             {
@@ -129,7 +131,7 @@ private static void SetWaveDefinition(
             GameObject runSystemsRoot = GetOrCreateChild(gameplayRoot.transform, "RunSystems");
             GameObject directorObject = GetOrCreateChild(runSystemsRoot.transform, "RunDirector");
             RunDirector runDirector = GetOrAddComponent<RunDirector>(directorObject);
-            runDirector.Configure(waveConfig, enemySpawner, policeSpawner, null, potRegistry, outcomePresenter);
+            runDirector.Configure(waveConfig, enemySpawner, policeSpawner, null, potRegistry, outcomePresenter, playerWallet);
 
             outcomePresenter.Hide();
             EnsureEventSystem(scene);
@@ -153,17 +155,19 @@ private static void SetWaveDefinition(
             panelTransform.anchorMax = new Vector2(0.5f, 0.5f);
             panelTransform.pivot = new Vector2(0.5f, 0.5f);
             panelTransform.anchoredPosition = Vector2.zero;
-            panelTransform.sizeDelta = new Vector2(620f, 340f);
+            panelTransform.sizeDelta = new Vector2(620f, 380f);
 
             Image panelImage = GetOrAddComponent<Image>(panelObject);
             panelImage.color = new Color(0.06f, 0.08f, 0.06f, 0.96f);
 
-            TextMeshProUGUI titleText = CreatePanelText(panelObject.transform, "TitleText", new Vector2(0f, -36f), new Vector2(560f, 64f), 42f, TextAlignmentOptions.Center, new Color(0.96f, 0.98f, 0.84f, 1f), "You Win!");
-            TextMeshProUGUI bodyText = CreatePanelText(panelObject.transform, "BodyText", new Vector2(0f, -118f), new Vector2(540f, 92f), 24f, TextAlignmentOptions.Center, new Color(0.84f, 0.9f, 0.82f, 1f), "All waves cleared.");
+            TextMeshProUGUI titleText = CreatePanelText(panelObject.transform, "TitleText", new Vector2(0f, -32f), new Vector2(560f, 54f), 40f, TextAlignmentOptions.Center, new Color(0.96f, 0.98f, 0.84f, 1f), "You Win!");
+            TextMeshProUGUI bodyText = CreatePanelText(panelObject.transform, "BodyText", new Vector2(0f, -92f), new Vector2(540f, 54f), 22f, TextAlignmentOptions.Center, new Color(0.84f, 0.9f, 0.82f, 1f), "All waves cleared.");
+            TextMeshProUGUI scoreText = CreatePanelText(panelObject.transform, "ScoreText", new Vector2(0f, -152f), new Vector2(540f, 38f), 24f, TextAlignmentOptions.Center, new Color(1f, 0.9f, 0.4f, 1f), "Score: 0");
+            TextMeshProUGUI highScoreText = CreatePanelText(panelObject.transform, "HighScoreText", new Vector2(0f, -192f), new Vector2(540f, 38f), 22f, TextAlignmentOptions.Center, new Color(0.6f, 0.95f, 0.65f, 1f), "High Score: 0");
             Button restartButton = CreateRestartButton(panelObject.transform);
 
             RunOutcomePresenter presenter = GetOrAddComponent<RunOutcomePresenter>(panelObject);
-            presenter.ConfigureView(panelObject, titleText, bodyText, restartButton);
+            presenter.ConfigureView(panelObject, titleText, bodyText, restartButton, scoreText, highScoreText);
             panelObject.SetActive(false);
             return presenter;
         }
@@ -175,8 +179,8 @@ private static void SetWaveDefinition(
             buttonTransform.anchorMin = new Vector2(0.5f, 1f);
             buttonTransform.anchorMax = new Vector2(0.5f, 1f);
             buttonTransform.pivot = new Vector2(0.5f, 1f);
-            buttonTransform.anchoredPosition = new Vector2(0f, -238f);
-            buttonTransform.sizeDelta = new Vector2(260f, 64f);
+            buttonTransform.anchoredPosition = new Vector2(0f, -256f);
+            buttonTransform.sizeDelta = new Vector2(260f, 60f);
 
             Image buttonImage = GetOrAddComponent<Image>(buttonObject);
             buttonImage.color = new Color(0.18f, 0.3f, 0.18f, 1f);

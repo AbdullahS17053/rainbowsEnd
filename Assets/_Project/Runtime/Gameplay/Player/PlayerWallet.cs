@@ -1,4 +1,6 @@
 using System;
+using RainbowsEnd.Core.Bootstrap;
+using RainbowsEnd.UI;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Player
@@ -19,6 +21,7 @@ namespace RainbowsEnd.Gameplay.Player
         public int TotalGoldEarned => _totalGoldEarned;
         public int TotalEarnings => _totalGoldEarned;
         public int HighScoreGold => _totalGoldEarned;
+        public int SavedHighScore => RunOutcomePresenter.GetSavedHighScore();
 
         public bool TrySpendGold(int amount) => TrySpend(amount);
 
@@ -26,6 +29,11 @@ namespace RainbowsEnd.Gameplay.Player
         {
             _currentBankedGold = Mathf.Max(0, initialGold);
             _totalGoldEarned = _currentBankedGold;
+
+            if (ProjectContext.Instance?.ServiceRegistry != null)
+            {
+                ProjectContext.Instance.ServiceRegistry.Register(this, replaceExisting: true);
+            }
         }
 
         public void BankGold(int amount)

@@ -21,6 +21,11 @@ namespace RainbowsEnd.Core.Animation
         private void Awake()
         {
             body ??= GetComponentInParent<Rigidbody2D>();
+            animator ??= GetComponentInChildren<Animator>(true);
+            if (animator != null)
+            {
+                animator.applyRootMotion = false;
+            }
             CaptureBase();
         }
 
@@ -38,9 +43,14 @@ namespace RainbowsEnd.Core.Animation
             }
         }
 
-private void LateUpdate()
+        private void LateUpdate()
         {
             if (body == null)
+            {
+                return;
+            }
+
+            if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Die"))
             {
                 return;
             }
@@ -89,7 +99,7 @@ private void LateUpdate()
             visualRoot.rotation = _fireFacingRotation;
         }
 
-public void TriggerFire(bool lockFacing = false)
+        public void TriggerFire(bool lockFacing = false)
         {
             if (animator == null)
             {
@@ -105,8 +115,39 @@ public void TriggerFire(bool lockFacing = false)
 
             animator.SetTrigger("Fire");
         }
-    
 
+        public void TriggerDeath()
+        {
+            if (animator == null)
+            {
+                animator = GetComponentInChildren<Animator>(true);
+            }
 
-}
+            if (animator == null)
+            {
+                return;
+            }
+
+            _holdFacingDuringFire = false;
+            animator.applyRootMotion = false;
+            animator.SetTrigger("Die");
+        }
+
+        public void ResetDeath()
+        {
+            if (animator == null)
+            {
+                animator = GetComponentInChildren<Animator>(true);
+            }
+
+            if (animator == null || animator.runtimeAnimatorController == null)
+            {
+                return;
+            }
+
+            animator.applyRootMotion = false;
+            animator.ResetTrigger("Die");
+            animator.Play("Idle", 0, 0f);
+        }
+    }
 }

@@ -64,6 +64,9 @@ namespace RainbowsEnd.Gameplay.Enemies
         private bool _hasRunToCarriedPotParameter;
         private bool _hasCarryLootParameter;
         private bool _hasPickParameter;
+        private bool _hasDieParameter;
+        private Camera _activeCamera;
+        private Transform _headTransform;
 
         public FactionId FactionId => FactionId.Civilian;
 
@@ -94,7 +97,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheReferences();
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
-            ClearTheftLabel();
+            RefreshTheftLabel();
             ResetPresentation();
             CacheBaseColor(forceRefresh: true);
             ApplyVisualState(isDraining: false);
@@ -124,8 +127,16 @@ namespace RainbowsEnd.Gameplay.Enemies
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
             potDrain?.ResetStolenGold();
-            ClearTheftLabel();
+            RefreshTheftLabel();
             ResetPresentation();
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                if (_hasDieParameter)
+                {
+                    animator.ResetTrigger("Die");
+                }
+                animator.Play("Idle", 0, 0f);
+            }
             if (health != null && config != null)
             {
                 health.Initialize(config.MaxHealth);
@@ -158,8 +169,16 @@ namespace RainbowsEnd.Gameplay.Enemies
             _arenaBounds = null;
             _isPatroling = false;
             potDrain?.ResetStolenGold();
-            ClearTheftLabel();
+            RefreshTheftLabel();
             ResetPresentation();
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                if (_hasDieParameter)
+                {
+                    animator.ResetTrigger("Die");
+                }
+                animator.Play("Idle", 0, 0f);
+            }
             ApplyVisualState(isDraining: false);
         }
 
@@ -198,21 +217,18 @@ namespace RainbowsEnd.Gameplay.Enemies
                 return;
             }
 
-            int wholeStolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
-            bool isStealing = _currentState == TravellerState.Draining || _currentState == TravellerState.Fleeing;
-            if (!isStealing || wholeStolenGold < 1)
+            if (_deathHandled || (health != null && health.IsDepleted))
             {
-                if (_displayedStolenGold != -1 || theftLabel.gameObject.activeSelf)
-                {
-                    ClearTheftLabel();
-                }
-
+                ClearTheftLabel();
                 return;
             }
 
-            if (_displayedStolenGold != wholeStolenGold)
+            int wholeStolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
+            string targetText = wholeStolenGold > 0 ? $"Thief ({wholeStolenGold}g)" : "Thief";
+
+            if (_displayedStolenGold != wholeStolenGold || theftLabel.text != targetText)
             {
-                theftLabel.text = $"{wholeStolenGold}g";
+                theftLabel.text = targetText;
                 _displayedStolenGold = wholeStolenGold;
             }
 
@@ -220,6 +236,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             {
                 theftLabel.gameObject.SetActive(true);
             }
+
+            UpdateTheftLabelTransform();
         }
 
 
@@ -236,6 +254,83 @@ namespace RainbowsEnd.Gameplay.Enemies
             {
                 theftLabel.gameObject.SetActive(false);
             }
+        }
+
+        private void UpdateTheftLabelTransform()
+        {
+            if (theftLabel == null || !theftLabel.gameObject.activeSelf)
+            {
+                return;
+            }
+
+            Camera cam = ResolveCamera();
+            if (cam != null)
+            {
+                // Always face camera directly (screen-aligned billboard)
+                theftLabel.transform.rotation = cam.transform.rotation;
+
+                // Position cleanly above traveller's head
+                Transform head = ResolveHeadTransform();
+                if (head != null)
+                {
+                    theftLabel.transform.position = head.position + (cam.transform.up * 0.45f) - (cam.transform.forward * 0.1f);
+                }
+                else
+                {
+                    theftLabel.transform.position = transform.position + (cam.transform.up * 3f) - (cam.transform.forward * 0.1f);
+                }
+            }
+            else
+            {
+                theftLabel.transform.rotation = Quaternion.identity;
+                theftLabel.transform.localPosition = new Vector3(0f, 3.0f, 0f);
+            }
+        }
+
+        private Camera ResolveCamera()
+        {
+            if (_activeCamera != null && _activeCamera.isActiveAndEnabled)
+            {
+                return _activeCamera;
+            }
+
+            if (ProjectContext.Instance?.Services.TryGet(out Core.SceneManagement.ArenaSceneContext arenaCtx) == true && arenaCtx.MainCamera != null)
+            {
+                _activeCamera = arenaCtx.MainCamera;
+                return _activeCamera;
+            }
+
+            _activeCamera = Camera.main;
+            return _activeCamera;
+        }
+
+        private Transform ResolveHeadTransform()
+        {
+            if (_headTransform != null)
+            {
+                return _headTransform;
+            }
+
+            if (animator != null && animator.isHuman)
+            {
+                _headTransform = animator.GetBoneTransform(HumanBodyBones.Head);
+                if (_headTransform != null)
+                {
+                    return _headTransform;
+                }
+            }
+
+            Transform[] allChildren = GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < allChildren.Length; i++)
+            {
+                if (allChildren[i].name.Equals("Head", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    _headTransform = allChildren[i];
+                    return _headTransform;
+                }
+            }
+
+            return null;
         }
 
 
@@ -277,6 +372,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             CacheBaseColor(forceRefresh: true);
             ApplyVisualState(isDraining: false);
             ResetPresentation();
+            RefreshTheftLabel();
         }
 
         private void Update()
@@ -302,6 +398,11 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             RefreshTheftLabel();
             RefreshPresentation();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateTheftLabelTransform();
         }
 
         private void TickSeeking()
@@ -538,10 +639,20 @@ namespace RainbowsEnd.Gameplay.Enemies
             health ??= GetComponent<Health>();
             potDrain ??= GetComponent<PotDrain>();
             theftLabel ??= GetComponentInChildren<TextMeshPro>(true);
+            if (theftLabel != null)
+            {
+                theftLabel.sortingOrder = 50;
+                theftLabel.alignment = TextAlignmentOptions.Center;
+            }
             animator ??= GetComponentInChildren<Animator>(true);
+            if (animator != null)
+            {
+                animator.applyRootMotion = false;
+            }
             _hasRunToCarriedPotParameter = HasAnimatorParameter("RunToCarriedPot");
             _hasCarryLootParameter = HasAnimatorParameter("CarryLoot");
             _hasPickParameter = HasAnimatorParameter("Pick");
+            _hasDieParameter = HasAnimatorParameter("Die");
             if (visualRenderer == null)
             {
                 visualRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -794,6 +905,12 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             ClearTheftLabel();
             ResetPresentation();
+            ApplyVisualState(isDraining: false);
+            if (animator != null && _hasDieParameter)
+            {
+                animator.SetTrigger("Die");
+            }
+
             int stolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
             int pocketChange = Mathf.Max(0, _goldDropAmount);
             int totalDrop = pocketChange + stolenGold;
@@ -924,6 +1041,16 @@ namespace RainbowsEnd.Gameplay.Enemies
                 if (_hasPickParameter)
                 {
                     animator.SetBool("Pick", false);
+                }
+                if (_hasDieParameter)
+                {
+                    animator.ResetTrigger("Die");
+                }
+
+                animator.applyRootMotion = false;
+                if (animator.transform != transform)
+                {
+                    animator.transform.localPosition = Vector3.zero;
                 }
             }
 

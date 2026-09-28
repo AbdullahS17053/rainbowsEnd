@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
+using RainbowsEnd.Core.SceneManagement;
 using RainbowsEnd.Gameplay.Player;
 using UnityEngine;
 
@@ -18,7 +20,22 @@ namespace RainbowsEnd.Gameplay.Combat
         private Coroutine _shakeCoroutine;
         private Coroutine _hitStopCoroutine;
 
-        public static CombatFeedbackController Instance => _instance;
+        public static CombatFeedbackController Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindFirstObjectByType<CombatFeedbackController>();
+                    if (_instance == null && Application.isPlaying)
+                    {
+                        GameObject go = new GameObject("CombatFeedbackController");
+                        _instance = go.AddComponent<CombatFeedbackController>();
+                    }
+                }
+                return _instance;
+            }
+        }
 
         private void Awake()
         {
@@ -37,6 +54,19 @@ namespace RainbowsEnd.Gameplay.Combat
             ResolveCamera();
         }
 
+        private void OnDisable()
+        {
+            if (_shakeCoroutine != null)
+            {
+                StopCoroutine(_shakeCoroutine);
+                _shakeCoroutine = null;
+                if (targetCamera != null)
+                {
+                    targetCamera.transform.localPosition = _originalCameraLocalPos;
+                }
+            }
+        }
+
         public void PlayScreenShake(float intensity = -1f, float duration = -1f)
         {
             ResolveCamera();
@@ -52,6 +82,11 @@ namespace RainbowsEnd.Gameplay.Combat
             {
                 StopCoroutine(_shakeCoroutine);
                 targetCamera.transform.localPosition = _originalCameraLocalPos;
+                _shakeCoroutine = null;
+            }
+            else
+            {
+                _originalCameraLocalPos = targetCamera.transform.localPosition;
             }
 
             _shakeCoroutine = StartCoroutine(DoScreenShake(dur, inten));
@@ -88,11 +123,15 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private IEnumerator DoScreenShake(float duration, float intensity)
         {
-            _originalCameraLocalPos = targetCamera.transform.localPosition;
             float elapsed = 0f;
 
             while (elapsed < duration)
             {
+                if (targetCamera == null)
+                {
+                    yield break;
+                }
+
                 float strength = (1f - (elapsed / duration)) * intensity;
                 Vector3 offset = (Vector3)UnityEngine.Random.insideUnitCircle * strength;
                 targetCamera.transform.localPosition = _originalCameraLocalPos + offset;
@@ -101,7 +140,10 @@ namespace RainbowsEnd.Gameplay.Combat
                 yield return null;
             }
 
-            targetCamera.transform.localPosition = _originalCameraLocalPos;
+            if (targetCamera != null)
+            {
+                targetCamera.transform.localPosition = _originalCameraLocalPos;
+            }
             _shakeCoroutine = null;
         }
 
@@ -116,12 +158,27 @@ namespace RainbowsEnd.Gameplay.Combat
 
         private void ResolveCamera()
         {
-            if (targetCamera == null)
+            if (targetCamera == null || !targetCamera.isActiveAndEnabled)
             {
-                targetCamera = Camera.main;
+                if (ProjectContext.Instance?.Services.TryGet(out ArenaSceneContext arenaCtx) == true && arenaCtx.MainCamera != null)
+                {
+                    targetCamera = arenaCtx.MainCamera;
+                }
+                else
+                {
+                    ArenaSceneContext context = FindFirstObjectByType<ArenaSceneContext>(FindObjectsInactive.Exclude);
+                    if (context != null && context.MainCamera != null)
+                    {
+                        targetCamera = context.MainCamera;
+                    }
+                    else
+                    {
+                        targetCamera = Camera.main;
+                    }
+                }
             }
 
-            if (targetCamera != null)
+            if (targetCamera != null && _shakeCoroutine == null)
             {
                 _originalCameraLocalPos = targetCamera.transform.localPosition;
             }

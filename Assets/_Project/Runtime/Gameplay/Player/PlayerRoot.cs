@@ -113,7 +113,7 @@ namespace RainbowsEnd.Gameplay.Player
 
 
 
-        public bool IsConcealed => _isConcealed;
+        public bool IsConcealed => _isConcealed && _concealmentRevealTimerSeconds <= 0f && !_isDowned;
 
         public float CurrentVisualOpacity => _currentVisualOpacity;
         public bool CanOpenUpgradeMenu => !_isDowned && !_isDazed;
@@ -161,7 +161,7 @@ namespace RainbowsEnd.Gameplay.Player
         {
             _concealmentRevealTimerSeconds = config != null
                 ? Mathf.Max(0f, config.ConcealmentRevealDurationSeconds)
-                : 0f;
+                : 0.25f;
             RefreshVisualState();
         }
 
@@ -172,8 +172,9 @@ namespace RainbowsEnd.Gameplay.Player
                 CachePresentation();
             }
 
-            bool isConcealed = ResolveIsInConcealmentZone();
-            float opacity = ResolveVisualOpacity(isConcealed);
+            bool isInZone = ResolveIsInConcealmentZone();
+            bool isConcealed = isInZone && _concealmentRevealTimerSeconds <= 0f && !_isDowned;
+            float opacity = ResolveVisualOpacity(isInZone);
             if (_isConcealed == isConcealed && Mathf.Approximately(_currentVisualOpacity, opacity))
             {
                 return;
@@ -223,6 +224,8 @@ namespace RainbowsEnd.Gameplay.Player
             {
                 health.Depleted -= HandleHealthDepleted;
                 health.Depleted += HandleHealthDepleted;
+                health.Damaged -= HandleHealthDamaged;
+                health.Damaged += HandleHealthDamaged;
             }
 
             ResetAnimationFeedback();
@@ -235,6 +238,7 @@ namespace RainbowsEnd.Gameplay.Player
             if (health != null)
             {
                 health.Depleted -= HandleHealthDepleted;
+                health.Damaged -= HandleHealthDamaged;
             }
 
             if (_isDowned || _isRecovering)
@@ -331,7 +335,7 @@ namespace RainbowsEnd.Gameplay.Player
 
             Transform root = VisualRoot;
             Renderer[] renderers = root != null
-                ? root.GetComponentsInChildren<Renderer>(false)
+                ? root.GetComponentsInChildren<Renderer>(true)
                 : new Renderer[0];
 
             for (int index = 0; index < renderers.Length; index++)
@@ -394,7 +398,12 @@ namespace RainbowsEnd.Gameplay.Player
         private bool ResolveIsInConcealmentZone()
         {
             Vector2 position = body != null ? body.position : (Vector2)transform.position;
-            if (TerrainZone.IsConcealed(position))
+            if (TerrainZone.IsConcealed(position, bodyCollider))
+            {
+                return true;
+            }
+
+            if (ConcealmentZone.IsConcealed(position, bodyCollider))
             {
                 return true;
             }
@@ -402,7 +411,7 @@ namespace RainbowsEnd.Gameplay.Player
             for (int index = 0; index < _concealmentZones.Length; index++)
             {
                 ConcealmentZone zone = _concealmentZones[index];
-                if (zone != null && zone.Contains(position))
+                if (zone != null && (zone.Contains(position) || (bodyCollider != null && zone.Overlaps(bodyCollider))))
                 {
                     return true;
                 }
@@ -413,7 +422,7 @@ namespace RainbowsEnd.Gameplay.Player
 
         private float ResolveVisualOpacity(bool isConcealed)
         {
-            if (IsCarryingPot || _concealmentRevealTimerSeconds > 0f)
+            if (_concealmentRevealTimerSeconds > 0f)
             {
                 return 1f;
             }
@@ -544,6 +553,33 @@ namespace RainbowsEnd.Gameplay.Player
             }
         }
 
+        private void HandleHealthDamaged(DamageResult result)
+        {
+            if (result.AppliedAmount <= 0f)
+            {
+                return;
+            }
+
+            TriggerHitScreenShake(result.AppliedAmount);
+        }
+
+        private void TriggerHitScreenShake(float damageAmount, float multiplier = 1f)
+        {
+            float intensity = config != null ? config.HitShakeIntensity : 0.35f;
+            float duration = config != null ? config.HitShakeDuration : 0.2f;
+
+            if (health != null && health.MaxHealth > 0f)
+            {
+                float damagePercent = Mathf.Clamp01(damageAmount / health.MaxHealth);
+                intensity = Mathf.Lerp(intensity * 0.85f, intensity * 1.35f, damagePercent);
+            }
+
+            intensity *= multiplier;
+            duration *= multiplier;
+
+            CombatFeedbackController.Instance?.PlayScreenShake(intensity, duration);
+        }
+
         private void HandleHealthDepleted()
         {
             if (_isDowned || _isRecovering)
@@ -556,6 +592,7 @@ namespace RainbowsEnd.Gameplay.Player
             PlayStunFeedback();
             ApplyPlayerEnabledState(false);
             PlayerDecoy.Spawn(transform.position, visualRenderer != null ? visualRenderer.sprite : null);
+            TriggerHitScreenShake(config != null ? config.MaxHealth : 10f, 1.5f);
 
             if (_downedTimerSeconds <= 0f)
             {
@@ -640,6 +677,7 @@ namespace RainbowsEnd.Gameplay.Player
                 stunnedStars.SetActive(true);
             }
 
+            TriggerHitScreenShake(1f, 1.25f);
             ApplyDazeEnabledState(false);
 
             if (body != null)

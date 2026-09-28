@@ -27,5 +27,7 @@ namespace RainbowsEnd.Core.Config
         [field: SerializeField] [field: Range(0f, 1f)] public float RecoveryVeilOpacity { get; private set; } = 0.35f;
 
         [field: SerializeField] [field: Min(0f)] public float ConcealmentRevealDurationSeconds { get; private set; } = 0.25f;
+        [field: SerializeField] [field: Min(0f)] public float HitShakeIntensity { get; private set; } = 0.35f;
+        [field: SerializeField] [field: Min(0f)] public float HitShakeDuration { get; private set; } = 0.2f;
     }
 }

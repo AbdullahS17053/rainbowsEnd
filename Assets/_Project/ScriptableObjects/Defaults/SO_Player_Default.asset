@@ -25,3 +25,5 @@ MonoBehaviour:
   <ConcealedOpacity>k__BackingField: 0.35
   <RecoveryVeilOpacity>k__BackingField: 0.35
   <ConcealmentRevealDurationSeconds>k__BackingField: 0.25
+  <HitShakeIntensity>k__BackingField: 0.35
+  <HitShakeDuration>k__BackingField: 0.2
