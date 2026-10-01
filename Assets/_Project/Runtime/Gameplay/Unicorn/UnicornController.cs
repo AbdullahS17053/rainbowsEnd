@@ -19,11 +19,13 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private SpriteRenderer visualRenderer;
         [SerializeField] private RainbowTrailEmitter trailEmitter;
         [SerializeField] private LineRenderer potWarningLine;
+        [SerializeField] private UnicornTailTrail tailTrail;
 
         [Header("Audio")]
         [SerializeField] private AudioCueSO spawnCue;
 
         public AudioCueSO SpawnCue => spawnCue;
+        public UnicornTailTrail TailTrail => tailTrail;
         public void ConfigureSpawnCue(AudioCueSO cue) => spawnCue = cue;
 
         private ArenaBoundsAuthoring _arenaBounds;
@@ -59,7 +61,8 @@ namespace RainbowsEnd.Gameplay.Unicorn
             Rigidbody2D rigidbody2D,
             Collider2D collider2D,
             SpriteRenderer renderer,
-            RainbowTrailEmitter emitter)
+            RainbowTrailEmitter emitter,
+            UnicornTailTrail trail = null)
         {
             config = unicornConfig;
             body = rigidbody2D;
@@ -67,12 +70,17 @@ namespace RainbowsEnd.Gameplay.Unicorn
             visualRenderer = renderer;
             trailEmitter = emitter;
             trailEmitter?.Configure(this);
+            if (trail != null)
+            {
+                tailTrail = trail;
+            }
             ConfigureBody();
         }
 
-public void NotifyTeleported()
+        public void NotifyTeleported()
         {
             trailEmitter?.NotifyUnicornTeleported();
+            tailTrail?.ClearTrail();
         }
 
 
@@ -237,6 +245,11 @@ public void NotifyTeleported()
             bodyCollider ??= GetComponent<Collider2D>();
             trailEmitter ??= GetComponent<RainbowTrailEmitter>();
             potWarningLine ??= GetComponent<LineRenderer>();
+            tailTrail ??= GetComponent<UnicornTailTrail>();
+            if (tailTrail == null)
+            {
+                tailTrail = GetComponentInChildren<UnicornTailTrail>();
+            }
 
             if (visualRenderer == null)
             {

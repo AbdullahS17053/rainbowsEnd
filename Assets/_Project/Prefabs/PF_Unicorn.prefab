@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3136934611503951398}
   - component: {fileID: 4144611096097767695}
   - component: {fileID: 7310344738799674955}
+  - component: {fileID: 5123984719238471923}
   m_Layer: 0
   m_Name: PF_Unicorn
   m_TagString: Untagged
@@ -133,6 +134,7 @@ MonoBehaviour:
   visualRenderer: {fileID: 7374968990903425562}
   trailEmitter: {fileID: 3136934611503951398}
   potWarningLine: {fileID: 7310344738799674955}
+  tailTrail: {fileID: 5123984719238471923}
   spawnCue: {fileID: 11400000, guid: a1000000000000000000000000000010, type: 2}
 --- !u!120 &7310344738799674955
 LineRenderer:
@@ -253,6 +255,29 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &5123984719238471923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408971229409377192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1000000000000000000000000000050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tailParticleSystem: {fileID: 0}
+  tailAnchor: {fileID: 0}
+  trailShader: {fileID: 0}
+  trailMaterial: {fileID: 2100000, guid: a2810000000000000000000000000001, type: 2}
+  upwardSpeed: 1.8
+  lifetime: 1.2
+  emissionRate: 30
+  startWidth: 0.35
+  endWidth: 0.02
+  sortingOrder: 15
+  sortingLayerName: Default
 --- !u!1 &6764870528971936611
 GameObject:
   m_ObjectHideFlags: 0

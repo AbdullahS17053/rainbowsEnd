@@ -16,6 +16,7 @@ namespace RainbowsEnd.Editor
         private const string MainArenaScenePath = "Assets/_Project/Scenes/MainArena.unity";
         private const string UnicornPrefabPath = "Assets/_Project/Prefabs/PF_Unicorn.prefab";
         private const string TrailSegmentPrefabPath = "Assets/_Project/Prefabs/PF_RainbowTrailSegment.prefab";
+        private const string TailTrailMaterialPath = "Assets/_Project/Art/Materials/M_UnicornTailTrail.mat";
         private const string PlaceholderSpritePath = "Assets/_Project/Art/Placeholder/SPR_SquarePlaceholder.png";
         private const string ProjectConfigRegistryPath = "Assets/_Project/Settings/Resources/ProjectConfigRegistry.asset";
 
@@ -104,7 +105,13 @@ namespace RainbowsEnd.Editor
                 visualRoot.transform.localPosition = Vector3.zero;
                 visualRoot.transform.localScale = new Vector3(0.95f, 1.2f, 1f);
 
-                unicornController.Configure(unicornConfig, body, bodyCollider, visualRenderer, trailEmitter);
+                Material tailTrailMaterial = EnsureTailTrailMaterial();
+                UnicornTailTrail tailTrail = GetOrAddComponent<UnicornTailTrail>(prefabRoot);
+                Transform tailAnchor = tailTrail.ResolveTailAnchor();
+                ParticleSystem tailPs = tailTrail.ResolveParticleSystem();
+                tailTrail.Configure(tailAnchor, tailPs, tailTrailMaterial);
+
+                unicornController.Configure(unicornConfig, body, bodyCollider, visualRenderer, trailEmitter, tailTrail);
                 trailEmitter.Configure(unicornController);
 
                 PrefabUtility.SaveAsPrefabAsset(prefabRoot, UnicornPrefabPath);
@@ -178,14 +185,48 @@ namespace RainbowsEnd.Editor
             if (unicornInstance.TryGetComponent(out UnicornController unicornController))
             {
                 RainbowTrailEmitter trailEmitter = unicornInstance.GetComponent<RainbowTrailEmitter>();
+                UnicornTailTrail tailTrail = unicornInstance.GetComponent<UnicornTailTrail>();
+                if (tailTrail != null)
+                {
+                    Material tailTrailMaterial = EnsureTailTrailMaterial();
+                    tailTrail.Configure(tailTrail.ResolveTailAnchor(), tailTrail.ResolveParticleSystem(), tailTrailMaterial);
+                }
+
                 unicornController.Configure(
                     unicornConfig,
                     unicornInstance.GetComponent<Rigidbody2D>(),
                     unicornInstance.GetComponent<Collider2D>(),
                     unicornInstance.GetComponentInChildren<SpriteRenderer>(),
-                    trailEmitter);
+                    trailEmitter,
+                    tailTrail);
                 trailEmitter?.ConfigurePool(rainbowTrailPool);
             }
+        }
+
+        private static Material EnsureTailTrailMaterial()
+        {
+            Material material = AssetDatabase.LoadAssetAtPath<Material>(TailTrailMaterialPath);
+            if (material != null)
+            {
+                return material;
+            }
+
+            string absolutePath = GetAbsoluteAssetPath(TailTrailMaterialPath);
+            string parentDirectory = Path.GetDirectoryName(absolutePath);
+            if (!string.IsNullOrEmpty(parentDirectory) && !Directory.Exists(parentDirectory))
+            {
+                Directory.CreateDirectory(parentDirectory);
+            }
+
+            Shader shader = Shader.Find("Universal Render Pipeline/Particles/Unlit")
+                            ?? Shader.Find("Sprites/Default");
+            material = new Material(shader)
+            {
+                name = "M_UnicornTailTrail"
+            };
+
+            AssetDatabase.CreateAsset(material, TailTrailMaterialPath);
+            return material;
         }
 
         private static SpawnPointMarker FindSpawnPoint(Transform root, SpawnPointKind kind)

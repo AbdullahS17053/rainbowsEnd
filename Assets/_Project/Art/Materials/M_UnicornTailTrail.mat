@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_UnicornTailTrail
+  m_Shader: {fileID: 4800000, guid: f94f00b9ec6b04346a617d373aa6281c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _RECEIVESHADOWS_OFF
+  - _RECEIVE_SHADOWS_OFF
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Color:
+        m_Texture: {fileID: 2800000, guid: aec738f429fa4ab4a8b574c7c804886c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Distortion:
+        m_Texture: {fileID: 2800000, guid: 3327b545e30728e47b34b9588ff64aef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Erosion:
+        m_Texture: {fileID: 2800000, guid: 3327b545e30728e47b34b9588ff64aef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 7c48f5b92e0b90d40ba17c1418e880e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaAffectsOpacity: 1
+    - _AlphaCutoff: 0.5
+    - _ColorSmoothstep: 0
+    - _ColorSmoothstepSmoothness: 1
+    - _Cull: 0
+    - _DistortionAmount: 0.1
+    - _Dst: 10
+    - _EmissiveIntensity: 1.5
+    - _ErosionSmoothstep: 0
+    - _ErosionSmoothstepSmoothness: 1
+    - _MaskDistortionIntensity: 1
+    - _MaskSmoothstep: 0
+    - _MaskSmoothstepSmoothness: 1
+    - _OverallSpeed: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 0
+    - _Src: 5
+    - _ZTest: 2
+    - _ZWrite: 0
+    m_Colors:
+    - _Color01: {r: 1, g: 0.45, b: 0.75, a: 1}
+    - _Color02: {r: 0.35, g: 0.85, b: 1, a: 1}
+    - _ColorPanSpeed: {r: 0, g: 1.5, b: 0, a: 0}
+    - _ColorUVScale: {r: 1, g: 1, b: 0, a: 0}
+    - _DistortionPanSpeed: {r: 0, g: 0.8, b: 0, a: 0}
+    - _DistortionUVScale: {r: 1, g: 1, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ErosionPanSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _ErosionUVScale: {r: 1, g: 1, b: 0, a: 0}
+    - _MaskPanSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskUVScale: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
