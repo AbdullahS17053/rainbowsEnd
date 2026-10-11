@@ -13,7 +13,17 @@ namespace RainbowsEnd.Gameplay.World
             Vector3 from3D = new Vector3(from.x, from.y, 0f);
             Vector3 to3D = new Vector3(to.x, to.y, 0f);
 
-            if (NavMesh.CalculatePath(from3D, to3D, NavMesh.AllAreas, _path))
+            if (NavMesh.SamplePosition(from3D, out NavMeshHit fromHit, 3f, NavMesh.AllAreas))
+            {
+                from3D = fromHit.position;
+            }
+
+            if (NavMesh.SamplePosition(to3D, out NavMeshHit toHit, 8f, NavMesh.AllAreas))
+            {
+                to3D = toHit.position;
+            }
+
+            if (NavMesh.CalculatePath(from3D, to3D, NavMesh.AllAreas, _path) && _path.status != NavMeshPathStatus.PathInvalid)
             {
                 int corners = _path.corners.Length;
                 if (corners > 0)

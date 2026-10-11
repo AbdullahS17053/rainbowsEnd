@@ -107,5 +107,51 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
             }
         }
 
+        [Test]
+        public void GetTrailSpawnPosition_CalculatesPositionBehindUnicorn()
+        {
+            GameObject emitterObject = new GameObject("RainbowTrailEmitter");
+            RainbowTrailEmitter emitter = emitterObject.AddComponent<RainbowTrailEmitter>();
+            emitter.transform.position = new Vector3(5f, 5f, 0f);
+            emitter.transform.up = Vector3.up; // Facing North (+Y)
+            emitter.RearOffset = 0.6f;
+
+            try
+            {
+                Vector3 spawnPos = emitter.GetTrailSpawnPosition();
+                // Behind North facing is South (-Y)
+                Assert.That(spawnPos.x, Is.EqualTo(5f).Within(0.001f));
+                Assert.That(spawnPos.y, Is.EqualTo(4.4f).Within(0.001f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(emitterObject);
+            }
+        }
+
+        [Test]
+        public void TrailParticleSystem_ConfiguredWithSoftFloatingSettings()
+        {
+            GameObject segmentObject = new GameObject("RainbowTrailSegment");
+            RainbowTrailSegment segment = segmentObject.AddComponent<RainbowTrailSegment>();
+            segment.Activate(null, Time.time);
+
+            try
+            {
+                Assert.That(segment.TrailParticleSystem, Is.Not.Null);
+                var main = segment.TrailParticleSystem.main;
+                Assert.That(main.simulationSpace, Is.EqualTo(ParticleSystemSimulationSpace.World));
+                Assert.That(main.loop, Is.True);
+
+                // Verify particles float softly in world space rather than blowing in a fixed direction at high speed
+                var vel = segment.TrailParticleSystem.velocityOverLifetime;
+                Assert.That(vel.enabled, Is.True);
+                Assert.That(vel.y.constantMax, Is.LessThan(0.5f), "Velocity in Y should be gentle floating, not high speed ejection");
+            }
+            finally
+            {
+                Object.DestroyImmediate(segmentObject);
+            }
+        }
     }
 }

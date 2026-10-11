@@ -103,6 +103,17 @@ namespace RainbowsEnd.Gameplay.Combat
             _hitStopCoroutine = StartCoroutine(DoHitStop(durationRealtime, slowScale));
         }
 
+        public void TriggerParticleBurst(Vector3 position)
+        {
+            CombatImpactEffect effect = FindFirstObjectByType<CombatImpactEffect>(FindObjectsInactive.Include);
+            if (effect != null)
+            {
+                GameObject clone = Instantiate(effect.gameObject, position, Quaternion.identity);
+                clone.SetActive(true);
+                Destroy(clone, 1.5f);
+            }
+        }
+
         public static void DelayedDespawn(MonoBehaviour runner, Action onComplete, float delaySeconds = 3.0f)
         {
             if (runner != null && runner.gameObject.activeInHierarchy)

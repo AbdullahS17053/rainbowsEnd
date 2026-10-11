@@ -93,5 +93,25 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
             Assert.That(field, Is.Not.Null, $"Missing field {fieldName}");
             return (T)field.GetValue(target);
         }
+        [Test]
+        public void StartEscaping_InitializesFleeTargetAndPath()
+        {
+            GameObject militaryObj = new GameObject("Military");
+            try
+            {
+                militaryObj.AddComponent<CircleCollider2D>();
+                MilitaryController military = militaryObj.AddComponent<MilitaryController>();
+                MethodInfo startEscaping = typeof(MilitaryController).GetMethod("StartEscaping", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(startEscaping, Is.Not.Null);
+                startEscaping.Invoke(military, null);
+
+                FieldInfo targetField = typeof(MilitaryController).GetField("_fleeTarget", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That((Vector2)targetField.GetValue(military), Is.Not.EqualTo(Vector2.zero));
+            }
+            finally
+            {
+                Object.DestroyImmediate(militaryObj);
+            }
+        }
     }
 }

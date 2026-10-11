@@ -11,8 +11,16 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private string poolObjectName = "RainbowTrailPool";
         [SerializeField] private PrefabPool trailPool;
 
+        [SerializeField, Min(0f)] private float rearOffset = 0.55f;
+
         private float _spawnCooldown;
         private float _trailStartTime;
+
+        public float RearOffset
+        {
+            get => rearOffset;
+            set => rearOffset = Mathf.Max(0f, value);
+        }
 
         public float TrailAgeSeconds => Time.time - _trailStartTime;
 
@@ -34,7 +42,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             _trailStartTime = Time.time;
         }
 
-public void NotifyUnicornTeleported()
+        public void NotifyUnicornTeleported()
         {
             _spawnCooldown = 0f;
             if (unicornController?.Config != null && ResolvePool())
@@ -43,6 +51,18 @@ public void NotifyUnicornTeleported()
             }
         }
 
+        public Vector3 GetTrailSpawnPosition()
+        {
+            Vector3 backward = -transform.up;
+            if (unicornController != null && unicornController.CurrentVelocity.sqrMagnitude > 0.001f)
+            {
+                backward = -((Vector3)unicornController.CurrentVelocity.normalized);
+            }
+
+            Vector3 spawnPos = transform.position + backward * rearOffset;
+            spawnPos.z = 0f;
+            return spawnPos;
+        }
 
         private void Reset()
         {
@@ -85,13 +105,14 @@ public void NotifyUnicornTeleported()
 
         private void SpawnTrailSegment()
         {
-            Vector2Int cell = RainbowTrailCellUtility.GetCell(transform.position, unicornController.Config.TrailCellSizeWorldUnits);
+            Vector3 spawnPos = GetTrailSpawnPosition();
+            Vector2Int cell = RainbowTrailCellUtility.GetCell(spawnPos, unicornController.Config.TrailCellSizeWorldUnits);
             if (RainbowTrailSegment.IsCellOccupied(cell))
             {
                 return;
             }
 
-            GameObject instance = trailPool.Rent(transform.position, Quaternion.identity);
+            GameObject instance = trailPool.Rent(spawnPos, Quaternion.identity);
             RainbowTrailSegment trailSegment = instance.GetComponent<RainbowTrailSegment>();
             if (trailSegment == null)
             {

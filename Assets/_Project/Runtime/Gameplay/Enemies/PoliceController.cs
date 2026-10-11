@@ -302,7 +302,7 @@ private void Update()
             }
 
             runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
-            runDirector?.RecordKill();
+            runDirector?.RecordKill(transform.position);
         }
 
         private void SpawnDeathReward()
@@ -375,11 +375,15 @@ private void Update()
         {
             if (pistolVisual != null)
             {
+                pistolVisual.transform.localPosition = new Vector3(0.08f, 0.02f, 0f);
+                pistolVisual.transform.localRotation = Quaternion.Euler(0f, 82f, 90f);
                 pistolVisual.SetActive(!useShotgun);
             }
 
             if (shotgunVisual != null)
             {
+                shotgunVisual.transform.localPosition = new Vector3(0.10f, 0.02f, 0f);
+                shotgunVisual.transform.localRotation = Quaternion.Euler(0f, 82f, -180f);
                 shotgunVisual.SetActive(useShotgun);
             }
         }

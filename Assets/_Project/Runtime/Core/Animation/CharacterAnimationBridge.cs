@@ -57,7 +57,13 @@ namespace RainbowsEnd.Core.Animation
 
             if (animator != null)
             {
-                animator.SetFloat(speedParameter, body.linearVelocity.magnitude);
+                float speed = body.linearVelocity.magnitude;
+                animator.SetFloat(speedParameter, speed);
+
+                if (speed > 0.15f && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Shoot"))
+                {
+                    animator.Play("Walk", 0);
+                }
             }
 
             if (visualRoot == null)
@@ -111,6 +117,12 @@ namespace RainbowsEnd.Core.Animation
             if (_holdFacingDuringFire)
             {
                 _fireFacingRotation = visualRoot.rotation;
+            }
+
+            // When actively moving, keep leg walking locomotion active so character doesn't slide
+            if (body != null && body.linearVelocity.sqrMagnitude > 0.04f)
+            {
+                return;
             }
 
             animator.SetTrigger("Fire");

@@ -97,6 +97,8 @@ namespace RainbowsEnd.Gameplay.Player
 
         public WeaponController WeaponController => weaponController;
 
+        public Animator FeedbackAnimator => feedbackAnimator;
+
         public bool IsDowned => _isDowned;
 
         public bool IsRecovering => _isRecovering;

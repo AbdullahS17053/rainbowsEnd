@@ -42,6 +42,10 @@ namespace RainbowsEnd.Gameplay.Unicorn
 
         [SerializeField] private string sortingLayerName = "Default";
 
+        [Header("Tail Bone Emission (Disabled in favor of ground trail)")]
+        [Tooltip("Whether the unicorn body tail bone emits particles. Default is false.")]
+        [SerializeField] private bool emitFromTail = false;
+
         public ParticleSystem TailParticleSystem => tailParticleSystem;
         public Transform TailAnchor => tailAnchor;
         public Material TrailMaterial => trailMaterial;
@@ -52,6 +56,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
         public float StartWidth => startWidth;
         public float EndWidth => endWidth;
         public int SortingOrder => sortingOrder;
+        public bool EmitFromTail => emitFromTail;
 
         public void Configure(Transform anchor, ParticleSystem particleSystem, Material material, Shader shader = null)
         {
@@ -138,6 +143,13 @@ namespace RainbowsEnd.Gameplay.Unicorn
         {
             ResolveTailAnchor();
             ResolveParticleSystem();
+
+            if (Application.isPlaying && !emitFromTail && tailParticleSystem != null)
+            {
+                var emission = tailParticleSystem.emission;
+                emission.enabled = false;
+                tailParticleSystem.gameObject.SetActive(false);
+            }
         }
 
         private void Update()

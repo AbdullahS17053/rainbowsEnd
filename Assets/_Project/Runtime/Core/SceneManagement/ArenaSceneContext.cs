@@ -54,6 +54,8 @@ namespace RainbowsEnd.Core.SceneManagement
             {
                 ProjectContext.Instance.ServiceRegistry.Register(this, replaceExisting: true);
             }
+
+            ArenaWallColliderBuilder.BuildWallColliders();
         }
 
         public void Configure(

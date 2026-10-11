@@ -13,10 +13,13 @@ namespace RainbowsEnd.Gameplay.Combat
         [SerializeField] [Min(0.01f)] private float fallbackSpeed = 18f;
         [SerializeField] [Min(0f)] private float castRadius = 0.05f;
 
+        public const float ProjectileFlightZ = -0.65f;
+
         private TrailRenderer _firearmTracer;
         private GameObject _magicVisual;
         private ParticleSystem[] _magicParticles;
-
+        private MeshRenderer _bulletMeshRenderer;
+        private SpriteRenderer _arrowSpriteRenderer;
 
         private readonly RaycastHit2D[] _hits = new RaycastHit2D[16];
 
@@ -60,6 +63,9 @@ namespace RainbowsEnd.Gameplay.Combat
 
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            Vector3 pos = transform.position;
+            pos.z = ProjectileFlightZ;
+            transform.position = pos;
             ApplyPresentation(renderTracer);
         }
 
@@ -135,13 +141,14 @@ namespace RainbowsEnd.Gameplay.Combat
                     }
                 }
 
-                transform.position = hit.point;
+                transform.position = new Vector3(hit.point.x, hit.point.y, ProjectileFlightZ);
                 _impactFeedbackSpawner?.Spawn(hitResult, _weaponConfig);
                 ReturnToPool();
                 return;
             }
 
-            transform.position = currentPosition + _direction * stepDistance;
+            Vector2 next2D = currentPosition + _direction * stepDistance;
+            transform.position = new Vector3(next2D.x, next2D.y, ProjectileFlightZ);
             _distanceTravelled += stepDistance;
 
             if (_distanceTravelled >= _range)
@@ -200,6 +207,18 @@ namespace RainbowsEnd.Gameplay.Combat
             CachePresentation();
 
             bool isFirearm = _weaponConfig != null && _weaponConfig.IsFirearm;
+
+            if (_bulletMeshRenderer != null)
+            {
+                _bulletMeshRenderer.enabled = isFirearm;
+                _bulletMeshRenderer.gameObject.SetActive(isFirearm);
+            }
+
+            if (_arrowSpriteRenderer != null)
+            {
+                _arrowSpriteRenderer.enabled = false;
+            }
+
             if (_firearmTracer != null)
             {
                 _firearmTracer.Clear();
@@ -246,13 +265,35 @@ namespace RainbowsEnd.Gameplay.Combat
         private void CachePresentation()
         {
             _firearmTracer ??= GetComponent<TrailRenderer>();
+            if (_firearmTracer == null)
+            {
+                _firearmTracer = gameObject.AddComponent<TrailRenderer>();
+                _firearmTracer.time = 0.15f;
+                _firearmTracer.startWidth = 0.06f;
+                _firearmTracer.endWidth = 0.01f;
+                _firearmTracer.material = new Material(Shader.Find("Sprites/Default"));
+                _firearmTracer.enabled = false;
+            }
+
             _magicVisual ??= transform.Find("SpikyFireTrail")?.gameObject;
             _magicParticles ??= GetComponentsInChildren<ParticleSystem>(true);
+            _bulletMeshRenderer ??= GetComponentInChildren<MeshRenderer>(true);
+            _arrowSpriteRenderer ??= GetComponent<SpriteRenderer>();
         }
 
         private void ResetPresentation()
         {
             CachePresentation();
+
+            if (_bulletMeshRenderer != null)
+            {
+                _bulletMeshRenderer.enabled = false;
+            }
+
+            if (_arrowSpriteRenderer != null)
+            {
+                _arrowSpriteRenderer.enabled = false;
+            }
 
             if (_firearmTracer != null)
             {

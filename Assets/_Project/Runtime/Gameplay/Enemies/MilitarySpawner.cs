@@ -32,6 +32,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private readonly List<SpawnPointMarker> _enemySpawnPoints = new List<SpawnPointMarker>();
         private readonly HashSet<int> _activeMilitaryIds = new HashSet<int>();
+        private ArenaBoundsAuthoring _arenaBounds;
 
         private int _nextSpawnPointIndex;
 
@@ -119,7 +120,8 @@ private bool SpawnMilitary(int spawnIndex)
             }
 
             SpawnPointMarker spawnPoint = _enemySpawnPoints[spawnIndex % _enemySpawnPoints.Count];
-            Vector3 spawnPosition = spawnPoint != null ? spawnPoint.transform.position : transform.position;
+            Vector3 rawPosition = spawnPoint != null ? spawnPoint.transform.position : transform.position;
+            Vector3 spawnPosition = ResolvePerimeterSpawnPosition(rawPosition);
 
             GameObject militaryInstance = militaryPool.Rent(spawnPosition, Quaternion.identity);
             MilitaryController militaryController = militaryInstance.GetComponent<MilitaryController>();
@@ -251,5 +253,28 @@ private void ResolveMilitaryLoadout(out WeaponConfig assignedWeaponConfig, out i
                 ? Mathf.Max(0, militaryMobConfig.AssaultRifleDropAmmo)
                 : Mathf.Max(0, militaryMobConfig.ShotgunDropAmmo);
         }
-}
+
+        private Vector3 ResolvePerimeterSpawnPosition(Vector3 position)
+        {
+            if (_arenaBounds == null)
+            {
+                _arenaBounds = FindFirstObjectByType<ArenaBoundsAuthoring>(FindObjectsInactive.Exclude);
+            }
+
+            if (_arenaBounds != null && _arenaBounds.WorldRect.width > 0f && _arenaBounds.WorldRect.height > 0f)
+            {
+                Rect r = _arenaBounds.WorldRect;
+                float marginX = r.width * 0.08f;
+                float marginY = r.height * 0.08f;
+                Rect inner = new Rect(r.xMin + marginX, r.yMin + marginY, r.width - (2f * marginX), r.height - (2f * marginY));
+                if (inner.Contains(new Vector2(position.x, position.y)))
+                {
+                    Vector2 edge = _arenaBounds.GetNearestEdgePoint(position);
+                    return new Vector3(edge.x, edge.y, position.z);
+                }
+            }
+
+            return position;
+        }
+    }
 }

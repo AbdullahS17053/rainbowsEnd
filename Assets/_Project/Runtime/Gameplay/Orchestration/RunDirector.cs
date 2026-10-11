@@ -19,9 +19,12 @@ namespace RainbowsEnd.Gameplay.Orchestration
         [SerializeField] private PlayerWallet playerWallet;
         [SerializeField] private bool startRunOnEnable = true;
         [SerializeField] private bool freezeTimeOnOutcome = true;
+        [SerializeField] private bool endlessMode = true;
 
         private RunWaveController _waveController;
         private RunOutcome _reportedOutcome;
+
+        public bool EndlessMode => endlessMode;
 
         public float ElapsedRunSeconds { get; private set; }
 
@@ -118,7 +121,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private void InitializeRun()
         {
             ResolveReferences();
-            _waveController = new RunWaveController(waveConfig != null ? waveConfig.Waves : null);
+            _waveController = new RunWaveController(waveConfig != null ? waveConfig.Waves : null, endlessMode);
             _reportedOutcome = RunOutcome.None;
             ElapsedRunSeconds = 0f;
             KillCount = 0;

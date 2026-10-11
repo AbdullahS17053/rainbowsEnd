@@ -22,6 +22,10 @@ namespace RainbowsEnd.UI
 
         private Canvas _canvas;
         private CanvasGroup _canvasGroup;
+        private RawImage _flashImage;
+        private readonly System.Collections.Generic.List<RawImage> _edgeImages = new System.Collections.Generic.List<RawImage>();
+        private Coroutine _flashCoroutine;
+        private Coroutine _glowCoroutine;
 
         /// <summary>
         /// Singleton so only one overlay exists at a time.
@@ -87,6 +91,18 @@ namespace RainbowsEnd.UI
             CreateEdgePanel("RightEdge",  Edge.Right);
             CreateEdgePanel("TopEdge",    Edge.Top);
             CreateEdgePanel("BottomEdge", Edge.Bottom);
+
+            // --- Fullscreen Flash Overlay ---
+            GameObject flashGo = new GameObject("FlashOverlay", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+            flashGo.transform.SetParent(transform, false);
+            RectTransform flashRt = flashGo.GetComponent<RectTransform>();
+            flashRt.anchorMin = Vector2.zero;
+            flashRt.anchorMax = Vector2.one;
+            flashRt.offsetMin = Vector2.zero;
+            flashRt.offsetMax = Vector2.zero;
+            _flashImage = flashGo.GetComponent<RawImage>();
+            _flashImage.color = Color.clear;
+            _flashImage.raycastTarget = false;
         }
 
         // ─────────────────────── Per-edge helpers ─────────────────────────
@@ -106,6 +122,7 @@ namespace RainbowsEnd.UI
             img.texture = gradientTex;
             img.color = Color.white; // tint is baked into the texture
             img.raycastTarget = false;
+            _edgeImages.Add(img);
 
             // Position and stretch the rect
             switch (edge)
@@ -177,6 +194,70 @@ namespace RainbowsEnd.UI
             {
                 _canvasGroup.alpha = Mathf.Clamp01(alpha);
             }
+        }
+
+        public void TriggerGoldFlash(float duration = 0.28f)
+        {
+            TriggerFlash(new Color(1f, 0.84f, 0.15f, 0.35f), duration);
+        }
+
+        public void TriggerFlash(Color flashColor, float duration = 0.25f)
+        {
+            if (_flashImage == null) return;
+            if (_flashCoroutine != null) StopCoroutine(_flashCoroutine);
+            _flashCoroutine = StartCoroutine(DoFlash(flashColor, duration));
+        }
+
+        private System.Collections.IEnumerator DoFlash(Color flashColor, float duration)
+        {
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                Color c = flashColor;
+                c.a = Mathf.Lerp(flashColor.a, 0f, t);
+                _flashImage.color = c;
+                yield return null;
+            }
+            _flashImage.color = Color.clear;
+            _flashCoroutine = null;
+        }
+
+        public void TriggerEdgeGlowPulse(Color glowColor, float duration = 0.55f)
+        {
+            if (_edgeImages.Count == 0) return;
+            if (_glowCoroutine != null) StopCoroutine(_glowCoroutine);
+            _glowCoroutine = StartCoroutine(DoEdgeGlow(glowColor, duration));
+        }
+
+        private System.Collections.IEnumerator DoEdgeGlow(Color glowColor, float duration)
+        {
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float pulse = Mathf.Sin(t * Mathf.PI);
+                Color c = Color.Lerp(Color.white, glowColor, pulse);
+                for (int i = 0; i < _edgeImages.Count; i++)
+                {
+                    if (_edgeImages[i] != null)
+                    {
+                        _edgeImages[i].color = c;
+                    }
+                }
+                yield return null;
+            }
+
+            for (int i = 0; i < _edgeImages.Count; i++)
+            {
+                if (_edgeImages[i] != null)
+                {
+                    _edgeImages[i].color = Color.white;
+                }
+            }
+            _glowCoroutine = null;
         }
     }
 }

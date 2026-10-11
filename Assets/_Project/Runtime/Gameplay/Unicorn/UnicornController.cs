@@ -33,6 +33,11 @@ namespace RainbowsEnd.Gameplay.Unicorn
         private Vector2 _currentVelocity;
         private float _retargetCooldown;
         private ArenaBoundarySide? _currentTargetSide;
+        private Vector2[] _currentPath;
+        private int _currentWaypointIndex;
+        private float _pathRefreshTimer;
+        private float _stuckTimer;
+        private Vector2 _lastPosition;
 
         private bool _isGrazing;
         private float _grazeTimer;
@@ -149,7 +154,31 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 currentSpeed *= _faeSlowMultiplier;
             }
 
-            Vector2 nextPosition = UnicornRoamingUtility.MoveTowards(currentPosition, _targetPoint, currentSpeed, Time.fixedDeltaTime);
+            // Periodically refresh NavMesh path towards target
+            _pathRefreshTimer -= Time.fixedDeltaTime;
+            if (_pathRefreshTimer <= 0f || _currentPath == null)
+            {
+                _pathRefreshTimer = 0.5f;
+                if (NavMeshPathfinder.TryGetPath(currentPosition, _targetPoint, out Vector2[] refreshedPath))
+                {
+                    _currentPath = refreshedPath;
+                    _currentWaypointIndex = 0;
+                }
+            }
+
+            Vector2 moveDir = Vector2.zero;
+            if (_currentPath != null && _currentPath.Length > 0)
+            {
+                moveDir = NavMeshPathfinder.GetSteeringDirection(currentPosition, _currentPath, ref _currentWaypointIndex);
+            }
+
+            if (moveDir == Vector2.zero)
+            {
+                Vector2 toTarget = _targetPoint - currentPosition;
+                moveDir = toTarget.sqrMagnitude > 0.0001f ? toTarget.normalized : Vector2.zero;
+            }
+
+            Vector2 nextPosition = currentPosition + moveDir * (currentSpeed * Time.fixedDeltaTime);
             if (_arenaBounds != null)
             {
                 nextPosition = _arenaBounds.Clamp(nextPosition);
@@ -163,6 +192,22 @@ namespace RainbowsEnd.Gameplay.Unicorn
             {
                 transform.up = delta.normalized;
             }
+
+            // Detect if stuck against an obstacle
+            if (Vector2.Distance(currentPosition, _lastPosition) < 0.04f * currentSpeed * Time.fixedDeltaTime)
+            {
+                _stuckTimer += Time.fixedDeltaTime;
+                if (_stuckTimer >= 1.2f)
+                {
+                    _stuckTimer = 0f;
+                    ChooseNextTarget();
+                }
+            }
+            else
+            {
+                _stuckTimer = 0f;
+            }
+            _lastPosition = currentPosition;
 
             UpdatePotWarning();
             UpdateHoofSparklesNearPlayer(currentPosition);
@@ -280,6 +325,10 @@ namespace RainbowsEnd.Gameplay.Unicorn
             body.freezeRotation = true;
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            if (bodyCollider != null)
+            {
+                bodyCollider.isTrigger = false;
+            }
         }
 
         private bool ShouldRetarget(Vector2 currentPosition)
@@ -289,7 +338,18 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 return true;
             }
 
-            return Vector2.Distance(currentPosition, _targetPoint) <= ResolveArrivalDistance();
+            if (Vector2.Distance(currentPosition, _targetPoint) <= ResolveArrivalDistance())
+            {
+                return true;
+            }
+
+            if (_currentPath != null && _currentWaypointIndex >= _currentPath.Length - 1 &&
+                Vector2.Distance(currentPosition, _targetPoint) <= ResolveArrivalDistance() * 2f)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void ChooseNextTarget()
@@ -301,43 +361,78 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 ? _arenaBounds.WorldRect
                 : new Rect(origin - new Vector2(4f, 2.5f), new Vector2(8f, 5f));
 
-            if (_currentTargetSide.HasValue)
+            bool pathFound = false;
+
+            for (int attempt = 0; attempt < 6; attempt++)
             {
-                Vector2 wallNormal = UnicornRoamingUtility.GetWallNormal(_currentTargetSide.Value);
-                float angle = Random.Range(
-                    config != null ? config.BounceAngleMinDegrees : 45f,
-                    config != null ? config.BounceAngleMaxDegrees : 135f);
-                if (Random.value < 0.5f)
+                Vector2 candidate;
+                if (_currentTargetSide.HasValue && attempt == 0)
                 {
-                    angle = -angle;
-                }
+                    Vector2 wallNormal = UnicornRoamingUtility.GetWallNormal(_currentTargetSide.Value);
+                    float angle = Random.Range(
+                        config != null ? config.BounceAngleMinDegrees : 45f,
+                        config != null ? config.BounceAngleMaxDegrees : 135f);
+                    if (Random.value < 0.5f)
+                    {
+                        angle = -angle;
+                    }
 
-                Vector2 bounceDirection = Quaternion.Euler(0f, 0f, angle) * wallNormal;
-
-                if (UnicornRoamingUtility.TryGetBoundaryIntersection(
-                        origin, bounceDirection, bounds, _currentTargetSide,
-                        out ArenaBoundarySide nextSide, out Vector2 intersection))
-                {
-                    _currentTargetSide = nextSide;
-                    _targetPoint = intersection;
+                    Vector2 bounceDirection = Quaternion.Euler(0f, 0f, angle) * wallNormal;
+                    if (UnicornRoamingUtility.TryGetBoundaryIntersection(
+                            origin, bounceDirection, bounds, _currentTargetSide,
+                            out ArenaBoundarySide nextSide, out Vector2 intersection))
+                    {
+                        _currentTargetSide = nextSide;
+                        candidate = intersection;
+                    }
+                    else
+                    {
+                        _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(_currentTargetSide, Random.value);
+                        candidate = UnicornRoamingUtility.SelectBoundaryTarget(
+                            bounds, _currentTargetSide.Value, Random.value,
+                            config != null ? config.BoundaryCornerPadding : 1f);
+                    }
                 }
                 else
                 {
                     _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(_currentTargetSide, Random.value);
-                    _targetPoint = UnicornRoamingUtility.SelectBoundaryTarget(
+                    candidate = UnicornRoamingUtility.SelectBoundaryTarget(
                         bounds, _currentTargetSide.Value, Random.value,
                         config != null ? config.BoundaryCornerPadding : 1f);
                 }
+
+                // Sample candidate on NavMesh
+                Vector3 candidate3D = new Vector3(candidate.x, candidate.y, 0f);
+                if (UnityEngine.AI.NavMesh.SamplePosition(candidate3D, out UnityEngine.AI.NavMeshHit hit, 8f, UnityEngine.AI.NavMesh.AllAreas))
+                {
+                    Vector2 validTarget = new Vector2(hit.position.x, hit.position.y);
+                    if (NavMeshPathfinder.TryGetPath(origin, validTarget, out Vector2[] path))
+                    {
+                        _targetPoint = validTarget;
+                        _currentPath = path;
+                        _currentWaypointIndex = 0;
+                        pathFound = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (attempt == 0)
+                    {
+                        _targetPoint = candidate;
+                    }
+                }
             }
-            else
+
+            if (!pathFound)
             {
-                _currentTargetSide = UnicornRoamingUtility.SelectNextBoundarySide(null, Random.value);
-                _targetPoint = UnicornRoamingUtility.SelectBoundaryTarget(
-                    bounds, _currentTargetSide.Value, Random.value,
-                    config != null ? config.BoundaryCornerPadding : 1f);
+                _currentPath = null;
+                _currentWaypointIndex = 0;
             }
 
             _retargetCooldown = Mathf.Max(0.1f, config != null ? config.RetargetIntervalSeconds : 1f);
+            _stuckTimer = 0f;
+            _lastPosition = origin;
         }
 
         private float ResolveArrivalDistance()

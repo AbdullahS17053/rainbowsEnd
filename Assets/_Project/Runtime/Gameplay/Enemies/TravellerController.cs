@@ -35,6 +35,7 @@ namespace RainbowsEnd.Gameplay.Enemies
         [SerializeField] private TextMeshPro theftLabel;
         [SerializeField] private Animator animator;
         [SerializeField] private GameObject carriedBag;
+        [SerializeField] private HealthStageFeedbackPresenter healthFeedbackPresenter;
 
 
         private readonly List<PotController> _candidatePots = new List<PotController>();
@@ -212,32 +213,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void RefreshTheftLabel()
         {
-            if (theftLabel == null)
-            {
-                return;
-            }
-
-            if (_deathHandled || (health != null && health.IsDepleted))
-            {
-                ClearTheftLabel();
-                return;
-            }
-
-            int wholeStolenGold = potDrain != null ? Mathf.FloorToInt(potDrain.StolenGold) : 0;
-            string targetText = wholeStolenGold > 0 ? $"Thief ({wholeStolenGold}g)" : "Thief";
-
-            if (_displayedStolenGold != wholeStolenGold || theftLabel.text != targetText)
-            {
-                theftLabel.text = targetText;
-                _displayedStolenGold = wholeStolenGold;
-            }
-
-            if (!theftLabel.gameObject.activeSelf)
-            {
-                theftLabel.gameObject.SetActive(true);
-            }
-
-            UpdateTheftLabelTransform();
+            ClearTheftLabel();
         }
 
 
@@ -354,8 +330,11 @@ namespace RainbowsEnd.Gameplay.Enemies
             ConfigureBody();
             potDrain?.Configure(this, bodyCollider);
             CacheBaseColor(forceRefresh: true);
-            ApplyVisualState(isDraining: false);
-            ResetPresentation();
+            if (Application.isPlaying)
+            {
+                ApplyVisualState(isDraining: false);
+                ResetPresentation();
+            }
         }
 
         private void Awake()
@@ -457,10 +436,43 @@ namespace RainbowsEnd.Gameplay.Enemies
 
             Vector2 toFleeTarget = _fleeTarget - body.position;
             float fleeArrivalDistance = ResolveStopDistance() * 2f;
-            if (toFleeTarget.sqrMagnitude <= fleeArrivalDistance * fleeArrivalDistance)
+            bool isOutside = _arenaBounds != null && !_arenaBounds.Contains(body.position);
+            bool reachedTarget = toFleeTarget.sqrMagnitude <= fleeArrivalDistance * fleeArrivalDistance;
+
+            if (reachedTarget || isOutside)
             {
                 DespawnFleeing();
                 return;
+            }
+
+            _pathRefreshTimer -= Time.fixedDeltaTime;
+            if (_currentPath == null || _pathRefreshTimer <= 0f)
+            {
+                if (NavMeshPathfinder.TryGetPath(body.position, _fleeTarget, out Vector2[] newPath))
+                {
+                    _currentPath = newPath;
+                    _currentWaypointIndex = 0;
+                }
+                else
+                {
+                    if (EnemyEscapeRoutingUtility.TryFindBestEscapePath(body.position, _arenaBounds, out Vector2 newExit, out Vector2[] altPath))
+                    {
+                        _fleeTarget = newExit;
+                        _currentPath = altPath;
+                        _currentWaypointIndex = 0;
+                    }
+                }
+                _pathRefreshTimer = 0.5f;
+            }
+
+            Vector2 moveDir = Vector2.zero;
+            if (_currentPath != null)
+            {
+                moveDir = NavMeshPathfinder.GetSteeringDirection(body.position, _currentPath, ref _currentWaypointIndex);
+            }
+            if (moveDir == Vector2.zero)
+            {
+                moveDir = toFleeTarget.normalized;
             }
 
             float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
@@ -478,7 +490,7 @@ namespace RainbowsEnd.Gameplay.Enemies
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
-            Vector2 targetVelocity = toFleeTarget.normalized * fleeSpeed;
+            Vector2 targetVelocity = moveDir * fleeSpeed;
             Vector2 combinedVelocity = targetVelocity + separation;
             if (combinedVelocity.sqrMagnitude > fleeSpeed * fleeSpeed)
             {
@@ -493,20 +505,26 @@ namespace RainbowsEnd.Gameplay.Enemies
         {
             _currentState = TravellerState.Fleeing;
             ResolveArenaBounds();
+            _isPatroling = false;
+            _currentTarget = null;
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
 
-            if (_arenaBounds != null)
+            Vector2 currentPos = body != null ? body.position : (Vector2)transform.position;
+            if (EnemyEscapeRoutingUtility.TryFindBestEscapePath(currentPos, _arenaBounds, out Vector2 bestExit, out Vector2[] path))
             {
-                _fleeTarget = _arenaBounds.GetNearestEdgePoint(body != null ? body.position : transform.position);
+                _fleeTarget = bestExit;
+                _currentPath = path;
+                _currentWaypointIndex = 0;
             }
             else
             {
-                _fleeTarget = body != null
-                    ? body.position + (Vector2)transform.up * 20f
-                    : transform.position + transform.up * 20f;
+                _fleeTarget = _arenaBounds != null
+                    ? _arenaBounds.GetNearestEdgePoint(currentPos)
+                    : currentPos + (Vector2)transform.up * 20f;
             }
 
-            _isPatroling = false;
-            _currentTarget = null;
             ApplyVisualState(isDraining: false);
         }
 
@@ -541,7 +559,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             }
 
             runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
-            runDirector?.RecordKill();
+            runDirector?.RecordKill(transform.position);
         }
 
         private void RecordSuccessfulTheftEscape()
@@ -656,6 +674,11 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (visualRenderer == null)
             {
                 visualRenderer = GetComponentInChildren<SpriteRenderer>();
+            }
+            healthFeedbackPresenter ??= GetComponent<HealthStageFeedbackPresenter>() ?? GetComponentInChildren<HealthStageFeedbackPresenter>();
+            if (healthFeedbackPresenter == null && Application.isPlaying)
+            {
+                healthFeedbackPresenter = gameObject.AddComponent<HealthStageFeedbackPresenter>();
             }
         }
 
@@ -906,7 +929,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             ClearTheftLabel();
             ResetPresentation();
             ApplyVisualState(isDraining: false);
-            if (animator != null && _hasDieParameter)
+            if (animator != null && animator.runtimeAnimatorController != null && _hasDieParameter)
             {
                 animator.SetTrigger("Die");
             }
@@ -1002,7 +1025,7 @@ namespace RainbowsEnd.Gameplay.Enemies
             bool carryLoot = ShouldCarryLoot();
             bool pick = ShouldPick();
 
-            if (animator != null)
+            if (animator != null && animator.runtimeAnimatorController != null && Application.isPlaying)
             {
                 if (_hasRunToCarriedPotParameter)
                 {
@@ -1027,7 +1050,7 @@ namespace RainbowsEnd.Gameplay.Enemies
 
         private void ResetPresentation()
         {
-            if (animator != null && animator.runtimeAnimatorController != null)
+            if (animator != null && animator.runtimeAnimatorController != null && Application.isPlaying)
             {
                 if (_hasRunToCarriedPotParameter)
                 {

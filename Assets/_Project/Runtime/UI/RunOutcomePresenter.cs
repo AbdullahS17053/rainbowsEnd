@@ -89,9 +89,10 @@ namespace RainbowsEnd.UI
                 titleText.text = outcome == RunOutcome.Win ? "You Win!" : "You Lose";
             }
 
+            int currentWave = completedWaveCount + 1;
             string baseBody = outcome == RunOutcome.Win
-                ? $"All {Mathf.Max(0, totalWaveCount)} waves cleared."
-                : $"All pots were destroyed during wave {Mathf.Clamp(completedWaveCount + 1, 1, Mathf.Max(1, totalWaveCount))} of {Mathf.Max(1, totalWaveCount)}.";
+                ? (totalWaveCount > 0 && totalWaveCount < 1000 ? $"All {totalWaveCount} waves cleared." : "All waves cleared.")
+                : $"All pots were destroyed during wave {currentWave}.";
 
             if (scoreText != null)
             {

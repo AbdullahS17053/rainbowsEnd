@@ -48,9 +48,9 @@ namespace RainbowsEnd.Editor
                 0.85f,
                 new Vector2(0.92f, 1.08f),
                 false,
-                "etfx_shoot_magic.wav",
-                "etfx_shoot_energy01.wav",
-                "etfx_shoot_energy02.wav"
+                "etfx_shoot_pistol02.wav",
+                "etfx_shoot_pistol03.wav",
+                "etfx_shoot_laser.wav"
             );
 
             AudioCueSO impactCue = CreateOrUpdateCue(

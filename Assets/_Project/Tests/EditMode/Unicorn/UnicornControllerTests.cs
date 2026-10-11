@@ -95,6 +95,27 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
             {
                 Object.DestroyImmediate(potObject);
                 Object.DestroyImmediate(unicornObject);
+            }
+        }
+
+        [Test]
+        public void ConfigureBody_SetsColliderToNonTrigger()
+        {
+            UnicornConfig unicornConfig = ScriptableObject.CreateInstance<UnicornConfig>();
+            GameObject unicornObject = new GameObject("Unicorn");
+            try
+            {
+                Rigidbody2D body = unicornObject.AddComponent<Rigidbody2D>();
+                CircleCollider2D bodyCollider = unicornObject.AddComponent<CircleCollider2D>();
+                bodyCollider.isTrigger = true;
+                UnicornController unicorn = unicornObject.AddComponent<UnicornController>();
+                unicorn.Configure(unicornConfig, body, bodyCollider, null, null);
+
+                Assert.That(bodyCollider.isTrigger, Is.False);
+            }
+            finally
+            {
+                Object.DestroyImmediate(unicornObject);
                 Object.DestroyImmediate(unicornConfig);
             }
         }

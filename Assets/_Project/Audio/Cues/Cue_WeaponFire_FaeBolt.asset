@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer: 2
   clips:
-  - {fileID: 8300000, guid: 101106cd810615041bb13f121e59a2d7, type: 3}
-  - {fileID: 8300000, guid: 08ef3735b9527d54ab97d0e9fc9d505d, type: 3}
-  - {fileID: 8300000, guid: 282f2e6fd1d7d854d8e2258943dbdcb1, type: 3}
+  - {fileID: 8300000, guid: c922c34f559ead440a273a13a924cfc7, type: 3}
+  - {fileID: 8300000, guid: 38d95e38f52f6a54b888d9fd555fa1e3, type: 3}
+  - {fileID: 8300000, guid: b45b19776b2e15e48947a75b76ccca86, type: 3}
   volume: 0.85
   pitchRange: {x: 0.92, y: 1.08}
   bypassEarshot: 0

@@ -12,8 +12,13 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private PlayerInputReader inputReader;
         [SerializeField] private PlayerPotCarryController carryController;
         [SerializeField] private PlayerWallet wallet;
+        [SerializeField] private Animator feedbackAnimator;
+        [SerializeField] private bool requireHoldKey = false;
         [SerializeField] [Min(0.5f)] private float channelDurationSeconds = 2.0f;
-        [SerializeField] [Min(0.5f)] private float maxInteractionDistance = 1.5f;
+        [SerializeField] [Min(0.5f)] private float maxInteractionDistance = 2.5f;
+
+        private static readonly int DrinkTriggerHash = Animator.StringToHash("Drink");
+        private static readonly int IsBankingBoolHash = Animator.StringToHash("IsBanking");
 
         [Header("Audio (AudioCueSO Preferred)")]
         [SerializeField] private AudioCueSO bankingChantCue;
@@ -24,6 +29,8 @@ namespace RainbowsEnd.Gameplay.Player
         [SerializeField] private AudioClip bankingChantClip;
         [SerializeField] private AudioClip bankingCompleteClip;
         [SerializeField] private AudioClip coughSputterClip;
+
+        public AudioCueSO BankingCompleteCue => bankingCompleteCue;
 
         public void ConfigureAudioCues(AudioCueSO chant, AudioCueSO complete, AudioCueSO cough)
         {
@@ -46,12 +53,20 @@ namespace RainbowsEnd.Gameplay.Player
         public float CurrentProgress => _isBanking && channelDurationSeconds > 0f ? Mathf.Clamp01(_currentChannelTime / channelDurationSeconds) : 0f;
         public PotController TargetPot => _targetPot;
 
-        public void Configure(PlayerRoot root, PlayerInputReader reader, PlayerPotCarryController potCarry, PlayerWallet playerWallet)
+        public void Configure(PlayerRoot root, PlayerInputReader reader, PlayerPotCarryController potCarry, PlayerWallet playerWallet, Animator animator = null)
         {
             playerRoot = root;
             inputReader = reader;
             carryController = potCarry;
             wallet = playerWallet;
+            if (animator != null)
+            {
+                feedbackAnimator = animator;
+            }
+            else if (playerRoot != null && feedbackAnimator == null)
+            {
+                feedbackAnimator = playerRoot.FeedbackAnimator;
+            }
         }
 
         private void Reset()
@@ -119,6 +134,11 @@ namespace RainbowsEnd.Gameplay.Player
             inputReader ??= GetComponent<PlayerInputReader>();
             carryController ??= GetComponent<PlayerPotCarryController>();
             wallet ??= GetComponent<PlayerWallet>();
+            if (feedbackAnimator == null && playerRoot != null)
+            {
+                feedbackAnimator = playerRoot.FeedbackAnimator;
+            }
+            feedbackAnimator ??= GetComponentInChildren<Animator>();
         }
 
         private void TryStartBanking()
@@ -133,6 +153,12 @@ namespace RainbowsEnd.Gameplay.Player
             _isBanking = true;
             _currentChannelTime = 0f;
             _bankingStartPosition = playerRoot.Body != null ? playerRoot.Body.position : (Vector2)transform.position;
+
+            if (feedbackAnimator != null)
+            {
+                feedbackAnimator.SetBool(IsBankingBoolHash, true);
+                feedbackAnimator.SetTrigger(DrinkTriggerHash);
+            }
 
             if (bankingChantCue != null)
             {
@@ -154,8 +180,8 @@ namespace RainbowsEnd.Gameplay.Player
                 return;
             }
 
-            // Key must remain held
-            if (!inputReader.DrinkGoldHeld)
+            // Key must remain held only when requireHoldKey is enabled
+            if (requireHoldKey && !inputReader.DrinkGoldHeld)
             {
                 CancelBanking(interrupted: true);
                 return;
@@ -163,7 +189,7 @@ namespace RainbowsEnd.Gameplay.Player
 
             // Check player movement interruption
             Vector2 currentPosition = playerRoot.Body != null ? playerRoot.Body.position : (Vector2)transform.position;
-            if (Vector2.Distance(currentPosition, _bankingStartPosition) > 0.25f || inputReader.MoveInput.sqrMagnitude > 0.05f)
+            if (Vector2.Distance(currentPosition, _bankingStartPosition) > 0.5f || inputReader.MoveInput.sqrMagnitude > 0.05f)
             {
                 CancelBanking(interrupted: true);
                 return;
@@ -185,6 +211,12 @@ namespace RainbowsEnd.Gameplay.Player
             {
                 CancelBanking(interrupted: false);
                 return;
+            }
+
+            if (feedbackAnimator != null)
+            {
+                feedbackAnimator.SetBool(IsBankingBoolHash, false);
+                feedbackAnimator.ResetTrigger(DrinkTriggerHash);
             }
 
             int goldBanked = _targetPot.BankAllGold();
@@ -219,6 +251,12 @@ namespace RainbowsEnd.Gameplay.Player
             if (!_isBanking)
             {
                 return;
+            }
+
+            if (feedbackAnimator != null)
+            {
+                feedbackAnimator.SetBool(IsBankingBoolHash, false);
+                feedbackAnimator.ResetTrigger(DrinkTriggerHash);
             }
 
             PotController interruptedPot = _targetPot;

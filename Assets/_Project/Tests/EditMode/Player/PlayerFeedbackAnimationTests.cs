@@ -57,12 +57,36 @@ namespace RainbowsEnd.Tests.EditMode.Player
         }
 
         [Test]
+        public void PlayerFeedbackController_ContainsDrinkBankingFlow()
+        {
+            AnimatorController controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath);
+            Assert.That(controller, Is.Not.Null);
+
+            AnimatorControllerParameter drinkParameter = FindParameter(controller, "Drink");
+            AnimatorControllerParameter isBankingParameter = FindParameter(controller, "IsBanking");
+
+            Assert.That(drinkParameter, Is.Not.Null);
+            Assert.That(drinkParameter.type, Is.EqualTo(AnimatorControllerParameterType.Trigger));
+            Assert.That(isBankingParameter, Is.Not.Null);
+            Assert.That(isBankingParameter.type, Is.EqualTo(AnimatorControllerParameterType.Bool));
+
+            AnimatorStateMachine stateMachine = controller.layers[0].stateMachine;
+            AnimatorState drinkState = FindState(stateMachine, "Drink");
+            Assert.That(drinkState, Is.Not.Null);
+            Assert.That(drinkState.motion, Is.Not.Null);
+
+            AnimatorStateTransition anyToDrink = FindTransition(stateMachine.anyStateTransitions, drinkState);
+            Assert.That(anyToDrink, Is.Not.Null);
+            Assert.That(HasCondition(anyToDrink, "Drink"), Is.True);
+        }
+
+        [Test]
         public void PlayerPrefab_UsesFeedbackControllerAndInactiveStars()
         {
             GameObject root = PrefabUtility.LoadPrefabContents(PlayerPrefabPath);
             try
             {
-                Animator animator = root.transform.Find("VisualRoot/Fairy Visual").GetComponent<Animator>();
+                Animator animator = root.transform.Find("VisualRoot/Fairy Visual")?.GetComponent<Animator>() ?? root.GetComponentInChildren<Animator>();
                 GameObject stars = root.transform.Find("StunFeedback").gameObject;
                 PlayerRoot playerRoot = root.GetComponent<PlayerRoot>();
                 SerializedObject serialized = new SerializedObject(playerRoot);

@@ -95,7 +95,13 @@ namespace RainbowsEnd.UI
         {
             SetText(ammoText, FormatAmmo(weaponInventory), ref _lastAmmo);
             SetText(timeText, FormatTime(runDirector != null ? runDirector.ElapsedRunSeconds : 0f), ref _lastTime);
-            SetText(killsText, FormatKills(runDirector != null ? runDirector.KillCount : 0), ref _lastKills);
+            int streak = Gameplay.Combat.KillstreakManager.Instance != null && Gameplay.Combat.KillstreakManager.Instance.IsStreakActive
+                ? Gameplay.Combat.KillstreakManager.Instance.CurrentStreak
+                : 0;
+            string killsString = streak > 1
+                ? $"{FormatKills(runDirector != null ? runDirector.KillCount : 0)}  <color=#FFD700>[Streak: {streak}]</color>"
+                : FormatKills(runDirector != null ? runDirector.KillCount : 0);
+            SetText(killsText, killsString, ref _lastKills);
             SetText(escapesText, FormatEscapes(runDirector != null ? runDirector.SuccessfulTheftEscapeCount : 0), ref _lastEscapes);
         }
 

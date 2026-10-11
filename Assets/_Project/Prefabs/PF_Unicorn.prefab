@@ -95,7 +95,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   unicornController: {fileID: 4144611096097767695}
   poolObjectName: RainbowTrailPool
   trailPool: {fileID: 0}
+  rearOffset: 0.55
 --- !u!114 &4144611096097767695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +279,7 @@ MonoBehaviour:
   endWidth: 0.02
   sortingOrder: 15
   sortingLayerName: Default
+  emitFromTail: 0
 --- !u!1 &6764870528971936611
 GameObject:
   m_ObjectHideFlags: 0

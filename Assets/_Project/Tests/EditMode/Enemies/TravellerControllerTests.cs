@@ -11,7 +11,7 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
     public sealed class TravellerControllerTests
     {
         [Test]
-        public void TheftLabel_ShowsWholeStolenGoldWhileStealing_AndClearsOnDespawn()
+        public void TheftLabel_KeptInactive_NoStaticOverlayAboveThief()
         {
             GameObject traveller = new GameObject("Traveller");
             GameObject labelObject = new GameObject("TheftLabel");
@@ -32,23 +32,18 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
 
                 SetField(controller, "theftLabel", label);
                 SetField(controller, "_currentState", TravellerState.Draining);
-                SetField(potDrain, "_stolenGold", 0.9f);
+                SetField(potDrain, "_stolenGold", 2.9f);
                 InvokeRefresh(controller);
 
                 Assert.That(label.gameObject.activeSelf, Is.False);
                 Assert.That(GetLabelText(label), Is.Empty);
 
-                SetField(potDrain, "_stolenGold", 2.9f);
-                InvokeRefresh(controller);
-
-                Assert.That(label.gameObject.activeSelf, Is.True);
-                Assert.That(GetLabelText(label), Is.EqualTo("2g"));
-
                 SetField(potDrain, "_stolenGold", 3.1f);
                 SetField(controller, "_currentState", TravellerState.Fleeing);
                 InvokeRefresh(controller);
 
-                Assert.That(GetLabelText(label), Is.EqualTo("3g"));
+                Assert.That(label.gameObject.activeSelf, Is.False);
+                Assert.That(GetLabelText(label), Is.Empty);
 
                 controller.OnDespawned();
 
@@ -168,5 +163,33 @@ namespace RainbowsEnd.Tests.EditMode.Enemies
             return (bool)method.Invoke(controller, null);
         }
 
+        [Test]
+        public void StartFleeing_InitializesFleeTargetAndSwitchesState()
+        {
+            GameObject traveller = new GameObject("Traveller");
+            try
+            {
+                Rigidbody2D body = traveller.AddComponent<Rigidbody2D>();
+                CircleCollider2D bodyCollider = traveller.AddComponent<CircleCollider2D>();
+                Health health = traveller.AddComponent<Health>();
+                PotDrain potDrain = traveller.AddComponent<PotDrain>();
+                TravellerController controller = traveller.AddComponent<TravellerController>();
+                controller.Configure(null, body, bodyCollider, health, potDrain, null);
+
+                MethodInfo startFleeing = typeof(TravellerController).GetMethod("StartFleeing", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(startFleeing, Is.Not.Null);
+                startFleeing.Invoke(controller, null);
+
+                FieldInfo stateField = typeof(TravellerController).GetField("_currentState", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That((TravellerState)stateField.GetValue(controller), Is.EqualTo(TravellerState.Fleeing));
+
+                FieldInfo targetField = typeof(TravellerController).GetField("_fleeTarget", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That((Vector2)targetField.GetValue(controller), Is.Not.EqualTo(Vector2.zero));
+            }
+            finally
+            {
+                Object.DestroyImmediate(traveller);
+            }
+        }
     }
 }

@@ -454,12 +454,12 @@ private void TickEscaping()
             TickEscortEscaping(carrier);
         }
 
-private void TickCarrierEscaping()
+        private void TickCarrierEscaping()
         {
             ResolveArenaBounds();
-            Vector2 edgeTarget = _arenaBounds != null
-                ? _arenaBounds.GetNearestEdgePoint(body.position)
-                : body.position + (Vector2)transform.up * 20f;
+            Vector2 edgeTarget = _fleeTarget != Vector2.zero
+                ? _fleeTarget
+                : (_arenaBounds != null ? _arenaBounds.GetNearestEdgePoint(body.position) : body.position + (Vector2)transform.up * 20f);
 
             if (!_targetPotWasConcealed)
             {
@@ -472,7 +472,38 @@ private void TickCarrierEscaping()
                 }
             }
 
+            _pathRefreshTimer -= Time.fixedDeltaTime;
+            if (_currentPath == null || _pathRefreshTimer <= 0f)
+            {
+                if (NavMeshPathfinder.TryGetPath(body.position, edgeTarget, out Vector2[] newPath))
+                {
+                    _currentPath = newPath;
+                    _currentWaypointIndex = 0;
+                }
+                else
+                {
+                    if (EnemyEscapeRoutingUtility.TryFindBestEscapePath(body.position, _arenaBounds, out Vector2 newExit, out Vector2[] altPath))
+                    {
+                        _fleeTarget = newExit;
+                        edgeTarget = newExit;
+                        _currentPath = altPath;
+                        _currentWaypointIndex = 0;
+                    }
+                }
+                _pathRefreshTimer = 0.5f;
+            }
+
             Vector2 toEdge = edgeTarget - body.position;
+            Vector2 moveDir = Vector2.zero;
+            if (_currentPath != null)
+            {
+                moveDir = NavMeshPathfinder.GetSteeringDirection(body.position, _currentPath, ref _currentWaypointIndex);
+            }
+            if (moveDir == Vector2.zero)
+            {
+                moveDir = toEdge.normalized;
+            }
+
             float fleeSpeed = config != null ? config.MoveSpeed * config.FleeSpeedMultiplier : 5f;
 
             Vector2 separation = EnemySeparationUtility.CalculateSeparation(
@@ -480,7 +511,7 @@ private void TickCarrierEscaping()
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
-            Vector2 combinedVelocity = toEdge.normalized * fleeSpeed + separation;
+            Vector2 combinedVelocity = moveDir * fleeSpeed + separation;
             if (combinedVelocity.sqrMagnitude > fleeSpeed * fleeSpeed)
             {
                 combinedVelocity = combinedVelocity.normalized * fleeSpeed;
@@ -489,19 +520,34 @@ private void TickCarrierEscaping()
             body.linearVelocity = combinedVelocity;
             _carriedPot.SetCarriedMilitaryPosition(body.position);
 
-            if (visualRoot != null)
+            if (visualRoot != null && moveDir != Vector2.zero)
             {
-                visualRoot.up = toEdge.normalized;
+                visualRoot.up = moveDir;
             }
 
             float edgeArrivalDistance = (bodyCollider as CircleCollider2D)?.radius * 2f + 0.1f ?? 0.5f;
-            if (toEdge.sqrMagnitude <= edgeArrivalDistance * edgeArrivalDistance)
+            bool isOutside = _arenaBounds != null && !_arenaBounds.Contains(body.position);
+            bool reachedTarget = toEdge.sqrMagnitude <= edgeArrivalDistance * edgeArrivalDistance;
+
+            if (reachedTarget || isOutside)
             {
                 PotController potToDestroy = _carriedPot;
                 MilitaryController partner = FindCarryPartner(potToDestroy);
                 partner?.ClearCarryState();
                 ClearCarryState();
-                potToDestroy.DestroyByMilitary(this);
+
+                RunDirector runDirector = null;
+                if (Core.Bootstrap.ProjectContext.Instance?.Services.TryGet(out RunDirector registeredDirector) == true)
+                {
+                    runDirector = registeredDirector;
+                }
+                runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
+                runDirector?.RecordSuccessfulTheftEscape();
+
+                potToDestroy?.DestroyByMilitary(this);
+
+                partner?.DespawnFromEscape();
+                DespawnFromEscape();
             }
         }
 
@@ -516,9 +562,30 @@ private void TickCarrierEscaping()
                 config != null ? config.SeparationRadius : 0.6f,
                 config != null ? config.SeparationStrength : 2f);
 
+            _pathRefreshTimer -= Time.fixedDeltaTime;
+            if (_currentPath == null || _pathRefreshTimer <= 0f)
+            {
+                if (NavMeshPathfinder.TryGetPath(body.position, carrier.body.position, out Vector2[] newPath))
+                {
+                    _currentPath = newPath;
+                    _currentWaypointIndex = 0;
+                }
+                _pathRefreshTimer = 0.5f;
+            }
+
+            Vector2 moveDir = Vector2.zero;
+            if (_currentPath != null)
+            {
+                moveDir = NavMeshPathfinder.GetSteeringDirection(body.position, _currentPath, ref _currentWaypointIndex);
+            }
+            if (moveDir == Vector2.zero)
+            {
+                moveDir = toCarrier.normalized;
+            }
+
             if (toCarrier.sqrMagnitude > escortDistance * escortDistance)
             {
-                Vector2 combinedVelocity = toCarrier.normalized * moveSpeed + separation;
+                Vector2 combinedVelocity = moveDir * moveSpeed + separation;
                 if (combinedVelocity.sqrMagnitude > moveSpeed * moveSpeed)
                 {
                     combinedVelocity = combinedVelocity.normalized * moveSpeed;
@@ -531,15 +598,32 @@ private void TickCarrierEscaping()
                 body.linearVelocity = separation;
             }
 
-            if (visualRoot != null)
+            if (visualRoot != null && body.linearVelocity != Vector2.zero)
             {
-                visualRoot.up = toCarrier.normalized;
+                visualRoot.up = body.linearVelocity.normalized;
             }
         }
 
         private void StartEscaping()
         {
             ResolveArenaBounds();
+            _currentPath = null;
+            _currentWaypointIndex = 0;
+            _pathRefreshTimer = 0f;
+
+            Vector2 currentPos = body != null ? body.position : (Vector2)transform.position;
+            if (EnemyEscapeRoutingUtility.TryFindBestEscapePath(currentPos, _arenaBounds, out Vector2 bestExit, out Vector2[] path))
+            {
+                _fleeTarget = bestExit;
+                _currentPath = path;
+                _currentWaypointIndex = 0;
+            }
+            else
+            {
+                _fleeTarget = _arenaBounds != null
+                    ? _arenaBounds.GetNearestEdgePoint(currentPos)
+                    : currentPos + (Vector2)transform.up * 20f;
+            }
         }
 
 private void TickPoliceStyleCombat()
@@ -888,6 +972,24 @@ private MilitaryController FindCarrier(PotController pot)
             }, 3.0f);
         }
 
+        public void DespawnFromEscape()
+        {
+            ClearCarryState();
+            SetAimTelegraphVisible(false);
+            _owningSpawner?.NotifyMilitaryDespawned(this);
+
+            PrefabPool owningPool = _owningPool;
+            _owningPool = null;
+            if (owningPool != null)
+            {
+                owningPool.Return(gameObject);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
         private void RecordKill()
         {
             RunDirector runDirector = null;
@@ -897,7 +999,7 @@ private MilitaryController FindCarrier(PotController pot)
             }
 
             runDirector ??= FindFirstObjectByType<RunDirector>(FindObjectsInactive.Include);
-            runDirector?.RecordKill();
+            runDirector?.RecordKill(transform.position);
         }
 
         private void SpawnWeaponPickup()
@@ -1120,11 +1222,15 @@ private void ApplyWeaponVisual()
 
             if (rifleVisual != null)
             {
+                rifleVisual.transform.localPosition = new Vector3(0.102f, 0.022f, 0f);
+                rifleVisual.transform.localRotation = Quaternion.Euler(0f, 81.464f, -181.212f);
                 rifleVisual.SetActive(useRifle);
             }
 
             if (shotgunVisual != null)
             {
+                shotgunVisual.transform.localPosition = new Vector3(0.10f, 0.02f, 0f);
+                shotgunVisual.transform.localRotation = Quaternion.Euler(0f, 82f, -180f);
                 shotgunVisual.SetActive(useShotgun);
             }
         }

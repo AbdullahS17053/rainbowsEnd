@@ -15,19 +15,19 @@ namespace RainbowsEnd.Editor
         private const string IngotPrefabPath = "Assets/PolygonFantasyKingdom/Prefabs/Items/SM_Item_Ingot_Gold_01.prefab";
         private const string OrePrefabPath = "Assets/PolygonFantasyKingdom/Prefabs/Props/SM_Prop_Ore_Gold_01.prefab";
         private const string CoinFountainPrefabPath = "Assets/Epic Toon FX/Prefabs/Interactive/Money/Coins/GoldCoinFountain.prefab";
+        private const string CoinShowerPrefabPath = "Assets/Epic Toon FX/Prefabs/Interactive/Money/Coins/GoldCoinShower.prefab";
         private const string SparkleSoftPrefabPath = "Assets/Epic Toon FX/Prefabs/Interactive/Loot/ItemSparkleSoft/ItemSparkleSoftYellow.prefab";
         private const string SparkleAreaPrefabPath = "Assets/Epic Toon FX/Prefabs/Interactive/Sparkle/SparkleArea/SparkleAreaYellow.prefab";
         private const string FireworkPrefabPath = "Assets/Epic Toon FX/Prefabs/Environment/Firework/FireworkYellowCluster.prefab";
-        private const string FlarePrefabPath = "Assets/Epic Toon FX/Prefabs/Interactive/Flares/Sharp/FlareSharpYellow.prefab";
 
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
             EditorApplication.delayCall += () =>
             {
-                if (!SessionState.GetBool("PotVisualsBuilt_v1", false))
+                if (!SessionState.GetBool("PotVisualsBuilt_v4", false))
                 {
-                    SessionState.SetBool("PotVisualsBuilt_v1", true);
+                    SessionState.SetBool("PotVisualsBuilt_v4", true);
                     BuildAndAssignPotVisuals();
                 }
             };
@@ -46,10 +46,10 @@ namespace RainbowsEnd.Editor
             GameObject ingotPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(IngotPrefabPath);
             GameObject orePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(OrePrefabPath);
             GameObject coinFountainPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(CoinFountainPrefabPath);
+            GameObject coinShowerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(CoinShowerPrefabPath);
             GameObject sparkleSoftPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(SparkleSoftPrefabPath);
             GameObject sparkleAreaPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(SparkleAreaPrefabPath);
             GameObject fireworkPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(FireworkPrefabPath);
-            GameObject flarePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(FlarePrefabPath);
 
             // Fetch primitive meshes for dome and surface
             GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -79,6 +79,7 @@ namespace RainbowsEnd.Editor
                 CleanUpExisting(root.transform, "ShimmerVFX");
                 CleanUpExisting(root.transform, "FireworksVFX");
                 CleanUpExisting(root.transform, "RainbowFlareVFX");
+                CleanUpExisting(root.transform, "HarvestFlair");
 
                 // 1. TIER 1: Partially Full Visual (1-9 Gold)
                 GameObject partiallyFullObj = new GameObject("PartiallyFullVisual");
@@ -225,17 +226,7 @@ namespace RainbowsEnd.Editor
                 }
                 fireworksObj.SetActive(false);
 
-                GameObject flareObj = new GameObject("RainbowFlareVFX");
-                flareObj.transform.SetParent(root.transform, false);
-                flareObj.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-                if (flarePrefab != null)
-                {
-                    GameObject fl = Object.Instantiate(flarePrefab, flareObj.transform);
-                    fl.name = "FlareBeam";
-                    fl.transform.localPosition = Vector3.zero;
-                    fl.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-                }
-                flareObj.SetActive(false);
+                GameObject flareObj = BuildGoldShowerHarvestFlair(root.transform, coinShowerPrefab, sparkleSoftPrefab);
 
                 // 6. Assign everything to PotController
                 PotController potController = root.GetComponent<PotController>();
@@ -248,7 +239,8 @@ namespace RainbowsEnd.Editor
                         floorPileObj,
                         fireworksObj,
                         flareObj,
-                        shimmerObj);
+                        shimmerObj,
+                        flareObj);
 
                     SerializedObject so = new SerializedObject(potController);
                     SetSerializedProperty(so, "partiallyFullVisual", partiallyFullObj);
@@ -258,6 +250,7 @@ namespace RainbowsEnd.Editor
                     SetSerializedProperty(so, "shimmerVFX", shimmerObj);
                     SetSerializedProperty(so, "fireworksVFX", fireworksObj);
                     SetSerializedProperty(so, "rainbowFlareVFX", flareObj);
+                    SetSerializedProperty(so, "harvestFlair", flareObj);
                     so.ApplyModifiedPropertiesWithoutUndo();
                 }
 
@@ -402,6 +395,79 @@ namespace RainbowsEnd.Editor
                     EditorSceneManager.MarkSceneDirty(scene);
                 }
             }
+        }
+
+        private static GameObject BuildGoldShowerHarvestFlair(
+            Transform parent,
+            GameObject coinShowerPrefab,
+            GameObject sparkleSoftPrefab)
+        {
+            GameObject flareRoot = new GameObject("RainbowFlareVFX");
+            flareRoot.transform.SetParent(parent, false);
+            flareRoot.transform.localPosition = new Vector3(0f, 0.35f, 0f);
+
+            // 1. Tall and thin falling gold coin shower (from Epic Toon FX)
+            if (coinShowerPrefab != null)
+            {
+                GameObject showerObj = Object.Instantiate(coinShowerPrefab, flareRoot.transform);
+                showerObj.name = "GoldCoinShower";
+                // Start tall above the pot mouth (2.8m above mouth, so 3.15m above ground)
+                showerObj.transform.localPosition = new Vector3(0f, 2.8f, 0f);
+                showerObj.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
+                showerObj.transform.localScale = Vector3.one;
+
+                ParticleSystem showerPs = showerObj.GetComponent<ParticleSystem>();
+                if (showerPs != null)
+                {
+                    var main = showerPs.main;
+                    main.loop = true;
+                    main.playOnAwake = true;
+                    main.simulationSpace = ParticleSystemSimulationSpace.Local;
+                    // Fall from 2.8m down to pot mouth:
+                    main.startSpeed = new ParticleSystem.MinMaxCurve(-4.8f, -5.6f);
+                    main.startLifetime = new ParticleSystem.MinMaxCurve(0.52f, 0.64f);
+                    main.startSize = new ParticleSystem.MinMaxCurve(0.14f, 0.20f);
+                    main.gravityModifier = 0.5f;
+
+                    var emission = showerPs.emission;
+                    emission.enabled = true;
+                    emission.rateOverTime = 38f;
+
+                    // Thin column matching pot mouth radius (~0.26m)
+                    var shape = showerPs.shape;
+                    shape.enabled = true;
+                    shape.shapeType = ParticleSystemShapeType.Circle;
+                    shape.radius = 0.26f;
+                    shape.scale = new Vector3(0.52f, 0.52f, 0.1f);
+                }
+
+                // Ensure all particle systems loop and play on awake for duration of harvest
+                foreach (ParticleSystem ps in showerObj.GetComponentsInChildren<ParticleSystem>(true))
+                {
+                    var m = ps.main;
+                    m.loop = true;
+                    m.playOnAwake = true;
+                }
+            }
+
+            // 2. Cauldron Mouth Golden Gleam / Impact Sparkles (where the gold falls into the pot)
+            if (sparkleSoftPrefab != null)
+            {
+                GameObject mouthSparkles = Object.Instantiate(sparkleSoftPrefab, flareRoot.transform);
+                mouthSparkles.name = "PotMouthGoldSparkle";
+                mouthSparkles.transform.localPosition = Vector3.zero;
+                mouthSparkles.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+
+                foreach (ParticleSystem ps in mouthSparkles.GetComponentsInChildren<ParticleSystem>(true))
+                {
+                    var m = ps.main;
+                    m.loop = true;
+                    m.playOnAwake = true;
+                }
+            }
+
+            flareRoot.SetActive(false);
+            return flareRoot;
         }
     }
 }

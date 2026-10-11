@@ -13,7 +13,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         private readonly List<PotController> _overlappingPots = new List<PotController>();
         private PotController _lastResolvedPot;
         private float _stolenGold;
-        private float _accumulatedDrain;
+        private float _drainFloatTimer;
+        private float _stolenInCurrentSecond;
 
         public PotController CurrentPot { get; private set; }
 
@@ -34,6 +35,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             if (CurrentPot == null || drainGoldPerSecond <= 0f)
             {
                 IsDraining = false;
+                _drainFloatTimer = 0f;
+                _stolenInCurrentSecond = 0f;
                 return false;
             }
 
@@ -41,12 +44,26 @@ namespace RainbowsEnd.Gameplay.Enemies
             _stolenGold += stolen;
             IsDraining = stolen > 0f;
 
-            _accumulatedDrain += stolen;
-            if (_accumulatedDrain >= 1f)
+            if (IsDraining)
             {
-                int disp = Mathf.FloorToInt(_accumulatedDrain);
-                _accumulatedDrain -= disp;
-                UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(CurrentPot.transform.position + new Vector3(0f, 0.5f, 0f), disp, isGain: false);
+                _drainFloatTimer += deltaTime;
+                _stolenInCurrentSecond += stolen;
+                if (_drainFloatTimer >= 0.5f)
+                {
+                    _drainFloatTimer -= 0.5f;
+                    int disp = Mathf.RoundToInt(_stolenInCurrentSecond);
+                    if (disp > 0)
+                    {
+                        Vector3 thiefPos = (travellerController != null ? travellerController.transform.position : transform.position) + new Vector3(0f, 0.85f, 0f);
+                        UI.FloatingNumberSpawner.Instance?.SpawnGoldNumber(thiefPos, disp, isGain: false, showSuffix: true);
+                    }
+                    _stolenInCurrentSecond = 0f;
+                }
+            }
+            else
+            {
+                _drainFloatTimer = 0f;
+                _stolenInCurrentSecond = 0f;
             }
 
             return stolen > 0f;
@@ -55,6 +72,8 @@ namespace RainbowsEnd.Gameplay.Enemies
         public void ResetStolenGold()
         {
             _stolenGold = 0f;
+            _drainFloatTimer = 0f;
+            _stolenInCurrentSecond = 0f;
         }
 
         private void Reset()
@@ -75,6 +94,8 @@ namespace RainbowsEnd.Gameplay.Enemies
             CurrentPot = null;
             IsDraining = false;
             _stolenGold = 0f;
+            _drainFloatTimer = 0f;
+            _stolenInCurrentSecond = 0f;
         }
 
         private PotController ResolveBestOverlappingPot()

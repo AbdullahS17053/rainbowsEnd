@@ -32,6 +32,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
     public sealed class RunWaveController
     {
         private readonly WaveDefinition[] _waves;
+        private readonly bool _isEndless;
 
         private int _currentWaveIndex;
         private int _spawnedTravellerCount;
@@ -42,7 +43,13 @@ namespace RainbowsEnd.Gameplay.Orchestration
         private RunOutcome _outcome;
 
         public RunWaveController(IReadOnlyList<WaveDefinition> waves)
+            : this(waves, false)
         {
+        }
+
+        public RunWaveController(IReadOnlyList<WaveDefinition> waves, bool isEndless)
+        {
+            _isEndless = isEndless;
             if (waves == null || waves.Count == 0)
             {
                 _waves = Array.Empty<WaveDefinition>();
@@ -59,15 +66,17 @@ namespace RainbowsEnd.Gameplay.Orchestration
             Reset();
         }
 
+        public bool IsEndless => _isEndless;
+
         public RunOutcome Outcome => _outcome;
 
-        public int TotalWaveCount => _waves.Length;
+        public int TotalWaveCount => _isEndless ? int.MaxValue : _waves.Length;
 
-        public int CurrentWaveIndex => Mathf.Clamp(_currentWaveIndex, 0, Mathf.Max(0, _waves.Length - 1));
+        public int CurrentWaveIndex => _isEndless ? _currentWaveIndex : Mathf.Clamp(_currentWaveIndex, 0, Mathf.Max(0, _waves.Length - 1));
 
         public int CurrentWaveNumber => _waves.Length == 0 ? 0 : CurrentWaveIndex + 1;
 
-        public int CompletedWaveCount => _outcome == RunOutcome.Win ? _waves.Length : Mathf.Clamp(_currentWaveIndex, 0, _waves.Length);
+        public int CompletedWaveCount => _isEndless ? _currentWaveIndex : (_outcome == RunOutcome.Win ? _waves.Length : Mathf.Clamp(_currentWaveIndex, 0, _waves.Length));
 
         public int SpawnedTravellerCount => _spawnedTravellerCount;
 
@@ -75,7 +84,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
 
         public int SpawnedMilitaryCount => _spawnedMilitaryCount;
 
-public void Reset()
+        public void Reset()
         {
             _currentWaveIndex = 0;
             _spawnedTravellerCount = 0;
@@ -83,7 +92,8 @@ public void Reset()
             _spawnedMilitaryCount = 0;
             _nextSpawnType = RunSpawnType.Traveller;
             _outcome = RunOutcome.None;
-            _spawnTimerSeconds = _waves.Length > 0 ? _waves[0].StartDelaySeconds : 0f;
+            WaveDefinition firstWave = GetCurrentWaveDefinition();
+            _spawnTimerSeconds = _waves.Length > 0 ? firstWave.StartDelaySeconds : 0f;
         }
 
         public RunWaveTickResult Tick(
@@ -114,7 +124,7 @@ public void Reset()
                 return new RunWaveTickResult(_outcome, RunSpawnType.None, waveAdvanced: false);
             }
 
-            WaveDefinition currentWave = _waves[_currentWaveIndex];
+            WaveDefinition currentWave = GetCurrentWaveDefinition();
             int activeEnemyCount = Mathf.Max(0, activeTravellerCount) + Mathf.Max(0, activePoliceCount) + Mathf.Max(0, activeMilitaryCount);
 
             if (HasSpawnedCurrentWave(currentWave))
@@ -125,7 +135,7 @@ public void Reset()
                 }
 
                 _currentWaveIndex++;
-                if (_currentWaveIndex >= _waves.Length)
+                if (!_isEndless && _currentWaveIndex >= _waves.Length)
                 {
                     _outcome = RunOutcome.Win;
                     return new RunWaveTickResult(_outcome, RunSpawnType.None, waveAdvanced: true);
@@ -170,13 +180,38 @@ public void Reset()
             return new RunWaveTickResult(RunOutcome.None, nextSpawnType, waveAdvanced: false);
         }
 
-private void StartCurrentWave()
+        private void StartCurrentWave()
         {
             _spawnedTravellerCount = 0;
             _spawnedPoliceCount = 0;
             _spawnedMilitaryCount = 0;
             _nextSpawnType = RunSpawnType.Traveller;
-            _spawnTimerSeconds = _waves[_currentWaveIndex].StartDelaySeconds;
+            WaveDefinition currentWave = GetCurrentWaveDefinition();
+            _spawnTimerSeconds = currentWave.StartDelaySeconds;
+        }
+
+        private WaveDefinition GetCurrentWaveDefinition()
+        {
+            if (_waves.Length == 0)
+            {
+                return default;
+            }
+
+            if (_currentWaveIndex < _waves.Length)
+            {
+                return _waves[_currentWaveIndex];
+            }
+
+            WaveDefinition baseWave = _waves[_waves.Length - 1];
+            int endlessCycle = _currentWaveIndex - _waves.Length + 1;
+            return new WaveDefinition(
+                $"Endless {endlessCycle}",
+                Mathf.Max(1f, baseWave.StartDelaySeconds),
+                Mathf.Max(0.75f, baseWave.SpawnIntervalSeconds - endlessCycle * 0.05f),
+                Mathf.Min(25, baseWave.MaxConcurrentEnemies + endlessCycle),
+                baseWave.TravellerCount + endlessCycle * 2,
+                baseWave.PoliceCount + endlessCycle * 2,
+                baseWave.MilitaryCount + endlessCycle);
         }
 
         private bool HasSpawnedCurrentWave(WaveDefinition wave)
