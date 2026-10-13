@@ -20,6 +20,7 @@ namespace RainbowsEnd.Gameplay.Orchestration
         [SerializeField] private bool startRunOnEnable = true;
         [SerializeField] private bool freezeTimeOnOutcome = true;
         [SerializeField] private bool endlessMode = true;
+        [SerializeField] private Audio.AudioCueSO escapeAlertCue;
 
         private RunWaveController _waveController;
         private RunOutcome _reportedOutcome;
@@ -148,6 +149,10 @@ namespace RainbowsEnd.Gameplay.Orchestration
             }
 
             SuccessfulTheftEscapeCount++;
+            if (escapeAlertCue != null)
+            {
+                Audio.AudioManager.Instance?.PlayCue(escapeAlertCue, transform.position);
+            }
         }
 
         private void RegisterWithProjectContext()

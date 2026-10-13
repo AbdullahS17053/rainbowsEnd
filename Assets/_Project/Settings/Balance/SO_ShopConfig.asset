@@ -51,3 +51,9 @@ MonoBehaviour:
     cost: 12
     maxPurchaseCount: 3
     valuePerPurchase: 2
+  - displayName: Projectile Speed
+    description: Increase projectile speed by 70% per purchase (fires like a sniper rifle at max tier).
+    effectType: 8
+    cost: 15
+    maxPurchaseCount: 3
+    valuePerPurchase: 0.7

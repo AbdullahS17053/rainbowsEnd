@@ -167,12 +167,13 @@ public void Activate(
                 bodyCollider,
                 ResolveWeaponMuzzle());
             ConfigureAimTelegraph();
+            RandomizeVariantAndSkinTone();
         }
 
         public void OnSpawned()
         {
             CacheReferences();
-            animationBridge?.ResetDeath();
+            RandomizeVariantAndSkinTone();
             _owningPool = null;
             _weaponPickupPool = null;
             _goldPickupPool = null;
@@ -200,9 +201,72 @@ public void Activate(
             _targetPotWasConcealed = false;
             _isCarrier = false;
             _arenaBounds = null;
-            _potRegistry = null;
             ResetBurstState();
             body.linearVelocity = Vector2.zero;
+        }
+
+        private static readonly Color[] NaturalSkinTones = new Color[]
+        {
+            new Color(1.0f, 0.88f, 0.78f, 1f), // Very light
+            new Color(0.95f, 0.82f, 0.72f, 1f), // Fair/Peach
+            new Color(0.85f, 0.68f, 0.54f, 1f), // Medium Beige
+            new Color(0.72f, 0.52f, 0.38f, 1f), // Golden Tan
+            new Color(0.55f, 0.36f, 0.22f, 1f), // Warm Bronze/Caramel
+            new Color(0.35f, 0.22f, 0.14f, 1f)  // Deep Rich Brown
+        };
+
+        private void RandomizeVariantAndSkinTone()
+        {
+            Transform vRoot = visualRoot != null ? visualRoot : transform.Find("VisualRoot");
+            if (vRoot == null) return;
+
+            Transform maleTr = vRoot.Find("SM_Chr_Soldier_Male_02");
+            Transform femaleTr = vRoot.Find("SM_Chr_Soldier_Female_02");
+
+            GameObject activeModel = null;
+            if (maleTr != null && femaleTr != null)
+            {
+                bool isFemale = Random.value > 0.5f;
+                maleTr.gameObject.SetActive(!isFemale);
+                femaleTr.gameObject.SetActive(isFemale);
+                activeModel = isFemale ? femaleTr.gameObject : maleTr.gameObject;
+            }
+            else if (maleTr != null)
+            {
+                activeModel = maleTr.gameObject;
+            }
+            else if (femaleTr != null)
+            {
+                activeModel = femaleTr.gameObject;
+            }
+
+            if (activeModel != null)
+            {
+                Animator activeAnim = activeModel.GetComponentInChildren<Animator>(true);
+                if (activeAnim != null)
+                {
+                    activeAnim.applyRootMotion = false;
+                }
+
+                animationBridge ??= GetComponent<CharacterAnimationBridge>();
+                if (animationBridge != null)
+                {
+                    animationBridge.SetActiveAnimator(activeAnim);
+                    animationBridge.ResetDeath();
+                }
+
+                Color skinTone = NaturalSkinTones[Random.Range(0, NaturalSkinTones.Length)];
+                Renderer[] rends = activeModel.GetComponentsInChildren<Renderer>(true);
+                MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+                for (int i = 0; i < rends.Length; i++)
+                {
+                    if (rends[i] == null) continue;
+                    rends[i].GetPropertyBlock(mpb);
+                    mpb.SetColor("_Color", skinTone);
+                    mpb.SetColor("_BaseColor", skinTone);
+                    rends[i].SetPropertyBlock(mpb);
+                }
+            }
         }
 
 public void OnDespawned()

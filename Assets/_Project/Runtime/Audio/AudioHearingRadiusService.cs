@@ -7,16 +7,17 @@ namespace RainbowsEnd.Audio
     {
         private static AudioHearingRadiusService _instance;
 
-        [Header("Top-Down Hearing Settings")]
-        [SerializeField] private float minHearingRadius = 16.0f;
-        [SerializeField] private float maxHearingRadius = 36.0f;
-        [SerializeField] private float falloffMargin = 12.0f;
+        [Header("Top-Down Dynamic Hearing Settings (Player Widths)")]
+        [SerializeField] private float minHearingRadiusWidths = 2.5f;
+        [SerializeField] private float maxHearingRadiusWidths = 7.0f;
+        [SerializeField] private float falloffMarginWidths = 1.5f;
 
         private PlayerRoot _player;
 
         public static AudioHearingRadiusService Instance => _instance;
 
         public float CurrentHearingRadius { get; private set; }
+        public float FalloffMargin => falloffMarginWidths * ResolvePlayerWidth();
 
         public Vector2 ListenerPosition => _player != null ? (Vector2)_player.transform.position : (Vector2)transform.position;
 
@@ -29,7 +30,22 @@ namespace RainbowsEnd.Audio
             }
 
             _instance = this;
-            CurrentHearingRadius = minHearingRadius;
+            CurrentHearingRadius = maxHearingRadiusWidths * ResolvePlayerWidth();
+        }
+
+        private float ResolvePlayerWidth()
+        {
+            if (_player == null)
+            {
+                _player = FindFirstObjectByType<PlayerRoot>();
+            }
+
+            if (_player != null && _player.GetComponent<Collider2D>() != null)
+            {
+                return Mathf.Max(0.5f, _player.GetComponent<Collider2D>().bounds.size.x);
+            }
+
+            return 0.8f;
         }
 
         private void Update()
@@ -42,34 +58,40 @@ namespace RainbowsEnd.Audio
             float speedNormalized = 0f;
             if (_player != null && _player.MovementController != null)
             {
-                speedNormalized = _player.MovementController.SpeedNormalized;
+                speedNormalized = Mathf.Clamp01(_player.MovementController.SpeedNormalized);
             }
 
-            CurrentHearingRadius = Mathf.Lerp(minHearingRadius, maxHearingRadius, speedNormalized);
+            float playerWidth = ResolvePlayerWidth();
+            float minRadius = minHearingRadiusWidths * playerWidth;
+            float maxRadius = maxHearingRadiusWidths * playerWidth;
+
+            // Stationary expands to maximum, moving shrinks to minimum
+            CurrentHearingRadius = Mathf.Lerp(maxRadius, minRadius, speedNormalized);
         }
 
         public bool IsWithinEarshot(Vector2 worldPosition, out float volumeScale)
         {
             Vector2 listenerPos = ListenerPosition;
             float distance = Vector2.Distance(listenerPos, worldPosition);
+            float margin = FalloffMargin;
 
             if (distance <= CurrentHearingRadius)
             {
                 float normalizedDist = distance / Mathf.Max(CurrentHearingRadius, 0.01f);
-                volumeScale = Mathf.Clamp(1f - (normalizedDist * 0.35f), 0.65f, 1f);
+                volumeScale = Mathf.Clamp(1f - (normalizedDist * 0.2f), 0.8f, 1f);
                 return true;
             }
 
-            if (distance <= CurrentHearingRadius + falloffMargin)
+            if (distance <= CurrentHearingRadius + margin)
             {
-                float falloffT = (distance - CurrentHearingRadius) / Mathf.Max(falloffMargin, 0.01f);
-                volumeScale = Mathf.Lerp(0.65f, 0.35f, falloffT);
+                float falloffT = (distance - CurrentHearingRadius) / Mathf.Max(margin, 0.01f);
+                volumeScale = Mathf.Lerp(0.8f, 0.0f, falloffT);
                 return true;
             }
 
-            // Outside margin: subtle audible presence across the arena
-            volumeScale = 0.35f;
-            return true;
+            // Outside the radius: sounds simply do not play
+            volumeScale = 0f;
+            return false;
         }
 
         private void OnDrawGizmosSelected()
@@ -77,7 +99,7 @@ namespace RainbowsEnd.Audio
             Gizmos.color = new Color(0.3f, 0.7f, 1f, 0.35f);
             Gizmos.DrawWireSphere(ListenerPosition, CurrentHearingRadius);
             Gizmos.color = new Color(0.3f, 0.7f, 1f, 0.15f);
-            Gizmos.DrawWireSphere(ListenerPosition, CurrentHearingRadius + falloffMargin);
+            Gizmos.DrawWireSphere(ListenerPosition, CurrentHearingRadius + FalloffMargin);
         }
     }
 }

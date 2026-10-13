@@ -25,7 +25,7 @@ namespace RainbowsEnd.Gameplay.Combat
     {
         private static KillstreakManager _instance;
 
-        [SerializeField] private float streakDecaySeconds = 4.0f;
+        [SerializeField] private float streakDecaySeconds = 3.0f;
         [SerializeField] private PlayerRoot playerRoot;
 
         [Header("Audio Escalation Cues")]

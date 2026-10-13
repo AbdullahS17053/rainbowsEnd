@@ -18,10 +18,39 @@ namespace RainbowsEnd.Core.Animation
         private Quaternion _baseLocalRotation;
         private bool _baseCaptured;
 
+        public Animator ActiveAnimator => GetActiveAnimator();
+
+        public void SetActiveAnimator(Animator newAnimator)
+        {
+            animator = newAnimator;
+            if (animator != null)
+            {
+                animator.applyRootMotion = false;
+            }
+        }
+
+        public Animator GetActiveAnimator()
+        {
+            if (animator != null && animator.gameObject.activeInHierarchy)
+            {
+                return animator;
+            }
+
+            Animator[] activeAnimators = GetComponentsInChildren<Animator>(false);
+            if (activeAnimators != null && activeAnimators.Length > 0)
+            {
+                animator = activeAnimators[0];
+                animator.applyRootMotion = false;
+                return animator;
+            }
+
+            return animator;
+        }
+
         private void Awake()
         {
             body ??= GetComponentInParent<Rigidbody2D>();
-            animator ??= GetComponentInChildren<Animator>(true);
+            animator = GetActiveAnimator() ?? GetComponentInChildren<Animator>(true);
             if (animator != null)
             {
                 animator.applyRootMotion = false;
@@ -32,6 +61,11 @@ namespace RainbowsEnd.Core.Animation
         private void OnEnable()
         {
             CaptureBase();
+            Animator active = GetActiveAnimator();
+            if (active != null)
+            {
+                active.applyRootMotion = false;
+            }
         }
 
         private void CaptureBase()
@@ -50,19 +84,21 @@ namespace RainbowsEnd.Core.Animation
                 return;
             }
 
-            if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Die"))
+            Animator activeAnim = GetActiveAnimator();
+
+            if (activeAnim != null && activeAnim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Die"))
             {
                 return;
             }
 
-            if (animator != null)
+            if (activeAnim != null)
             {
                 float speed = body.linearVelocity.magnitude;
-                animator.SetFloat(speedParameter, speed);
+                activeAnim.SetFloat(speedParameter, speed);
 
-                if (speed > 0.15f && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Shoot"))
+                if (speed > 0.15f && activeAnim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Shoot"))
                 {
-                    animator.Play("Walk", 0);
+                    activeAnim.Play("Walk", 0);
                 }
             }
 
@@ -90,8 +126,8 @@ namespace RainbowsEnd.Core.Animation
                 return;
             }
 
-            bool isFiring = animator != null &&
-                (animator.IsInTransition(0) || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Shoot"));
+            bool isFiring = activeAnim != null &&
+                (activeAnim.IsInTransition(0) || activeAnim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Shoot"));
             if (isFiring)
             {
                 _fireStateStarted = true;
@@ -107,7 +143,8 @@ namespace RainbowsEnd.Core.Animation
 
         public void TriggerFire(bool lockFacing = false)
         {
-            if (animator == null)
+            Animator activeAnim = GetActiveAnimator();
+            if (activeAnim == null)
             {
                 return;
             }
@@ -125,41 +162,33 @@ namespace RainbowsEnd.Core.Animation
                 return;
             }
 
-            animator.SetTrigger("Fire");
+            activeAnim.SetTrigger("Fire");
         }
 
         public void TriggerDeath()
         {
-            if (animator == null)
-            {
-                animator = GetComponentInChildren<Animator>(true);
-            }
-
-            if (animator == null)
+            Animator activeAnim = GetActiveAnimator();
+            if (activeAnim == null)
             {
                 return;
             }
 
             _holdFacingDuringFire = false;
-            animator.applyRootMotion = false;
-            animator.SetTrigger("Die");
+            activeAnim.applyRootMotion = false;
+            activeAnim.SetTrigger("Die");
         }
 
         public void ResetDeath()
         {
-            if (animator == null)
-            {
-                animator = GetComponentInChildren<Animator>(true);
-            }
-
-            if (animator == null || animator.runtimeAnimatorController == null)
+            Animator activeAnim = GetActiveAnimator();
+            if (activeAnim == null || activeAnim.runtimeAnimatorController == null)
             {
                 return;
             }
 
-            animator.applyRootMotion = false;
-            animator.ResetTrigger("Die");
-            animator.Play("Idle", 0, 0f);
+            activeAnim.applyRootMotion = false;
+            activeAnim.ResetTrigger("Die");
+            activeAnim.Play("Idle", 0, 0f);
         }
     }
 }

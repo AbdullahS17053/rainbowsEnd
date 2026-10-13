@@ -49,6 +49,8 @@ namespace RainbowsEnd.Gameplay.Pots
         [SerializeField] private AudioCueSO harvestStartCue;
         [SerializeField] private AudioCueSO goldBankedCue;
         [SerializeField] private AudioCueSO tierUpgradeCue;
+        [SerializeField] private AudioCueSO unicornCollisionCue;
+        [SerializeField] private AudioCueSO lastPotGameOverCue;
 
         public event System.Action<PotController> HarvestStarted;
         public event System.Action<PotController, float> GoldHarvestTick;
@@ -207,16 +209,22 @@ namespace RainbowsEnd.Gameplay.Pots
         public void ConfigureAudio(
             AudioCueSO harvestStart,
             AudioCueSO goldBanked,
-            AudioCueSO tierUpgrade)
+            AudioCueSO tierUpgrade,
+            AudioCueSO unicornCollision = null,
+            AudioCueSO lastPotGameOver = null)
         {
             if (harvestStart != null) harvestStartCue = harvestStart;
             if (goldBanked != null) goldBankedCue = goldBanked;
             if (tierUpgrade != null) tierUpgradeCue = tierUpgrade;
+            if (unicornCollision != null) unicornCollisionCue = unicornCollision;
+            if (lastPotGameOver != null) lastPotGameOverCue = lastPotGameOver;
         }
 
         public AudioCueSO HarvestStartCue => harvestStartCue;
         public AudioCueSO GoldBankedCue => goldBankedCue;
         public AudioCueSO TierUpgradeCue => tierUpgradeCue;
+        public AudioCueSO UnicornCollisionCue => unicornCollisionCue;
+        public AudioCueSO LastPotGameOverCue => lastPotGameOverCue;
 
         public GameObject PartiallyFullVisual => partiallyFullVisual;
         public GameObject FullVisual => fullVisual;
@@ -583,6 +591,8 @@ namespace RainbowsEnd.Gameplay.Pots
             }
 
             PlayUnicornImpactBurst();
+            bool isOnlyPot = _potRegistry == null || _potRegistry.ActivePotCount <= 1;
+            PlayUnicornPotCollisionAudio(isOnlyPot);
             _isBeingStolenByMilitary = false;
             _carrier = null;
             _storedGold = 0f;
@@ -603,6 +613,18 @@ namespace RainbowsEnd.Gameplay.Pots
             if (Application.isPlaying)
             {
                 Destroy(gameObject);
+            }
+        }
+
+        private void PlayUnicornPotCollisionAudio(bool isOnlyPot)
+        {
+            if (isOnlyPot && lastPotGameOverCue != null)
+            {
+                AudioManager.Instance?.PlayCue(lastPotGameOverCue, transform.position);
+            }
+            else if (unicornCollisionCue != null)
+            {
+                AudioManager.Instance?.PlayCue(unicornCollisionCue, transform.position);
             }
         }
 

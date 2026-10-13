@@ -71,13 +71,13 @@ namespace RainbowsEnd.Editor
             SerializedProperty upgradesProperty = serializedObject.FindProperty("upgrades");
             if (upgradesProperty != null)
             {
-                upgradesProperty.arraySize = 3;
+                upgradesProperty.arraySize = 7;
                 ConfigureUpgrade(
                     upgradesProperty.GetArrayElementAtIndex(0),
                     "Damage Up",
                     "Increase weapon damage by 25% per purchase.",
                     ShopUpgradeEffectType.WeaponDamage,
-                    20,
+                    10,
                     3,
                     0.25f);
                 ConfigureUpgrade(
@@ -85,7 +85,7 @@ namespace RainbowsEnd.Editor
                     "Fire Rate Up",
                     "Reduce weapon cooldown by 10% per purchase.",
                     ShopUpgradeEffectType.WeaponFireRate,
-                    25,
+                    12,
                     3,
                     0.1f);
                 ConfigureUpgrade(
@@ -93,9 +93,41 @@ namespace RainbowsEnd.Editor
                     "Accuracy Up",
                     "Reduce weapon spread by 15% per purchase.",
                     ShopUpgradeEffectType.WeaponAccuracy,
-                    15,
+                    7,
                     3,
                     0.15f);
+                ConfigureUpgrade(
+                    upgradesProperty.GetArrayElementAtIndex(3),
+                    "2nd Pot of Gold",
+                    "Purchase an additional Pot of Gold for $50.",
+                    ShopUpgradeEffectType.PotPurchase2,
+                    25,
+                    1,
+                    0f);
+                ConfigureUpgrade(
+                    upgradesProperty.GetArrayElementAtIndex(4),
+                    "3rd Pot of Gold",
+                    "Purchase another Pot of Gold for $75.",
+                    ShopUpgradeEffectType.PotPurchase3,
+                    37,
+                    1,
+                    0f);
+                ConfigureUpgrade(
+                    upgradesProperty.GetArrayElementAtIndex(5),
+                    "Cone Reach Up",
+                    "Increase firing-cone and arrow range by 2 units per purchase.",
+                    ShopUpgradeEffectType.WeaponRange,
+                    12,
+                    3,
+                    2f);
+                ConfigureUpgrade(
+                    upgradesProperty.GetArrayElementAtIndex(6),
+                    "Projectile Speed",
+                    "Increase projectile speed by 70% per purchase (fires like a sniper rifle at max tier).",
+                    ShopUpgradeEffectType.ProjectileSpeed,
+                    15,
+                    3,
+                    0.7f);
             }
 
             serializedObject.ApplyModifiedPropertiesWithoutUndo();

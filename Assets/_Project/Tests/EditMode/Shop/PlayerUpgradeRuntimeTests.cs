@@ -48,6 +48,21 @@ namespace RainbowsEnd.Tests.EditMode.Shop
         }
 
         [Test]
+        public void ApplyPurchase_UpdatesResolvedProjectileSpeed()
+        {
+            ShopUpgradeDefinition speedUpgrade = CreateDefinition(4, "Projectile Speed", ShopUpgradeEffectType.ProjectileSpeed, 15, 3, 0.70f);
+
+            Assert.That(_upgradeRuntime.ApplyPurchase(speedUpgrade), Is.True);
+            // 1 purchase (+70%): 18 * 1.7 = 30.6
+            Assert.That(_upgradeRuntime.ResolveProjectileSpeed(18f), Is.EqualTo(30.6f).Within(0.001f));
+
+            Assert.That(_upgradeRuntime.ApplyPurchase(speedUpgrade), Is.True);
+            Assert.That(_upgradeRuntime.ApplyPurchase(speedUpgrade), Is.True);
+            // 3 purchases (+210%): 18 * 3.1 = 55.8 (sniper speed)
+            Assert.That(_upgradeRuntime.ResolveProjectileSpeed(18f), Is.EqualTo(55.8f).Within(0.001f));
+        }
+
+        [Test]
         public void CanPurchase_BlocksPurchasesBeyondConfiguredMax()
         {
             ShopUpgradeDefinition damageUpgrade = CreateDefinition(0, "Damage Up", ShopUpgradeEffectType.WeaponDamage, 20, 2, 0.25f);

@@ -6,6 +6,7 @@ using RainbowsEnd.Core.SceneManagement;
 using RainbowsEnd.Gameplay.Player;
 using RainbowsEnd.Gameplay.Pots;
 using RainbowsEnd.Gameplay.World;
+using QuickOutline;
 using UnityEngine;
 
 namespace RainbowsEnd.Gameplay.Unicorn
@@ -19,14 +20,21 @@ namespace RainbowsEnd.Gameplay.Unicorn
         [SerializeField] private SpriteRenderer visualRenderer;
         [SerializeField] private RainbowTrailEmitter trailEmitter;
         [SerializeField] private LineRenderer potWarningLine;
+        [SerializeField] private bool showPotWarningLine = false;
         [SerializeField] private UnicornTailTrail tailTrail;
 
         [Header("Audio")]
         [SerializeField] private AudioCueSO spawnCue;
 
+        [Header("Horn Visual Juice")]
+        [SerializeField] private Renderer hornRenderer;
+        private MaterialPropertyBlock _hornPropBlock;
+        private bool _hornSearched;
+
         public AudioCueSO SpawnCue => spawnCue;
         public UnicornTailTrail TailTrail => tailTrail;
         public void ConfigureSpawnCue(AudioCueSO cue) => spawnCue = cue;
+        public void ConfigureHornRenderer(Renderer r) => hornRenderer = r;
 
         private ArenaBoundsAuthoring _arenaBounds;
         private Vector2 _targetPoint;
@@ -80,6 +88,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 tailTrail = trail;
             }
             ConfigureBody();
+            ConfigureOutline();
         }
 
         public void NotifyTeleported()
@@ -106,6 +115,7 @@ namespace RainbowsEnd.Gameplay.Unicorn
             CacheReferences();
             ResolveDefaults();
             ConfigureBody();
+            ConfigureOutline();
             ChooseNextTarget();
             if (spawnCue != null)
             {
@@ -143,40 +153,14 @@ namespace RainbowsEnd.Gameplay.Unicorn
             }
 
             float currentSpeed = config.MoveSpeed;
-            if (TerrainZone.IsInForest(currentPosition))
-            {
-                currentSpeed *= 0.90f;
-            }
-
             if (_faeSlowTimer > 0f)
             {
                 _faeSlowTimer -= Time.fixedDeltaTime;
                 currentSpeed *= _faeSlowMultiplier;
             }
 
-            // Periodically refresh NavMesh path towards target
-            _pathRefreshTimer -= Time.fixedDeltaTime;
-            if (_pathRefreshTimer <= 0f || _currentPath == null)
-            {
-                _pathRefreshTimer = 0.5f;
-                if (NavMeshPathfinder.TryGetPath(currentPosition, _targetPoint, out Vector2[] refreshedPath))
-                {
-                    _currentPath = refreshedPath;
-                    _currentWaypointIndex = 0;
-                }
-            }
-
-            Vector2 moveDir = Vector2.zero;
-            if (_currentPath != null && _currentPath.Length > 0)
-            {
-                moveDir = NavMeshPathfinder.GetSteeringDirection(currentPosition, _currentPath, ref _currentWaypointIndex);
-            }
-
-            if (moveDir == Vector2.zero)
-            {
-                Vector2 toTarget = _targetPoint - currentPosition;
-                moveDir = toTarget.sqrMagnitude > 0.0001f ? toTarget.normalized : Vector2.zero;
-            }
+            Vector2 toTarget = _targetPoint - currentPosition;
+            Vector2 moveDir = toTarget.sqrMagnitude > 0.0001f ? toTarget.normalized : Vector2.zero;
 
             Vector2 nextPosition = currentPosition + moveDir * (currentSpeed * Time.fixedDeltaTime);
             if (_arenaBounds != null)
@@ -327,7 +311,27 @@ namespace RainbowsEnd.Gameplay.Unicorn
             body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             if (bodyCollider != null)
             {
-                bodyCollider.isTrigger = false;
+                bodyCollider.isTrigger = true;
+            }
+        }
+
+        private void ConfigureOutline()
+        {
+            Outline outline = GetComponent<Outline>();
+            if (outline == null && visualRenderer != null)
+            {
+                outline = visualRenderer.GetComponentInParent<Outline>();
+            }
+            if (outline == null)
+            {
+                Transform vRoot = visualRenderer != null ? visualRenderer.transform : transform;
+                outline = vRoot.gameObject.AddComponent<Outline>();
+            }
+            if (outline != null)
+            {
+                outline.OutlineMode = Outline.Mode.OutlineAll;
+                outline.OutlineColor = new Color(1f, 0.45f, 0.95f, 1f); // Vibrant magenta/pink
+                outline.OutlineWidth = 2f;
             }
         }
 
@@ -401,33 +405,10 @@ namespace RainbowsEnd.Gameplay.Unicorn
                         config != null ? config.BoundaryCornerPadding : 1f);
                 }
 
-                // Sample candidate on NavMesh
-                Vector3 candidate3D = new Vector3(candidate.x, candidate.y, 0f);
-                if (UnityEngine.AI.NavMesh.SamplePosition(candidate3D, out UnityEngine.AI.NavMeshHit hit, 8f, UnityEngine.AI.NavMesh.AllAreas))
-                {
-                    Vector2 validTarget = new Vector2(hit.position.x, hit.position.y);
-                    if (NavMeshPathfinder.TryGetPath(origin, validTarget, out Vector2[] path))
-                    {
-                        _targetPoint = validTarget;
-                        _currentPath = path;
-                        _currentWaypointIndex = 0;
-                        pathFound = true;
-                        break;
-                    }
-                }
-                else
-                {
-                    if (attempt == 0)
-                    {
-                        _targetPoint = candidate;
-                    }
-                }
-            }
-
-            if (!pathFound)
-            {
+                _targetPoint = candidate;
                 _currentPath = null;
                 _currentWaypointIndex = 0;
+                break;
             }
 
             _retargetCooldown = Mathf.Max(0.1f, config != null ? config.RetargetIntervalSeconds : 1f);
@@ -518,7 +499,8 @@ namespace RainbowsEnd.Gameplay.Unicorn
                 Mathf.PingPong(Time.time * 8f, 1f));
             potWarningLine.startColor = purplePulse;
             potWarningLine.endColor = purplePulse;
-            potWarningLine.enabled = true;
+            potWarningLine.enabled = showPotWarningLine;
+            SetHornColor(purplePulse);
         }
 
         private bool TryGetPotImpactDistance(
@@ -582,6 +564,61 @@ namespace RainbowsEnd.Gameplay.Unicorn
             {
                 potWarningLine.enabled = false;
             }
+            SetHornColor(Color.white);
+        }
+
+        private void EnsureHornVisual()
+        {
+            if (hornRenderer != null || _hornSearched) return;
+            _hornSearched = true;
+
+            Transform hornTr = transform.Find("Horn") ?? transform.Find("VisualRoot/Horn");
+            if (hornTr == null)
+            {
+                Transform[] transforms = GetComponentsInChildren<Transform>(true);
+                Transform headBone = null;
+                for (int i = 0; i < transforms.Length; i++)
+                {
+                    if (transforms[i].name.Equals("Head", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        headBone = transforms[i];
+                        break;
+                    }
+                }
+
+                Transform parent = headBone != null ? headBone : (visualRenderer != null ? visualRenderer.transform : transform);
+                GameObject hornObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                hornObj.name = "Horn";
+                hornObj.transform.SetParent(parent, false);
+                hornObj.transform.localPosition = new Vector3(0f, 0.45f, 0.25f);
+                hornObj.transform.localRotation = Quaternion.Euler(45f, 0f, 0f);
+                hornObj.transform.localScale = new Vector3(0.06f, 0.25f, 0.06f);
+
+                Collider col = hornObj.GetComponent<Collider>();
+                if (col != null) Destroy(col);
+
+                hornRenderer = hornObj.GetComponent<Renderer>();
+                if (hornRenderer != null)
+                {
+                    hornRenderer.material.color = Color.white;
+                }
+            }
+            else
+            {
+                hornRenderer = hornTr.GetComponent<Renderer>();
+            }
+        }
+
+        private void SetHornColor(Color color)
+        {
+            EnsureHornVisual();
+            if (hornRenderer == null) return;
+
+            _hornPropBlock ??= new MaterialPropertyBlock();
+            hornRenderer.GetPropertyBlock(_hornPropBlock);
+            _hornPropBlock.SetColor("_BaseColor", color);
+            _hornPropBlock.SetColor("_Color", color);
+            hornRenderer.SetPropertyBlock(_hornPropBlock);
         }
 
         private void TryDestroyPot(Collider2D candidate)

@@ -7,6 +7,7 @@ using RainbowsEnd.Gameplay.World;
 using UnityEngine.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using QuickOutline;
 
 namespace RainbowsEnd.Gameplay.Player
 {
@@ -374,7 +375,24 @@ namespace RainbowsEnd.Gameplay.Player
             _concealmentZones = FindObjectsByType<ConcealmentZone>(
                 FindObjectsInactive.Exclude,
                 FindObjectsSortMode.None);
+            ConfigureOutline();
             _presentationCached = true;
+        }
+
+        private void ConfigureOutline()
+        {
+            Transform root = VisualRoot != null ? VisualRoot : transform;
+            Outline outline = root.GetComponent<Outline>();
+            if (outline == null)
+            {
+                outline = root.gameObject.AddComponent<Outline>();
+            }
+            if (outline != null)
+            {
+                outline.OutlineMode = Outline.Mode.OutlineAll;
+                outline.OutlineColor = new Color(0.2f, 1f, 0.25f, 1f); // Vibrant green
+                outline.OutlineWidth = 2f;
+            }
         }
 
         private static void ConfigureTransparentMaterial(Material material)

@@ -76,6 +76,7 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
                 unicorn.Configure(unicornConfig, body, bodyCollider, null, null);
                 SetField(unicorn, "_targetPoint", new Vector2(0f, 5f));
 
+                SetField(unicorn, "showPotWarningLine", true);
                 CircleCollider2D potCollider = potObject.AddComponent<CircleCollider2D>();
                 potCollider.radius = 0.42f;
                 potObject.AddComponent<PotController>();
@@ -99,7 +100,7 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
         }
 
         [Test]
-        public void ConfigureBody_SetsColliderToNonTrigger()
+        public void ConfigureBody_SetsColliderToTrigger()
         {
             UnicornConfig unicornConfig = ScriptableObject.CreateInstance<UnicornConfig>();
             GameObject unicornObject = new GameObject("Unicorn");
@@ -107,11 +108,11 @@ namespace RainbowsEnd.Tests.EditMode.Unicorn
             {
                 Rigidbody2D body = unicornObject.AddComponent<Rigidbody2D>();
                 CircleCollider2D bodyCollider = unicornObject.AddComponent<CircleCollider2D>();
-                bodyCollider.isTrigger = true;
+                bodyCollider.isTrigger = false;
                 UnicornController unicorn = unicornObject.AddComponent<UnicornController>();
                 unicorn.Configure(unicornConfig, body, bodyCollider, null, null);
 
-                Assert.That(bodyCollider.isTrigger, Is.False);
+                Assert.That(bodyCollider.isTrigger, Is.True);
             }
             finally
             {

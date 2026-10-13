@@ -95,7 +95,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -135,8 +135,10 @@ MonoBehaviour:
   visualRenderer: {fileID: 7374968990903425562}
   trailEmitter: {fileID: 3136934611503951398}
   potWarningLine: {fileID: 7310344738799674955}
+  showPotWarningLine: 0
   tailTrail: {fileID: 5123984719238471923}
   spawnCue: {fileID: 11400000, guid: a1000000000000000000000000000010, type: 2}
+  hornRenderer: {fileID: 0}
 --- !u!120 &7310344738799674955
 LineRenderer:
   serializedVersion: 3
