@@ -1,4 +1,4 @@
-using RainbowsEnd.Audio;
+﻿using RainbowsEnd.Audio;
 using RainbowsEnd.Core.Animation;
 using RainbowsEnd.Core.Bootstrap;
 using RainbowsEnd.Core.Common;
@@ -348,19 +348,66 @@ private void CacheReferences()
             impactFeedbackSpawner ??= GetComponent<WeaponImpactFeedbackSpawner>();
             animationBridge ??= GetComponent<CharacterAnimationBridge>();
 
-            Transform hand = transform.Find("VisualRoot/Fairy Visual/Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R");
+            Transform hand = null;
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim != null && anim.isHuman)
+            {
+                hand = anim.GetBoneTransform(HumanBodyBones.RightHand);
+            }
             if (hand == null)
             {
-                return;
+                hand = FindBoneRecursive(transform, "CC_Base_R_Hand", "Hand_R", "RightHand", "hand_r");
+            }
+            if (hand == null)
+            {
+                hand = transform.Find("VisualRoot/Fairy Visual/Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R");
             }
 
-            faeBoltMuzzle ??= hand.Find("FaeBoltMuzzle");
-            pistolVisual ??= hand.Find("PlayerPistolVisual")?.gameObject;
-            shotgunVisual ??= hand.Find("PlayerShotgunVisual")?.gameObject;
-            assaultRifleVisual ??= hand.Find("PlayerAssaultRifleVisual")?.gameObject;
-            pistolMuzzle ??= pistolVisual?.transform.Find("Muzzle");
-            shotgunMuzzle ??= shotgunVisual?.transform.Find("Muzzle");
-            assaultRifleMuzzle ??= assaultRifleVisual?.transform.Find("Muzzle");
+            if (hand != null)
+            {
+                faeBoltMuzzle ??= hand.Find("FaeBoltMuzzle");
+                pistolVisual ??= hand.Find("PlayerPistolVisual")?.gameObject;
+                shotgunVisual ??= hand.Find("PlayerShotgunVisual")?.gameObject;
+                assaultRifleVisual ??= hand.Find("PlayerAssaultRifleVisual")?.gameObject;
+                pistolMuzzle ??= pistolVisual?.transform.Find("Muzzle");
+                shotgunMuzzle ??= shotgunVisual?.transform.Find("Muzzle");
+                assaultRifleMuzzle ??= assaultRifleVisual?.transform.Find("Muzzle");
+            }
+
+            if (faeBoltMuzzle == null && hand != null)
+            {
+                Transform existingMuzzle = transform.Find("VisualRoot/FaeBoltMuzzle");
+                if (existingMuzzle != null)
+                {
+                    faeBoltMuzzle = existingMuzzle;
+                }
+                else
+                {
+                    GameObject muzzleGo = new GameObject("FaeBoltMuzzle");
+                    muzzleGo.transform.SetParent(hand, false);
+                    muzzleGo.transform.localPosition = new Vector3(0f, 0.1f, 0.15f);
+                    faeBoltMuzzle = muzzleGo.transform;
+                }
+            }
+        }
+
+        private static Transform FindBoneRecursive(Transform parent, params string[] boneNames)
+        {
+            if (parent == null) return null;
+            for (int i = 0; i < boneNames.Length; i++)
+            {
+                if (parent.name.Equals(boneNames[i], System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return parent;
+                }
+            }
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Transform found = FindBoneRecursive(parent.GetChild(i), boneNames);
+                if (found != null) return found;
+            }
+            return null;
+
         }
 
         private void ApplyWeaponPresentation()
